@@ -1,0 +1,9 @@
+LIST  10  seawater.lst
+DIS   11  ..\data\seawater.dis
+BAS6  12  ..\data\seawater.ba6
+BCF6  13  ..\data\seawater.bc6
+WEL   14  ..\data\seawater.wel
+RCH   15  ..\data\seawater.rch
+PCG   16  ..\data\seawater.pcg
+PVAL  17  ..\data\seawater.pval
+GWM   18  ..\data\seawater.gwm
