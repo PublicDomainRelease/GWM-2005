@@ -1,5 +1,5 @@
       MODULE GWM1HDC2
-C     VERSION: 12AUG2007
+C     VERSION: 09AUG2008
       IMPLICIT NONE
       PRIVATE
       PUBLIC::HDCNAME,HDCSTATE,HDCSTATE0,HDCRHS,HDCDIR,HDCNUM,
@@ -514,15 +514,15 @@ C
 C
 C
 C***********************************************************************
-      SUBROUTINE GWM1HDC2OS(KPER)
+      SUBROUTINE GWM1HDC2OS(KPER,HDRY)
 C***********************************************************************
-C     VERSION: 10AUG2007
+C     VERSION: 09AUG2008
 C     PURPOSE: ASSIGN COMPUTED HEAD STATE TO STATE ARRAY
 C-----------------------------------------------------------------------
       USE GWM1RMS2, ONLY :  DEWATER
       USE GLOBAL,      ONLY: NCOL,NROW,NLAY,HNEW
-      USE GWFBCFMODULE, ONLY: HDRY
       INTEGER(I4B),INTENT(IN)::KPER
+      REAL(DP),INTENT(IN)::HDRY
 C-----LOCAL VARIABLES
       INTEGER(I4B)::I
       REAL(DP)::STATE1,STATE2

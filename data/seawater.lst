@@ -1,6 +1,6 @@
                                   MODFLOW-2005     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                VERSION MF2005_GWM 1.0 081207,FROM MF2005 V1.3.0
+                VERSION MF2005_GWM 1.0.1 081108,FROM MF05V1.5.00
 
 
  REWOUND ..\data\seawater.dis
@@ -864,6 +864,6 @@
          TOTAL TIME  86400.      1440.0      24.000      1.0000     2.73785E-03
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2007/08/21  8:03:11
- Elapsed run time:  5.768 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2008/09/02  7:59:18
+ Elapsed run time:  5.158 Seconds
 

@@ -1,0 +1,45 @@
+release.txt
+
+                           MF2005_GWM Release Notes
+
+     This file describes changes introduced into MF2005_GWM with each
+official release.
+
+Version 1.0.1; 8 August 2008
+	Add modification to MF2005_GWM main program to pass HDRY to 
+		GWM...OS routines. 
+
+	Add changes in GWM1RMS2OS and GWM1HDC2OS that accept the passed 
+		value of HDRY rather than accessing through BCFMODULE.
+
+	Change in GWM1RMS2OT to write a line to the GWMWFILE even if the 
+		flow rate for the well is zero.
+
+	Add code to read IRM when SOLNTYP is 'NS' on line 2c of SOLN file 
+		after read of RMNAME.  IRM is set to either 1, indicating
+		that RMNAME is opened as UNFORMATTED or 3 indicating a 	
+		FORMATTED write of the response matrix.  If IRM is blank,
+		it is assigned a value of 1.  
+
+	Add a subroutine CUTCOM in GWM1BAS2 that removes trailing comments 
+		on an input line.  Insert calls to this routine in GWM1DCV2AR 
+		and GWM1RMS2AR.
+
+	Change the PCG file for test problems to account for new input 
+		requirements.
+
+
+Version 1.0; 12 August 2007 
+	MF2005_GWM draws from a new set of GWM Package files.  These files
+		were created in August 2007 and numbered as Package version 2.  
+		The files were constructed from the Package files from MF2K_GWM 
+		V1.1.1.  In most cases, only the name of the subroutine was 
+		changed to indicate version 2, with no changes to the code.  
+		In these cases, the version date was unchanged from MF2K_GWM 
+		V1.1.1.   The package version date was changed.   Some 
+		subroutines were functionally changed and new subroutines 
+		were added in the GWM BAS package.  These changes are described 
+		in the documentation for MF2005_GWM V1.0
+
+	This version is the initial release.
+
