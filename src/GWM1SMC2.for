@@ -405,7 +405,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1SMC2OT(RSTRT,IFLG)
 C***********************************************************************
-C  VERSION: 24JUL2006
+C  VERSION: 08JUN2009
 C  PURPOSE - WRITE STATUS OF CONSTRAINT
 C-----------------------------------------------------------------------
       USE GWM1BAS2, ONLY : ZERO,ONE,BIGINF,SMALLEPS
@@ -417,28 +417,33 @@ C-----------------------------------------------------------------------
 C-----LOCAL VARIABLES
       CHARACTER(LEN=25)::CTYPE
       INTEGER(I4B)::J,ISMC,ROW,DIRR,JLOC
-	REAL(DP)::LHS,DIFF
+	REAL(DP)::LHS,DIFF,SVCOEF
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
-C-----WRITE STATUS FOR BASE FLOW PROCESS SIMULATION
-C     EXTERNAL AND BINARY VARIABLES ARE ASSUMED TO HAVE ZERO VALUE
-      IF(IFLG.EQ.1)THEN 
+C  IFLG=1 WRITE STATUS FOR BASE FLOW PROCESS SIMULATION
+C         EXTERNAL AND BINARY VARIABLES ARE ASSUMED TO HAVE ZERO VALUE
+C  IFLG=3 WRITE STATUS FOR OPTIMAL FLOW PROCESS SIMULATION
+C         EXTERNAL AND BINARY VARIABLES STORED IN CST
+      IF(IFLG.EQ.1 .OR. IFLG.EQ.3)THEN 
         CTYPE = 'Summation'
         DO 110 ISMC=1,SMCNUM
           LHS = ZERO
           DO 100 J=1,SMCNTERMS(ISMC)             ! COMPUTE CONSTRAINT LEFT SIDE
             JLOC = SMCCLOC(ISMC,J)
+            SVCOEF = REAL(SMCCOEF(ISMC,J),DP)
             IF(JLOC.LE.NFVAR)THEN                ! THIS IS A FLOW VARIABLE
 	        IF(FVDIR(JLOC).EQ.1)THEN           ! THIS IS INJECTION
-                LHS = LHS + REAL(SMCCOEF(ISMC,J),DP)*FVBASE(JLOC) 
+                LHS = LHS + SVCOEF*FVBASE(JLOC) 
 	        ELSEIF(FVDIR(JLOC).EQ.2)THEN       ! WITHDRAWAL - SWITCH SIGN
-                LHS = LHS - REAL(SMCCOEF(ISMC,J),DP)*FVBASE(JLOC) 
+                LHS = LHS - SVCOEF*FVBASE(JLOC) 
               ENDIF
+            ELSEIF(JLOC.GT.NFVAR.AND.IFLG.NE.1)THEN ! THIS IS AN EXTERNAL OR BINARY
+              LHS = LHS + SVCOEF*CST(JLOC)       ! AND CST HAS MEANING
             ENDIF
   100     ENDDO
           DIFF = SMCRHS(ISMC) - LHS
           IF(ABS(DIFF).LT. 1.0D-06*(ONE+SMCRHS(ISMC)))THEN
-            DIRR = 0                        ! CONSTRAINT IS NEAR BINDING
+            DIRR = 0                         ! CONSTRAINT IS NEAR BINDING
           ELSE
             IF(SMCDIR(ISMC).EQ. 1)DIRR=1     ! NON-BINDING LESS THAN CONSTRAINT
             IF(SMCDIR(ISMC).EQ.-1)DIRR=2     ! NON-BINDING GREATER THAN CONSTRAINT
@@ -468,36 +473,7 @@ C                                                  ! CONSTRAINT IS BINDING
           ENDIF
   210   ENDDO
         RSTRT = RSTRT+SMCNUM                       ! SET NEXT STARTING LOCATION
-C
-C-----WRITE STATUS FOR OPTIMAL FLOW PROCESS SIMULATION
-      ELSEIF(IFLG.EQ.3)THEN 
-        CTYPE = 'Summation'
-        DO 310 ISMC=1,SMCNUM
-          LHS = ZERO
-          DO 300 J=1,SMCNTERMS(ISMC)             ! COMPUTE CONSTRAINT LEFT SIDE
-            JLOC = SMCCLOC(ISMC,J)
-            IF(JLOC.LE.NFVAR)THEN                ! THIS IS A FLOW VARIABLE
-	        IF(FVDIR(JLOC).EQ.1)THEN           ! THIS IS INJECTION
-                LHS = LHS + REAL(SMCCOEF(ISMC,J),DP)*FVBASE(JLOC) 
-	        ELSEIF(FVDIR(JLOC).EQ.2)THEN       ! WITHDRAWAL - SWITCH SIGN
-                LHS = LHS - REAL(SMCCOEF(ISMC,J),DP)*FVBASE(JLOC) 
-              ENDIF
-            ELSE                                 ! THIS IS EXTERNAL OR BINARY
-              LHS = LHS + REAL(SMCCOEF(ISMC,J),DP)*CST(JLOC) 
-            ENDIF
-  300     ENDDO
-          DIFF = SMCRHS(ISMC) - LHS
-          IF(ABS(DIFF).LT. 1.0D-06*(ONE+SMCRHS(ISMC)))THEN
-            DIRR = 0                        ! CONSTRAINT IS NEAR BINDING
-          ELSE
-            IF(SMCDIR(ISMC).EQ. 1)DIRR=1     ! NON-BINDING LESS THAN CONSTRAINT
-            IF(SMCDIR(ISMC).EQ.-1)DIRR=2     ! NON-BINDING GREATER THAN CONSTRAINT
-            IF(SMCDIR(ISMC).EQ. 0)DIRR=3     ! NON-BINDING EQUALITY CONSTRAINT
-          ENDIF
-          CALL GWM1BAS2CS(CTYPE,SMCNAME(ISMC),DIFF,DIRR,1) 
-  310   ENDDO
-	ENDIF
-
+      ENDIF
       RETURN
       END SUBROUTINE GWM1SMC2OT
 C

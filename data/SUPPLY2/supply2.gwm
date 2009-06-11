@@ -1,0 +1,9 @@
+#SUPPLY2 Sample Problem, GWM file
+#August 12, 2007
+OUT     supply2.gwmout
+DECVAR  ..\data\SUPPLY2\supply2.decvar
+OBJFNC  ..\data\SUPPLY2\supply2.objfnc
+VARCON  ..\data\SUPPLY2\supply2.varcon
+SUMCON  ..\data\SUPPLY2\supply2.sumcon
+STRMCON ..\data\SUPPLY2\supply2.strmcon
+SOLN    ..\data\SUPPLY2\supply2.soln

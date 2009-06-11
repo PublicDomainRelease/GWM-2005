@@ -1,7 +1,7 @@
 
                                   MODFLOW-2005     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                             Version MF2005_GWM 1.0.1 081108,FROM MF05V1.5.00
+                 Version MF2005_GWM 1.1 061209,FROM MF05V1.6.02  
 
 
 
@@ -13,9 +13,11 @@
  #August 12, 2007                                                                                                                                                                                        
 
  OPENING DECISION-VARIABLE FILE ON UNIT   99:
- ..\data\seawater.decvar                                                                                                                                                                                 
+ ..\data\SEAWATER\seawater.decvar                                                                                                                                                                        
  #SEAWATER Sample Problem, DECVAR file
  #August 14, 2006
+
+ OPTIMAL FLOW VARIABLE VALUES WILL BE WRITTEN TO UNIT NUMBER:  20
 
  NO. OF FLOW-RATE DECISION VARIABLES (NFVAR)       8
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       0
@@ -60,7 +62,7 @@
 
 
  OPENING OBJECTIVE-FUNCTION FILE ON UNIT   99:
- ..\data\seawater.objfnc                                                                                                                                                                                 
+ ..\data\SEAWATER\seawater.objfnc                                                                                                                                                                        
  #SEAWATER Sample Problem, OBJFNC file
  #February 20, 2005
 
@@ -83,7 +85,7 @@
 
  OPENING DECISION-VARIABLE CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\seawater.varcon                                                                                                                                                                                 
+ ..\data\SEAWATER\seawater.varcon                                                                                                                                                                        
  #SEAWATER Sample Problem, VARCON file
  #February 20, 2005
 
@@ -105,7 +107,7 @@
 
  OPENING SUMMATION CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\seawater.sumcon                                                                                                                                                                                 
+ ..\data\SEAWATER\seawater.sumcon                                                                                                                                                                        
  #SEAWATER Sample Problem, GWM file
  #February 20, 2005
 
@@ -127,7 +129,7 @@
 
  OPENING HEAD CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\seawater.hedcon                                                                                                                                                                                 
+ ..\data\SEAWATER\seawater.hedcon                                                                                                                                                                        
  #SEAWATER Sample Problem, HEDCON file
  #February 20, 2005
 
@@ -185,7 +187,7 @@
 
 
  OPENING SOLUTION FILE ON UNIT   99:
- ..\data\seawater.soln                                                                                                                                                                                   
+ ..\data\SEAWATER\seawater.soln                                                                                                                                                                          
  #SEAWATER Sample Problem, SOLN file
  #February 20, 2005
 

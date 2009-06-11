@@ -1,0 +1,6 @@
+LIST  10   dewatermb.lst
+DIS   11   ..\data\DEWATERMB\dewater.dis
+BAS6  12   ..\data\DEWATERMB\dewater.ba6
+BCF6  13   ..\data\DEWATERMB\dewater.bc6
+PCG   14   ..\data\DEWATERMB\dewater.pcg
+GWM   15   ..\data\DEWATERMB\dewatermb.gwm

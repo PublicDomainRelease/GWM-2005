@@ -1,6 +1,6 @@
       MODULE GWFSFRMODULE
         CHARACTER(LEN=64),PARAMETER:: Version_sfr =
-     +'$Id: gwf2sfr7.f 4055 2008-04-11 18:40:52Z rniswon $'
+     +'$Id: gwf2sfr7.f 4535 2009-02-15'
         INTEGER,SAVE,POINTER:: NSS, NSTRM, NSFRPAR, ISTCB1, ISTCB2
         INTEGER,SAVE,POINTER:: IUZT, MAXPTS, IRTFLG, NUMTIM
         INTEGER,SAVE,POINTER:: ISFROPT, NSTRAIL, ISUZN, NSFRSETS
@@ -8,6 +8,7 @@
         INTEGER,SAVE,POINTER:: ITMP, IRDFLG, IPTFLG, NP
         REAL,   SAVE,POINTER:: CONST, DLEAK, WEIGHT, SFRRATIN, SFRRATOUT
         REAL   ,SAVE,POINTER:: FLWTOL, STRMDELSTOR_CUM, STRMDELSTOR_RATE
+        DOUBLE PRECISION,SAVE,POINTER:: TOTSPFLOW
         INTEGER,SAVE,  DIMENSION(:),  POINTER:: IOTSG, NSEGCK
         INTEGER,SAVE,  DIMENSION(:),  POINTER:: ITRLSTH
         INTEGER,SAVE,  DIMENSION(:,:),POINTER:: ISEG, IDIVAR, ISTRM
@@ -43,6 +44,7 @@
         INTEGER,     POINTER:: ITMP, IRDFLG, IPTFLG, NP
         REAL,        POINTER:: CONST, DLEAK, WEIGHT, SFRRATIN, SFRRATOUT
         REAL,        POINTER:: FLWTOL, STRMDELSTOR_CUM, STRMDELSTOR_RATE
+        DOUBLE PRECISION, POINTER:: TOTSPFLOW
         INTEGER,       DIMENSION(:),  POINTER:: IOTSG, NSEGCK
         INTEGER,       DIMENSION(:),  POINTER:: ITRLSTH
         INTEGER,       DIMENSION(:,:),POINTER:: ISEG, IDIVAR, ISTRM
@@ -89,7 +91,7 @@ C     ALLOCATE ARRAY STORAGE FOR STREAMS
 C     INITIALIZE VARIABLES FOR SFR PACKAGES
 C     READ STREAM DATA THAT IS CONSTANT FOR ENTIRE SIMULATION:
 C     REACH DATA AND PARAMETER DEFINITIONS
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February, 2009
 C     ******************************************************************
 C     SPECIFICATIONS:
 C     ------------------------------------------------------------------
@@ -97,6 +99,7 @@ C     ------------------------------------------------------------------
       USE GLOBAL,       ONLY: IOUT, IBOUND, BOTM, STRT, DELR, DELC,
      +                        ITRSS, NLAY, NROW, NCOL
       USE GWFLPFMODULE, ONLY: SC2LPF=>SC2
+!      USE GWFNWTMODULE, ONLY: SC2NWT
       USE GWFBCFMODULE, ONLY: SC1, SC2, LAYCON
       USE GWFHUFMODULE, ONLY: SC2HUF
       IMPLICIT NONE
@@ -120,7 +123,7 @@ C     ------------------------------------------------------------------
 C     ------------------------------------------------------------------
       iterp = 1
       idum(1) = 0
-      ALLOCATE (NSS, NSTRM)
+      ALLOCATE (NSS, NSTRM,TOTSPFLOW)
       ALLOCATE (NSFRPAR, ISTCB1, ISTCB2, IUZT, MAXPTS)
       ALLOCATE (ISFROPT, NSTRAIL, ISUZN, NSFRSETS)
       ALLOCATE (NUZST, NSTOTRL, NUMAVE)
@@ -130,8 +133,9 @@ C     ------------------------------------------------------------------
       ALLOCATE (STRMDELSTOR_CUM, STRMDELSTOR_RATE)
 C1------IDENTIFY PACKAGE AND INITIALIZE NSTRM.
       WRITE (IOUT, 9001) In
- 9001 FORMAT (1X, /1X, 'SFR7 -- STREAMFLOW ROUTING PACKAGE, VERSION 7.1'
-     +        ,', 06/29/2006', /, 9X, 'INPUT READ FROM UNIT', I4)
+ 9001 FORMAT (1X, /1X, 'SFR7 -- STREAMFLOW ROUTING PACKAGE, '
+     +        ,'VERSION 7.1.01, 02/15/2009', /, 9X, 
+     +         'INPUT READ FROM UNIT', I4)
 C
 C2------READ COMMENT RECORDS, NSTRM, NSS, NSFRPAR, NPARSEG, CONST,
 C         DLEAK, ISTCB1, ISTCB2.
@@ -146,6 +150,7 @@ C         DLEAK, ISTCB1, ISTCB2.
       STRMDELSTOR_RATE = 0.0E0
       SFRRATIN = 0.0
       SFRRATOUT = 0.0
+      TOTSPFLOW = 0.0D0
       CALL URWORD(line, lloc, istart, istop, 2, NSTRM, r, IOUT, In)
       CALL URWORD(line, lloc, istart, istop, 2, NSS, r, IOUT, In)
       CALL URWORD(line, lloc, istart, istop, 2, NSFRPAR, r, IOUT, In)
@@ -176,17 +181,22 @@ C4------READ UNSATURATED FLOW VARIABLES WHEN ISFROPT GREATER THAN 1.
           CALL URWORD(line, lloc, istart, istop, 2, NSFRSETS, r, IOUT, 
      +                In)
         END IF
-C RGN-Removed the following read statements to turn off routing.
+!4b-----Data read for transient routing.
         CALL URWORD(line, lloc, istart, istop, 2, IRTFLG, r, IOUT, In)
         IF ( IRTFLG .GT. 0 ) THEN
+          NUMTIM = 1
+          WEIGHT = 1.0
+          FLWTOL = 0.0
           CALL URWORD(line, lloc, istart, istop, 2, NUMTIM, r, IOUT, In)
+          CALL URWORD(line, lloc, istart, istop, 3, i, WEIGHT, IOUT, In)
           CALL URWORD(line, lloc, istart, istop, 3, i, FLWTOL, IOUT, In)
-C          IF ( NUMTIM.LT.1 ) NUMTIM = 1
-          WEIGHT = 1.0 
-!          NUMTIM = 1
+          IF ( NUMTIM.LT.1 ) NUMTIM = 1
+          IF ( WEIGHT.LT.0.0 .OR. WEIGHT.GT.1.0 ) WEIGHT=1.0
+          IF ( FLWTOL.LT.0.0 ) FLWTOL=0.0
         ELSE
           NUMTIM = 1
           WEIGHT = 1.0
+          FLWTOL = 0.0
         END IF
       END IF
       IF ( NSS.LT.0 ) NSS = 0
@@ -253,20 +263,22 @@ C6------PRINT INFORMATION THAT WAS READ.
       IF ( ISFROPT.GE.2 ) WRITE (IOUT, 9005)
       IF ( ISTCB1.GT.0 ) WRITE (IOUT, 9006) ISTCB1
       IF ( ISTCB2.GT.0 ) WRITE (IOUT, 9007) ISTCB2
+      IF ( IRTFLG.GT.0 ) WRITE (IOUT, 9035)
  9003 FORMAT (//, ' NUMBER OF STREAM REACHES IS', I5, //, 
      +        ' NUMBER OF STREAM SEGMENTS IS', I5, //, 
      +        ' NUMBER OF STREAM PARAMETERS IS', I5, //, 
      +        ' NUMBER OF STREAM SEGMENTS DEFINED USING PARAMETERS IS',
      +        I5, //, ' MAXIMUM ERROR FOR STREAM LEAKAGE RATES IS', 
      +        1PE10.2, //, ' CONSTANT FOR MANNINGS EQUATION IS', E12.4,
-     +        ///)
+     +        /)
  9004 FORMAT (//, ' USING DATA INPUT MODIFIED FROM ORIGINAL SFR ',
      +        'PROGRAM FOR FARM PACKAGE', /)
- 9005 FORMAT (//, ' OPTION FOR UNSATURATED FLOW BENEATH STREAMBEDS IS ',
-     +        'ACTIVE ', //)
+ 9005 FORMAT (' OPTION FOR UNSATURATED FLOW BENEATH STREAMBEDS IS ',
+     +        'ACTIVE ', /)
  9006 FORMAT (' FLOW TO AND FROM GROUND WATER FOR EACH STREAM REACH ',
      +        'WILL BE SAVED ON UNIT', I3)
  9007 FORMAT (' STREAM OUTPUT WILL BE WRITTEN TO FILE ON UNIT', I4)
+ 9035 FORMAT (' TRANSIENT STREAMFLOW ROUTING IS ACTIVE ')
 C
 C7------CHECK FOR ERRORS.
       IF ( NSTRM.LE.0 .OR. NSS.LE.0 ) THEN
@@ -456,6 +468,9 @@ C        AND SPECIFIC YIELD WHEN UNSATURATED FLOW IS ACTIVE.
             IF ( Iunitlpf.GT.0 ) THEN
               THTR(ii) = THTS(ii) - SC2LPF(jrch, irch, krch)
      +                   /(DELR(jrch)*DELC(irch))
+!            ELSEIF ( Iunitnwt.GT.0 ) THEN
+!              THTR(ii) = THTS(ii) - SC2NWT(jrch, irch, krch)
+!     +                   /(DELR(jrch)*DELC(irch))
             ELSE IF ( Iunitbcf.GT.0 ) THEN
               IF ( LAYCON(krch).EQ.1 ) THEN
                 THTR(ii) = THTS(ii) - SC1(jrch, irch, krch)
@@ -761,9 +776,12 @@ C         PREVIOUS HEAD BENEATH STREAM.
       HLDSFR = 0.0D0
 C     ------------------------------------------------------------------
 C
+!      IF ( Iunitlpf.GT.0 .OR. Iunithuf.GT.0 .OR. Iunitnwt.GT.0 ) THEN 
       IF ( Iunitlpf.GT.0 .OR. Iunithuf.GT.0 ) THEN 
-      IF ( ISFROPT.EQ.2.OR.ISFROPT.EQ.4 )
-     +     CALL SGWF2SFR7UHC(Iunitlpf)
+!        IF ( ISFROPT.EQ.2.OR.ISFROPT.EQ.4 )
+!     +     CALL SGWF2SFR7UHC(Iunitlpf, Iunithuf, Iunitnwt)
+        IF ( ISFROPT.EQ.2.OR.ISFROPT.EQ.4 )
+     +  CALL SGWF2SFR7UHC(Iunitlpf, Iunithuf)
       END IF
 C
 C23-----SAVE POINTERS FOR GRID AND RETURN.
@@ -772,21 +790,22 @@ C23-----SAVE POINTERS FOR GRID AND RETURN.
       END SUBROUTINE GWF2SFR7AR
 C
 C-------SUBROUTINE SGWF2SFR7UHC
-      SUBROUTINE SGWF2SFR7UHC(Iunitlpf)
+!      SUBROUTINE SGWF2SFR7UHC(Iunitlpf, Iunithuf, Iunitnwt)
+      SUBROUTINE SGWF2SFR7UHC(Iunitlpf, Iunithuf)
 C     ******************************************************************
 C     SETS UNSATURATED VERTICAL HYDRAULIC CONDUCTIVITY TO VERTICAL
 C     HYDRAULIC CONDUCTIVITY IN THE LAYER-PROPERTY FLOW PACKAGE.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NSTRM, ISTRM, UHC
       USE GLOBAL,       ONLY: IOUT, IBOUND, NLAY, NROW, NCOL
       USE GWFLPFMODULE, ONLY: LAYVKA, LAYTYP, VKA, HK
-      USE GWFHUFMODULE, ONLY: HGUVANI, NHUF
+!      USE GWFNWTMODULE, ONLY: LAYVKANWT=>LAYVKA, VKANWT=>VKA, HKNWT=>HK
       USE GWFHUFMODULE, ONLY: HGUVANI, NHUF, HKHUF=>HK, VKAH
       IMPLICIT NONE
 C     ------------------------------------------------------------------
 C     SPECIFICATIONS:
-      INTEGER Iunitlpf
+      INTEGER Iunitlpf, Iunithuf
 C     ------------------------------------------------------------------
 C     LOCAL VARIABLES
 C     ------------------------------------------------------------------
@@ -812,6 +831,15 @@ C1------SET UHC EQUAL TO VKA IF STREAM IS IN ACTIVE CELL.
             CALL USTOP(' ')
             END IF
           END IF
+!        ELSEIF ( Iunitnwt.GT.0 ) THEN
+!          IF ( IBOUND(jrck, irck, krck).GT.0 ) THEN
+!            IF ( LAYVKANWT(krck).EQ.0 ) THEN
+!              UHC(ichk) = VKANWT(jrck, irck, krck)
+!            ELSE
+!              UHC(ichk) = VKANWT(jrck, irck, krck)*
+!     +                    HKNWT(jrck, irck, krck)
+!            END IF
+!          END IF
         ELSE
           IF ( IBOUND(jrck, irck, krck).GT.0 ) THEN
             IF ( HGUVANI(NHUF).LE.0.0 ) THEN
@@ -830,10 +858,10 @@ C2------RETURN.
 C
 C-------SUBROUTINE GWF2SFR7RP
       SUBROUTINE GWF2SFR7RP(In, Iunitgwt, Iunitlak, Kkper, Nsol, Iouts,
-     +                       Igrid)
+     +                      Igrid)
 C     ******************************************************************
 C     READ STREAM DATA FOR STRESS PERIOD
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     Compute three new tables for lake outflow
 C     ******************************************************************
       USE GWFSFRMODULE
@@ -932,6 +960,10 @@ C6------READ NON-PARAMETER STREAM SEGMENT DATA.
 Crgn 10/16/06 fixed logic for calls to RDSEG
         ELSEIF( NSFRPAR.EQ.0 ) THEN
           IF ( Kkper.GT.1 )CALL SGWF2SFR7RDSEG(ITMP, lstbeg, In, 
+     +                        Iunitgwt, NSEGCK, NSS,
+     +                        ichk, Kkper, Nsol)
+        ELSEIF( NSFRPAR.GT.0 ) THEN
+          CALL SGWF2SFR7RDSEG(ITMP, lstbeg, In, 
      +                        Iunitgwt, NSEGCK, NSS,
      +                        ichk, Kkper, Nsol)
         END IF
@@ -1088,7 +1120,7 @@ C19-----COMPUTE VARIABLES NEEDED FOR STREAM LEAKAGE.
           DO ii = 1, ISEG(4, nseg)
             rchlen = STRM(1, irch)
             dist = sumlen + (0.5*rchlen)
-            STRM(12, irch) = runoff*(rchlen/seglen)
+            STRM(12, irch) = runoff*(rchlen/seglen)             
             IF ( ksfropt.EQ.1 ) THEN
               avhc = SEG(6, nseg) - (hcslpe*dist)
               avthk = SEG(7, nseg) - (thkslpe*dist)
@@ -1106,6 +1138,12 @@ cdep 4/26/2006
      +                       * STRM(2,irch) )
               END IF            
             END IF
+!dep 4/28/2008 Added check and warning for streambed thickness
+            IF (STRM(8, irch).LT.CLOSEZERO)THEN
+              WRITE (IOUT, 9030) nseg, irch, STRM(8, irch)
+              STRM(8, irch) = 1.0
+            END IF
+!dep 4/28/2008 end of change
             IF ( icalc.EQ.0 ) THEN
               avdpth = SEG(10, nseg) - (dpslpe*dist)
               STRM(5, irch) = SEG(9, nseg) - (wdslpe*dist)
@@ -1163,6 +1201,11 @@ C22-----CHECK VALUES IN STREAM CROSS SECTION LIST (XSEC).
             END DO
           END IF
         END DO
+ 9030   FORMAT (/, ' *** WARNING *** STREAMBED THICKNESS', 
+     +          'FOR SEGMENT ',I10,' REACH ',I10,  
+     +          ' IS ', E10.4,' WHICH IS ZERO OR LESS. '/,
+     +          ' VALUE MUST BE GREATER THAN ZERO-- IT HAS BEEN ',
+     +          'RESET TO 1.0')
  9014   FORMAT (1X, /, ' *** ERROR *** EIGHT POINT CROSS ', 
      +          'SECTION FOR STREAM SEGMENT', I7,
      +          ' DOES NOT BEGIN WITH ZERO FOR FIRST VALUE --', 
@@ -1577,16 +1620,18 @@ C45-----RETURN.
 C
 C-------SUBROUTINE GWF2SFR7FM
       SUBROUTINE GWF2SFR7FM(Kkiter, Kkper, Kkstp, Iunitlak, Nlakesar,
-     +                      Theta, Stgold, Stgnew, Vol, Igrid)
+     +                      Theta, Stgold, Stgnew, Vol,
+     +                      Igrid)
 C     *****************************************************************
 C     ADD STREAM TERMS TO RHS AND HCOF IF FLOW OCCURS IN MODEL CELL
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *****************************************************************
       USE GWFSFRMODULE
       USE GWFSFRBLK
       USE GLOBAL,       ONLY: NLAY, IOUT, ISSFLG, IBOUND, HNEW, HCOF, 
      +                        RHS
       USE GWFBASMODULE, ONLY: DELT, TOTIM, HDRY
+!      USE GWFNWTMODULE, ONLY: Drhs, Dhcof, Heps
       IMPLICIT NONE
       INTRINSIC IABS, ABS, DABS, MIN, DSQRT, FLOAT, SQRT, SNGL
 C     -----------------------------------------------------------------
@@ -1600,7 +1645,7 @@ C     -----------------------------------------------------------------
 C     ARGUMENTS
 C     -----------------------------------------------------------------
       INTEGER Kkiter, Kkper, Iunitlak, Igrid, Kkstp, Nlakesar
-      REAL Theta, Vol(Nlakesar)
+      DOUBLE PRECISION Theta, Vol(Nlakesar)
       DOUBLE PRECISION Stgold(Nlakesar), Stgnew(Nlakesar)
 C     -----------------------------------------------------------------
 C     LOCAL VARIABLES
@@ -1622,16 +1667,18 @@ C     -----------------------------------------------------------------
      +                 flwpet1, flwpet2, err, dlhold, precip, etstr, 
      +                 runof, runoff, qa, qb, qc, qd, hstrave, fbot
       DOUBLE PRECISION fbcheck, hld, totflwt, sbdthk, thetas, epsilon, 
-     +                 thr, thet1, dvrsn, hdiff
+     +                 thr, thet1, dvrsn, hdiff, rhsh1, hcofh1, rhsh2, 
+     +                 hcofh2
 !rsr  DOUBLE PRECISION grad
       REAL areamax, avhc, errold, fks, ha, qcnst, seep, 
      +     stgon, strlen, roughch, roughbnk, widthch, deltinc, qlat, 
      +     fltest
-C      real fin, fout
+!      real fin, fout
       INTEGER i, ibflg, ic, icalc, idivseg, iflg, iic, iic2, iic3, iic4,
      +        il, ilay, iprior, iprndpth, iprvsg, ir, istsg, itot,itrib,
      +        itstr, iwidthcheck, kerp, kss, l, lk, ll, nstrpts, nreach,
-     +        maxwav, icalccheck, iskip, iss, lsub, numdelt, irt
+     +        maxwav, icalccheck, iskip, iss, lsub, numdelt, irt, ii, 
+     +        idr
       DOUBLE PRECISION FIVE_THIRDS
       PARAMETER (FIVE_THIRDS=5.0D0/3.0D0)
 C     -----------------------------------------------------------------
@@ -1651,6 +1698,10 @@ C2------THERE ARE STREAMS.  INITIALIZE SEGMENT INFLOWS AND OUTFLOWS
 C         TO ZERO FOR LAKE PACKAGE.
       itstr = 0
       iprvsg = -1
+! Temporary until NWT released
+      idr = 1
+      ii = idr
+!      IF ( IunitNWT.GT.0 ) idr = 2
 C      fin = 0.0
 C      fout = 0.0
       IF ( Iunitlak.GT.0 ) THEN
@@ -1680,6 +1731,10 @@ C3------DETERMINE LAYER, ROW, COLUMN OF EACH REACH.
         DO l = 1, NSTRM
           flowin = 0.0D0
           dvrsn = 0.0D0
+!          rhsh1 = 0.0d0
+!          rhsh2 = 0.0d0
+!          hcofh1 = 0.0d0
+!          hcofh2 = 0.0d0
           IF ( irt.EQ.1 ) THEN
             STRM(27,l) = STRM(25,l)
             STRM(28,l) = STRM(26,l)
@@ -1845,6 +1900,13 @@ C23-----SEARCH FOR UPPER MOST ACTIVE CELL IN STREAM REACH.
             END IF
           END DO TOPCELL
           IF ( ilay.LE.NLAY ) il = ilay
+C30d----BEGIN LOOP FOR NEWTON SOLVER IF ACTIVE (Hardwired inactive until NWT released)
+!          DO ii = 1, idr
+!           SUMRCH(l) = 0.0
+!            SUMLEAK(l) = 0.0
+!            IF ( ii.EQ.2 ) THEN
+!              h = h + Heps
+!            END IF
 C
 C24-----INITIALIZE VARIABLES.
           iprndpth = 0
@@ -1876,13 +1938,13 @@ C24-----INITIALIZE VARIABLES.
           dlhold = 1.0D6
           itot = 0
           iskip = 0
-          IF ( h.LT.sbot ) THEN
-            hdiff = hstr - sbot
+!          IF ( h.LT.sbot ) THEN
+!            hdiff = hstr - sbot
 !rsr        grad = (hdiff)/sbdthk
-          ELSE
-            hdiff = hstr - h
+!          ELSE
+!            hdiff = hstr - h
 !rsr        grad = (hdiff)/sbdthk
-          END IF
+!          END IF
           IF ( icalc.EQ.1 ) THEN
             qcnst = CONST*width*SQRT(slope)/roughch
           ELSE IF ( icalc.EQ.3 ) THEN
@@ -2668,8 +2730,11 @@ C          MODEL CELL IS INACTIVE. Revised dep 5/19/2005
               flowc = flowin + runof + runoff + (precip-etstr)
               flwmpt = flowin + 0.5D0*(runof+runoff+(precip-etstr))
 C RGN 10/3/07 added check for flwmpt to avoid NaN values.
-              IF ( icalc.EQ.1 .AND. flwmpt.GT.NEARZERO ) 
-     +             depth = (flwmpt/qcnst)**0.6D0
+              IF ( icalc.EQ.1 .AND. flwmpt.GT.NEARZERO ) THEN
+                depth = (flwmpt/qcnst)**0.6D0
+              ELSE
+                depth = 0.0
+              END IF
               IF ( flowc.GT.NEARZERO ) THEN
                 IF ( runof.LT.NEARZERO ) THEN
                   IF ( flowin+runoff+precip.GT.NEARZERO ) THEN
@@ -2835,7 +2900,8 @@ C68-----STREAMFLOW OUT EQUALS STREAMFLOW IN MINUS LEAKAGE.
           END IF
 ! rgn 2/12/08 to address bug found by Arlen for SS dependency on DELT
           IF ( ISS.EQ.0 ) THEN
-            SUMLEAK(l) = SUMLEAK(l) + (flobot*deltinc)/DELT
+            SUMLEAK(l) = SUMLEAK(l) + (flobot*deltinc)
+            IF ( irt.EQ.numdelt) SUMLEAK(l) = SUMLEAK(l)/DELT
           ELSE
             SUMLEAK(l) = flobot
           END IF
@@ -2843,14 +2909,16 @@ C
 C
 C69-----STORE STREAM INFLOW, OUTFLOW, LEAKAGE, STAGE, AND STREAMBED
 C          CONDUCTANCE FOR EACH REACH.
-          STRM(9, l) = flowot
-          STRM(10, l) = flowin
-          STRM(11, l) = flobot
-          STRM(15, l) = hstr
-          STRM(16, l) = cstr
-          IF ( icalc.GE.1 ) STRM(7, l) = depth
-          IF ( icalc.GE.2 ) STRM(5, l) = width
-          IF ( icalc.GE.2 ) STRM(20, l) = wetperm
+!          IF ( ii.EQ.1 ) THEN (Loop for NWT)
+            STRM(9, l) = flowot
+            STRM(10, l) = flowin
+            STRM(11, l) = flobot
+            STRM(15, l) = hstr
+            STRM(16, l) = cstr
+            IF ( icalc.GE.1 ) STRM(7, l) = depth
+            IF ( icalc.GE.2 ) STRM(5, l) = width
+            IF ( icalc.GE.2 ) STRM(20, l) = wetperm
+!          END IF        (Loop for NWT)
           HSTRM(l,irt) = hstr
           HWDTH(l,irt) = width
           HWTPRM(l,irt) = wetperm
@@ -2889,8 +2957,8 @@ C73-----ROUTE SEEPAGE THROUGH UNSATURATED ZONE.
      +                       ITRLST(:,l), LTRLST(:,l), UZSPST(:,l), 
      +                       UZFLST(:,l), UZDPST(:,l), UZTHST(:,l), 
      +                       ITRLIT(:,l), LTRLIT(:,l), UZSPIT(:,l), 
-     +                       UZFLIT(:,l), UZDPIT(:,l), UZTHIT(:,l),
-     +                       DELT, sbot)
+     +                       UZFLIT(:,l), UZDPIT(:,l), UZTHIT(:,l),  
+     +                       DELT, Sbot, kkper, kkstp)
 C
 C74-----SUM SEEPAGE TO WATER TABLE.
               totflwt = 0.0D0
@@ -2904,7 +2972,6 @@ C74-----SUM SEEPAGE TO WATER TABLE.
               SUMRCH(l) = SUMRCH(l) + totflwt/DELT
             END IF
             IF ( icalccheck.EQ.0 ) THEN 
-              SUMRCH(l) = 0.0
               IF ( h.LT.sbot )
      +            SUMRCH(l) = SUMRCH(l) + flobot
             ELSE IF ( iss.NE.0 ) THEN
@@ -2914,10 +2981,12 @@ C74-----SUM SEEPAGE TO WATER TABLE.
           END IF
 C
 C75-----STORE FLOWS NEEDED FOR SENSITIVITIES. - ERB
-          SFRQ(1, l) = flwmpt
-          SFRQ(2, l) = flowc
-          SFRQ(3, l) = flobot
-          SFRQ(5, l) = flowin
+          IF ( ii.EQ.1 ) THEN
+            SFRQ(1, l) = flwmpt
+            SFRQ(2, l) = flowc
+            SFRQ(3, l) = flobot
+            SFRQ(5, l) = flowin
+          END IF
 C
 C76-----ADD TERMS TO RHS AND HCOF IF FLOBOT IS NOT ZERO.
           IF ( irt.EQ.numdelt ) THEN
@@ -2928,67 +2997,111 @@ C76-----ADD TERMS TO RHS AND HCOF IF FLOBOT IS NOT ZERO.
             hstrave = hstrave/FLOAT(numdelt)
             IF ( ABS(SUMLEAK(l)).GT.0.0 ) THEN
 C
-C77-----ADD TERMS TO RHS AND HCOF WHEN GROUND-WATER HEAD GREATER THAN
+C77-----ADD TERMS TO RHS AND HCOF WHEN GROUND-WATER HEAD LESS THAN
 C         STREAMBED BOTTOM ELEVATION.
-              IF ( HNEW(ic, ir, il).LT.sbot ) THEN
-                RHS(ic, ir, il) = RHS(ic, ir, il) - SUMRCH(l)
-C      fin=fin+sumrch(l)
-C      write(iout,*)l,sumrch(l)
+              IF ( h.LT.sbot ) THEN
+!                IF ( ii.EQ.1 ) THEN
+                 RHS(ic, ir, il) = RHS(ic, ir, il) - SUMRCH(l)
+!                  rhsh1 = - SUMRCH(l)
+!                ELSEIF ( ii.EQ.2 ) THEN
+!                  rhsh2 = - SUMRCH(l)
+!                END IF
+!      fin=fin+sumrch(l)
+!      write(iout,*)l,sumrch(l)
 cdep  changed dbleak to -CLOSEZERO
               ELSE IF ( SUMLEAK(l)-flowc.LT.-CLOSEZERO ) THEN
 C
-C78-----STREAM LEAKAGE IS HEAD DEPENDENT.
+C78-----STREAM LEAKAGE IS NOT HEAD DEPENDENT.
                 IF ( iss.EQ.0 ) THEN
-                  RHS(ic, ir, il) = RHS(ic, ir, il) - (cstr*hstrave)
-     +                                            - SUMRCH(l)
-C      if (hstrave.gt.h)fin=fin+sumrch(l)+cstr*(hstrave-h)
-C      if( hstrave.lt.h)then
-C      fout=fout+cstr*(hstrave-h)
-C      fin=fin+sumrch(l)
-C      write(iout,*)l,cstr*(hstrave-h)+sumrch(l)
-C      end if
+!                  IF ( ii.EQ.1 ) THEN
+                    RHS(ic, ir, il) = RHS(ic, ir, il) - 
+     +                                        (cstr*hstrave)- SUMRCH(l)
+!                    rhsh1 = - (cstr*hstrave)- SUMRCH(l)
+!                  ELSEIF ( ii.EQ.2 ) THEN
+!                    rhsh2 = - (cstr*hstrave)- SUMRCH(l)
+!                  END IF
+!      if (hstrave.gt.h)fin=fin+sumrch(l)+cstr*(hstrave-h)
+!      if( hstrave.lt.h)then
+!      fout=fout+cstr*(hstrave-h)
+!      fin=fin+sumrch(l)
+!      write(iout,*)l,cstr*(hstrave-h)+sumrch(l)
+!      end if
                 ELSE
-                  RHS(ic, ir, il) = RHS(ic, ir, il) - (cstr*hstrave)
-C      if (hstrave.gt.h)then
-C      fin=fin+cstr*(hstrave-h)
-C      write(iout,*)l,cstr*(hstrave-h)
-C      end if
-C      if (hstrave.ge.h)then
-C      fout=fout+cstr*(hstrave-h)
-C      write(iout,*)l,cstr*(hstrave-h)
-C      end if
+!                  IF ( ii.EQ.1 ) THEN
+                    RHS(ic, ir, il) = RHS(ic, ir, il) - 
+     +                           (cstr*hstrave)
+!                    rhsh1 = - (cstr*hstrave)
+!                  ELSEIF ( ii.EQ.2 ) THEN
+!                    rhsh2 = - (cstr*hstrave)
+!                  END IF
+ !     if (hstrave.gt.h)then
+ !     fin=fin+cstr*(hstrave-h)
+ !     write(iout,*)l,cstr*(hstrave-h)
+ !     end if
+ !     if (hstrave.ge.h)then
+ !     fout=fout+cstr*(hstrave-h)
+ !     write(iout,*)l,cstr*(hstrave-h)
+ !     end if
                 END IF
-                HCOF(ic, ir, il) = HCOF(ic, ir, il) - cstr
+ !               IF ( ii.EQ.1 ) THEN
+                  HCOF(ic, ir, il) = HCOF(ic, ir, il) - cstr
+!                  hcofh1 = - cstr
+!                ELSEIF ( ii.EQ.2 ) THEN
+!                 hcofh2 = - cstr
+!               END IF
               ELSE
 C
 C79-----CONSTANT STREAMBED LEAKAGE IS LIMITED BY STREAMFLOW OR 
 C         STREAMBED CONDUCTANCE IN REACH.
                 IF ( iss.EQ.0 ) THEN
-                  RHS(ic, ir, il) = RHS(ic, ir, il) - SUMLEAK(l)
-     +                                              - SUMRCH(l)
-C      fin=fin+sumleak(l)+sumrch(l)
-C      write(iout,*)l,sumrch(l)
+!                  IF ( ii.EQ.1 ) THEN
+                    RHS(ic, ir, il) = RHS(ic, ir, il) 
+     +                              - SUMLEAK(l)- SUMRCH(l)
+!                    rhsh1 = - SUMLEAK(l)- SUMRCH(l)
+!                  ELSEIF ( ii.EQ.2 ) THEN
+!                    rhsh2 = - SUMLEAK(l)- SUMRCH(l)
+!                  END IF
+!      fin=fin+sumleak(l)+sumrch(l)
+!      write(iout,*)l,sumrch(l)
                 ELSE
-                  RHS(ic, ir, il) = RHS(ic, ir, il) - SUMLEAK(l)
-C      fin=fin+sumleak(l)
-C      write(iout,*)l,sumleak(l)
+!                  IF ( ii.EQ.1 ) THEN
+                    RHS(ic, ir, il) = RHS(ic, ir, il) - SUMLEAK(l)
+!                    rhsh1 = - SUMLEAK(l)
+!                  ELSEIF ( ii.EQ.2 ) THEN
+!                    rhsh2 = - SUMLEAK(l)
+!                  END IF
+!      fin=fin+sumleak(l)
+!      write(iout,*)l,sumleak(l)
                 END IF
 C
 C80-----ADD TERM ONLY TO RHS WHEN GROUND-WATER HEAD IS LESS THAN
 C         STREAMBED BOTTOM ELEVATION.
               END IF
             ELSE IF ( h.LT.sbot .OR. hld.LT.sbot ) THEN
-              RHS(ic, ir, il) = RHS(ic, ir, il) - SUMRCH(l)
-C      fin=fin+sumrch(l)
-C      write(iout,*)l,sumrch(l)
-C  119 format(i5,3(1x,e20.10))
+!              IF ( ii.EQ.1 )THEN
+                RHS(ic, ir, il) = RHS(ic, ir, il) - SUMRCH(l)
+!                rhsh1 = - SUMRCH(l)
+!              ELSEIF ( ii.EQ.2 )THEN
+!                rhsh2 = - SUMRCH(l)
+!              END IF
+              
+!      fin=fin+sumrch(l)
+!      write(iout,*)l,sumrch(l)
+!  119 format(i5,3(1x,e20.10))
             END IF
           END IF
+C64B----END NEWTON SOLVER LOOP (NWT PACKAGE)
+!        END DO
+!        IF ( IunitNWT.GT.0 .AND. irt.EQ.numdelt ) THEN
+!          Drhs(ic,ir,il) = Drhs(ic,ir,il) +  
+!     +           (rhsh2 - rhsh1)/Heps
+!          Dhcof(ic,ir,il) = Dhcof(ic,ir,il) +  
+!     +           (hcofh2 - hcofh1)/Heps
+!        END IF
         END DO
 C        
 C81-----END INTERNAL TIME LOOP FOR ROUTING STREAMFLOWS.
       END DO
-C      write(iout,*)'fin',kkiter,fin,fout
 C
 C82-----RETURN.
       RETURN
@@ -3000,7 +3113,7 @@ C-------SUBROUTINE GWF2SFR7BD
 C     *****************************************************************
 C     CALCULATE VOLUMETRIC GROUND-WATER BUDGET FOR STREAMS AND SUM
 C     STREAMFLOWS IN MODELED AREA
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *****************************************************************
       USE GWFSFRMODULE
       USE GWFSFRBLK,    ONLY: CLOSEZERO, NEARZERO
@@ -3022,7 +3135,7 @@ C     ARGUMENTS
 C     ------------------------------------------------------------------
       INTEGER Kkstp, Kkper, Iunitgwt, Iunitlak, Iunitgage, Iunituzf
       INTEGER Igrid, Nlakesar, Nsol
-      REAL    Vol(Nlakesar)
+      DOUBLE PRECISION    Vol(Nlakesar)
 C     ------------------------------------------------------------------
 C     LOCAL VARIABLES
 C     ------------------------------------------------------------------
@@ -3039,7 +3152,7 @@ C     ------------------------------------------------------------------
      +                 slope, cdpth, fdpth, hdiff, grad, depth,
      +                 hld, fbcheck, totflwt, totdelstor, totuzstor,
      +                 thetas, epsilon, thr, qa, qb, qc, qd, awdth,
-     +                 bwdth, gwflow, dvrsn
+     +                 bwdth, gwflow, dvrsn, fbot
 C     ------------------------------------------------------------------
 C     LOCAL STATIC VARIABLES
 C     ------------------------------------------------------------------
@@ -3071,6 +3184,7 @@ C         ACCUMULATORS (RATIN AND RATOUT).
       STRMDELSTOR_RATE = 0.0E0
       SFRRATIN = zero
       SFRRATOUT = zero
+      TOTSPFLOW = 0.0D0
       maxwav = NSFRSETS*NSTRAIL
       IF ( IUZT.EQ.1 ) THEN
         SFRUZBD(4) = zero
@@ -3251,7 +3365,7 @@ C
 C23-----CHECK IF "FLOW" IS WITHDRAWAL, THAT WATER IS AVAILABLE.
               IF ( flowin.LT.0.0D0 ) THEN
                 flowin = 0.0D0
-                WRITE (IOUT, 9003) istsg
+ !               WRITE (IOUT, 9003) istsg
  9003           FORMAT (//2X, '*** WARNING *** FLOW INTO DIVERSIONARY ',
      +                  'STREAM SEGMENT No. ', I6, ' WAS NEGATIVE; ', 
      +                  'FLOWIN RE-SET = 0.0'/)
@@ -3299,7 +3413,7 @@ C26-----DETERMINE LEAKAGE THROUGH STREAMBED.
               thetas = THTS(l)
               ha = -0.15
               areamax = 0.0
-              fbcheck = 1.0D-12/deltinc
+              fbcheck = 1.0D-12/DELT
               IF ( fbcheck.LT.5.0D-8 ) fbcheck = 5.0D-8
               avhc = STRM(6, l)
               IF ( icalc.EQ.2 ) THEN
@@ -3330,7 +3444,7 @@ C27-----COMPUTE HEAD DIFFERENCE ACROSS STREAMBED.
 ! Added code to test for BCF or LPF 11/19/07
           !rsr, modified as hld is double and hdry single
             IF ( ABS(SNGL(hld)-HDRY).LT.CLOSEZERO ) hld = h
-            HLDSFR(l) = h
+            IF ( irt.EQ.numdelt ) HLDSFR(l) = h
             IF ( h.LT.sbot ) THEN
               hdiff = hstr - sbot
               grad = (hdiff)/sbdthk
@@ -3403,23 +3517,12 @@ C31-----NO PRECIPITATION OR ET FROM CHANNEL WHEN WIDTH IS ZERO.
             flobot = flow
             IF ( icalc.EQ.0 ) depth = 0.0D0
           END IF
-          IF ( icalccheck.EQ.1 ) THEN
-            IF ( h.LT.sbot ) THEN
-              flobot = CALCUNSATFLOBOT(depth, avhc, fks, wetperm,
+          IF ( icalccheck.EQ.1 .AND. h.LT.sbot ) THEN
+            flobot = CALCUNSATFLOBOT(depth, avhc, fks, wetperm,
      +                   sbdthk, areamax, strlen, fbcheck, NWAVST(:,l),
      +                   maxwav, FOLDFLBT(l))
-              IF ( flobot.GE.flow ) flobot = flow
-              CALL CALC_UNSAT_INFIL(flobot, UZSEEP(:,l), UZTHST(:,l),
-     +                              thr, ha, thetas, epsilon, fks, avhc,
-     +                              depth, sbdthk, WETPER(:,l),
-     +                              UZWDTH(:,l), flow, NWAVST(:,l),
-     +                              strlen, iwidthcheck, icalc)
-            ELSE
-              DO i = 1, ISUZN
-                UZSEEP(i, l) = 0.0D0
-              END DO
-            END IF
           END IF
+          IF ( flobot.GE.flow ) flobot = flow
 C
 C32-----ROUTE FLOW IN CHANNELS WHEN IRTFLG IS NOT ZERO AND 
 C         SIMULATION IS TRANSIENT.
@@ -3453,22 +3556,32 @@ C         SIMULATION IS TRANSIENT.
 !                qd = qd - 0.5*flobot
 !                flow = qd
 !              END IF
-            IF ( icalccheck.EQ.1 ) THEN
-              IF ( h.LT.sbot ) THEN
-                CALL CALC_UNSAT_INFIL(flobot, UZSEEP(:,l), 
-     +                            UZTHST(:,l),thr, ha, thetas, 
-     +                            epsilon, fks, avhc,depth, sbdthk, 
-     +                            WETPER(:,l),UZWDTH(:,l), flow, 
-     +                            NWAVST(:,l),strlen, iwidthcheck, 
-     +                            icalc)
-              END IF
-!              END IF
-            END IF
             flowot = qd
             STRM(25,l) = qd
             STRM(26,l) = qc
           ELSE
             flowot = flow - flobot
+          END IF
+          IF ( ISS.EQ.0 ) THEN
+            SUMLEAK(l) = SUMLEAK(l) + (flobot*deltinc)
+            IF ( irt.EQ.numdelt) SUMLEAK(l) = SUMLEAK(l)/DELT
+          ELSE
+            SUMLEAK(l) = flobot
+          END IF
+          IF ( icalccheck.EQ.1 .AND. irt.EQ.numdelt ) THEN
+            IF ( h.LT.sbot ) THEN
+              fbot = SUMLEAK(l)
+              CALL CALC_UNSAT_INFIL(fbot, UZSEEP(:,l), 
+     +                            UZTHST(:,l),thr, ha, thetas, 
+     +                            epsilon, fks, avhc,depth, sbdthk, 
+     +                            WETPER(:,l),UZWDTH(:,l), flow, 
+     +                            NWAVST(:,l),strlen, iwidthcheck, 
+     +                            icalc)
+            ELSE
+              DO i = 1, ISUZN
+                UZSEEP(i, l) = 0.0D0
+              END DO
+            END IF
           END IF
 C
 C33-----STORE OUTFLOW FROM LAST REACH IN LAST SEGMENT IN STRIN
@@ -3496,9 +3609,9 @@ C35-----ADD FLOW TO STREAM BUDGET OUTFLOW IF FLOW LEAVES ACTIVE MODEL.
               sfrbudg_out = sfrbudg_out + flowot
             END IF
             IF ( flobot .GT. 0.0D0 ) THEN
-              sfrbudg_out = sfrbudg_out + SUMLEAK(l)/DELT
+              sfrbudg_out = sfrbudg_out + SUMLEAK(l)
             ELSE IF ( irt.EQ.numdelt ) THEN
-              sfrbudg_in = sfrbudg_in - SUMLEAK(l)/DELT
+              sfrbudg_in = sfrbudg_in - SUMLEAK(l)
             END IF 
             sfrbudg_in = sfrbudg_in + precip 
             sfrbudg_in = sfrbudg_in + runof + runoff
@@ -3514,7 +3627,8 @@ C         LAKE PACKAGE.
 C
 C37-----ADD RATES TO BUFFERS.
           IF ( icalccheck.EQ.1 .AND. iss.EQ.0 ) THEN
-            CALL UZMASSBAL(lsub, h, hld, thr, thetas, epsilon, fks, 
+            IF ( irt.EQ.numdelt ) THEN
+              CALL UZMASSBAL(lsub, h, hld, thr, thetas, epsilon, fks, 
      +                     UZDPST(:,l), UZTHST(:,l), UZSPST(:,l), 
      +                     UZFLST(:,l), LTRLST(:,l), ITRLST(:,l), 
      +                     UZFLWT(:,l), UZSTOR(:,l), DELSTOR(:,l), 
@@ -3523,8 +3637,9 @@ C37-----ADD RATES TO BUFFERS.
      +                     ir, ic, flobot, sbot, strlen, totflwt, 
      +                     totuzstor, totdelstor, iwidthcheck,
      +                     AVDPT(:,l), AVWAT(:,l), WAT1(:,l), ibd,
-     +                     icalc, deltinc, imassroute, Iunitgage, 
-     +                     gwflow)
+     +                     icalc, DELT, imassroute, Iunitgage, 
+     +                     gwflow,kkper,kkstp)
+            END IF
             FOLDFLBT(l) = flobot
           ELSE
             gwflow = flobot
@@ -3591,8 +3706,8 @@ C         WHEN UNSATURATED FLOW IS ACTIVE.
      +                           STRM(10,l), STRM(11,l), STRM(9,l), 
      +                           SNGL(runof+runoff), SNGL(precip), 
      +                           SNGL(etstr), STRM(15,l), SNGL(depth), 
-     +                           STRM(5,l), STRM(16,l), totflwt/deltinc,
-     +                           totdelstor/deltinc
+     +                           STRM(5,l), STRM(16,l), totflwt/DELT,
+     +                           totdelstor/DELT
               ibdlbl = 1
             END IF
 C
@@ -3607,8 +3722,8 @@ C         WHEN UNSATRATED FLOW IS ACTIVE.
      +                           STRM(10,l), STRM(11,l), STRM(9,l), 
      +                           SNGL(runof+runoff), SNGL(precip), 
      +                           SNGL(etstr), STRM(15,l), SNGL(depth), 
-     +                           STRM(5,l), STRM(16,l), totflwt/deltinc,
-     +                           totdelstor/deltinc
+     +                           STRM(5,l), STRM(16,l), totflwt/DELT,
+     +                           totdelstor/DELT
                 ibstlb = 1
               ELSE
               
@@ -3618,8 +3733,8 @@ C         WHEN UNSATRATED FLOW IS ACTIVE.
      +                           STRM(10,l), STRM(11,l), STRM(9,l), 
      +                           SNGL(runof+runoff), SNGL(precip), 
      +                           SNGL(etstr), STRM(15,l), SNGL(depth), 
-     +                           STRM(5,l), STRM(16,l), totflwt/deltinc,
-     +                           totdelstor/deltinc, SNGL(h)
+     +                           STRM(5,l), STRM(16,l), totflwt/DELT,
+     +                           totdelstor/DELT, SNGL(h)
                 ibstlb = 1
               END IF
             END IF
@@ -3639,6 +3754,14 @@ C45-----RECORD STREAM GAGING STATION DATA (IF SOLUTE TRANSPORT NOT ACTIVE).
      +                        ibd, Nsol)
 C
 C46-----END OF INTERNAL TIME LOOP FOR ROUTING FLOW IN CHANNELS.
+      END DO
+C
+C46Bdep----New loop to compute specified flows from external sources
+Cadded 6/27/2008
+      DO istsg = 1, NSS      
+         IF ( ISEG(3, istsg).EQ.5 .OR. ISEG(3, istsg).EQ.7 ) THEN
+              TOTSPFLOW = TOTSPFLOW + SEG(2, istsg)
+         END IF
       END DO
       IF ( ibd.NE.0 .AND. IPTFLG.LE.0 ) WRITE (IOUT, 9008)
  9004 FORMAT (1X, ///1X, A, '   PERIOD ', I6, '   STEP ', I8, //, 
@@ -3734,7 +3857,7 @@ C     *****************************************************************
 C     CALCULATE ARRAYS OF LAKE STAGE, FLOW, AND THE DERIVATIVE OF
 C     FLOWS FOR STREAM SEGMENTS THAT HAVE INFLOWS DETERMINED BY
 C     LAKE STAGE
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *****************************************************************
       USE GWFSFRMODULE
       IMPLICIT NONE
@@ -3835,7 +3958,7 @@ C-------SUBROUTINE GWF2SFR7DIVERS
       SUBROUTINE GWF2SFR7DIVERS(Iprior, Idivseg, Upflw, Dvrsn)
 C     ******************************************************************
 C     COMPUTES DIVERSIONS FROM AN UPSTREAM SEGMENT
-C     VERSION  7.1: SEPTEMBER 20, 2006   DEP AND RGN
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       IMPLICIT NONE
 C     SPECIFICATIONS:
@@ -3887,7 +4010,7 @@ C-------SUBROUTINE GWF2SFR7UZOT
       SUBROUTINE GWF2SFR7UZOT(Kkstp, Kkper)
 C     ******************************************************************
 C     PRINTS MASS BALANCE FOR ENTIRE UNSATURATED ZONE
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: SFRUZBD
       USE GWFSFRBLK,    ONLY: CLOSEZERO
@@ -4067,7 +4190,7 @@ C-------SUBROUTINE GWF2SFR7DPTH
      +                        Iprndpth)
 C     ******************************************************************
 C     COMPUTE STREAM DEPTH GIVEN FLOW USING 8-POINT CROSS SECTION
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: CONST, XSEC
       USE GWFSFRBLK,    ONLY: NEARZERO
@@ -4243,7 +4366,7 @@ C-------SUBROUTINE GWF2SFR7FLW
      +                       Wetperm, Flow, Totwdth)
 C     *******************************************************************
 C     COMPUTE FLOW IN STREAM GIVEN DEPTH USING 8-POINT CROSS SECTION
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *******************************************************************
       USE GWFSFRMODULE, ONLY: XSEC, CONST
       IMPLICIT NONE
@@ -4386,7 +4509,7 @@ C-------SUBROUTINE GWF2SFR7TBD
       SUBROUTINE GWF2SFR7TBD(Flow, Depth, Width, Nstrpts, Istsg)
 C     *******************************************************************
 C     COMPUTE DEPTH AND WIDTH IN STREAM GIVEN FLOW USING RATING TABLES.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *******************************************************************
       USE GWFSFRMODULE, ONLY: QSTAGE
       IMPLICIT NONE
@@ -4477,7 +4600,7 @@ C-------SUBROUTINE GWF2SFR7TBF
      +                       Kkiter, Itb)
 C     *******************************************************************
 C     COMPUTE FLOW AND WIDTH IN STREAM GIVEN DEPTH USING RATING TABLES.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     *******************************************************************
       USE GWFSFRMODULE, ONLY: QSTAGE
       USE GLOBAL,       ONLY: IOUT
@@ -4582,7 +4705,7 @@ C-------SUBROUTINE SGWF2SFR7RDSEG
      +                          Nischk, Ichk, Kkper, Nsol)
 C     ******************************************************************
 C     READ STREAM SEGMENT DATA -- parameters or non parameters
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NSS, MAXPTS, ISFROPT, IDIVAR, IOTSG, ISEG,
      +                        SEG, XSEC, QSTAGE, CONCQ, CONCRUN, CONCPPT
@@ -4872,7 +4995,7 @@ C-------SUBROUTINE SGWF2SFR7PARMOV
       SUBROUTINE SGWF2SFR7PARMOV(In, Iunitgwt, Nsol)
 C     ******************************************************************
 C     MOVE STREAM PARAMETER DATA INTO ACTIVE SEGMENTS
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: IDIVAR, IOTSG, ISEG, SEG, XSEC, QSTAGE, 
      +                        CONCQ, CONCRUN, CONCPPT, NSEGCK
@@ -5053,7 +5176,7 @@ C-------SUBROUTINE SGWF2SFR7PRSEG
      +                          Iouts)
 C     ******************************************************************
 C     PRINT STREAM SEGMENT DATA -- parameters or non parameters
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: ISFROPT, IDIVAR, IOTSG, ISEG, SEG, XSEC,
      +                        QSTAGE, CONCQ, CONCRUN, CONCPPT
@@ -5184,7 +5307,8 @@ c rgn added else and write statement.
      +                         , SEG(13, nseg), SEG(9, nseg), 
      +                         SEG(14, nseg), SEG(16, nseg)
  9012       FORMAT (I6, 1X, 1P8E10.3, 20X, 1PE10.3)
-          ELSE IF ( ISFROPT.GT.1 .AND. ISFROPT.LT.4 ) THEN
+ ! RGN changed next line to "ISFROPT.GE.1" instead of "ISFROPT.GT.1"
+          ELSE IF ( ISFROPT.GE.1 .AND. ISFROPT.LT.4 ) THEN
             WRITE (IOUT, 9013) nn, SEG(9, nseg), SEG(14, nseg), 
      +                         SEG(16, nseg)
  9013       FORMAT (I6, 3X, 1P2E10.3, 21X, 1PE10.3)
@@ -5455,7 +5579,7 @@ C-------SUBROUTINE CALC_UNSAT_INFIL written by RGN, MAY 24, 2004
      +                            Strlen, Iwidthcheck, Icalc)
 C     ******************************************************************
 C     DEFINE UNSATURATED CELLS TO ACCOMMODATE STREAM LOSS.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: ISUZN, NSTOTRL
       IMPLICIT NONE
@@ -5556,18 +5680,18 @@ C-------SUBROUTINE UZMASSBAL written MAY 24, 2004
      +                     Il, Ir, Ic, Flobot, Sbot, Strlen, Totflwt, 
      +                     Totuzstor, Totdelstor, Iwidthcheck, Avdpt, 
      +                     Avwat, Wat1, Ibd, Icalc, Deltinc, Imassroute,
-     +                     Iunitgage, Gwflow)
+     +                     Iunitgage, Gwflow,kkper,kkstp)
 !rsr unused arguments Kkper, Kkstp, Irt
 C     ******************************************************************
 C     COMPUTE INFLOW, OUTFLOW, AND CHANGE IN STORAGE IN UNSATURATED
 C     ZONE BENEATH STREAMBED.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: ISUZN,NSTOTRL,NUMAVE,STRM,ITRLSTH,SFRUZBD,
      +                        SUMLEAK,SUMRCH
       USE GWFSFRBLK,    ONLY: NEARZERO, CLOSEZERO
-      USE GLOBAL,       ONLY: BUFF
-      USE GWFBASMODULE, ONLY: DELT
+      USE GLOBAL,       ONLY: BUFF,IOUT
+!      USE GWFBASMODULE, ONLY: DELT
       IMPLICIT NONE
       INTRINSIC ABS, DABS
 C     ------------------------------------------------------------------
@@ -5577,7 +5701,7 @@ C     ARGUMENTS
 C     ------------------------------------------------------------------
       INTEGER L, Il, Ir, Ic, Iwidthcheck, Ibd, Icalc, Imassroute
       INTEGER Nwavst(ISUZN), Itrlst(NSTOTRL), Ltrlst(NSTOTRL)
-      INTEGER Iunitgage
+      INTEGER Iunitgage,kkper,kkstp
       REAL Fks, Strlen, Deltinc, Avdpt(NUMAVE), Avwat(NUMAVE),
      +     Wat1(NUMAVE)
       DOUBLE PRECISION Uzwdth(ISUZN), Uzflwt(ISUZN), Uzolsflx(ISUZN),
@@ -5616,7 +5740,6 @@ C
       fluxdif = 0.0D0
       iflag = 0
       iset = 1
-      SUMLEAK(L) = SUMLEAK(L) + Flobot*Deltinc
       ntotuzn = NSTOTRL/ISUZN
       IF ( Icalc.EQ.2 ) THEN
         iuznhold = ISUZN
@@ -5642,13 +5765,13 @@ C1A---- NO UNSATURATED ZONE
         END DO
         IF ( Imassroute.EQ.1 ) THEN
           IF ( Flobot.LT.0.0D0 ) THEN
-            Ratout = Ratout - SUMLEAK(L)/DELT
-            SFRUZBD(9) = SFRUZBD(9) - SUMLEAK(L)/DELT
+            Ratout = Ratout - SUMLEAK(L)
+            SFRUZBD(9) = SFRUZBD(9) - SUMLEAK(L)
           ELSE
-            Ratin = Ratin + SUMLEAK(L)/DELT
-            SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)/DELT
+            Ratin = Ratin + SUMLEAK(L)
+            SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)
           END IF
-           Gwflow = SUMLEAK(L)/DELT
+           Gwflow = SUMLEAK(L)
            BUFF(Ic, Ir, Il) = BUFF(Ic, Ir, Il) + Gwflow
         END IF
 C
@@ -5677,7 +5800,8 @@ C         STORAGE WHEN WATER TABLE RISES TO ELEVATION OF STREAMBED.
         CALL ROUTWAVESST(L, seep, H, Hld, Thr, Thetas, Fks, Epsilon, 
      +                   Iwidthcheck, strtop, Icalc, Nwavst, Uzwdth, 
      +                   Uzflwt, Uzolsflx, Uzseep, Itrlst, Ltrlst, 
-     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc)
+     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc,kkper, 
+     +                   kkstp)
         iset = 1
         DO kk = 1, iuznhold
           loop(kk) = 0
@@ -5720,22 +5844,22 @@ C         STORAGE WHEN WATER TABLE RISES TO ELEVATION OF STREAMBED.
         STRM(29,L) = STRM(29,L) + Totdelstor
         IF ( Imassroute.EQ.1 ) THEN
           IF ( Flobot.LT.0.0D0 ) THEN
-            Ratout = Ratout - SUMLEAK(L)/DELT
-            Ratin = Ratin + SUMRCH(L)/DELT
+            Ratout = Ratout - SUMLEAK(L)
+            Ratin = Ratin + SUMRCH(L)/deltinc
             SFRUZBD(2) = SFRUZBD(2) - SUMRCH(L)
             SFRUZBD(3) = SFRUZBD(3) + SUMRCH(L)
-            SFRUZBD(5) = SFRUZBD(5) - SUMRCH(L)/DELT
-            SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/DELT
-            SFRUZBD(9) = SFRUZBD(9) - SUMLEAK(L)/DELT           
+            SFRUZBD(5) = SFRUZBD(5) - SUMRCH(L)/deltinc
+            SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/deltinc
+            SFRUZBD(9) = SFRUZBD(9) - SUMLEAK(L)           
           ELSE
-            Ratin = Ratin + SUMLEAK(L)/DELT + SUMRCH(L)/DELT
+            Ratin = Ratin + SUMLEAK(L) + SUMRCH(L)/deltinc
             SFRUZBD(2) = SFRUZBD(2) - SUMRCH(L)
             SFRUZBD(3) = SFRUZBD(3) + SUMRCH(L)
-            SFRUZBD(5) = SFRUZBD(5) - SUMRCH(L)/DELT
-            SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/DELT
-            SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)/DELT
+            SFRUZBD(5) = SFRUZBD(5) - SUMRCH(L)/deltinc
+            SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/deltinc
+            SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)
           END IF
-          Gwflow = SUMLEAK(L)/DELT + SUMRCH(L)/DELT
+          Gwflow = SUMLEAK(L) + SUMRCH(L)/deltinc
           BUFF(Ic, Ir, Il) = BUFF(Ic, Ir, Il) + Gwflow
         END IF
 C
@@ -5756,24 +5880,25 @@ C         WHEN WATER TABLE REMAINS BELOW STREAMBED ELEVATION.
         END DO 
         STRM(29,L) = 0.0
         IF ( Imassroute.EQ.1 ) THEN
-          Ratin = Ratin + SUMRCH(L)/DELT
-          Gwflow = SUMRCH(L)/DELT
+          Ratin = Ratin + SUMRCH(L)/deltinc
+          Gwflow = SUMRCH(L)/deltinc
           BUFF(Ic, Ir, Il) = BUFF(Ic, Ir, Il) + Gwflow
-          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)
+          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)*deltinc
           SFRUZBD(2) = SFRUZBD(2) + STRM(29,L)
           SFRUZBD(3) = SFRUZBD(3) + SUMRCH(L)
-          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)/DELT
-          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/DELT
-          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/DELT
-          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)/DELT
-          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)/DELT
+          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)
+          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/deltinc
+          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/deltinc
+          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)
+          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)
         END IF
 C
       ELSE IF ( htest1.LT.-CLOSEZERO .AND. htest2.LT.-CLOSEZERO ) THEN
         CALL ROUTWAVESST(L, seep, H, Hld, Thr, Thetas, Fks, Epsilon, 
      +                   Iwidthcheck, strtop, Icalc, Nwavst, Uzwdth, 
      +                   Uzflwt, Uzolsflx, Uzseep, Itrlst, Ltrlst, 
-     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc)
+     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc,kkper, 
+     +                   kkstp)
         DO kk = 1, iuznhold
           loop(kk) = 0
         END DO
@@ -6057,17 +6182,17 @@ C         WATER LEVEL DROPS.
         SUMRCH(L) = SUMRCH(L) + Totflwt
         STRM(29,L) = STRM(29,L) + Totdelstor
         IF ( Imassroute.EQ.1 ) THEN
-          Gwflow = SUMRCH(L)/DELT
+          Gwflow = SUMRCH(L)/deltinc
           Ratin = Ratin + Gwflow
           BUFF(Ic, Ir, Il) = BUFF(Ic, Ir, Il) + Gwflow
-          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)
+          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)*deltinc
           SFRUZBD(2) = SFRUZBD(2) + STRM(29,L)
           SFRUZBD(3) = SFRUZBD(3) + SUMRCH(L)
-          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)/DELT
-          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/DELT
-          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/DELT
-          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)/DELT
-          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)/DELT
+          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)
+          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/deltinc
+          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/deltinc
+          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)
+          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)
           SFRUZBD(10) = SFRUZBD(10) + Totuzstor
         END IF
 C
@@ -6091,7 +6216,8 @@ C         BELOW STREAMBED.
         CALL ROUTWAVESST(L, seep, H, Hld, Thr, Thetas, Fks, Epsilon, 
      +                   Iwidthcheck, Sbot, Icalc, Nwavst, Uzwdth, 
      +                   Uzflwt, Uzolsflx, Uzseep, Itrlst, Ltrlst, 
-     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc)
+     +                   Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc,kkper, 
+     +                   kkstp)
         DO kk = 1, iuznhold
           loop(kk) = 0
         END DO
@@ -6129,17 +6255,17 @@ C
 C15-----UPDATE RATES AND BUFFERS.
 C
         IF ( Imassroute.EQ.1 ) THEN
-          Gwflow = SUMRCH(L)/DELT
+          Gwflow = SUMRCH(L)/deltinc
           Ratin = Ratin + Gwflow
           BUFF(Ic, Ir, Il) = BUFF(Ic, Ir, Il) + Gwflow
-          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)
+          SFRUZBD(1) = SFRUZBD(1) + SUMLEAK(L)*deltinc
           SFRUZBD(2) = SFRUZBD(2) + STRM(29,L)
           SFRUZBD(3) = SFRUZBD(3) + SUMRCH(L)
-          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)/DELT
-          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/DELT
-          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/DELT
-          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)/DELT
-          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)/DELT
+          SFRUZBD(4) = SFRUZBD(4) + SUMLEAK(L)
+          SFRUZBD(5) = SFRUZBD(5) + STRM(29,L)/deltinc
+          SFRUZBD(6) = SFRUZBD(6) + SUMRCH(L)/deltinc
+          SFRUZBD(7) = SFRUZBD(7) + SUMLEAK(L)
+          SFRUZBD(8) = SFRUZBD(8) + SUMLEAK(L)
           SFRUZBD(10) = SFRUZBD(10) + Totuzstor
         END IF
       END IF
@@ -6206,16 +6332,17 @@ C-------SUBROUTINE ROUTWAVESIT
      +                       Icalc, Nwavst, Uzwdth, Uzflwt, Uzolsflx, 
      +                       Uzseep, Itrlst, Ltrlst, Uzspst, Uzflst, 
      +                       Uzdpst, Uzthst, Itrlit, Ltrlit, Uzspit, 
-     +                       Uzflit, Uzdpit, Uzthit, Deltinc, Sbot)
+     +                       Uzflit, Uzdpit, Uzthit, Deltinc, Sbot,
+     +                       kkper, kkstp)
 C     ******************************************************************
 C     ROUTE UNSATURATED ZONE WAVES DURING MODEL ITERATIONS
 C     CALLED FROM SUBROUTINE GWF2SFR7FM
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
 C
       USE GWFSFRMODULE, ONLY: NSTOTRL, ISUZN, STRM
       USE GWFSFRBLK,    ONLY: CLOSEZERO
-C      USE GLOBAL,       ONLY: IOUT
+      USE GLOBAL,       ONLY: IOUT
       IMPLICIT NONE
 C     ------------------------------------------------------------------
 C     SPECIFICATIONS:
@@ -6236,7 +6363,8 @@ C     ------------------------------------------------------------------
 C     ------------------------------------------------------------------
 C     LOCAL VARIABLES
 C     ------------------------------------------------------------------
-      INTEGER i, ick, iset, iwav, numwaves, iuzntemp, ntotuzn
+      INTEGER i, ick, iset, iwav, numwaves, iuzntemp, ntotuzn, kkper,
+     +        kkstp
       DOUBLE PRECISION dlength, zoldist, totflux, surflux, oldsflx, 
      +                 htest2
 C     -----------------------------------------------------------------
@@ -6305,15 +6433,16 @@ C-------SUBROUTINE ROUTWAVESST
       SUBROUTINE ROUTWAVESST(L, Seep, H, Hld, Thr, Thetas, Fks, Epsilon,
      +                       Iwidthcheck, Sbot, Icalc, Nwavst, Uzwdth, 
      +                       Uzflwt, Uzolsflx, Uzseep, Itrlst, Ltrlst, 
-     +                       Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc)
+     +                       Uzspst, Uzflst, Uzdpst, Uzthst, Deltinc,
+     +                       kkper, kkstp)
 C     ******************************************************************
 C     ROUTE UNSATURATED-ZONE WAVES AFTER FINAL ITERATION
 C     CALLED FROM SUBROUTINE GWF2SFR7BD
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NSTOTRL, ISUZN, STRM
       USE GWFSFRBLK,    ONLY: NEARZERO
-C      USE GLOBAL,       ONLY: IOUT
+      USE GLOBAL,       ONLY: IOUT
       IMPLICIT NONE
       INTRINSIC DABS
 C     ------------------------------------------------------------------
@@ -6332,7 +6461,7 @@ C     ------------------------------------------------------------------
 C     ------------------------------------------------------------------
 C     LOCAL VARIABLES
 C     ------------------------------------------------------------------
-      INTEGER i, ick, iset, numwaves, iuzntemp
+      INTEGER i, ick, iset, numwaves, iuzntemp, kkper, kkstp
       DOUBLE PRECISION dlength, zoldist, totflux, surflux, oldsflx
 C     -----------------------------------------------------------------
 C
@@ -6387,7 +6516,7 @@ C-------SUBROUTINE UZFLOW
      +                  Jpnt, Deltinc)
 C     ******************************************************************
 C     WAVE INTERACTION WITHIN AN UNSATURATED FLOW COMPARTMENT
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NSTOTRL, NSFRSETS, NSTRAIL
       USE GWFSFRBLK,    ONLY: THETAB, FLUXB
@@ -6546,7 +6675,7 @@ C-------SUBROUTINE LEADWAVE
      +                    Feps2, Itrailflg, Deltinc)
 C     ******************************************************************
 C     CREATE LEAD WAVE WHEN THE SURFACE FLUX INCREASES AND ROUTE WAVES.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
 C
       USE GWFSFRMODULE, ONLY: NSTOTRL
@@ -7016,7 +7145,7 @@ C-------SUBROUTINE TRAILWAVE
      +                     Surflux, Jpnt)
 C     ******************************************************************
 C     INITIALIZE A NEW SET OF TRAIL WAVES WHEN SURFACE FLUX DECREASES.
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NSTOTRL, NSTRAIL, NSFRSETS
       USE GWFSFRBLK
@@ -7121,7 +7250,7 @@ C-------SUBROUTINE CHANNELAREA
 C     ******************************************************************
 C     COMPARTMENTALIZE UNSATURATED ZONE BENEATH STREAMBED ON BASIS OF 
 C     EIGHT POINT CROSS SECTION WHEN ICALC IS 2
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C     ******************************************************************
       USE GWFSFRMODULE, ONLY: NUZST, ISUZN, XSEC, WETPER
       IMPLICIT NONE
@@ -7262,7 +7391,7 @@ C-------SUBROUTINE ROUTE_CHAN
      +                      Nreach, Itstr, Qlat, Flobot, Width, L)
 C***********************************************************************
 C     IMPLICIT FINITE-DIFFERENCE SCHEME TO ROUTE FLOW DOWN CHANNELS 
-C     VERSION  7.1: JUNE 29, 2006
+C     VERSION  7.1.01: February 15, 2009
 C***********************************************************************
       USE GWFSFRMODULE, ONLY: ISEG, WEIGHT, SEG, FLWTOL
       USE GLOBAL,       ONLY: IOUT 
@@ -7413,8 +7542,9 @@ C8------EXIT LOOP IF delq LESS THAN TOLERANCE.
       END DO CONVERGE
 !      IF ( Qc+Qlat+(Qa-Qb)-flobot.LT.NEARZERO .AND. 
 !     +      flobot.GT.0.0D0 ) Qd = 0.0
-      IF ( i.GE.maxiter ) WRITE(IOUT,*) 'non-convergence in ROUTE_CHAN',
+      IF ( i.GE.maxiter ) WRITE(IOUT,*) 'Non-convergence in ROUTE_CHAN',
      +                                  L, delq
+      IF ( Qd.LT.tol ) tol = 0.0D0
 C
 C9------RETURN.
       RETURN
@@ -7516,6 +7646,7 @@ C     ------------------------------------------------------------------
       DEALLOCATE (GWFSFRDAT(IGRID)%HLDSFR)
       DEALLOCATE (GWFSFRDAT(IGRID)%STRMDELSTOR_CUM)
       DEALLOCATE (GWFSFRDAT(IGRID)%STRMDELSTOR_RATE)
+      DEALLOCATE (GWFSFRDAT(IGRID)%TOTSPFLOW)
 C
       END SUBROUTINE GWF2SFR7DA
 C
@@ -7615,6 +7746,7 @@ C     ------------------------------------------------------------------
       HLDSFR=>GWFSFRDAT(IGRID)%HLDSFR
       STRMDELSTOR_CUM=>GWFSFRDAT(IGRID)%STRMDELSTOR_CUM
       STRMDELSTOR_RATE=>GWFSFRDAT(IGRID)%STRMDELSTOR_RATE
+      TOTSPFLOW=>GWFSFRDAT(IGRID)%TOTSPFLOW     
 C
       END SUBROUTINE SGWF2SFR7PNT
 C
@@ -7714,5 +7846,6 @@ C     ------------------------------------------------------------------
       GWFSFRDAT(IGRID)%HLDSFR=>HLDSFR
       GWFSFRDAT(IGRID)%STRMDELSTOR_CUM=>STRMDELSTOR_CUM
       GWFSFRDAT(IGRID)%STRMDELSTOR_RATE=>STRMDELSTOR_RATE
+      GWFSFRDAT(IGRID)%TOTSPFLOW=>TOTSPFLOW
 C
       END SUBROUTINE SGWF2SFR7PSV

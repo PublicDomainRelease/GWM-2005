@@ -1,21 +1,21 @@
                                   MODFLOW-2005     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                VERSION MF2005_GWM 1.0.1 081108,FROM MF05V1.5.00
+                 VERSION MF2005_GWM 1.1 061209,FROM MF05V1.6.02
 
 
- REWOUND ..\data\dewater.dis
+ REWOUND ..\data\DEWATERMB\dewater.dis
  FILE TYPE:DIS   UNIT   11
 
- REWOUND ..\data\dewater.ba6
+ REWOUND ..\data\DEWATERMB\dewater.ba6
  FILE TYPE:BAS6   UNIT   12
 
- REWOUND ..\data\dewater.bc6
+ REWOUND ..\data\DEWATERMB\dewater.bc6
  FILE TYPE:BCF6   UNIT   13
 
- REWOUND ..\data\dewater.pcg
+ REWOUND ..\data\DEWATERMB\dewater.pcg
  FILE TYPE:PCG   UNIT   14
 
- REWOUND ..\data\dewatermb.gwm
+ REWOUND ..\data\DEWATERMB\dewatermb.gwm
  FILE TYPE:GWM   UNIT   15
 
  BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   12
@@ -386,6 +386,6 @@
          TOTAL TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2008/09/02  7:59:11
- Elapsed run time:  1.182 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2009/06/11  8:02:37
+ Elapsed run time:  1.109 Seconds
 

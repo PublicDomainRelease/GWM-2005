@@ -3,8 +3,8 @@ C     VERSION: 12AUG2007
       IMPLICIT NONE
       PRIVATE
       PUBLIC::STCNUM,STCSTATE,STCSTATE0,NSF,NSD
-      PUBLIC::GWM1STC2AR,GWM1STC2OS,GWM1STC2FP,GWM1STC2FPR,GWM1STC2FM,
-     &        GWM1STC2OT
+      PUBLIC::GWM1STC2AR,GWM1STC2OS2,GWM1STC2OS,GWM1STC2FP,GWM1STC2FPR,
+     &        GWM1STC2FM,GWM1STC2OT
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
       INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
@@ -49,6 +49,7 @@ C***********************************************************************
 C   PURPOSE: READ INPUT FROM THE STREAM CONSTRAINTS FILE
 C-----------------------------------------------------------------------
       USE GWM1RMS2, ONLY : IREF
+      USE GLOBAL  , ONLY : IUNIT
       CHARACTER(LEN=200),INTENT(IN)::FNAME
       INTEGER(I4B),INTENT(INOUT)::NCON,NRMC,NV
       INTEGER(I4B),INTENT(IN)::IOUT,NPER
@@ -78,6 +79,11 @@ C-----LOCAL VARIABLES
       INTEGER(I4B)::NUNOPN=99
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
+C-----CHECK THAT SFR AND STR PACKAGES ARE NOT BOTH ACTIVE            
+      IF(IUNIT(18).GT.0 .AND. IUNIT(44).GT.0)THEN ! STR AND SFR ACTIVE
+        WRITE(IOUT,2000,ERR=990)                 ! GWM DOES NOT ALLOW THIS
+        CALL USTOP(' ')                          ! SO STOP THE RUN
+      ENDIF
 C1----OPEN FILE
       LOCAT=NUNOPN
       WRITE(IOUT,1000,ERR=990) LOCAT,FNAME
@@ -90,7 +96,7 @@ C-----READ IPRN
       LLOC=1
       CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IPRN,RDUM,IOUT,LOCAT)
       IF(IPRN.NE.0 .AND. IPRN.NE.1)THEN
-        WRITE(IOUT,2000,ERR=990)IPRN
+        WRITE(IOUT,2010,ERR=990)IPRN
         CALL USTOP(' ')
       ENDIF
 C
@@ -194,7 +200,9 @@ CX----CLOSE FILE
 C
  1000 FORMAT(1X,/1X,'OPENING STREAMFLOW CONSTRAINTS FILE',/,
      1  ' ON UNIT ',I4,':',/1X,A200)
- 2000 FORMAT(1X,/1X,'PROGRAM STOPPED. IPRN MUST BE EQUAL TO 0 OR 1: ',
+ 2000 FORMAT(1X,/1X,'PROGRAM STOPPED. BOTH SFR AND ',
+     1  'STR PACKAGE ACTIVE ')
+ 2010 FORMAT(1X,/1X,'PROGRAM STOPPED. IPRN MUST BE EQUAL TO 0 OR 1: ',
      1  I4)
  3000 FORMAT(/,1X,'NUMBER OF STREAMFLOW (NSF) AND STREAMFLOW-',
      1  'DEPLETION',/,' CONSTRAINTS (NSD) ARE ',I5,' AND ',I5,' ,',
@@ -270,7 +278,7 @@ C***********************************************************************
       SUBROUTINE GWM1STC2OS(KPER)
 C***********************************************************************
 C  VERSION: 10AUG2007
-C  PURPOSE: ASSIGN COMPUTED STREAMFLOW VALUES TO STATE ARRAY
+C  PURPOSE: ASSIGN COMPUTED STREAMFLOW VALUES TO STATE ARRAY FOR STR PACKAGE
 C-----------------------------------------------------------------------
       USE GWFSTRMODULE, ONLY: NSTREM, STRM, ISTRM, MXSTRM
       INTEGER(I4B),INTENT(IN)::KPER
@@ -296,6 +304,37 @@ C         STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED 
 C
       RETURN
       END SUBROUTINE GWM1STC2OS
+C
+C***********************************************************************
+      SUBROUTINE GWM1STC2OS2(KPER)
+C***********************************************************************
+C  VERSION: 08JUNE2009
+C  PURPOSE: ASSIGN COMPUTED STREAMFLOW VALUES TO STATE ARRAY FROM SFR PACKAGE
+C-----------------------------------------------------------------------
+      USE GWFSFRMODULE, ONLY: NSTRM, STRM, ISTRM
+      INTEGER(I4B),INTENT(IN)::KPER
+C-----LOCAL VARIABLES
+      INTEGER(I4B)::I,ISEG,IREC,J,LOC
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      DO 100 I= 1,NSF+NSD 
+        IF(KPER.EQ.STCSP(I)) THEN              ! CONSTRAINT ACTIVE THIS SP
+          ISEG = STCSLOC(I)                    ! STREAM SEGMENT FOR CONSTRAINT
+          IREC = STCRLOC(I)                    ! STREAM REACH FOR CONSTRAINT
+          DO 80 J = 1,NSTRM
+            IF(ISTRM(4,J).EQ.ISEG .AND. ISTRM(5,J).EQ.IREC)THEN
+              LOC = J                            ! THIS CONSTRAINT AT LOC
+              GOTO 90
+            ENDIF
+   80     ENDDO
+          GOTO 100
+   90     CONTINUE
+C         STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED THIS
+          STCSTATE(I) = STRM(9,LOC)              ! LOAD STREAMFLOW VALUE
+        ENDIF
+  100 ENDDO
+C
+      RETURN
+      END SUBROUTINE GWM1STC2OS2
 C
 C
 C***********************************************************************

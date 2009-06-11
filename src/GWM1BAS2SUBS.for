@@ -23,7 +23,7 @@ C***********************************************************************
       SUBROUTINE GWM1BAS2AR(IN,IOUT,NROW,NCOL,NLAY,NPER,
      1                      PERLEN,HCLOSE,VERSION,MFVNAM)
 C***********************************************************************
-C     VERSION: 07AUG2007
+C     VERSION: 11JUN2009
 C     PURPOSE: READ AND PREPARE ALL INFORMATION FOR GWM
 C-----------------------------------------------------------------------
       USE GWM1BAS2, ONLY : GWMOUT,SMALLEPS
@@ -186,7 +186,7 @@ C-----DONE READING IN INPUT DATA
 C
  1000 FORMAT (/,34X,'MODFLOW',A,/,
      &4X,'U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE',
-     &' GROUND-WATER FLOW MODEL',/,29X,'Version ',A/)
+     &' GROUND-WATER FLOW MODEL',/,17X,'Version ',A/)
  1010 FORMAT(/,/,1X,/1X,'OPENING GWM FILE FOR GWM1 -- GROUND-WATER ',
      1  'MANAGEMENT PROCESS',/,' INPUT READ FROM UNIT',I4,/)
  1030 FORMAT(1X,/1X,'PROGRAM STOPPED. USER MUST SPECIFY A',

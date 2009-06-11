@@ -5,6 +5,41 @@ release.txt
      This file describes changes introduced into MF2005_GWM with each
 official release.
 
+
+Version 1.1; 8 June 2009
+	This version of the code is built from MODFLOW-2005 version 1.6.02.
+
+	Add to the STC package the capability to process streamflow constraints
+		represented by either the STR or SFR packages.  Create new 
+		subroutine GWM1STC2OS2.  Impose requirement that both 
+		STR and SFR packages can not be active in the flow process.
+                See file 'SFR_update.pdf' in the \doc directory for details on
+                how to use the SFR Package with MF2005_GWM.
+
+        Correct an output bug that caused incorrect values of the external 
+		and binary variables to be used when writing the output file 
+		for the base runs when the SLP option is used.  Changes made 
+		in GWM1RMS3OT and GWM1SMC3OT.
+
+	Simplify code arrangement in GWM1SMC3OT and GWM1OBJ3FM without changing
+		any functionality.
+
+	Correct a bug that might allow referencing of an array beyond its 
+		bound in loop 120 of SGWM1RMS3AP.
+
+	Add a continuation line feature for BVLIST in GWM1DCV3AR so that 
+		multiple lines can be read if the preceding line ends with &.
+
+	Correct bug in GWM1PSIMPLEX1 that caused an incorrect count on the 
+		number of slack variables passed to the LP solver for the case 
+		when a summation constraint contains binary variables and is 
+		specified as an equality constraint.
+
+	Add code to GWM1PSIMPLEX1 to set relaxed binary variables to zero 
+		if they are implicitly fixed by constraints that only contain 
+		binary variables and that are already binding.  
+
+
 Version 1.0.1; 8 August 2008
 	Add modification to MF2005_GWM main program to pass HDRY to 
 		GWM...OS routines. 

@@ -1,8 +1,0 @@
-#DEWATER Sample Problem, GWM file
-#August 12, 2007
-OUT     dewater.gwmout
-DECVAR  ..\data\dewater.decvar
-OBJFNC  ..\data\dewater.objfnc
-VARCON  ..\data\dewater.varcon
-HEDCON  ..\data\dewater.hedcon
-SOLN    ..\data\dewater.soln

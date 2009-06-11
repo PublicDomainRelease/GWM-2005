@@ -406,7 +406,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1OBJ2FM
 C***********************************************************************
-C     VERSION: 20FEB2005
+C     VERSION: 08JUN2009
 C     PURPOSE: LOAD OBJECTIVE COEFFICIENTS INTO THE COST VECTOR
 C-----------------------------------------------------------------------
       USE GWM1DCV2, ONLY : NFVAR,NEVAR,NBVAR,FVNAME,EVNAME,BVNAME
@@ -414,30 +414,21 @@ C-----------------------------------------------------------------------
       INTEGER(I4B)::I,ICST
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
-      IF(OBJTYP.EQ.'MIN')THEN
-        DO 100 I=1,NFVAR
-          CST(I) =  REAL(FVOBJC(I),DP)           ! LOAD FLOW VARIABLE COSTS
-  100   ENDDO
-        ICST = NFVAR
-        DO 110 I=1,NEVAR
-          CST(ICST+I) = REAL(EVOBJC(I),DP)       ! LOAD EXTERNAL VARIABLE COSTS
-  110   ENDDO
-        ICST = NFVAR+NEVAR
-        DO 120 I=1,NBVAR
-          CST(ICST+I) = REAL(BVOBJC(I),DP)       ! LOAD BINARY VARIABLE COSTS
-  120   ENDDO
-      ELSEIF(OBJTYP.EQ.'MAX')THEN                ! CONVERT TO MINIMIZATION
-        DO 200 I=1,NFVAR
-          CST(I) = -(REAL(FVOBJC(I),DP))         ! LOAD FLOW VARIABLE COSTS
-  200   ENDDO
-        ICST = NFVAR
-        DO 210 I=1,NEVAR
-          CST(ICST+I) = -(REAL(EVOBJC(I),DP))    ! LOAD EXTERNAL VARIABLE COSTS
-  210   ENDDO
-        ICST = NFVAR+NEVAR
-        DO 220 I=1,NBVAR
-          CST(ICST+I) = -(REAL(BVOBJC(I),DP))    ! LOAD BINARY VARIABLE COSTS
-  220   ENDDO
+      DO 100 I=1,NFVAR
+        CST(I) =  REAL(FVOBJC(I),DP)             ! LOAD FLOW VARIABLE COSTS
+  100 ENDDO
+      ICST = NFVAR
+      DO 110 I=1,NEVAR
+        CST(ICST+I) = REAL(EVOBJC(I),DP)         ! LOAD EXTERNAL VARIABLE COSTS
+  110 ENDDO
+      ICST = NFVAR+NEVAR
+      DO 120 I=1,NBVAR
+        CST(ICST+I) = REAL(BVOBJC(I),DP)         ! LOAD BINARY VARIABLE COSTS
+  120 ENDDO
+C
+C-----SWITCH SIGN OF OBJ IF MAXIMIZATION
+      IF(OBJTYP.EQ.'MAX')THEN                    ! CONVERT TO MINIMIZATION
+         CST = -CST
       ENDIF
 C
       RETURN

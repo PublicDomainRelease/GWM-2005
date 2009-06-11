@@ -1,0 +1,12 @@
+LIST    10   supply2.lst
+DIS     11   ..\data\SUPPLY2\supply2.dis
+BAS6    12   ..\data\SUPPLY2\supply2.ba6
+BCF6    13   ..\data\SUPPLY2\supply2.bc6
+RCH     15   ..\data\SUPPLY2\supply2.rch
+#STR     16   ..\data\SUPPLY2\supply2.str
+SFR     16   ..\data\SUPPLY2\supply2.sfr
+OC      17   ..\data\SUPPLY2\supply2.oc
+PCG     18   ..\data\SUPPLY2\supply2.pcg
+GWM     19   ..\data\SUPPLY2\supply2.gwm
+DATA    81   ..\data\SUPPLY2\supply2.sfrout
+

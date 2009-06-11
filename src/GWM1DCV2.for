@@ -349,9 +349,16 @@ C
 C---------READ DECISION VARIABLES ASSOCIATED WITH BINARY VARIABLE
           DO 440 JJ=1,TNPV
             CALL URWORD(LINE,LLOC,INMVS,INMVF,0,NDUM,RDUM,IOUT,LOCAT)
+            TFVNAME=LINE(INMVS:INMVF)            ! GRAB THE NAME
+            IF (TFVNAME.EQ.'&') THEN             ! IF THE NAME IS &
+              READ(LOCAT,'(A)',ERR=991)LINE      ! BVLIST CONTINUES
+              LLOC=1                             ! TO A NEW LINE
+              CALL URWORD(LINE,LLOC,INMVS,INMVF,0,NDUM,RDUM,
+     &                        IOUT,LOCAT)
+	        TFVNAME=LINE(INMVS:INMVF)          ! GRAB NAME ON NEW LINE
+            ENDIF	   
 C
 C-----------PROCESS THE ASSOCIATED VARIABLE
-            TFVNAME=LINE(INMVS:INMVF)
             NFOUND=.TRUE.
             DO 420 I=1,NFVAR
               IF(FVNAME(I).EQ.TFVNAME)THEN

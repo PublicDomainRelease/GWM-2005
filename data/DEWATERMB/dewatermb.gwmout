@@ -1,7 +1,7 @@
 
                                   MODFLOW-2005     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                             Version MF2005_GWM 1.0.1 081108,FROM MF05V1.5.00
+                 Version MF2005_GWM 1.1 061209,FROM MF05V1.6.02  
 
 
 
@@ -13,7 +13,7 @@
  #August 12, 2007                                                                                                                                                                                        
 
  OPENING DECISION-VARIABLE FILE ON UNIT   99:
- ..\data\dewatermb.decvar                                                                                                                                                                                
+ ..\data\DEWATERMB\dewatermb.decvar                                                                                                                                                                      
  #DEWATER Sample Problem, DECVAR file
  #August 14, 2006
 
@@ -66,7 +66,7 @@
 
 
  OPENING OBJECTIVE-FUNCTION FILE ON UNIT   99:
- ..\data\dewatermb.objfnc                                                                                                                                                                                
+ ..\data\DEWATERMB\dewatermb.objfnc                                                                                                                                                                      
  #DEWATER Sample Problem, OBJFNC file
  #February 20, 2005
 
@@ -91,7 +91,7 @@
 
  OPENING DECISION-VARIABLE CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\dewatermb.varcon                                                                                                                                                                                
+ ..\data\DEWATERMB\dewatermb.varcon                                                                                                                                                                      
  #DEWATER Sample Problem, VARCON file
  #February 20, 2005
 
@@ -140,7 +140,7 @@
 
  OPENING HEAD CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\dewater.hedcon                                                                                                                                                                                  
+ ..\data\DEWATERMB\dewater.hedcon                                                                                                                                                                        
  #DEWATER Sample Problem, HEDCON file
  #February 20, 2005
 
@@ -166,7 +166,7 @@
 
  OPENING SUMMATION CONSTRAINTS FILE
  ON UNIT   99:
- ..\data\dewatermb.sumcon                                                                                                                                                                                
+ ..\data\DEWATERMB\dewatermb.sumcon                                                                                                                                                                      
  #DEWATER Sample Problem, SUMCON file
  #February 20, 2005
 
@@ -187,7 +187,7 @@
 
 
  OPENING SOLUTION FILE ON UNIT   99:
- ..\data\dewatermb.soln                                                                                                                                                                                  
+ ..\data\DEWATERMB\dewatermb.soln                                                                                                                                                                        
  #DEWATER Sample Problem, SOLN file
  #February 20, 2005
 

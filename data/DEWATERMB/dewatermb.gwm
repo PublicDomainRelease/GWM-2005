@@ -1,0 +1,9 @@
+#DEWATER Sample Problem, GWM file
+#August 12, 2007
+OUT     dewatermb.gwmout
+DECVAR  ..\data\DEWATERMB\dewatermb.decvar
+OBJFNC  ..\data\DEWATERMB\dewatermb.objfnc
+VARCON  ..\data\DEWATERMB\dewatermb.varcon
+HEDCON  ..\data\DEWATERMB\dewater.hedcon
+SUMCON  ..\data\DEWATERMB\dewatermb.sumcon
+SOLN    ..\data\DEWATERMB\dewatermb.soln

@@ -1,31 +1,34 @@
                                   MODFLOW-2005     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                VERSION MF2005_GWM 1.0.1 081108,FROM MF05V1.5.00
+                 VERSION MF2005_GWM 1.1 061209,FROM MF05V1.6.02
 
 
- REWOUND ..\data\seawater.dis
+ REWOUND ..\data\SEAWATER\seawater.dis
  FILE TYPE:DIS   UNIT   11
 
- REWOUND ..\data\seawater.ba6
+ REWOUND ..\data\SEAWATER\seawater.ba6
  FILE TYPE:BAS6   UNIT   12
 
- REWOUND ..\data\seawater.bc6
+ REWOUND ..\data\SEAWATER\seawater.bc6
  FILE TYPE:BCF6   UNIT   13
 
- REWOUND ..\data\seawater.wel
+ REWOUND ..\data\SEAWATER\seawater.wel
  FILE TYPE:WEL   UNIT   14
 
- REWOUND ..\data\seawater.rch
+ REWOUND ..\data\SEAWATER\seawater.rch
  FILE TYPE:RCH   UNIT   15
 
- REWOUND ..\data\seawater.pcg
+ REWOUND ..\data\SEAWATER\seawater.pcg
  FILE TYPE:PCG   UNIT   16
 
- REWOUND ..\data\seawater.pval
+ REWOUND ..\data\SEAWATER\seawater.pval
  FILE TYPE:PVAL   UNIT   17
 
- REWOUND ..\data\seawater.gwm
+ REWOUND ..\data\SEAWATER\seawater.gwm
  FILE TYPE:GWM   UNIT   18
+
+ REWOUND ..\data\SEAWATER\seawater.gwmw
+ FILE TYPE:DATA   UNIT   20
 
  BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   12
 
@@ -864,6 +867,6 @@
          TOTAL TIME  86400.      1440.0      24.000      1.0000     2.73785E-03
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2008/09/02  7:59:18
- Elapsed run time:  5.158 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2009/06/11  8:02:51
+ Elapsed run time:  4.407 Seconds
 

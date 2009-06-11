@@ -1,8 +1,8 @@
 README.TXT
 
 
-                 MF2005-GWM - Version: 1.0.1 08/11/2008
-                 Built from MODFLOW-2005 Version 1.5.00
+                 MF2005-GWM - Version: 1.1 06/12/2009
+                 Built from MODFLOW-2005 Version 1.6.02
        Three-dimensional finite-difference ground-water flow model
                                 With
                   Ground-Water Management (GWM) Process
@@ -18,6 +18,10 @@ The executable file was created using the Intel Visual Fortran 9.1 and Microsoft
 Visual Studio 2005 compilers.  The source code can be compiled to run on
 other computers.
 
+IMPORTANT: Users should review the file "Summary_mf2005-GWM.txt" for a description
+of this software. Users should also review the file "release.txt," which describes
+changes that have been introduced into MF2005-GWM with each official release; 
+these changes may substantially affect users.
 
                             TABLE OF CONTENTS
 
@@ -32,7 +36,7 @@ A. DISTRIBUTION FILE
 The following self-extracting distribution file is for use on personal
 computers:
 
-         mf2005_gwm.1_0_1.exe
+         mf2005_gwm.1_1.exe
 
 The distribution file contains:
 
@@ -48,7 +52,7 @@ directory that you specify:
 
 
    |
-   |--mf2005_gwm.1_0_1
+   |--mf2005_gwm.1_1
    |    |--bin       ; compiled executable
    |    |--data      ; standard data sets used in verification tests
    |    |--doc       ; documentation files
@@ -56,29 +60,33 @@ directory that you specify:
    |    |--test-win  ; batch files to run verification tests
 
 
-It is recommended that no user files are kept in the mf2005_gwm.1_0_1 
-directory structure.  If you do plan to put files in the mf2005_gwm.1_0_1 
+It is recommended that no user files are kept in the mf2005_gwm.1_1 
+directory structure.  If you do plan to put files in the mf2005_gwm.1_1 
 directory structure, do so only by creating subdirectories.
 
-Included in directory mf2005_gwm.1_0_1\doc are Portable Document Format 
+Included in directory mf2005_gwm.1_1\doc are Portable Document Format 
 (PDF) files. A PDF file is readable and printable on various computer 
 platforms using Acrobat Reader from Adobe. The Acrobat Reader is freely 
 available from the following World Wide Web sites:
       http://www.adobe.com/
       http://www.shareware.com/
-Also, included in mf2005_gwm.1_0_1\doc is a PDF file called "GWM Addendum" which 
-contains information on modifications to GWM since the publication of the
-primary documentation, "Documentation for MF2005_GWM" and the "release.txt" file 
-which contains details of changes to the source code.
+
+Included in the mf2005_gwm.1_1\doc directory is a PDF file of the primary
+documentation for the GWM code ("OFR2005_1072.pdf"), as well as PDF files
+called (1) "GWM Addendum," which contains information on modifications to GWM 
+since the publication of the primary documentation, (2) "Documentation for
+MF2005_GWM," which describes changes that were made to the MODFLOW-2005
+version of the code, and (3) "SFR_update," which describes the addition of the
+SFR Package for representing streamflow constraints.
 
 B. INSTALLING 
 
 To make the executable versions of the programs accessible from any
-directory, the directory containing the executable (mf2005_gwm.1_0_1\bin)
+directory, the directory containing the executable (mf2005_gwm.1_1\bin)
 should be included in the PATH environment variable. 
 
 As an alternative, the executable file, mf2005_gwm.exe, in the
-mf2005_gwm.1_0_1\bin directory can be copied into a directory already
+mf2005_gwm.1_1\bin directory can be copied into a directory already
 included in the PATH environment variable.
 
 On Windows NT systems, from the Start menu, select Settings and then
@@ -86,12 +94,12 @@ Control Panel. Double-click System and select the Environment tab.
 To add a new user variable, enter "PATH" in the Variable field and 
 enter
 
-   %PATH%;C:\GWMpathname\mf2005_gwm.1_0_1\bin
+   %PATH%;C:\GWMpathname\mf2005_gwm.1_1\bin
 
 in the Value field, Where GWMpathname is the directory path you selected 
 for installing MF2005-GWM.   Click Set and then click OK.  If a PATH user 
 variable already is defined, click on it in the User Variables pane, 
-add ";C:\GWMpathname\mf2005_gwm.1_0_1\bin" to its definition in the Value 
+add ";C:\GWMpathname\mf2005_gwm.1_1\bin" to its definition in the Value 
 field, and click OK. Initiate and use a new MS-DOS Command Prompt 
 window after making this change.
 
@@ -99,7 +107,7 @@ On Windows 2000 or XP systems, from the Start menu, select Settings and
 then Control Panel. Double-click System and select the Advanced tab.  
 Click on Environment Variables. If a PATH user variable already is 
 defined, click on it in the User Variables pane, then click Edit. In 
-the Edit User Variable window, add ";C:\GWMpathname\mf2005_gwm.1_0_1\bin" 
+the Edit User Variable window, add ";C:\GWMpathname\mf2005_gwm.1_1\bin" 
 to the end of the Variable Value(ensure that the current contents of 
 the User Value are not deleted) and click OK. If a PATH user variable 
 is not already defined, in the User variables pane of the Environment 
@@ -111,7 +119,7 @@ and use a new MS-DOS Command Prompt window.
 
 C. RUNNING THE SOFTWARE
 
-After the files in the mf2005_gwm.1_0_1\bin directory are installed in a
+After the files in the mf2005_gwm.1_1\bin directory are installed in a
 directory that is included in your PATH, the programs are initiated in
 a DOS Command-Prompt window using the commands:
 
@@ -143,39 +151,15 @@ D. TESTING
 Data files for four test problems are provided to confirm that 
 MF2005_GWM is correctly installed and running on the system.  
 The tests may also be looked at as examples of how to use the program.  
-The directory mf2005_gwm.1_0_1\data contains the input data and expected 
-results for the tests.
-
-The directory mf2005_gwm.1_0_1\test-win can be used to conveniently run the
-tests without destroying the original results in the mf2005_gwm.1_0_1\data
-directory. The mf2005_gwm.1_0_1\test-win directory contains batch (BAT) 
-files to run the tests.  Each test can be run by entering the name of 
-the test as a command in a DOS command-prompt window with the current 
-directory being mf2005_gwm.1_0_1\test-win or by double-clicking on the 
-corresponding BAT file in Windows Explorer.  The output files that are 
-created in mf2005_gwm.1_0_1\test-win can then be compared to those in 
-mf2005_gwm.1_0_1\data.  
-
-The four tests are described in the GWM documentation report (USGS 
-Open-File Report 2005-1072).  The supply2 problem is a revised version 
-of the original supply problem.  See the GWM Addendum for discussion 
-of the revision and Documentation for MF2005_GWM for changes to published 
-output.  All three of these documents are in directory mf2005_gwm.1_0_1/doc.
-The four test problems are:
-
-
-test name      description of test
-------------   -------------------------------------------------------
- dewater       DEWATER sample problem, linear formulation
- dewatermb     DEWATER sample problem, mixed-binary linear formulation
- seawater      SEAWATER sample problem, nonlinear formulation
- supply2       SUPPLY sample problem, nonlinear formulation
+The directory mf2005_gwm.1_1\data contains the input data and expected 
+results for the tests. Details on how to run the test problems are
+provided in the "README.txt" file located in the \data directory.
 
 
 E. COMPILING
 
 Although an executable version of the program is provided, the source 
-code is available in the mf2005_gwm.1_0_1\src directory so that the 
+code is available in the mf2005_gwm.1_1\src directory so that the 
 programs can be recompiled if necessary.  However, no support can be 
 provided for users generating their own versions of the software. 
 
@@ -188,8 +172,8 @@ the GMG Package, the source-code files written in the C language (files
 ending in .c or .h) must be compiled with a C compiler and all the 
 resulting object files must be linked together.  Alternatively, 
 the GMG solver can be removed so that only a Fortran compiler
-is required.  Follow instruction in the MF2005 1_3 release file Nogmg.txt 
-in MF2005.1_3\src for removing GMG from MODFLOW.  If the calls to GMG 
+is required.  Follow instruction in the file Nogmg.txt found in the  
+ \src directory for removing GMG from MODFLOW.  If the calls to GMG 
 subroutines are removed, the GMG Package will not be available when 
 MF2005-GWM is run.  For tips on compiling the mixed-language code of 
 MF2005-GWM with various compilers, follow the instructions for  
