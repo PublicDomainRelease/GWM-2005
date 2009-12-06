@@ -1,0 +1,9 @@
+LIST  10  sealgr_par.lst
+DIS   11  ..\data\SEAWATER-LGR\sealgr_par.dis
+BAS6  12  ..\data\SEAWATER-LGR\sealgr_par.ba6
+BCF6  13  ..\data\SEAWATER-LGR\sealgr.bc6
+RCH   15  ..\data\SEAWATER-LGR\sealgr_par.rch
+GMG   16  ..\data\SEAWATER-LGR\sealgr.gmg
+ZONE  17  ..\data\SEAWATER-LGR\sealgr_par.zone
+GWM   18  ..\data\SEAWATER-LGR\sealgr_par.gwm
+

@@ -1,0 +1,5 @@
+#DEWATER-LGR Sample Problem, parent GWM file
+#December, 2007
+OUT     deworg7_par.out
+OBJFNC  ..\data\DEWATER-LGR\deworg7_par.objfnc
+SOLN    ..\data\DEWATER-LGR\deworg7_par.soln

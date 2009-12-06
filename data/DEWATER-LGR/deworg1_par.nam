@@ -1,0 +1,6 @@
+LIST  10   deworg1_par.lst
+DIS   11   ..\data\DEWATER-LGR\deworg1_par.dis
+BAS6  12   ..\data\DEWATER-LGR\deworg1_par.ba6
+BCF6  13   ..\data\DEWATER-LGR\deworg1_par.bc6
+PCG   14   ..\data\DEWATER-LGR\deworg1.pcg
+GWM   15   ..\data\DEWATER-LGR\deworg1_par.gwm

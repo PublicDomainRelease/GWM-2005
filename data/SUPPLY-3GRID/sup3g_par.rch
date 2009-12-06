@@ -1,0 +1,14 @@
+#SUP3G Sample Problem, parent RECH file
+#Zone required for overlap with children
+PARAMETER  3 
+         1        -1
+REC-P1   RCH   0.00100  1
+NONE     RCHZONE   1
+REC-P2   RCH   0.00084  1
+NONE     RCHZONE   2
+REC-P3   RCH   0.00060  1
+NONE     RCHZONE   3
+         3         3
+REC-P1
+REC-P2
+REC-P3

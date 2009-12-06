@@ -1,0 +1,8 @@
+#SEAWATER-LGR Sample Problem, OBJFNC file
+ 1          #1-IPRN
+ MIN  WSDV  #2-OBJTYP FNTYP
+ 0  1  0    #3-NFVOBJ NEVOBJ NBVOBJ
+ E  1.00    #4-EVNAME EVOBJC
+ 
+
+

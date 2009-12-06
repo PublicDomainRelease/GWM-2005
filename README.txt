@@ -1,27 +1,30 @@
 README.TXT
 
 
-                 MF2005-GWM - Version: 1.1 06/12/2009
-                 Built from MODFLOW-2005 Version 1.6.02
-       Three-dimensional finite-difference ground-water flow model
-                                With
-                  Ground-Water Management (GWM) Process
+                 GWM-2005 - Version: 1.2 12/07/2009
+                 Built from MODFLOW-LGR Version 1.1.2
+       Three-dimensional finite-difference groundwater flow model
+          With Local Grid Refinement (LGR) Capability and the
+                 Groundwater Management (GWM) Process
 
 
 NOTE: Any use of trade, product or firm names is for descriptive 
 purposes only and does not imply endorsement by the U.S. Government.
 
-This version of MODFLOW-2005 with the GWM Process is packaged for personal 
-computers using one of the Microsoft Windows operating systems.  An executable 
-file for personal computers is provided as well as the source code.  
-The executable file was created using the Intel Visual Fortran 9.1 and Microsoft
+This version of the GWM-2005 Process is packaged for personal computers 
+using one of the Microsoft Windows operating systems.  An executable file
+for personal computers is provided as well as the source code. The
+executable file was created using the Intel Visual Fortran 9.1 and Microsoft
 Visual Studio 2005 compilers.  The source code can be compiled to run on
 other computers.
 
-IMPORTANT: Users should review the file "Summary_mf2005-GWM.txt" for a description
-of this software. Users should also review the file "release.txt," which describes
-changes that have been introduced into MF2005-GWM with each official release; 
-these changes may substantially affect users.
+IMPORTANT: Users should review the file Summary_gwm2005.txt for a 
+description of, and references for, this software. Users should also review 
+the file release.txt, which describes changes that have been introduced 
+into GWM-2005 with each official release; these changes may substantially 
+affect users.
+
+
 
                             TABLE OF CONTENTS
 
@@ -36,12 +39,12 @@ A. DISTRIBUTION FILE
 The following self-extracting distribution file is for use on personal
 computers:
 
-         mf2005_gwm.1_1.exe
+          gwm_2005.1_2.exe
 
 The distribution file contains:
 
-          Compiled DOS executable and source code for MF2005-GWM.
-          GWM documentation and input instructions in pdf files.
+          Compiled DOS executable and source code for GWM-2005.
+          GWM documentation and input instructions in PDF files.
           Test data sets.
 
 The distribution file is a self-extracting program.  Execution of the
@@ -52,7 +55,7 @@ directory that you specify:
 
 
    |
-   |--mf2005_gwm.1_1
+   |--GWM2005.1_2
    |    |--bin       ; compiled executable
    |    |--data      ; standard data sets used in verification tests
    |    |--doc       ; documentation files
@@ -60,33 +63,26 @@ directory that you specify:
    |    |--test-win  ; batch files to run verification tests
 
 
-It is recommended that no user files are kept in the mf2005_gwm.1_1 
-directory structure.  If you do plan to put files in the mf2005_gwm.1_1 
-directory structure, do so only by creating subdirectories.
+It is recommended that no user files are kept in the GWM2005.1_2 
+directory structure.  If you do plan to put files in this directory, 
+do so only by creating subdirectories.
 
-Included in directory mf2005_gwm.1_1\doc are Portable Document Format 
+Included in directory GWM2005.1_2\doc are Portable Document Format 
 (PDF) files. A PDF file is readable and printable on various computer 
 platforms using Acrobat Reader from Adobe. The Acrobat Reader is freely 
 available from the following World Wide Web sites:
       http://www.adobe.com/
       http://www.shareware.com/
 
-Included in the mf2005_gwm.1_1\doc directory is a PDF file of the primary
-documentation for the GWM code ("OFR2005_1072.pdf"), as well as PDF files
-called (1) "GWM Addendum," which contains information on modifications to GWM 
-since the publication of the primary documentation, (2) "Documentation for
-MF2005_GWM," which describes changes that were made to the MODFLOW-2005
-version of the code, and (3) "SFR_update," which describes the addition of the
-SFR Package for representing streamflow constraints.
 
 B. INSTALLING 
 
-To make the executable versions of the programs accessible from any
-directory, the directory containing the executable (mf2005_gwm.1_1\bin)
+To make the executable version of the program accessible from any
+directory, the directory containing the executable (GWM2005.1_2\bin)
 should be included in the PATH environment variable. 
 
-As an alternative, the executable file, mf2005_gwm.exe, in the
-mf2005_gwm.1_1\bin directory can be copied into a directory already
+As an alternative, the executable file, gwm2005.exe, in the
+GWM2005.1_2\bin directory can be copied into a directory already
 included in the PATH environment variable.
 
 On Windows NT systems, from the Start menu, select Settings and then
@@ -94,12 +90,12 @@ Control Panel. Double-click System and select the Environment tab.
 To add a new user variable, enter "PATH" in the Variable field and 
 enter
 
-   %PATH%;C:\GWMpathname\mf2005_gwm.1_1\bin
+   %PATH%;C:\GWMpathname\GWM2005.1_2\bin
 
 in the Value field, Where GWMpathname is the directory path you selected 
-for installing MF2005-GWM.   Click Set and then click OK.  If a PATH user 
+for installing GWM-2005.   Click Set and then click OK.  If a PATH user 
 variable already is defined, click on it in the User Variables pane, 
-add ";C:\GWMpathname\mf2005_gwm.1_1\bin" to its definition in the Value 
+add ";C:\GWMpathname\GWM2005.1_2\bin" to its definition in the Value 
 field, and click OK. Initiate and use a new MS-DOS Command Prompt 
 window after making this change.
 
@@ -107,8 +103,8 @@ On Windows 2000 or XP systems, from the Start menu, select Settings and
 then Control Panel. Double-click System and select the Advanced tab.  
 Click on Environment Variables. If a PATH user variable already is 
 defined, click on it in the User Variables pane, then click Edit. In 
-the Edit User Variable window, add ";C:\GWMpathname\mf2005_gwm.1_1\bin" 
-to the end of the Variable Value(ensure that the current contents of 
+the Edit User Variable window, add ";C:\GWMpathname\GWM2005.1_2\bin" 
+to the end of the Variable Value (ensure that the current contents of 
 the User Value are not deleted) and click OK. If a PATH user variable 
 is not already defined, in the User variables pane of the Environment 
 Variables window, click New. In the New User Variable window, define a 
@@ -119,11 +115,11 @@ and use a new MS-DOS Command Prompt window.
 
 C. RUNNING THE SOFTWARE
 
-After the files in the mf2005_gwm.1_1\bin directory are installed in a
-directory that is included in your PATH, the programs are initiated in
-a DOS Command-Prompt window using the commands:
+After the executable file in the GWM2005.1_2\bin directory is installed 
+in a directory that is included in your PATH, the program is initiated
+in a DOS Command-Prompt window using the commands:
 
-          mf2005_gwm [Fname]
+          gwm2005 [Fname]
 
 The optional Fname argument is the MODFLOW name file. If no argument is 
 used, the user is prompted to enter the name file. If the name file 
@@ -131,68 +127,70 @@ ends in ".nam", then the file name can be specified without including
 ".nam".  For example, if the name file is named abc.nam, then the 
 simulation can be run by entering:
 
-          mf2005_gwm abc
+          gwm2005 abc
 
-As an alternative, you can copy the executable (mf2005_gwm.exe) into the 
+As an alternative, you can copy the executable (gwm2005.exe) into the 
 directory in which your model input files are located (including all of 
 the required GWM input files) and double-click on the executable. This 
 will activate the program, which will prompt you for the name of the 
 MODFLOW name file. 
 
-The data arrays in MF2005-GWM, as with MODFLOW-2005, are dynamically 
+The data arrays in GWM-2005, as with MODFLOW-2005, are dynamically 
 allocated, so models are not limited by hard-coded array limits. 
 However, it is best to have enough random-access memory (RAM) available 
 to hold all of the required data. If there is less available RAM than 
 this, the program will use virtual memory, but this slows computations 
 significantly.
 
+
 D. TESTING
 
-Data files for four test problems are provided to confirm that 
-MF2005_GWM is correctly installed and running on the system.  
-The tests may also be looked at as examples of how to use the program.  
-The directory mf2005_gwm.1_1\data contains the input data and expected 
-results for the tests. Details on how to run the test problems are
-provided in the "README.txt" file located in the \data directory.
+Data files for seven test problems are provided to confirm that 
+GWM-2005 is correctly installed and running on the system.  
+The tests also may be looked at as examples of how to use the program.  
+The directory GWM2005.1_2\data contains the input data and expected 
+results for the tests. The file 'README_data.txt' located in the 
+\data subdirectory describes the seven test problems.
 
 
 E. COMPILING
 
 Although an executable version of the program is provided, the source 
-code is available in the mf2005_gwm.1_1\src directory so that the 
+code is available in the GWM2005.1_2\src directory so that the 
 programs can be recompiled if necessary.  However, no support can be 
 provided for users generating their own versions of the software. 
 
-In general, the requirements for compiling MF2005-GWM are a Fortran 
+In general, the requirements for compiling GWM-2005 are a Fortran 
 compiler, a C compiler, and the knowledge of using the compilers.  
 
-The Fortran source-code files (files ending in .f, .for .inc, or .com) must be 
-compiled with a Fortran (90 or 95) compiler.  To compile MF2005-GWM with 
-the GMG Package, the source-code files written in the C language (files 
-ending in .c or .h) must be compiled with a C compiler and all the 
-resulting object files must be linked together.  Alternatively, 
+The Fortran source-code files (files ending in .f, .for .inc, or .com) 
+must be compiled with a Fortran (90 or 95) compiler.  To compile GWM-2005 
+with the GMG Package, the source-code files written in the C language 
+(files ending in .c or .h) must be compiled with a C compiler and all 
+the resulting object files must be linked together.  Alternatively, 
 the GMG solver can be removed so that only a Fortran compiler
-is required.  Follow instruction in the file Nogmg.txt found in the  
- \src directory for removing GMG from MODFLOW.  If the calls to GMG 
+is required.  Follow instruction in the Nogmg.txt file in the  
+GWM2005.1_2\src directory for removing GMG from MODFLOW.  If the calls to GMG 
 subroutines are removed, the GMG Package will not be available when 
-MF2005-GWM is run.  For tips on compiling the mixed-language code of 
-MF2005-GWM with various compilers, follow the instructions for  
+GWM-2005 is run.  For tips on compiling the mixed-language code of 
+GWM-2005 with various compilers, follow the instructions for  
 Suggestions on Compiling at the web page 
 http://water.usgs.gov/nrp/gwsoftware/modflow2000/MFDOC/
-MF2005-GWM in this distribution has been compiled using the Intel Fortran
+GWM-2005 in this distribution has been compiled using the Intel Fortran
 Compiler Integration for Microsoft Visual Studio 2005, Version 
-9.1.3427.2005.  The C source code was compiled with Microsoft Visual C++ 
+9.1.3291.2005.  The C source code was compiled with Microsoft Visual C++ 
 2005.
 
-It is important when compiling MF2005-GWM to enforce default double precision 
+It is important when compiling GWM-2005 to enforce default double precision 
 for all REAL variables.  The default for most compilers is single precision.
 This is needed to obtain adequate precision in perturbation calculations.  
 For the executable file in the \bin directory, which was compiled with the 
 Intel Fortran Compiler Integration for Microsoft Visual Studio 2005, this was 
-accomplished using the default Release configuration, with the exception that 
-the default REAL KIND is set to 8, so that all real variables are treated as 
+accomplished using the default Release configuration, with the default REAL KIND 
+set to 8 rather than 4, so that all real variables are treated as 
 double precision.  This is done by clicking on Project>Properties to open the 
-Property Pages.  Then go to Fortran/Data and change the Default Real Kind to 8.
+Property Pages.  Then go to Fortran/Data and change the Default Real Kind to 8.  
+The distributed executable file also has fortran code optimization disabled.
 
 GWM and MODFLOW2005 use FORTRAN 90 MODULE structures and USE statements to 
 define and access variables between packages.  During compilation, it is 
@@ -204,20 +202,21 @@ on subsequent passes.  However, other compilers may have difficulty
 with this.
 
 To facilitate one-pass compilation, two of the GWM packages are divided 
-into two separate files: The GWM1BAS1 package consists of the GWM1BAS1 
-and GWM1BAS1SUBS files and the GWM1RMS1 package consists of the 
-GWM1RMS1MOD and GWM1RMS1 files. The files distributed with GWM should 
+into two separate files: The GWM1BAS3 package consists of the GWM1BAS3 
+and GWM1BAS3SUBS files and the GWM1RMS3 package consists of the 
+GWM1RMS3MOD and GWM1RMS3 files. The files distributed with GWM should 
 be compiled in the following order:
      first compile all MF2005 files then compile:
-     GWM1BAS2
-     GWM1RMS2MOD
-     GWM1DCV2
-     GWM1OBJ2
-     GWM1DCC2
-     GWM1HDC2
-     GWM1STC2
-     GWM1SMC2
-     GWM1RMS2
-     GWM1BAS2SUBS
-     MF2005_GWM
+     GWM1BAS3
+     GWM1RMS3MOD
+     GWM1DCV3
+     GWM1OBJ3
+     GWM1DCC3
+     GWM1HDC3
+     GWM1STC3
+     GWM1SMC3
+     GWM1RMS3
+     GWM1BAS3SUBS
+     GWM2005
+
 

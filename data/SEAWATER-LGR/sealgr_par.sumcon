@@ -1,0 +1,14 @@
+#SEAWATER-LGR Sample Problem, SUMCON file
+ 1                  #1-IPRN
+ 2                  #2-SMCNUM
+ demand 5 ge 5.0d4  #3a-SMCNAME NTERMS TYPE RHS 
+  W1  1.0           #3b-GVNAME GVCOEFF
+  W2  1.0
+  W3  1.0
+  W4  1.0
+   E  1.0
+ wellson 4 le 3     #3a-SMCNAME NTERMS TYPE RHS 
+  BV4  1.0          #3b-GVNAME GVCOEFF
+  BV3  1.0
+  BV2  1.0
+  BV1  1.0

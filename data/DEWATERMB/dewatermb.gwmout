@@ -1,7 +1,7 @@
 
-                                  MODFLOW-2005     
+                                  MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version MF2005_GWM 1.1 061209,FROM MF05V1.6.02  
+                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
 
 
 
@@ -12,7 +12,7 @@
  #DEWATER Sample Problem, GWM file                                                                                                                                                                       
  #August 12, 2007                                                                                                                                                                                        
 
- OPENING DECISION-VARIABLE FILE ON UNIT   99:
+ OPENING DECISION-VARIABLE FILE ON UNIT   16:
  ..\data\DEWATERMB\dewatermb.decvar                                                                                                                                                                      
  #DEWATER Sample Problem, DECVAR file
  #August 14, 2006
@@ -22,28 +22,28 @@
  BINARY VARIABLES ARE ACTIVE. NBVAR:               7
 
  FLOW-RATE VARIABLES:
-                                                   FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
- ----------------------------------------------------------
-    1      Q1         WITHDRAWAL     1    7   14    1.0000
+                                                       FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
+ --------------------------------------------------------------
+    1      Q1         WITHDRAWAL     1    7   14    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      Q2         WITHDRAWAL     1    7   16    1.0000
+    2      Q2         WITHDRAWAL     1    7   16    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    3      Q3         WITHDRAWAL     1    8   15    1.0000
+    3      Q3         WITHDRAWAL     1    8   15    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      Q4         WITHDRAWAL     1    9   14    1.0000
+    4      Q4         WITHDRAWAL     1    9   14    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    5      Q5         WITHDRAWAL     1    9   16    1.0000
+    5      Q5         WITHDRAWAL     1    9   16    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    6      Q6         WITHDRAWAL     1   11   17    1.0000
+    6      Q6         WITHDRAWAL     1   11   17    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    7      Q7         WITHDRAWAL     1   13   16    1.0000
+    7      Q7         WITHDRAWAL     1   13   16    1.00000000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -60,12 +60,12 @@
     6        BV6            1                Q6        
     7        BV7            1                Q7        
 
-      672 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+      788 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
 
- OPENING OBJECTIVE-FUNCTION FILE ON UNIT   99:
+ OPENING OBJECTIVE-FUNCTION FILE ON UNIT   16:
  ..\data\DEWATERMB\dewatermb.objfnc                                                                                                                                                                      
  #DEWATER Sample Problem, OBJFNC file
  #February 20, 2005
@@ -89,8 +89,7 @@
  CLOSING OBJECTIVE-FUNCTION FILE
 
 
- OPENING DECISION-VARIABLE CONSTRAINTS FILE
- ON UNIT   99:
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   16:
  ..\data\DEWATERMB\dewatermb.varcon                                                                                                                                                                      
  #DEWATER Sample Problem, VARCON file
  #February 20, 2005
@@ -138,34 +137,7 @@
  CLOSING DECISION-VARIABLE CONSTRAINTS FILE
 
 
- OPENING HEAD CONSTRAINTS FILE
- ON UNIT   99:
- ..\data\DEWATERMB\dewater.hedcon                                                                                                                                                                        
- #DEWATER Sample Problem, HEDCON file
- #February 20, 2005
-
- HEAD CONSTRAINTS:
-                                           RIGHT-HAND    STRESS
- NUMBER  NAME        LAY  ROW  COL  TYPE      SIDE       PERIOD
- ---------------------------------------------------------------
-     1   b-01          1    6   13   <    5.0000E+01         1
-     2   b-02          1    6   15   <    5.0000E+01         1
-     3   b-03          1    6   17   <    5.0000E+01         1
-     4   b-04          1    8   13   <    5.0000E+01         1
-     5   b-05          1    8   17   <    5.0000E+01         1
-     6   b-06          1   10   13   <    5.0000E+01         1
-     7   b-07          1   10   15   <    5.0000E+01         1
-     8   b-08          1   11   16   <    5.0000E+01         1
-     9   b-09          1   14   16   <    5.0000E+01         1
-    10   b-10          1   14   17   <    5.0000E+01         1
-
-      660 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
-
- CLOSING HEAD CONSTRAINTS FILE
-
-
- OPENING SUMMATION CONSTRAINTS FILE
- ON UNIT   99:
+ OPENING SUMMATION CONSTRAINTS FILE ON UNIT   16:
  ..\data\DEWATERMB\dewatermb.sumcon                                                                                                                                                                      
  #DEWATER Sample Problem, SUMCON file
  #February 20, 2005
@@ -186,10 +158,35 @@
  CLOSING SUMMATION CONSTRAINTS FILE
 
 
- OPENING SOLUTION FILE ON UNIT   99:
+ OPENING HEAD CONSTRAINTS FILE ON UNIT   16:
+ ..\data\DEWATERMB\dewater.hedcon                                                                                                                                                                        
+ #DEWATER Sample Problem, HEDCON file
+ #February 20, 2005
+
+ HEAD CONSTRAINTS:
+                                           RIGHT-HAND    STRESS
+ NUMBER  NAME        LAY  ROW  COL  TYPE      SIDE       PERIOD
+ ---------------------------------------------------------------
+     1   b-01          1    6   13   <    5.0000E+01         1
+     2   b-02          1    6   15   <    5.0000E+01         1
+     3   b-03          1    6   17   <    5.0000E+01         1
+     4   b-04          1    8   13   <    5.0000E+01         1
+     5   b-05          1    8   17   <    5.0000E+01         1
+     6   b-06          1   10   13   <    5.0000E+01         1
+     7   b-07          1   10   15   <    5.0000E+01         1
+     8   b-08          1   11   16   <    5.0000E+01         1
+     9   b-09          1   14   16   <    5.0000E+01         1
+    10   b-10          1   14   17   <    5.0000E+01         1
+
+      700 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
+
+ CLOSING HEAD CONSTRAINTS FILE
+
+
+ OPENING SOLUTION FILE ON UNIT   16:
  ..\data\DEWATERMB\dewatermb.soln                                                                                                                                                                        
  #DEWATER Sample Problem, SOLN file
- #February 20, 2005
+ #June 15, 2009
 
  SOLNTYP IS LP: GWM WILL COMPLETE A SINGLE ITERATION OF THE LINEAR PROBLEM.
 
@@ -206,6 +203,10 @@
 
  OUTPUT FROM BRANCH AND BOUND ALGORITHM WILL BE PRINTED.
 
+ CRITMFC SET TO                               0.000D+00
+ GWM WILL ACCEPT FLOW PROCESS RESULTS THAT MEET GWF
+ CONVERGENCE CRITERIA
+
  BASE PUMPING RATES TAKEN FROM FVREF SPECIFIED IN VARCON INPUT FILE
  
      PROBLEM SIZE
@@ -214,7 +215,7 @@
   NUMBER OF CONSTRAINT EQUATIONS                  25
  
 
-    23768 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
+    23939 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
 
  CLOSING SOLUTION AND OUTPUT FILE
 
@@ -432,7 +433,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          12
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          13 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          13 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          8.5733E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -445,7 +446,7 @@ Binary Variables
     Objective Function =  7.404028E+04
  
     Feasible Solution Found
- SUBPROBLEM          14 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          14 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          9.8581E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -461,7 +462,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          11
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          15 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          15 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -474,7 +475,7 @@ Binary Variables
     Objective Function =  7.702913E+04
  
     Feasible Solution Found
- SUBPROBLEM          16 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          16 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          9.9456E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -519,7 +520,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          18
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          19 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          19 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          8.7651E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -532,7 +533,7 @@ Binary Variables
     Objective Function =  7.193106E+04
  
     Feasible Solution Found
- SUBPROBLEM          20 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          20 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0087E+03    Q2          1.0000E+02    Q3          1.0000E+02
@@ -548,7 +549,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          17
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          21 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          21 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          1.0000E+02    Q3          1.0000E+02
@@ -561,7 +562,7 @@ Binary Variables
     Objective Function =  7.860735E+04
  
     Feasible Solution Found
- SUBPROBLEM          22 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          22 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0175E+03    Q2          1.0000E+02    Q3          1.0000E+02
@@ -635,7 +636,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          25
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          27 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          27 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          1.0000E+02    Q3          3.4940E+03
@@ -648,7 +649,7 @@ Binary Variables
     Objective Function =  7.987934E+04
  
     Feasible Solution Found
- SUBPROBLEM          28 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          28 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0297E+02    Q2          1.0000E+02    Q3          2.0785E+03
@@ -751,7 +752,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          33
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          35 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          35 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          1.0000E+02    Q3          0.0000E+00
@@ -764,7 +765,7 @@ Binary Variables
     Objective Function =  7.482465E+04
  
     Feasible Solution Found
- SUBPROBLEM          36 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          36 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0408E+03    Q2          1.0000E+02    Q3          0.0000E+00
@@ -809,7 +810,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          38
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          39 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          39 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          9.2120E+02    Q2          1.0000E+02    Q3          0.0000E+00
@@ -822,7 +823,7 @@ Binary Variables
     Objective Function =  6.984428E+04
  
     Feasible Solution Found
- SUBPROBLEM          40 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          40 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0550E+03    Q2          1.0000E+02    Q3          0.0000E+00
@@ -838,7 +839,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          37
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          41 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          41 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          1.0000E+02    Q3          0.0000E+00
@@ -853,7 +854,7 @@ Binary Variables
     Feasible Solution Found
  SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
  SUBPROBLEM          29 IS FATHOMED - IT IS RELAXED AND INFERIOR
- SUBPROBLEM          42 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          42 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0637E+03    Q2          1.0000E+02    Q3          0.0000E+00
@@ -985,7 +986,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          49
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          51 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          51 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          0.0000E+00    Q3          1.0000E+02
@@ -998,7 +999,7 @@ Binary Variables
     Objective Function =  7.640842E+04
  
     Feasible Solution Found
- SUBPROBLEM          52 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          52 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0262E+03    Q2          0.0000E+00    Q3          2.1719E+02
@@ -1101,7 +1102,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          57
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          59 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          59 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0000E+02    Q2          0.0000E+00    Q3          0.0000E+00
@@ -1114,7 +1115,7 @@ Binary Variables
     Objective Function =  7.248337E+04
  
     Feasible Solution Found
- SUBPROBLEM          60 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          60 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.0870E+03    Q2          0.0000E+00    Q3          0.0000E+00
@@ -1159,7 +1160,7 @@ Binary Variables
  NEXT: BRANCH FROM SUBPROBLEM          62
                  AND VARIABLE           7
     Feasible Solution Found
- SUBPROBLEM          63 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          63 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          9.8201E+02    Q2          0.0000E+00    Q3          0.0000E+00
@@ -1172,7 +1173,7 @@ Binary Variables
     Objective Function =  6.762974E+04
  
     Feasible Solution Found
- SUBPROBLEM          64 IS FATHOMED -IT IS INTEGER AND INFERIOR
+ SUBPROBLEM          64 IS FATHOMED - IT IS INTEGER AND INFERIOR
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.1962E+03    Q2          0.0000E+00    Q3          0.0000E+00
@@ -1191,7 +1192,7 @@ Binary Variables
     Feasible Solution Found
  SUBPROBLEM          55 IS FATHOMED - IT IS RELAXED AND INFERIOR
  SUBPROBLEM          61 IS FATHOMED - IT IS RELAXED AND INFERIOR
- SUBPROBLEM          66 IS FATHOMED -IT IS INTEGER AND THE NEW BEST SOLUTION
+ SUBPROBLEM          66 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          1.2425E+03    Q2          0.0000E+00    Q3          0.0000E+00

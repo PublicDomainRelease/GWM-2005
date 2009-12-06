@@ -1,0 +1,862 @@
+
+                                  MODFLOW-LGR      
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
+                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
+
+
+
+ OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ PARENT GRID INPUT READ FROM UNIT  18
+ #SEAWATER-LGR Sample Problem, GWM Parent file                                                                                                                                                           
+
+ OPENING GWM FILE CHILD GRID - INPUT READ FROM UNIT  28
+ #SEAWATER-LGR Sample Problem, GWM Child file                                                                                                                                                            
+
+ OPENING DECISION-VARIABLE FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, DECVAR Parent file
+
+ OPENING DECISION-VARIABLE FILE ON UNIT   19:
+ ..\data\SEAWATER-LGR\sealgr_chd.decvar                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, DECVAR Child file
+
+ NO. OF FLOW-RATE DECISION VARIABLES (NFVAR)       4
+ NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       1
+ BINARY VARIABLES ARE ACTIVE. NBVAR:               4
+
+ FLOW-RATE VARIABLES:
+                                                       FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
+ --------------------------------------------------------------
+  FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
+
+    1      W3         WITHDRAWAL     1   17   20    0.50000000
+                                     2   17   20    0.50000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+    2      W4         WITHDRAWAL     1    3   19    0.50000000
+                                     2    3   19    0.50000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+  FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.decvar                                                                                  
+
+    3      W1         WITHDRAWAL     1   10   13    0.50000000
+                                     2   10   13    0.50000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+    4      W2         WITHDRAWAL     1   19    4    0.50000000
+                                     2   19    4    0.50000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+
+ EXTERNAL VARIABLES:
+
+  NUMBER     NAME
+ ------------------------------
+
+  EXTERNAL VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
+
+    1        E         
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+
+ BINARY VARIABLES:
+                       NUMBER OF             NAME OF
+  NUMBER     NAME  ASSOCIATED VARIABLES  ASSOCIATED VARIABLES
+ -------------------------------------------------------
+
+  BINARY VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
+
+    1        BV3            1                W3        
+    2        BV4            1                W4        
+  BINARY VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.decvar                                                                                  
+
+    3        BV1            1                W1        
+    4        BV2            1                W2        
+
+      562 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+
+ CLOSING DECISION-VARIABLE FILE
+
+
+ OPENING OBJECTIVE-FUNCTION FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.objfnc                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, OBJFNC file
+
+ OBJECTIVE TYPE: MIN   FUNCTION TYPE: WSDV
+
+ NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    0
+ NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     1
+ NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+
+ OBJECTIVE FUNCTION: (excluding flow duration terms)
+
+ MIN    +  1.00E+00 E         
+
+       36 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR OBJECTIVE-FUNCTION
+
+ CLOSING OBJECTIVE-FUNCTION FILE
+
+
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.varcon                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, VARCON Parent file
+
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   19:
+ ..\data\SEAWATER-LGR\sealgr_chd.varcon                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, VARCON Child file
+
+ FLOW RATE VARIABLES:
+                        MINIMUM        MAXIMUM        REFERENCE
+  NUMBER   NAME         FLOW RATE      FLOW RATE      FLOW RATE
+----------------------------------------------------------------
+    1      W3           0.000E+00      1.000E+04      0.000E+00
+    2      W4           0.000E+00      1.000E+04      0.000E+00
+    3      W1           0.000E+00      1.000E+04      0.000E+00
+    4      W2           0.000E+00      1.000E+04      0.000E+00
+
+ EXTERNAL VARIABLES:
+                        MINIMUM        MAXIMUM
+  NUMBER   NAME          FLOW RATE      FLOW RATE
+-------------------------------------------------
+    1      E            0.000D+00      0.100D+07
+
+ CLOSING DECISION-VARIABLE CONSTRAINTS FILE
+
+
+ OPENING SUMMATION CONSTRAINTS FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.sumcon                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, SUMCON file
+
+ NUMBER OF SUMMATION CONSTRAINTS:     2
+
+ SUMMATION CONSTRAINTS:
+
+ demand    
+   +  1.00E+00 W1         +  1.00E+00 W2         +  1.00E+00 W3        
+   +  1.00E+00 W4         +  1.00E+00 E         
+
+  >=   5.00E+04
+
+ wellson   
+   +  1.00E+00 BV4        +  1.00E+00 BV3        +  1.00E+00 BV2       
+   +  1.00E+00 BV1       
+
+  <=   3.00E+00
+
+      132 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR SUMMATION CONSTRAINTS
+
+ CLOSING SUMMATION CONSTRAINTS FILE
+
+
+ OPENING HEAD CONSTRAINTS FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.hedcon                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, HEDCON Parent file
+
+ OPENING HEAD CONSTRAINTS FILE ON UNIT   19:
+ ..\data\SEAWATER-LGR\sealgr_chd.hedcon                                                                                                                                                                  
+ #SEAWATER-LGR Sample Problem, HEDCON Child file
+ #December, 2007
+
+ HEAD-DIFFERENCE CONSTRAINTS:
+                       FIRST CELL    SECOND CELL    RIGHT-HAND  STRESS
+ NUMBER  NAME        LAY  ROW  COL  LAY  ROW  COL      SIDE     PERIOD
+ ---------------------------------------------------------------------
+  HEAD-DIFFERENCE CONSTRAINTS READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.hedcon                                                                                  
+     1   hd-01         1    1   27    2    1   27   5.0000E-03     1
+     2   hd-02         1    3   27    2    3   27   5.0000E-03     1
+     3   hd-03         1    5   27    2    5   27   5.0000E-03     1
+     4   hd-08         1   15   27    2   15   27   5.0000E-03     1
+     5   hd-09         1   17   27    2   17   27   5.0000E-03     1
+     6   hd-10         1   19   27    2   19   27   5.0000E-03     1
+  HEAD-DIFFERENCE CONSTRAINTS READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.hedcon                                                                                  
+     7   hd-04         1    4   34    2    4   34   5.0000E-03     1
+     8   hd-05         1   10   34    2   10   34   5.0000E-03     1
+     9   hd-06         1   16   34    2   16   34   5.0000E-03     1
+    10   hd-07         1   22   34    2   22   34   5.0000E-03     1
+
+ GRADIENT CONSTRAINTS:
+                       FIRST CELL    SECOND CELL                             STRESS
+ NUMBER  NAME        LAY  ROW  COL  LAY  ROW  COL      LEN         GRAD      PERIOD
+ ----------------------------------------------------------------------------------
+  GRADIENT CONSTRAINTS READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.hedcon                                                                                  
+    11   gd-1          1    3   26    1    3   28   4.0000E+02   7.0000E-03     1
+    12   gd-2          2    3   26    2    3   28   4.0000E+02   7.0000E-03     1
+    13   gd-7          1   17   26    1   17   28   4.0000E+02   7.0000E-03     1
+    14   gd-8          2   17   26    2   17   28   4.0000E+02   7.0000E-03     1
+  GRADIENT CONSTRAINTS READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.hedcon                                                                                  
+    15   gd-3          1   10   31    1   10   37   4.0000E+02   7.0000E-03     1
+    16   gd-4          2   10   31    2   10   37   4.0000E+02   7.0000E-03     1
+    17   gd-5          1   16   31    1   16   37   4.0000E+02   7.0000E-03     1
+    18   gd-6          2   16   31    2   16   37   4.0000E+02   7.0000E-03     1
+
+     1260 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
+
+ CLOSING HEAD CONSTRAINTS FILE
+
+
+ OPENING SOLUTION FILE ON UNIT   14:
+ ..\data\SEAWATER-LGR\sealgr_par.soln                                                                                                                                                                    
+ #SEAWATER-LGR Sample Problem, SOLN file
+ #June, 2009
+
+ SOLNTYP IS SLP: GWM WILL USE SEQUENTIAL ITERATION OF THE
+ NONLINEAR PROBLEM UNTIL A SOLUTION IS FOUND OR THE PROBLEM
+ DOES NOT CONVERGE.
+
+ MAXIMUM NUMBER OF LP ITERATIONS:                100
+ MAXIMUM NUMBER OF BRANCH AND BOUND ITER:        200
+
+ MAXIMUM NUMBER OF SLP ITERATIONS:                 5
+
+ SLP VARIABLE CONVERGENCE CRITERION (SLPVCRIT):    1.00000E+00
+ SLP OBJECTIVE CONVERGENCE CRITERION (SLPZCRIT):   1.00000E-03
+
+ PERTURBATION VALUES (DINIT, DMIN, AND DSC):  -0.50D-01 -0.50D-04  0.50D+01
+
+ MAXIMUM NUMBER OF PERTURBATION ATTEMPTS:         10
+ BASE FLOW RATE RELAXATION PARAMETER (AFACT) 0.50000
+ PERTURBATION ADJUSTMENT FACTOR (PGFACT):    0.50000
+
+ SLPITPRT>=1: PRINT SLP ITERATIONS.
+
+ OUTPUT FROM BRANCH AND BOUND ALGORITHM WILL BE PRINTED.
+
+ CRITMFC SET TO                               0.000D+00
+ GWM WILL ACCEPT FLOW PROCESS RESULTS THAT MEET GWF
+ CONVERGENCE CRITERIA
+
+ BASE PUMPING RATES TAKEN FROM FVREF SPECIFIED IN VARCON INPUT FILE
+ 
+     PROBLEM SIZE
+ 
+  NUMBER OF VARIABLES (INCLUDING SLACKS)          33
+  NUMBER OF CONSTRAINT EQUATIONS                  24
+ 
+
+    20382 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
+
+ CLOSING SOLUTION AND OUTPUT FILE
+
+---------------------------------------------------------------
+               Solution Algorithm
+---------------------------------------------------------------
+  Begin Solution Algorithm
+    Running Base Flow Process Simulation
+      Status of Simulation-Based Constraints 
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Difference        hd-01    Satisfied       4.3809E-02
+      Head Difference        hd-02    Satisfied       4.3808E-02
+      Head Difference        hd-03    Satisfied       4.2891E-02
+      Head Difference        hd-08    Satisfied       4.2891E-02
+      Head Difference        hd-09    Satisfied       4.3807E-02
+      Head Difference        hd-10    Satisfied       4.3808E-02
+      Head Difference        hd-04    Satisfied       4.3769E-02
+      Head Difference        hd-05    Satisfied       4.3781E-02
+      Head Difference        hd-06    Satisfied       4.3781E-02
+      Head Difference        hd-07    Satisfied       4.3769E-02
+      Head Gradient          gd-1     Satisfied       1.9690E+00
+      Head Gradient          gd-2     Satisfied       1.9729E+00
+      Head Gradient          gd-7     Satisfied       1.9689E+00
+      Head Gradient          gd-8     Satisfied       1.9728E+00
+      Head Gradient          gd-3     Satisfied       1.9670E+00
+      Head Gradient          gd-4     Satisfied       1.9709E+00
+      Head Gradient          gd-5     Satisfied       1.9670E+00
+      Head Gradient          gd-6     Satisfied       1.9709E+00
+      Summation              demand   Not Met         5.0000E+04
+      Summation              wellson  Satisfied       3.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+    
+    Calculating Response Matrix
+      Perturb Flow Variable    1
+       By Perturbation Value:  5.000000E+02
+      Perturb Flow Variable    2
+       By Perturbation Value:  5.000000E+02
+      Perturb Flow Variable    3
+       By Perturbation Value:  5.000000E+02
+      Perturb Flow Variable    4
+       By Perturbation Value:  5.000000E+02
+ 
+      Average Number of Significant Digits in Matrix  5.888889E+00
+    
+    Solving Linear Program
+ REPORT BRANCH AND BOUND ITERATIONS
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          0.0000E+00    W4          4.3097E+03    W1          3.1502E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2540E+04
+Binary Variables
+    BV3         0.0000E+00    BV4         2.1549E-01    BV1         1.5751E-01
+    BV2         5.0000E-01
+    Objective Function =  3.254008E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1976E+03    W4          4.9843E+03    W1          2.6304E+03
+    W2          6.4178E+03
+External Variables
+    E           3.1770E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         2.4922E-01    BV1         1.3152E-01
+    BV2         3.2089E-01
+    Objective Function =  3.176993E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           2
+                 AND VARIABLE           2
+    Feasible Solution Found
+ SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          3.0771E+03    W4          0.0000E+00    W1          4.2821E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2641E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.1410E-01
+    BV2         5.0000E-01
+    Objective Function =  3.264081E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1976E+03    W4          4.9843E+03    W1          2.6304E+03
+    W2          6.4178E+03
+External Variables
+    E           3.1770E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.3152E-01
+    BV2         3.2089E-01
+    Objective Function =  3.176993E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           4
+                 AND VARIABLE           3
+    Feasible Solution Found
+ SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          3.0701E+03    W4          5.0976E+03    W1          0.0000E+00
+    W2          1.0000E+04
+External Variables
+    E           3.1832E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
+    BV2         5.0000E-01
+    Objective Function =  3.183231E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           3 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           5 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           6 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          6.6514E+03    W4          5.5408E+03    W1          5.9999E+03
+    W2          0.0000E+00
+External Variables
+    E           3.1808E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
+    BV2         0.0000E+00
+    Objective Function =  3.180788E+04
+ 
+ SUBPROBLEM           4 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ SUBPROBLEM           2 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ 
+           6 RELAXED PROBLEMS WERE SOLVED.
+    Feasible Solution Found
+    Optimal Solution Found
+    Objective Value  3.180788E+04
+    Maximum Relative Change in Flow Variable  9.998497E-01
+    Max Relative External Variable Change  9.999686E-01
+    Maximum Binary Variable Change  5.000000E-01
+  SLP Algorithm: End Iteration    1
+ 
+  SLP Algorithm: Begin Iteration     2
+    Running Base Flow Process Simulation
+      Status of Simulation-Based Constraints 
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Difference        hd-01    Satisfied       3.6025E-02
+      Head Difference        hd-02    Satisfied       3.6026E-02
+      Head Difference        hd-03    Satisfied       3.5342E-02
+      Head Difference        hd-08    Satisfied       3.5389E-02
+      Head Difference        hd-09    Satisfied       3.6025E-02
+      Head Difference        hd-10    Satisfied       3.6029E-02
+      Head Difference        hd-04    Satisfied       3.6013E-02
+      Head Difference        hd-05    Satisfied       3.6018E-02
+      Head Difference        hd-06    Satisfied       3.6068E-02
+      Head Difference        hd-07    Satisfied       3.6106E-02
+      Head Gradient          gd-1     Not Met         3.5594E-02
+      Head Gradient          gd-2     Not Met         3.3665E-02
+      Head Gradient          gd-7     Not Met         3.5484E-02
+      Head Gradient          gd-8     Not Met         3.3511E-02
+      Head Gradient          gd-3     Not Met         3.5364E-02
+      Head Gradient          gd-4     Not Met         3.3388E-02
+      Head Gradient          gd-5     Not Met         1.7492E-02
+      Head Gradient          gd-6     Not Met         1.5558E-02
+      Summation              demand   Near-Binding    0.0000E+00
+      Summation              wellson  Near-Binding    0.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+    
+    Calculating Response Matrix
+      Perturb Flow Variable    1
+       By Perturbation Value:  1.004000E+02
+      Perturb Flow Variable    2
+       By Perturbation Value:  1.004000E+02
+      Perturb Flow Variable    3
+       By Perturbation Value:  1.004000E+02
+      Perturb Flow Variable    4
+       By Perturbation Value:  1.004000E+02
+ 
+      Average Number of Significant Digits in Matrix  5.222222E+00
+    
+    Solving Linear Program
+ REPORT BRANCH AND BOUND ITERATIONS
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          0.0000E+00    W4          4.2223E+03    W1          2.9549E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2823E+04
+Binary Variables
+    BV3         0.0000E+00    BV4         2.1112E-01    BV1         1.4774E-01
+    BV2         5.0000E-01
+    Objective Function =  3.282279E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1251E+03    W4          4.8960E+03    W1          2.5888E+03
+    W2          6.3028E+03
+External Variables
+    E           3.2087E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         2.4480E-01    BV1         1.2944E-01
+    BV2         3.1514E-01
+    Objective Function =  3.208734E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           2
+                 AND VARIABLE           2
+    Feasible Solution Found
+ SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          2.9572E+03    W4          0.0000E+00    W1          4.1028E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2940E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0514E-01
+    BV2         5.0000E-01
+    Objective Function =  3.294004E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1251E+03    W4          4.8960E+03    W1          2.5888E+03
+    W2          6.3028E+03
+External Variables
+    E           3.2087E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.2944E-01
+    BV2         3.1514E-01
+    Objective Function =  3.208734E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           4
+                 AND VARIABLE           3
+    Feasible Solution Found
+ SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          2.9205E+03    W4          4.9421E+03    W1          0.0000E+00
+    W2          1.0000E+04
+External Variables
+    E           3.2137E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
+    BV2         5.0000E-01
+    Objective Function =  3.213743E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           3 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           5 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           6 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          6.5348E+03    W4          5.4412E+03    W1          5.8997E+03
+    W2          0.0000E+00
+External Variables
+    E           3.2124E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
+    BV2         0.0000E+00
+    Objective Function =  3.212436E+04
+ 
+ SUBPROBLEM           4 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ SUBPROBLEM           2 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ 
+           6 RELAXED PROBLEMS WERE SOLVED.
+    Feasible Solution Found
+    Optimal Solution Found
+    Objective Value  3.212436E+04
+    Maximum Relative Change in Flow Variable  1.784100E-02
+    Max Relative External Variable Change  9.851292E-03
+    Maximum Binary Variable Change  0.000000E+00
+  SLP Algorithm: End Iteration    2
+ 
+  SLP Algorithm: Begin Iteration     3
+    Running Base Flow Process Simulation
+      Status of Simulation-Based Constraints 
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Difference        hd-01    Satisfied       3.6125E-02
+      Head Difference        hd-02    Satisfied       3.6126E-02
+      Head Difference        hd-03    Satisfied       3.5439E-02
+      Head Difference        hd-08    Satisfied       3.5486E-02
+      Head Difference        hd-09    Satisfied       3.6125E-02
+      Head Difference        hd-10    Satisfied       3.6129E-02
+      Head Difference        hd-04    Satisfied       3.6113E-02
+      Head Difference        hd-05    Satisfied       3.6117E-02
+      Head Difference        hd-06    Satisfied       3.6167E-02
+      Head Difference        hd-07    Satisfied       3.6205E-02
+      Head Gradient          gd-1     Not Met         7.3327E-06
+      Head Gradient          gd-2     Satisfied       1.9506E-03
+      Head Gradient          gd-7     Not Met         7.2815E-06
+      Head Gradient          gd-8     Satisfied       1.9942E-03
+      Head Gradient          gd-3     Not Met         7.4535E-06
+      Head Gradient          gd-4     Satisfied       1.9968E-03
+      Head Gradient          gd-5     Satisfied       1.7539E-02
+      Head Gradient          gd-6     Satisfied       1.9501E-02
+      Summation              demand   Near-Binding    7.2760E-12
+      Summation              wellson  Near-Binding    0.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+    
+    Calculating Response Matrix
+      Perturb Flow Variable    1
+       By Perturbation Value:  2.048000E+01
+      Perturb Flow Variable    2
+       By Perturbation Value:  2.048000E+01
+      Perturb Flow Variable    3
+       By Perturbation Value:  2.048000E+01
+      Perturb Flow Variable    4
+       By Perturbation Value:  2.048000E+01
+ 
+      Average Number of Significant Digits in Matrix  4.333333E+00
+    
+    Solving Linear Program
+ REPORT BRANCH AND BOUND ITERATIONS
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          0.0000E+00    W4          4.2224E+03    W1          2.9547E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2823E+04
+Binary Variables
+    BV3         0.0000E+00    BV4         2.1112E-01    BV1         1.4773E-01
+    BV2         5.0000E-01
+    Objective Function =  3.282292E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1244E+03    W4          4.8958E+03    W1          2.5878E+03
+    W2          6.3046E+03
+External Variables
+    E           3.2087E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         2.4479E-01    BV1         1.2939E-01
+    BV2         3.1523E-01
+    Objective Function =  3.208738E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           2
+                 AND VARIABLE           2
+    Feasible Solution Found
+ SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          2.9572E+03    W4          0.0000E+00    W1          4.1026E+03
+    W2          1.0000E+04
+External Variables
+    E           3.2940E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0513E-01
+    BV2         5.0000E-01
+    Objective Function =  3.294017E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          4.1244E+03    W4          4.8958E+03    W1          2.5878E+03
+    W2          6.3046E+03
+External Variables
+    E           3.2087E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.2939E-01
+    BV2         3.1523E-01
+    Objective Function =  3.208738E+04
+ 
+ NEXT: BRANCH FROM SUBPROBLEM           4
+                 AND VARIABLE           3
+    Feasible Solution Found
+ SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          2.9205E+03    W4          4.9420E+03    W1          0.0000E+00
+    W2          1.0000E+04
+External Variables
+    E           3.2137E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
+    BV2         5.0000E-01
+    Objective Function =  3.213747E+04
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           3 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           5 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           6 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    W3          6.5347E+03    W4          5.4412E+03    W1          5.8997E+03
+    W2          0.0000E+00
+External Variables
+    E           3.2124E+04
+Binary Variables
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
+    BV2         0.0000E+00
+    Objective Function =  3.212442E+04
+ 
+ SUBPROBLEM           4 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ SUBPROBLEM           2 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
+ 
+           6 RELAXED PROBLEMS WERE SOLVED.
+    Feasible Solution Found
+    Optimal Solution Found
+    Objective Value  3.212442E+04
+    Maximum Relative Change in Flow Variable  3.961668E-06
+    Max Relative External Variable Change  2.044689E-06
+    Maximum Binary Variable Change  0.000000E+00
+  SLP Algorithm: End Iteration    3
+  Iterations have converged
+
+----------------------------------------------------------------------
+               Ground-Water Management Solution
+----------------------------------------------------------------------
+
+       OPTIMAL SOLUTION FOUND 
+
+       OPTIMAL RATES FOR EACH FLOW VARIABLE 
+       ---------------------------------------
+Variable           Withdrawal          Injection           Contribution
+Name               Rate                Rate                To Objective
+----------         --------------      ------------        ------------
+ W3                6.534729E+03                            0.000000E+00
+ W4                5.441153E+03                            0.000000E+00
+ W1                5.899694E+03                            0.000000E+00
+ W2                0.000000E+00                            0.000000E+00
+                   ------------        ------------        ------------
+TOTALS             1.787558E+04        0.000000E+00        0.000000E+00
+
+       OPTIMAL RATES FOR EACH EXTERNAL VARIABLE 
+       ---------------------------------------
+Variable           Export              Import              Contribution
+Name               Rate                Rate                To Objective
+----------         --------------      ------------        ------------
+ E                                     3.212442E+04        3.212442E+04
+                   ------------        ------------        ------------
+TOTALS             0.000000E+00        3.212442E+04        3.212442E+04
+
+       OPTIMAL VALUES FOR EACH BINARY VARIABLE 
+       ---------------------------------------
+Variable                                                   Contribution
+Name               Value                                   To Objective
+----------         ------------                            ------------
+ BV3                   1                                   0.000000E+00
+ BV4                   1                                   0.000000E+00
+ BV1                   1                                   0.000000E+00
+ BV2                   0                                   0.000000E+00
+                   ------------                            ------------
+TOTALS                 3                                   0.000000E+00
+
+
+       OBJECTIVE FUNCTION VALUE                            3.212442E+04
+
+       BINDING CONSTRAINTS 
+Constraint Type        Name     Status      Shadow Price
+---------------        ----     ------      ------------
+Head Gradient          gd-1     Binding      2.3181E+03
+Head Gradient          gd-7     Binding      3.3428E+03
+Head Gradient          gd-3     Binding      3.2667E+03
+Summation              demand   Binding      1.0000E+00
+Summation              wellson  Binding    Not Available
+Minimum Flow Rate      W2       Binding    Not Available
+
+  Binding constraint and range analysis values are determined from the linear
+    program and based on the response matrix approximation of the flow-process.
+ 
+       RANGE ANALYSIS 
+
+
+       Constraint Ranges
+
+  Lower/Upper Bound are the values of the RHS beyond which basis will change.
+    Leaving is the variable which will leave the basis. 
+    Entering is the variable which will enter the basis.
+    If the entering or leaving variable is a constraint name,
+      then the constraint slack variable is active
+
+Constraint                Original      Lower/Upper
+Name        Slack         RHS           Bound            Entering    Leaving
+----------  ----------    ----------    ----------       ----------  ----------
+hd-01       3.6125E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1125E-02       gd-1        hd-01     
+
+hd-02       3.6126E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1126E-02       gd-1        hd-02     
+
+hd-03       3.5439E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.0439E-02       gd-1        hd-03     
+
+hd-08       3.5486E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.0486E-02       W2          hd-08     
+
+hd-09       3.6125E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1125E-02       gd-7        hd-09     
+
+hd-10       3.6129E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1129E-02       gd-7        hd-10     
+
+hd-04       3.6113E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1113E-02       gd-3        hd-04     
+
+hd-05       3.6117E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1117E-02       gd-3        hd-05     
+
+hd-06       3.6168E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1168E-02       W2          hd-06     
+
+hd-07       3.6205E-02    5.0000E-03     -Infinity       ----- No Change -----
+                                        4.1205E-02       W2          hd-07     
+
+gd-1        0.0000E+00    2.8000E+00    2.7980E+00       gd-1        gd-2      
+                                        2.9456E+00       W2          gd-5      
+
+gd-2        1.9579E-03    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8020E+00       gd-1        gd-2      
+
+gd-7        0.0000E+00    2.8000E+00    2.7980E+00       gd-7        gd-8      
+                                        3.2024E+00       gd-3        W1        
+
+gd-8        2.0015E-03    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8020E+00       gd-7        gd-8      
+
+gd-3        0.0000E+00    2.8000E+00    2.7980E+00       gd-3        gd-4      
+                                        3.0006E+00       W2          W1        
+
+gd-4        0.0000E+00    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8020E+00       gd-3        gd-4      
+
+gd-5        0.0000E+00    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8175E+00       W2          gd-5      
+
+gd-6        0.0000E+00    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8195E+00       W2          gd-6      
+
+demand      0.0000E+00    5.0000E+04    1.7876E+04       demand      E         
+                                        1.0179E+06       -- Degenerate Basis -
+
+
+
+       Objective-Function Coefficient Ranges 
+
+  Lower/Upper Bound are the values of the coefficients beyond which basis will change.
+    Leaving is the variable which will leave the basis. 
+    Entering is the variable which will enter the basis.
+    If the entering or leaving variable is a constraint name,
+      then the constraint slack variable is active
+    Basic variables are shown with zero reduced cost
+
+Variable    Reduced       Original      Lower/Upper
+Name        Cost          Coefficient   Bound            Entering    Leaving
+----------  ----------    ----------    ----------       ----------  ----------
+W3          0.0000E+00    0.0000E+00   -1.5368E-02       W2          W2        
+                                        2.7926E-01       gd-7        W1        
+
+W4          0.0000E+00    0.0000E+00   -6.7927E-02       W2          W2        
+                                        1.3038E-01       gd-1        gd-5      
+
+W1          0.0000E+00    0.0000E+00   -1.1184E-02       W2          W2        
+                                        1.1106E-01       gd-3        W1        
+
+W2         -5.8754E-03    0.0000E+00      Infinity       ----- No Change -----
+                                        5.8754E-03       W2          W2        
+
+E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E         
+                                          Infinity       ----- No Change -----
+
+---------------------------------------------------------------
+         Final Flow Process Simulation
+---------------------------------------------------------------
+  Running Final Flow Process Simulation
+    using Optimal Flow Variable Rates 
+    
+      Status of Simulation-Based Constraints 
+        Using Optimal Flow Rate Variable Values
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Difference        hd-01    Satisfied       3.6125E-02
+      Head Difference        hd-02    Satisfied       3.6126E-02
+      Head Difference        hd-03    Satisfied       3.5439E-02
+      Head Difference        hd-08    Satisfied       3.5486E-02
+      Head Difference        hd-09    Satisfied       3.6125E-02
+      Head Difference        hd-10    Satisfied       3.6129E-02
+      Head Difference        hd-04    Satisfied       3.6113E-02
+      Head Difference        hd-05    Satisfied       3.6117E-02
+      Head Difference        hd-06    Satisfied       3.6168E-02
+      Head Difference        hd-07    Satisfied       3.6205E-02
+      Head Gradient          gd-1     Near-Binding    2.9457E-08
+      Head Gradient          gd-2     Satisfied       1.9579E-03
+      Head Gradient          gd-7     Near-Binding    2.9608E-08
+      Head Gradient          gd-8     Satisfied       2.0015E-03
+      Head Gradient          gd-3     Near-Binding    2.6975E-08
+      Head Gradient          gd-4     Satisfied       2.0043E-03
+      Head Gradient          gd-5     Satisfied       1.7547E-02
+      Head Gradient          gd-6     Satisfied       1.9509E-02
+      Summation              demand   Near-Binding    7.2760E-12
+      Summation              wellson  Near-Binding    0.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+  Because of precision limitations and possible nonlinear behavior, 
+    the status of binding constraints computed directly by the flow process 
+    may differ slightly from those computed using the linear program.  

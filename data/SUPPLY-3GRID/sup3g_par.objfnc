@@ -1,0 +1,5 @@
+#SUP3G Sample Problem, OBJFNC file
+ 1             #1-IPRN
+ MIN  WSDV     #2-OBJTYP FNTYP
+ 0  1  0       #3-NFVOBJ NEVOBJ  NBVOBJ
+ E    1        #5-EVNAME  EVOBJC

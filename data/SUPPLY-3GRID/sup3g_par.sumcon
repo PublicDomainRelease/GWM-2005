@@ -1,0 +1,13 @@
+#SUP3G Sample Problem, SUMCON file (sup3g_par.sumcon)
+ 1                     #1-IPRN
+ 2                     #2-SMCNUM
+ DEMAND 6 GE 1e6       #3a-SMCNAME NTERMS TYPE RHS
+  Q1  1.0              #3b-GVNAME GVCOEFF
+  Q2  1.0
+  Q3  1.0
+  Q4  1.0
+  Q5  1.0
+   E  1.0
+ FIELDS 2 LE 1
+  BV1  1
+  BV2  1

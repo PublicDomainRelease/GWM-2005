@@ -1,0 +1,6 @@
+LIST  20   deworg3_chd.lst
+DIS   21   ..\data\DEWATER-LGR\deworg3_chd.dis
+BAS6  22   ..\data\DEWATER-LGR\deworg3_chd.ba6
+BCF6  23   ..\data\DEWATER-LGR\deworg3_chd.bc6
+PCG   24   ..\data\DEWATER-LGR\deworg3.pcg
+GWM   25   ..\data\DEWATER-LGR\deworg3_chd.gwm

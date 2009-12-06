@@ -1,6 +1,6 @@
-                                  MODFLOW-2005     
+                                  MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 VERSION MF2005_GWM 1.1 061209,FROM MF05V1.6.02
+                 VERSION GWM2005 1.2 120709,FROM MF-LGR V1.1.02
 
 
  REWOUND ..\data\SUPPLY2\supply2.dis
@@ -26,6 +26,9 @@
 
  REWOUND ..\data\SUPPLY2\supply2.gwm
  FILE TYPE:GWM   UNIT   19
+
+ REWOUND ..\data\SUPPLY2\supply2.gwmwell
+ FILE TYPE:DATA   UNIT   20
 
  REWOUND ..\data\SUPPLY2\supply2.sfrout
  FILE TYPE:DATA   UNIT   81
@@ -1676,6 +1679,6 @@
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2009/06/11  9:28:40
- Elapsed run time:  2.547 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2009/12/04  7:48:49
+ Elapsed run time: 14.528 Seconds
 

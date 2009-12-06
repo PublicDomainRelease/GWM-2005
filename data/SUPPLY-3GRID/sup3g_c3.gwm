@@ -1,0 +1,3 @@
+#SUP3G Sample Problem, child #3 GWM file
+DECVAR      ..\data\SUPPLY-3GRID\sup3g_c3.decvar
+VARCON      ..\data\SUPPLY-3GRID\sup3g_c3.varcon

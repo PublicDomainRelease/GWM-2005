@@ -1,0 +1,11 @@
+#DEWATER-LGR Sample Problem, DECVAR file
+#December, 2007
+ 1 0                           #1-IPRN  GWMWFILE
+ 7 0 0                         #2-NFVAR  NEVAR  NBVAR
+ Q1  1   1 22  29  W  Y  1     #3a-FVNAME NC LAY ROW COL FTYPE FSTAT WSP
+ Q2  1   1 22  43  W  Y  1
+ Q3  1   1 29  36  W  Y  1
+ Q4  1   1 36  29  W  Y  1
+ Q5  1   1 36  43  W  Y  1
+ Q6  1   1 50  50  W  Y  1
+ Q7  1   1 64  43  W  Y  1

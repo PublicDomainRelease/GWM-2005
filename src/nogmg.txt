@@ -8,11 +8,7 @@ C    Fortran compiler.
         INTEGER,SAVE,POINTER  ::ISIZ,IPREC,IIOUT
         INTEGER,SAVE,POINTER  ::SITER,TSITER
         INTEGER,SAVE,POINTER  ::GMGID
-        INTEGER,SAVE,POINTER  ::IUNITMHC
         REAL   ,SAVE,POINTER  ::HCLOSEGMG,RCLOSEGMG,DAMPGMG
-        REAL   ,SAVE,POINTER  ::DUP,DLOW,CHGLIMIT
-        REAL   ,SAVE,POINTER,DIMENSION(:,:,:)::HNEWLAST
-        DOUBLE PRECISION,SAVE,POINTER :: BIGHEADCHG
         DOUBLE PRECISION,SAVE,POINTER  :: RELAXGMG
       END MODULE GMGMODULE
 C
@@ -27,10 +23,9 @@ C
       END
       SUBROUTINE GMG7AP(HNEW,RHS,CR,CC,CV,HCOF,HNOFLO,IBOUND,
      &                  IITER,MXITER,RCLOSE,HCLOSE,
-     &                  KITER,KSTP,KPER,NCOL,NROW,NLAY,
+     &                  KITER,KSTP,KPER,
      &                  ICNVG,SITER,TSITER,DAMP,IADAMP,
-     &                  IOUTGMG,IOUT,GMGID,
-     &        IUNITMHC,DUP,DLOW,CHGLIMIT,BIGHEADCHG,HNEWLAST)
+     &                  IOUTGMG,IOUT,GMGID)
 C***********************************************************************
       IMPLICIT NONE
       REAL RHS(*),CR(*),CC(*),CV(*),HCOF(*)
@@ -40,12 +35,8 @@ C***********************************************************************
       INTEGER MXITER,IITER,KITER,KSTP,KPER,ICNVG,IOUTGMG,IOUT 
       INTEGER SITER,TSITER
       INTEGER IADAMP
-      INTEGER GMGID
-      INTEGER NCOL,NROW,NLAY,IUNITMHC
-      REAL    DUP,DLOW,CHGLIMIT
-      DOUBLE PRECISION   BIGHEADCHG
-      REAL    HNEWLAST(*)
 C
+      INTEGER GMGID
       RETURN
       END
       SUBROUTINE GMG7DA(IGRID)

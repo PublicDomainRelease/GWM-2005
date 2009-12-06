@@ -1,3 +1,3 @@
 @echo off
-..\bin\mf2005_gwm ..\data\DEWATER\dewater.nam
+..\bin\gwm2005 ..\data\DEWATER\dewater.nam
 pause

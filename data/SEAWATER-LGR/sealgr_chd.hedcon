@@ -1,0 +1,17 @@
+#SEAWATER-LGR Sample Problem, HEDCON Child file
+#December, 2007
+ 1                              #1-IPRN
+ 0  0  4  4                    #2-NHB NDD NDF NGD
+ hd-04 1 4  34  2  4 34 0.005 1     #5-HDIFNAME LAY1 ROW1 COL1 LAY2 ROW2 COL2 HD NSP
+ hd-05 1 10 34  2 10 34 0.005 1
+ hd-06 1 16 34  2 16 34 0.005 1
+ hd-07 1 22 34  2 22 34 0.005 1
+ gd-3 1 10 31 1 10 37 400. 0.007 1   #6-GRADNAME (L,R,C)1 (L,R,C)2 LEN GRAD NSP 
+ gd-4 2 10 31 2 10 37 400. 0.007 1
+ gd-5 1 16 31 1 16 37 400. 0.007 1
+ gd-6 2 16 31 2 16 37 400. 0.007 1
+
+
+
+
+

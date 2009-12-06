@@ -1,0 +1,4 @@
+#DEWATER-LGR Sample Problem, child GWM file
+DECVAR  ..\data\DEWATER-LGR\deworg3_chd.decvar
+VARCON  ..\data\DEWATER-LGR\deworg3_chd.varcon
+HEDCON  ..\data\DEWATER-LGR\deworg3_chd.hedcon

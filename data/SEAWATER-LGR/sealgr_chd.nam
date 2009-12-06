@@ -1,0 +1,8 @@
+LIST  20  sealgr_chd.lst
+DIS   21  ..\data\SEAWATER-LGR\sealgr_chd.dis
+BAS6  22  ..\data\SEAWATER-LGR\sealgr_chd.ba6
+BCF6  23  ..\data\SEAWATER-LGR\sealgr.bc6
+RCH   25  ..\data\SEAWATER-LGR\sealgr_chd.rch
+GMG   26  ..\data\SEAWATER-LGR\sealgr.gmg
+GWM   28  ..\data\SEAWATER-LGR\sealgr_chd.gwm
+

@@ -1,0 +1,365 @@
+
+                                  MODFLOW-LGR      
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
+                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
+
+
+
+ OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ PARENT GRID INPUT READ FROM UNIT  17
+ #SUP3G Sample Problem, parent GWM file                                                                                                                                                                  
+
+ OPENING GWM FILE CHILD GRID - INPUT READ FROM UNIT  26
+ #SUP3G Sample Problem, child #1 GWM file                                                                                                                                                                
+
+ OPENING GWM FILE CHILD GRID - INPUT READ FROM UNIT  36
+ #SUP3G Sample Problem, child #2 GWM file                                                                                                                                                                
+
+ OPENING GWM FILE CHILD GRID - INPUT READ FROM UNIT  46
+ #SUP3G Sample Problem, child #3 GWM file                                                                                                                                                                
+
+ OPENING DECISION-VARIABLE FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_c1.decvar                                                                                                                                                                    
+ #SUP3G Sample Problem, child #1 DECVAR file
+
+ OPENING DECISION-VARIABLE FILE ON UNIT   18:
+ ..\data\SUPPLY-3GRID\sup3g_c2.decvar                                                                                                                                                                    
+ #SUP3G Sample Problem, child #2 DECVAR file
+
+ OPENING DECISION-VARIABLE FILE ON UNIT   19:
+ ..\data\SUPPLY-3GRID\sup3g_c3.decvar                                                                                                                                                                    
+ #SUP3G Sample Problem, child #3 DECVAR file
+
+ NO. OF FLOW-RATE DECISION VARIABLES (NFVAR)       5
+ NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       1
+ BINARY VARIABLES ARE ACTIVE. NBVAR:               2
+
+ FLOW-RATE VARIABLES:
+                                                       FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
+ --------------------------------------------------------------
+  FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c1.decvar                                                                                    
+
+    1      Q1         WITHDRAWAL     1   12   12    1.00000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+    2      Q2         WITHDRAWAL     1   12   37    1.00000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+    3      Q3         WITHDRAWAL     1   37   22    1.00000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+  FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c2.decvar                                                                                    
+
+    4      Q4         WITHDRAWAL     1   12   12    1.00000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+  FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c3.decvar                                                                                    
+
+    5      Q5         WITHDRAWAL     1   12   12    1.00000000
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+
+ EXTERNAL VARIABLES:
+
+  NUMBER     NAME
+ ------------------------------
+
+  EXTERNAL VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c1.decvar                                                                                    
+
+    1        E         
+   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+
+
+ BINARY VARIABLES:
+                       NUMBER OF             NAME OF
+  NUMBER     NAME  ASSOCIATED VARIABLES  ASSOCIATED VARIABLES
+ -------------------------------------------------------
+
+  BINARY VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c3.decvar                                                                                    
+
+    1        BV1            3                Q1        
+                                             Q2        
+                                             Q3        
+    2        BV2            2                Q4        
+                                             Q5        
+
+      544 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+
+ CLOSING DECISION-VARIABLE FILE
+
+
+ OPENING OBJECTIVE-FUNCTION FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_par.objfnc                                                                                                                                                                   
+ #SUP3G Sample Problem, OBJFNC file
+
+ OBJECTIVE TYPE: MIN   FUNCTION TYPE: WSDV
+
+ NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    0
+ NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     1
+ NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+
+ OBJECTIVE FUNCTION: (excluding flow duration terms)
+
+ MIN    +  1.00E+00 E         
+
+       32 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR OBJECTIVE-FUNCTION
+
+ CLOSING OBJECTIVE-FUNCTION FILE
+
+
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_c1.varcon                                                                                                                                                                    
+ #SUP3G Sample Problem, child #1 VARCON file
+
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   18:
+ ..\data\SUPPLY-3GRID\sup3g_c2.varcon                                                                                                                                                                    
+ #SUP3G Sample Problem, child #2 VARCON file
+
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   19:
+ ..\data\SUPPLY-3GRID\sup3g_c3.varcon                                                                                                                                                                    
+ #SUP3G Sample Problem, child #3 VARCON file
+
+ FLOW RATE VARIABLES:
+                        MINIMUM        MAXIMUM        REFERENCE
+  NUMBER   NAME         FLOW RATE      FLOW RATE      FLOW RATE
+----------------------------------------------------------------
+    1      Q1           0.000E+00      5.000E+05      0.000E+00
+    2      Q2           0.000E+00      5.000E+05      0.000E+00
+    3      Q3           0.000E+00      5.000E+05      0.000E+00
+    4      Q4           0.000E+00      5.000E+05      0.000E+00
+    5      Q5           0.000E+00      5.000E+05      0.000E+00
+
+ EXTERNAL VARIABLES:
+                        MINIMUM        MAXIMUM
+  NUMBER   NAME          FLOW RATE      FLOW RATE
+-------------------------------------------------
+    1      E            0.000D+00      0.100D+07
+
+ CLOSING DECISION-VARIABLE CONSTRAINTS FILE
+
+
+ OPENING SUMMATION CONSTRAINTS FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_par.sumcon                                                                                                                                                                   
+ #SUP3G Sample Problem, SUMCON file (sup3g_par.sumcon)
+
+ NUMBER OF SUMMATION CONSTRAINTS:     2
+
+ SUMMATION CONSTRAINTS:
+
+ DEMAND    
+   +  1.00E+00 Q1         +  1.00E+00 Q2         +  1.00E+00 Q3        
+   +  1.00E+00 Q4         +  1.00E+00 Q5         +  1.00E+00 E         
+
+  >=   1.00E+06
+
+ FIELDS    
+   +  1.00E+00 BV1        +  1.00E+00 BV2       
+
+  <=   1.00E+00
+
+      148 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR SUMMATION CONSTRAINTS
+
+ CLOSING SUMMATION CONSTRAINTS FILE
+
+
+ OPENING HEAD CONSTRAINTS FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_par.hedcon                                                                                                                                                                   
+ #SUP3G Sample Problem, HEDCON file
+
+ HEAD CONSTRAINTS:
+                                           RIGHT-HAND    STRESS
+ NUMBER  NAME        LAY  ROW  COL  TYPE      SIDE       PERIOD
+ ---------------------------------------------------------------
+  HEAD CONSTRAINTS READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_par.hedcon                                                                                   
+     1   hd-1          1   14   24   >    2.1000E+02         1
+     2   hd-2          1   14   26   >    2.1000E+02         1
+     3   hd-3          1   16   24   >    2.1000E+02         1
+     4   hd-4          1   16   26   >    2.1000E+02         1
+
+      280 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
+
+ CLOSING HEAD CONSTRAINTS FILE
+
+
+ OPENING SOLUTION FILE ON UNIT   12:
+ ..\data\SUPPLY-3GRID\sup3g_par.soln                                                                                                                                                                     
+ #SUP3G Sample Problem, SOLN file
+ #June 2009
+
+ SOLNTYP IS LP: GWM WILL COMPLETE A SINGLE ITERATION OF THE LINEAR PROBLEM.
+
+ IRM EQUALS 2: RESPONSE MATRIX WILL BE CALCULATED BY GWM
+ BUT NOT WRITTEN TO FILE
+
+ MAXIMUM NUMBER OF LP ITERATIONS:                100
+ MAXIMUM NUMBER OF BRANCH AND BOUND ITER:        200
+
+ PERTURBATION VALUE:                          0.50D+00
+
+ MAXIMUM NUMBER OF PERTURBATION ATTEMPTS:         10
+ PERTURBATION ADJUSTMENT FACTOR (PGFACT):    0.50000
+
+ OUTPUT FROM BRANCH AND BOUND ALGORITHM WILL BE PRINTED.
+
+ CRITMFC SET TO                               0.000D+00
+ GWM WILL ACCEPT FLOW PROCESS RESULTS THAT MEET GWF
+ CONVERGENCE CRITERIA
+
+ BASE PUMPING RATES TAKEN FROM FVREF SPECIFIED IN VARCON INPUT FILE
+ 
+     PROBLEM SIZE
+ 
+  NUMBER OF VARIABLES (INCLUDING SLACKS)          16
+  NUMBER OF CONSTRAINT EQUATIONS                   8
+ 
+
+     5225 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
+
+ CLOSING SOLUTION AND OUTPUT FILE
+
+---------------------------------------------------------------
+               Solution Algorithm
+---------------------------------------------------------------
+  Begin Solution Algorithm
+    Running Base Flow Process Simulation
+      Status of Simulation-Based Constraints 
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Bound             hd-1     Satisfied       2.6660E+01
+      Head Bound             hd-2     Satisfied       3.4286E+01
+      Head Bound             hd-3     Satisfied       2.6661E+01
+      Head Bound             hd-4     Satisfied       3.4286E+01
+      Summation              DEMAND   Not Met         1.0000E+06
+      Summation              FIELDS   Satisfied       1.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+    
+    Calculating Response Matrix
+      Perturb Flow Variable    1
+       By Perturbation Value: -2.500000E+05
+      Perturb Flow Variable    2
+       By Perturbation Value: -2.500000E+05
+      Perturb Flow Variable    3
+       By Perturbation Value: -2.500000E+05
+      Perturb Flow Variable    4
+       By Perturbation Value: -2.500000E+05
+      Perturb Flow Variable    5
+       By Perturbation Value: -2.500000E+05
+ 
+      Average Number of Significant Digits in Matrix  9.350000E+00
+    
+    Solving Linear Program
+ REPORT BRANCH AND BOUND ITERATIONS
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    Q1          0.0000E+00    Q2          0.0000E+00    Q3          0.0000E+00
+    Q4          3.6597E+05    Q5          3.5688E+05
+External Variables
+    E           2.7715E+05
+Binary Variables
+    BV1         0.0000E+00    BV2         3.6143E-01
+    Objective Function =  2.771482E+08
+ 
+    Feasible Solution Found
+ SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
+ SUBPROBLEM           2 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
+    Name          Value       Name          Value       Name          Value
+Flow Variables
+    Q1          5.0000E+05    Q2          0.0000E+00    Q3          4.2569E+05
+    Q4          0.0000E+00    Q5          0.0000E+00
+External Variables
+    E           7.4307E+04
+Binary Variables
+    BV1         1.0000E+00    BV2         0.0000E+00
+    Objective Function =  7.430744E+07
+ 
+ 
+           2 RELAXED PROBLEMS WERE SOLVED.
+    Feasible Solution Found
+  Optimal Solution Found
+
+----------------------------------------------------------------------
+               Ground-Water Management Solution
+----------------------------------------------------------------------
+
+       OPTIMAL SOLUTION FOUND 
+
+       OPTIMAL RATES FOR EACH FLOW VARIABLE 
+       ---------------------------------------
+Variable           Withdrawal          Injection           Contribution
+Name               Rate                Rate                To Objective
+----------         --------------      ------------        ------------
+ Q1                5.000000E+05                            0.000000E+00
+ Q2                0.000000E+00                            0.000000E+00
+ Q3                4.256926E+05                            0.000000E+00
+ Q4                0.000000E+00                            0.000000E+00
+ Q5                0.000000E+00                            0.000000E+00
+                   ------------        ------------        ------------
+TOTALS             9.256926E+05        0.000000E+00        0.000000E+00
+
+       OPTIMAL RATES FOR EACH EXTERNAL VARIABLE 
+       ---------------------------------------
+Variable           Export              Import              Contribution
+Name               Rate                Rate                To Objective
+----------         --------------      ------------        ------------
+ E                                     7.430744E+04        7.430744E+07
+                   ------------        ------------        ------------
+TOTALS             0.000000E+00        7.430744E+04        7.430744E+07
+
+       OPTIMAL VALUES FOR EACH BINARY VARIABLE 
+       ---------------------------------------
+Variable                                                   Contribution
+Name               Value                                   To Objective
+----------         ------------                            ------------
+ BV1                   1                                   0.000000E+00
+ BV2                   0                                   0.000000E+00
+                   ------------                            ------------
+TOTALS                 1                                   0.000000E+00
+
+
+       OBJECTIVE FUNCTION VALUE                            7.430744E+07
+
+       BINDING CONSTRAINTS 
+Constraint Type        Name     Status      Shadow Price
+---------------        ----     ------      ------------
+Head Bound             hd-1     Binding      3.0429E+07
+Summation              DEMAND   Binding      1.0000E+03
+Summation              FIELDS   Binding    Not Available
+Maximum Flow Rate      Q1       Binding    Not Available
+Minimum Flow Rate      Q2       Binding    Not Available
+Minimum Flow Rate      Q4       Binding    Not Available
+Minimum Flow Rate      Q5       Binding    Not Available
+
+  Binding constraint values are determined from the linear program
+    and based on the response matrix approximation of the flow-process.
+ 
+       Range Analysis Not Reported 
+---------------------------------------------------------------
+         Final Flow Process Simulation
+---------------------------------------------------------------
+  Running Final Flow Process Simulation
+    using Optimal Flow Variable Rates 
+    
+      Status of Simulation-Based Constraints 
+        Using Optimal Flow Rate Variable Values
+      Constraint Type        Name     Status     Distance To RHS
+      ---------------        ----     ------     ---------------
+      Head Bound             hd-1     Near-Binding    1.8729E-05
+      Head Bound             hd-2     Satisfied       8.7066E+00
+      Head Bound             hd-3     Satisfied       8.9654E-01
+      Head Bound             hd-4     Satisfied       9.5032E+00
+      Summation              DEMAND   Near-Binding    0.0000E+00
+      Summation              FIELDS   Near-Binding    0.0000E+00
+
+  Distance to RHS is the absolute value of the difference between the
+    the right hand side of the constraint and the left side of the
+    constraint evaluated using the current set of decision variable values.
+  Because of precision limitations and possible nonlinear behavior, 
+    the status of binding constraints computed directly by the flow process 
+    may differ slightly from those computed using the linear program.  

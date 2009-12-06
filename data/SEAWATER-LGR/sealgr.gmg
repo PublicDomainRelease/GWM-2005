@@ -1,0 +1,9 @@
+# RCLOSE  IITER HCLOSE  MXITER
+  1.0E-8  100 1.0E-8   100
+# DAMP  IADAMP  IOUTGMG
+  0.50   0       0
+# ISM  ISC
+  0    0
+# RELAX
+  1.0
+

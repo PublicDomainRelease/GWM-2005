@@ -1,0 +1,6 @@
+#SUP3G Sample Problem, child #3 DECVAR file
+ 1 0                              #1-IPRN  GWMWFILE
+ 1 0 2                            #2-NFVAR NEVAR NBVAR
+ Q5  1  1  12  12  W  Y  1        #3a-FVNAME NC LAY ROW COL FTYPE FSTAT WSP
+ BV1  3  Q1  Q2  Q3                   #BVNAME  NDV  BVLIST
+ BV2  2  Q4  Q5               #BVNAME  NDV  BVLIST

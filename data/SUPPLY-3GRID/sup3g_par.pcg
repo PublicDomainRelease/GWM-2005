@@ -1,0 +1,3 @@
+#SUP3G Sample Problem, parent PCG file
+ 15    10    1                  MXITER,ITER1,NPCOND
+ 1E-08  1.  1.  0  1  1  1. 1. HCLOSE,RCLOSE,RELAX,NBPOL,IPRPCG,MUTPCG,DAMPPCG,DAMPPCGT

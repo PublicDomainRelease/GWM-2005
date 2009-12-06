@@ -8,5 +8,5 @@ SFR     16   ..\data\SUPPLY2\supply2.sfr
 OC      17   ..\data\SUPPLY2\supply2.oc
 PCG     18   ..\data\SUPPLY2\supply2.pcg
 GWM     19   ..\data\SUPPLY2\supply2.gwm
+DATA    20   ..\data\SUPPLY2\supply2.gwmwell
 DATA    81   ..\data\SUPPLY2\supply2.sfrout
-

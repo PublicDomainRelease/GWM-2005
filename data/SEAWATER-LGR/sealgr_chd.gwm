@@ -1,0 +1,5 @@
+#SEAWATER-LGR Sample Problem, GWM Child file
+DECVAR  ..\data\SEAWATER-LGR\sealgr_chd.decvar
+VARCON  ..\data\SEAWATER-LGR\sealgr_chd.varcon
+HEDCON  ..\data\SEAWATER-LGR\sealgr_chd.hedcon
+

@@ -1,0 +1,6 @@
+#SUP3G Sample Problem, parent GWM file
+OUT       sup3g_par.out
+OBJFNC    ..\data\SUPPLY-3GRID\sup3g_par.objfnc
+SUMCON    ..\data\SUPPLY-3GRID\sup3g_par.sumcon
+HEDCON    ..\data\SUPPLY-3GRID\sup3g_par.hedcon
+SOLN      ..\data\SUPPLY-3GRID\sup3g_par.soln

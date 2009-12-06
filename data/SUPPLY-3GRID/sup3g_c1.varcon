@@ -1,0 +1,6 @@
+#SUP3G Sample Problem, child #1 VARCON file
+ 1                         #1-IPRN
+ Q1 0.0d0  5.0d5  0.0d0    #2-FVNAME FVMIN FVMAX FVREF
+ Q2 0.0d0  5.0d5  0.0d0
+ Q3 0.0d0  5.0d5  0.0d0
+ E  0.0d0  1.0d6

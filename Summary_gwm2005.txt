@@ -1,0 +1,106 @@
+Summary of GWM-2005
+
+
+
+ABSTRACT
+
+GWM-2005 is a Groundwater Management Process for the U.S. Geological Survey 
+modular three-dimensional groundwater model, MODFLOW-2005. GWM-2005 uses a 
+response-matrix approach to solve several types of linear, nonlinear, and 
+mixed-binary linear groundwater management formulations. Each management 
+formulation consists of a set of decision variables, an objective function, and 
+a set of constraints. Three types of decision variables are supported by 
+GWM-2005: flow-rate decision variables, which are withdrawal or injection 
+rates at well sites; external decision variables, which are sources or sinks of 
+water that are external to the flow model and do not directly affect the state 
+variables of the simulated groundwater system (heads, streamflows, and so 
+forth); and binary variables, which have values of 0 or 1 and are used to define 
+the status of flow-rate or external decision variables. Flow-rate decision 
+variables can represent wells that extend over one or more model cells and be 
+active during one or more model stress periods; external variables also can be 
+active during one or more stress periods. A single objective function is 
+supported by GWM-2005, which can be specified to either minimize or maximize 
+the weighted sum of the three types of decision variables. Four types of 
+constraints can be specified in a GWM-2005 formulation: upper and lower bounds 
+on the flow-rate and external decision variables; linear summations of the three 
+types of decision variables; hydraulic-head based constraints, including 
+drawdowns, head differences, and head gradients; and streamflow and 
+streamflow-depletion constraints. 
+
+The Response Matrix Solution (RMS) Package of GWM-2005 uses the Groundwater 
+Flow Process of MODFLOW to calculate the change in head at each constraint 
+location that results from a perturbation of a flow-rate variable; these changes 
+are used to calculate the response coefficients. For linear management 
+formulations, the resulting matrix of response coefficients is then combined 
+with other components of the linear management formulation to form a complete 
+linear formulation; the formulation is then solved by use of the simplex 
+algorithm, which is incorporated into the RMS Package. Nonlinear formulations 
+arise for simulated conditions that include water-table (unconfined) aquifers or 
+head-dependent boundary conditions (such as streams, drains, or 
+evapotranspiration from the water table). Nonlinear formulations are solved by 
+sequential linear programming; that is, repeated linearization of the nonlinear 
+features of the management problem. In this approach, response coefficients are 
+recalculated for each iteration of the solution process. Mixed-binary linear (or 
+mildly nonlinear) formulations are solved by use of the branch and bound 
+algorithm, which is also incorporated into the RMS Package.
+
+
+HISTORY
+
+Version 1.2 2009/12 - Added capability to accommodate problems on multiple grids
+using MODFLOW-LGR. Reconstructed from MODFLOW-LGR version 1.1.02. Added CRITMFC
+input parameter to control flow process closure criteria. Changed name of program 
+from MF2005-GWM to GWM-2005. Published new documentation report 
+(Ahlfeld and others, 2009).
+
+Version 1.1 2009/06 – Reconstructed from MODFLOW-2005 Version 1.6.02. Added
+capability for placement of streamflow constraints when SFR package is used. Bug fix 
+that caused code failure when equality summation constraints were imposed on binary 
+variables. Bug fix to correct output for SLP runs. See ‘release.txt’ for more details.
+
+Version 1.0.1 2008/08 - Reconstructed from MODFLOW-2005 Version 1.5.00. Bug fix 
+that prevented use of LPF or HUF packages. Change to output to GWMWFILE so that 
+well information is printed even when stress is zero. New feature to allow 
+formatted output of response matrix under NS option. See 'release.txt' for 
+details. 
+
+Version 1.0.0 2007/07/12 - Initial release, built from MODFLOW-2005 Version 
+1.3.01 and MF2K-GWM Version 1.1.1 
+
+
+PROCESSES
+
+This version of GWM-2005 includes the following processes: 
+
+GWF2 -- Ground-Water Flow Process 
+GWM1 -- Ground-Water Management Process 
+OBS2 -- Observation Process 
+
+
+PACKAGES
+
+In addition to all of the packages included with Version 1.6.02 of MODFLOW-2005, 
+this version of GWM-2005 includes the following packages: 
+
+DCV2 -- Decision Variable Package 
+OBJ2 -- Objective Function Package 
+HDC2 -- Head Constraints Package 
+STC2 -- StreamFlow Constraints Package 
+SMC2 -- Summation Constraints Package 
+DCC2 -- Decision-Variable Constraints Package 
+RMS2 -- Response Matrix Solution Package 
+BAS2-GWM -- Basic Package for GWM 
+
+
+
+DOCUMENTATION
+
+
+Ahlfeld, D.P., Baker, K.M., and Barlow, P.M., 2009, GWM-2005--A Groundwater-
+Management Process for MODFLOW-2005 with Local Grid Refinement (LGR)
+capability: U.S. Geological Survey Techniques and Methods, 6-A33, 65 p.
+
+Ahlfeld, D.P., Barlow, P.M., and Mulligan, A.E., 2005, GWM--A ground-water
+management process for the U.S. Geological Survey modular ground-water
+model (MODFLOW-2000): U.S. Geological Survey Open-File Report 2005-1072,
+124 p.

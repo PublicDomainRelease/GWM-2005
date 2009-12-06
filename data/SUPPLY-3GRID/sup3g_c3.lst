@@ -1,0 +1,555 @@
+                                  MODFLOW-LGR      
+      U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
+                 VERSION GWM2005 1.2 120709,FROM MF-LGR V1.1.02
+
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_c3.ba6
+ FILE TYPE:BAS6   UNIT   41
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_c3.bc6
+ FILE TYPE:BCF6   UNIT   42
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_c3.dis
+ FILE TYPE:DIS   UNIT   43
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_chd.pcg
+ FILE TYPE:PCG   UNIT   44
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_chd.rch
+ FILE TYPE:RCH   UNIT   45
+
+ REWOUND ..\data\SUPPLY-3GRID\sup3g_c3.gwm
+ FILE TYPE:GWM   UNIT   46
+
+ BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   41
+
+ DISCRETIZATION INPUT DATA READ FROM UNIT   43
+ #SUP3G Sample Problem, child #3 DIS file
+    1 LAYERS        21 ROWS        21 COLUMNS
+    1 STRESS PERIOD(S) IN SIMULATION
+ MODEL TIME UNIT IS DAYS
+ MODEL LENGTH UNIT IS UNDEFINED
+  Confining bed flag for each layer:
+   0
+
+                     DELR =   200.000    
+
+                     DELC =   200.000    
+
+ TOP ELEVATION OF LAYER 1 =   200.000    
+
+   MODEL LAYER BOTTOM EL. =   0.00000     FOR LAYER   1
+
+
+ STRESS PERIOD     LENGTH       TIME STEPS     MULTIPLIER FOR DELT    SS FLAG
+ ----------------------------------------------------------------------------
+        1         1000.000          1                    1.000         SS
+
+ STEADY-STATE SIMULATION
+
+
+
+ 
+ #SUP3G Sample Problem, child #3 BAS6 file (21x21)                               
+ THE FREE FORMAT OPTION HAS BEEN SELECTED
+
+
+
+                     BOUNDARY ARRAY FOR LAYER   1
+ READING ON UNIT   41 WITH FORMAT: (20I4)              
+
+                1           2           3           4           5           6           7           8           9          10
+               11          12          13          14          15          16          17          18          19          20
+               21
+ ............................................................................................................................
+   1          -57         -57         -57         -57         -57         -57         -57         -57         -57         -57
+              -57         -57         -57         -57         -57         -57         -57         -57         -57         -57
+              -57
+   2          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   3          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   4          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   5          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   6          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   7          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   8          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+   9          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  10          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  11          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  12          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  13          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  14          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  15          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  16          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  17          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  18          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  19          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  20          -57           1           1           1           1           1           1           1           1           1
+                1           1           1           1           1           1           1           1           1           1
+              -57
+  21          -57         -57         -57         -57         -57         -57         -57         -57         -57         -57
+              -57         -57         -57         -57         -57         -57         -57         -57         -57         -57
+              -57
+
+ AQUIFER HEAD WILL BE SET TO  0.0000     AT ALL NO-FLOW NODES (IBOUND=0).
+
+
+
+                       INITIAL HEAD FOR LAYER   1
+ READING ON UNIT   41 WITH FORMAT: (10F13.0)           
+
+            1           2           3           4           5           6           7           8           9          10
+           11          12          13          14          15          16          17          18          19          20
+           21
+ ........................................................................................................................
+   1    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   2    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   3    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   4    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   5    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   6    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   7    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   8    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+   9    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  10    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  11    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  12    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  13    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  14    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  15    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  16    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  17    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  18    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  19    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  20    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+  21    150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0       150.0    
+        150.0    
+
+ DEFAULT OUTPUT CONTROL
+ THE FOLLOWING OUTPUT COMES AT THE END OF EACH STRESS PERIOD:
+ TOTAL VOLUMETRIC BUDGET
+           HEAD
+
+ BCF -- BLOCK-CENTERED FLOW PACKAGE, VERSION 7, 5/2/2005
+         INPUT READ FROM UNIT 42
+ STEADY-STATE SIMULATION
+ HEAD AT CELLS THAT CONVERT TO DRY=   0.0000    
+ WETTING CAPABILITY IS ACTIVE
+ WETTING FACTOR=   1.00000     WETTING ITERATION INTERVAL=   1
+ FLAG THAT SPECIFIES THE EQUATION TO USE FOR HEAD AT WETTED CELLS=   0
+      LAYER  LAYER-TYPE CODE     INTERBLOCK T
+      --------------------------------------------
+         1            0          0 -- HARMONIC    
+
+ COLUMN TO ROW ANISOTROPY =   1.00000    
+
+     TRANSMIS. ALONG ROWS =   2000.00     FOR LAYER   1
+
+ RCH -- RECHARGE PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   45
+ #SUP3G Sample Problem, child RECH file
+     1 Named Parameters     
+ OPTION 1 -- RECHARGE TO TOP LAYER
+
+
+     1 Recharge parameters
+
+ PARAMETER NAME:REC-CHD      TYPE:RCH    CLUSTERS:   1
+ Parameter value from package file is:   1.00000E-03
+                MULTIPLIER ARRAY: NONE    ZONE ARRAY: ALL
+1
+                            STRESS PERIOD NO.    1, LENGTH =   1000.000    
+                            -----------------------------------------------
+
+                              NUMBER OF TIME STEPS =     1
+
+                               MULTIPLIER FOR DELT =     1.000
+
+                            INITIAL TIME STEP SIZE =   1000.000    
+
+
+
+ RECH array defined by the following parameters:
+ Parameter:  REC-CHD
+
+                 RECHARGE =  1.000000E-03
+ 
+ SOLVING FOR HEAD 
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    23 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    23 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    21 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    21 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    21 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    20 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    19 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    19 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    18 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    17 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    16 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    16 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    15 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    14 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    14 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    10 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     9 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     9 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     3 TOTAL ITERATIONS
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     8 TOTAL ITERATIONS
+1
+              HEAD IN LAYER   1 AT END OF TIME STEP   1 IN STRESS PERIOD    1
+  ---------------------------------------------------------------------------
+
+            1           2           3           4           5           6           7           8           9          10
+           11          12          13          14          15          16          17          18          19          20
+           21
+ ........................................................................................................................
+   1    288.8       289.7       290.6       291.4       292.1       292.9       293.7       294.4       295.1       295.8    
+        296.4       297.1       297.7       298.3       298.9       299.4       300.0       300.6       301.1       301.5    
+        302.0    
+   2    288.9       289.8       290.6       291.4       292.2       292.9       293.7       294.4       295.1       295.8    
+        296.5       297.1       297.7       298.4       298.9       299.5       300.0       300.6       301.1       301.6    
+        302.1    
+   3    289.0       289.8       290.6       291.4       292.2       293.0       293.7       294.4       295.1       295.8    
+        296.5       297.1       297.8       298.4       298.9       299.5       300.1       300.6       301.1       301.6    
+        302.1    
+   4    289.0       289.8       290.6       291.4       292.2       293.0       293.7       294.5       295.2       295.8    
+        296.5       297.1       297.8       298.4       299.0       299.5       300.1       300.6       301.1       301.6    
+        302.1    
+   5    289.0       289.8       290.7       291.5       292.2       293.0       293.7       294.5       295.2       295.9    
+        296.5       297.2       297.8       298.4       299.0       299.5       300.1       300.6       301.1       301.6    
+        302.1    
+   6    288.9       289.8       290.7       291.5       292.3       293.0       293.8       294.5       295.2       295.9    
+        296.5       297.2       297.8       298.4       299.0       299.6       300.1       300.6       301.1       301.6    
+        302.0    
+   7    289.0       289.9       290.7       291.5       292.3       293.0       293.8       294.5       295.2       295.9    
+        296.6       297.2       297.8       298.4       299.0       299.6       300.1       300.7       301.2       301.6    
+        302.1    
+   8    289.1       289.9       290.7       291.5       292.3       293.1       293.8       294.5       295.2       295.9    
+        296.6       297.2       297.8       298.4       299.0       299.6       300.1       300.7       301.2       301.7    
+        302.2    
+   9    289.1       289.9       290.8       291.5       292.3       293.1       293.8       294.5       295.2       295.9    
+        296.6       297.2       297.9       298.5       299.0       299.6       300.2       300.7       301.2       301.7    
+        302.2    
+  10    289.1       289.9       290.8       291.6       292.3       293.1       293.8       294.6       295.3       295.9    
+        296.6       297.3       297.9       298.5       299.1       299.6       300.2       300.7       301.2       301.7    
+        302.2    
+  11    289.1       289.9       290.8       291.6       292.4       293.1       293.9       294.6       295.3       296.0    
+        296.6       297.3       297.9       298.5       299.1       299.6       300.2       300.7       301.2       301.7    
+        302.1    
+  12    289.2       290.0       290.8       291.6       292.4       293.1       293.9       294.6       295.3       296.0    
+        296.6       297.3       297.9       298.5       299.1       299.7       300.2       300.7       301.2       301.7    
+        302.2    
+  13    289.2       290.0       290.8       291.6       292.4       293.2       293.9       294.6       295.3       296.0    
+        296.7       297.3       297.9       298.5       299.1       299.7       300.2       300.7       301.2       301.7    
+        302.2    
+  14    289.2       290.0       290.8       291.6       292.4       293.2       293.9       294.6       295.3       296.0    
+        296.7       297.3       297.9       298.5       299.1       299.7       300.2       300.7       301.3       301.7    
+        302.2    
+  15    289.2       290.0       290.9       291.7       292.4       293.2       293.9       294.6       295.3       296.0    
+        296.7       297.3       297.9       298.5       299.1       299.7       300.2       300.8       301.3       301.7    
+        302.2    
+  16    289.1       290.0       290.9       291.7       292.4       293.2       293.9       294.7       295.4       296.0    
+        296.7       297.3       298.0       298.6       299.1       299.7       300.2       300.8       301.3       301.7    
+        302.1    
+  17    289.2       290.1       290.9       291.7       292.5       293.2       294.0       294.7       295.4       296.1    
+        296.7       297.4       298.0       298.6       299.2       299.7       300.3       300.8       301.3       301.8    
+        302.2    
+  18    289.3       290.1       290.9       291.7       292.5       293.2       294.0       294.7       295.4       296.1    
+        296.7       297.4       298.0       298.6       299.2       299.7       300.3       300.8       301.3       301.8    
+        302.3    
+  19    289.3       290.1       290.9       291.7       292.5       293.2       294.0       294.7       295.4       296.1    
+        296.7       297.4       298.0       298.6       299.2       299.7       300.3       300.8       301.3       301.8    
+        302.3    
+  20    289.3       290.1       290.9       291.7       292.5       293.3       294.0       294.7       295.4       296.1    
+        296.7       297.4       298.0       298.6       299.2       299.7       300.3       300.8       301.3       301.8    
+        302.3    
+  21    289.2       290.1       291.0       291.8       292.5       293.2       294.0       294.7       295.4       296.1    
+        296.7       297.4       298.0       298.6       299.2       299.7       300.3       300.8       301.3       301.8    
+        302.2    
+1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  ------------------------------------------------------------------------------
+
+     CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+           IN:                                      IN:
+           ---                                      ---
+             STORAGE =           0.0000               STORAGE =           0.0000
+       CONSTANT HEAD =    18290779.6702         CONSTANT HEAD =       18290.7797
+            RECHARGE =    14440000.0000              RECHARGE =       14440.0000
+        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+
+            TOTAL IN =    32730779.6702              TOTAL IN =       32730.7797
+
+          OUT:                                     OUT:
+          ----                                     ----
+             STORAGE =           0.0000               STORAGE =           0.0000
+       CONSTANT HEAD =    32730779.6708         CONSTANT HEAD =       32730.7797
+            RECHARGE =           0.0000              RECHARGE =           0.0000
+        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+
+           TOTAL OUT =    32730779.6708             TOTAL OUT =       32730.7797
+
+            IN - OUT =      -5.5268E-04              IN - OUT =      -5.5268E-07
+
+ PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+
+
+
+
+
+
+          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+                    SECONDS     MINUTES      HOURS       DAYS        YEARS
+                    -----------------------------------------------------------
+   TIME STEP LENGTH 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
+ STRESS PERIOD TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
+         TOTAL TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
+1
+1
+  FLUX ACROSS PARENT-CHILD INTERFACE AT TIME STEP  1 IN STRESS PERIOD    1
+  ------------------------------------------------------------------------
+
+     CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
+     ------------------                 ------------------------
+
+   TOTAL IN TO CHILD =    19312805.4145     TOTAL IN TO CHILD =       19312.8054
+
+ TOTAL OUT TO PARENT =    33752805.4163   TOTAL OUT TO PARENT =       33752.8054
+
+
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2009/12/04  7:48:48
+ Elapsed run time: 20.369 Seconds
+

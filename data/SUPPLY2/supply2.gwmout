@@ -1,7 +1,7 @@
 
-                                  MODFLOW-2005     
+                                  MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version MF2005_GWM 1.1 061209,FROM MF05V1.6.02  
+                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
 
 
 
@@ -12,38 +12,40 @@
  #SUPPLY2 Sample Problem, GWM file                                                                                                                                                                       
  #August 12, 2007                                                                                                                                                                                        
 
- OPENING DECISION-VARIABLE FILE ON UNIT   99:
+ OPENING DECISION-VARIABLE FILE ON UNIT   14:
  ..\data\SUPPLY2\supply2.decvar                                                                                                                                                                          
  #SUPPLY2 Sample Problem, DECVAR file
  #August 14, 2006
+
+ OPTIMAL FLOW VARIABLE VALUES WILL BE WRITTEN TO UNIT NUMBER:  20
 
  NO. OF FLOW-RATE DECISION VARIABLES (NFVAR)       7
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       4
  BINARY VARIABLES ARE NOT ACTIVE.
 
  FLOW-RATE VARIABLES:
-                                                   FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
- ----------------------------------------------------------
-    1      Q1         WITHDRAWAL     1   12   11    1.0000
+                                                       FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
+ --------------------------------------------------------------
+    1      Q1         WITHDRAWAL     1   12   11    1.00000000
    AVAILABLE IN STRESS PERIODS: 1-12                                                                                                                    
 
-    2      Q2a        WITHDRAWAL     1   16   17    1.0000
+    2      Q2a        WITHDRAWAL     1   16   17    1.00000000
    AVAILABLE IN STRESS PERIODS: 1:5:9                                                                                                                   
 
-    3      Q2b        WITHDRAWAL     1   16   17    1.0000
+    3      Q2b        WITHDRAWAL     1   16   17    1.00000000
    AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
 
-    4      Q2c        WITHDRAWAL     1   16   17    1.0000
+    4      Q2c        WITHDRAWAL     1   16   17    1.00000000
    AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
 
-    5      Q2d        WITHDRAWAL     1   16   17    1.0000
+    5      Q2d        WITHDRAWAL     1   16   17    1.00000000
    AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
 
-    6      Q4a        WITHDRAWAL     1   14   25    1.0000
+    6      Q4a        WITHDRAWAL     1   14   25    1.00000000
    AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
 
-    7      Q4b        WITHDRAWAL     1   14   25    1.0000
+    7      Q4b        WITHDRAWAL     1   14   25    1.00000000
    AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
 
 
@@ -64,12 +66,13 @@
     4        Im12      
    AVAILABLE IN STRESS PERIODS: 12                                                                                                                      
 
-      652 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+
+      762 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
 
- OPENING OBJECTIVE-FUNCTION FILE ON UNIT   99:
+ OPENING OBJECTIVE-FUNCTION FILE ON UNIT   14:
  ..\data\SUPPLY2\supply2.objfnc                                                                                                                                                                          
  #SUPPLY2 Sample Problem, OBJFNC file
  #August 14, 2006
@@ -92,8 +95,7 @@
  CLOSING OBJECTIVE-FUNCTION FILE
 
 
- OPENING DECISION-VARIABLE CONSTRAINTS FILE
- ON UNIT   99:
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   14:
  ..\data\SUPPLY2\supply2.varcon                                                                                                                                                                          
  #SUPPLY2 Sample Problem, VARCON file
  #August 14, 2006
@@ -122,8 +124,7 @@
  CLOSING DECISION-VARIABLE CONSTRAINTS FILE
 
 
- OPENING SUMMATION CONSTRAINTS FILE
- ON UNIT   99:
+ OPENING SUMMATION CONSTRAINTS FILE ON UNIT   14:
  ..\data\SUPPLY2\supply2.sumcon                                                                                                                                                                          
  #SUPPLY2 Sample Problem, SUMCON file
  #August 14, 2006
@@ -222,7 +223,7 @@
 
 
  OPENING STREAMFLOW CONSTRAINTS FILE
- ON UNIT   99:
+ ON UNIT   14:
  ..\data\SUPPLY2\supply2.strmcon                                                                                                                                                                         
  #SUPPLY2 Sample Problem, STRMCON file
  #August 14, 2006
@@ -247,15 +248,15 @@
     11    S04.11      3         5   <     3.0000E+04      11
     12    S04.12      3         5   <     3.0000E+04      12
 
-      600 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR STREAMFLOW CONSTRAINTS
+      648 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR STREAMFLOW CONSTRAINTS
 
  CLOSING STREAMFLOW CONSTRAINTS FILE
 
 
- OPENING SOLUTION FILE ON UNIT   99:
+ OPENING SOLUTION FILE ON UNIT   14:
  ..\data\SUPPLY2\supply2.soln                                                                                                                                                                            
- #SUPPLY Sample Problem, SOLN file
- #February 20, 2005
+ #SUPPLY2 Sample Problem, SOLN file
+ #June 15, 2009
 
  SOLNTYP IS SLP: GWM WILL USE SEQUENTIAL ITERATION OF THE
  NONLINEAR PROBLEM UNTIL A SOLUTION IS FOUND OR THE PROBLEM
@@ -279,6 +280,10 @@
 
  OUTPUT FROM BRANCH-AND-BOUND ALGORITHM WILL NOT BE PRINTED.
 
+ CRITMFC SET TO                               0.000D+00
+ GWM WILL ACCEPT FLOW PROCESS RESULTS THAT MEET GWF
+ CONVERGENCE CRITERIA
+
  BASE PUMPING RATES TAKEN FROM FVREF SPECIFIED IN VARCON INPUT FILE
  
      PROBLEM SIZE
@@ -287,7 +292,7 @@
   NUMBER OF CONSTRAINT EQUATIONS                  28
  
 
-    26412 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
+    26583 BYTES OF MEMORY ALLOCATED FOR RESPONSE MATRIX ALGORITHM
 
  CLOSING SOLUTION AND OUTPUT FILE
 

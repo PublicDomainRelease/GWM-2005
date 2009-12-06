@@ -1,0 +1,8 @@
+LIST   10 sup3g_par.lst
+BAS6   11 ..\data\SUPPLY-3GRID\sup3g_par.ba6
+BCF6   66 ..\data\SUPPLY-3GRID\sup3g_par.bc6
+DIS    13 ..\data\SUPPLY-3GRID\sup3g_par.dis
+PCG    14 ..\data\SUPPLY-3GRID\sup3g_par.pcg
+ZONE   15 ..\data\SUPPLY-3GRID\sup3g_par.zone
+RCH    16 ..\data\SUPPLY-3GRID\sup3g_par.rch
+GWM    17 ..\data\SUPPLY-3GRID\sup3g_par.gwm

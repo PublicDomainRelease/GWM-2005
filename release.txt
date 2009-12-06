@@ -1,28 +1,46 @@
 release.txt
 
-                           MF2005_GWM Release Notes
+                           GWM-2005 Release Notes
 
-     This file describes changes introduced into MF2005_GWM with each
+     This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.2; 7 December 2009
+	MF2005-GWM is renamed GWM-2005. 
+
+	Add capability to accomodate problems on multipe grids using 
+		MODFLOW-LGR. Build main program from MODFLOW-LGR Version 1.1.02 
+
+	GWM-2005 Packages are revised to allow use of MODFLOW-LGR.  All 
+		GWM-2005 package files are renumbered to Package version 3.
+
+        Add CRITMFC input parameter which indicates how GWM will test 
+                acceptability of the GWF process result.   CRITMFC is read in 
+                GWM1RMS3AR and is used in GWM1BAS3AP.  The main program was also 
+                modified to accommodate two metrics for acceptability.
+
+        Add code in anticipation of a future version of GWM-2005 with parallel 
+                programming capability.  Changes made in DCV, DCC, RMS, BAS, HDC 
+                and STC Packages and main program of GWM.  These changes have 
+                no impact on runs of the current verion of GWM-2005.  
+
+        New report issued to document LGR capability and other changes:
+		Ahlfeld, D.P., Baker, K.M., and Barlow, P.M., 2009, GWM-2005--
+                A Groundwater-Management Process for MODFLOW-2005 with Local 
+                Grid Refinement (LGR) capability: U.S. Geological Survey 
+                Techniques and Methods, 6-A33, 65 p.
+
+
+============ Prior versions were named MF2005-GWM ==========================
 
 Version 1.1; 8 June 2009
-	This version of the code is built from MODFLOW-2005 version 1.6.02.
-
-	Add to the STC package the capability to process streamflow constraints
-		represented by either the STR or SFR packages.  Create new 
-		subroutine GWM1STC2OS2.  Impose requirement that both 
-		STR and SFR packages can not be active in the flow process.
-                See file 'SFR_update.pdf' in the \doc directory for details on
-                how to use the SFR Package with MF2005_GWM.
-
-        Correct an output bug that caused incorrect values of the external 
+	Correct an output bug that caused incorrect values of the external 
 		and binary variables to be used when writing the output file 
 		for the base runs when the SLP option is used.  Changes made 
 		in GWM1RMS3OT and GWM1SMC3OT.
 
 	Simplify code arrangement in GWM1SMC3OT and GWM1OBJ3FM without changing
-		any functionality.
+		 any functionality.
 
 	Correct a bug that might allow referencing of an array beyond its 
 		bound in loop 120 of SGWM1RMS3AP.
@@ -38,6 +56,11 @@ Version 1.1; 8 June 2009
 	Add code to GWM1PSIMPLEX1 to set relaxed binary variables to zero 
 		if they are implicitly fixed by constraints that only contain 
 		binary variables and that are already binding.  
+
+	Add to the STC package the capability to process streamflow constraints
+		represented by either the STR or SFR packages.  Create new 
+		subroutine GWM1STC2OS2.  Impose requirement that both 
+		STR and SFT packages can not be active in the flow process.
 
 
 Version 1.0.1; 8 August 2008
@@ -77,4 +100,3 @@ Version 1.0; 12 August 2007
 		in the documentation for MF2005_GWM V1.0
 
 	This version is the initial release.
-

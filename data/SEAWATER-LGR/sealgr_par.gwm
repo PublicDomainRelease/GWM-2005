@@ -1,0 +1,8 @@
+#SEAWATER-LGR Sample Problem, GWM Parent file
+OUT     sealgr_par.out
+DECVAR  ..\data\SEAWATER-LGR\sealgr_par.decvar
+OBJFNC  ..\data\SEAWATER-LGR\sealgr_par.objfnc
+VARCON  ..\data\SEAWATER-LGR\sealgr_par.varcon
+SUMCON  ..\data\SEAWATER-LGR\sealgr_par.sumcon
+HEDCON  ..\data\SEAWATER-LGR\sealgr_par.hedcon
+SOLN    ..\data\SEAWATER-LGR\sealgr_par.soln

@@ -1,0 +1,7 @@
+LIST   40 sup3g_c3.lst
+BAS6   41 ..\data\SUPPLY-3GRID\sup3g_c3.ba6
+BCF6   42 ..\data\SUPPLY-3GRID\sup3g_c3.bc6
+DIS    43 ..\data\SUPPLY-3GRID\sup3g_c3.dis
+PCG    44 ..\data\SUPPLY-3GRID\sup3g_chd.pcg
+RCH    45 ..\data\SUPPLY-3GRID\sup3g_chd.rch
+GWM    46 ..\data\SUPPLY-3GRID\sup3g_c3.gwm
