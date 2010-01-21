@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
+                 Version GWM2005 1.2.01 012210,FROM MF-LGR V1.1.2
 
 
 
@@ -296,9 +296,9 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -1.412443E+04
-    Maximum Relative Change in Flow Variable  9.999000E-01
+    Objective Value  1.412443E+04
   SLP Algorithm: End Iteration    1
+  No SLP convergence at this iteration
  
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
@@ -367,9 +367,15 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -1.408782E+04
-    Maximum Relative Change in Flow Variable  7.213245E-03
+    Objective Value  1.408782E+04
+    Relative Change in Objective Value
+      Needs to be less than SLPZCRIT =  1.000000E-03
+      Value at this iteration        =  2.599134E-03
+    Maximum Relative Change in Variables
+      Needs to be less than SLPVCRIT =  1.000000E+00
+      For Flow Variable Max Change   =  7.213245E-03
   SLP Algorithm: End Iteration    2
+  No SLP convergence at this iteration
  
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
@@ -438,10 +444,15 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -1.408782E+04
-    Maximum Relative Change in Flow Variable  4.443988E-08
+    Objective Value  1.408782E+04
+    Relative Change in Objective Value
+      Needs to be less than SLPZCRIT =  1.000000E-03
+      Value at this iteration        =  2.487092E-08
+    Maximum Relative Change in Variables
+      Needs to be less than SLPVCRIT =  1.000000E+00
+      For Flow Variable Max Change   =  4.443988E-08
   SLP Algorithm: End Iteration    3
-  Iterations have converged
+  SLP Iterations have converged
 
 ----------------------------------------------------------------------
                Ground-Water Management Solution

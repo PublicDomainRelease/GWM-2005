@@ -47,6 +47,10 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
+Version 1.2.01 2010/1 – Bug corrected that caused GWM to fail when IBASE set to 
+one in the SOLN input file.   This bug only occurs in Version 1.2 of GWM-2005.   
+Implement minor improvements and corrections to output.
+
 Version 1.2 2009/12 - Added capability to accommodate problems on multiple grids
 using MODFLOW-LGR. Reconstructed from MODFLOW-LGR version 1.1.02. Added CRITMFC
 input parameter to control flow process closure criteria. Changed name of program 

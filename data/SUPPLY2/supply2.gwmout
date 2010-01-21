@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2 120709,FROM MF-LGR V1.1.02  
+                 Version GWM2005 1.2.01 012210,FROM MF-LGR V1.1.2
 
 
 
@@ -359,10 +359,9 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -5.302823E+04
-    Maximum Relative Change in Flow Variable  9.999800E-01
-    Max Relative External Variable Change  9.999315E-01
+    Objective Value  5.302823E+04
   SLP Algorithm: End Iteration    1
+  No SLP convergence at this iteration
  
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
@@ -423,10 +422,16 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -5.302832E+04
-    Maximum Relative Change in Flow Variable  7.546591E-05
-    Max Relative External Variable Change  6.139343E-05
+    Objective Value  5.302832E+04
+    Relative Change in Objective Value
+      Needs to be less than SLPZCRIT =  1.000000E-04
+      Value at this iteration        =  1.679662E-06
+    Maximum Relative Change in Variables
+      Needs to be less than SLPVCRIT =  1.000000E-05
+      For Flow Variable Max Change   =  7.546591E-05
+      For Ext Variables Max Change   =  6.139343E-05
   SLP Algorithm: End Iteration    2
+  No SLP convergence at this iteration
  
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
@@ -487,11 +492,16 @@
     Solving Linear Program
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value -5.302832E+04
-    Maximum Relative Change in Flow Variable  2.321087E-08
-    Max Relative External Variable Change  8.439882E-08
+    Objective Value  5.302832E+04
+    Relative Change in Objective Value
+      Needs to be less than SLPZCRIT =  1.000000E-04
+      Value at this iteration        =  8.034450E-09
+    Maximum Relative Change in Variables
+      Needs to be less than SLPVCRIT =  1.000000E-05
+      For Flow Variable Max Change   =  2.321087E-08
+      For Ext Variables Max Change   =  8.439882E-08
   SLP Algorithm: End Iteration    3
-  Iterations have converged
+  SLP Iterations have converged
 
 ----------------------------------------------------------------------
                Ground-Water Management Solution

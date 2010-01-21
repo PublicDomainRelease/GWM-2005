@@ -1,7 +1,7 @@
 README.TXT
 
 
-                 GWM-2005 - Version: 1.2 12/07/2009
+                 GWM-2005 - Version: 1.2.01 1/22/2010
                  Built from MODFLOW-LGR Version 1.1.2
        Three-dimensional finite-difference groundwater flow model
           With Local Grid Refinement (LGR) Capability and the
@@ -39,7 +39,7 @@ A. DISTRIBUTION FILE
 The following self-extracting distribution file is for use on personal
 computers:
 
-          gwm_2005.1_2.exe
+          gwm_2005.1_2_1.exe
 
 The distribution file contains:
 
@@ -55,7 +55,7 @@ directory that you specify:
 
 
    |
-   |--GWM2005.1_2
+   |--GWM2005.1_2_1
    |    |--bin       ; compiled executable
    |    |--data      ; standard data sets used in verification tests
    |    |--doc       ; documentation files
@@ -63,11 +63,11 @@ directory that you specify:
    |    |--test-win  ; batch files to run verification tests
 
 
-It is recommended that no user files are kept in the GWM2005.1_2 
+It is recommended that no user files are kept in the GWM2005.1_2_1 
 directory structure.  If you do plan to put files in this directory, 
 do so only by creating subdirectories.
 
-Included in directory GWM2005.1_2\doc are Portable Document Format 
+Included in directory GWM2005.1_2_1\doc are Portable Document Format 
 (PDF) files. A PDF file is readable and printable on various computer 
 platforms using Acrobat Reader from Adobe. The Acrobat Reader is freely 
 available from the following World Wide Web sites:
@@ -78,11 +78,11 @@ available from the following World Wide Web sites:
 B. INSTALLING 
 
 To make the executable version of the program accessible from any
-directory, the directory containing the executable (GWM2005.1_2\bin)
+directory, the directory containing the executable (GWM2005.1_2_1\bin)
 should be included in the PATH environment variable. 
 
 As an alternative, the executable file, gwm2005.exe, in the
-GWM2005.1_2\bin directory can be copied into a directory already
+GWM2005.1_2_1\bin directory can be copied into a directory already
 included in the PATH environment variable.
 
 On Windows NT systems, from the Start menu, select Settings and then
@@ -90,12 +90,12 @@ Control Panel. Double-click System and select the Environment tab.
 To add a new user variable, enter "PATH" in the Variable field and 
 enter
 
-   %PATH%;C:\GWMpathname\GWM2005.1_2\bin
+   %PATH%;C:\GWMpathname\GWM2005.1_2_1\bin
 
 in the Value field, Where GWMpathname is the directory path you selected 
 for installing GWM-2005.   Click Set and then click OK.  If a PATH user 
 variable already is defined, click on it in the User Variables pane, 
-add ";C:\GWMpathname\GWM2005.1_2\bin" to its definition in the Value 
+add ";C:\GWMpathname\GWM2005.1_2_1\bin" to its definition in the Value 
 field, and click OK. Initiate and use a new MS-DOS Command Prompt 
 window after making this change.
 
@@ -103,7 +103,7 @@ On Windows 2000 or XP systems, from the Start menu, select Settings and
 then Control Panel. Double-click System and select the Advanced tab.  
 Click on Environment Variables. If a PATH user variable already is 
 defined, click on it in the User Variables pane, then click Edit. In 
-the Edit User Variable window, add ";C:\GWMpathname\GWM2005.1_2\bin" 
+the Edit User Variable window, add ";C:\GWMpathname\GWM2005.1_2_1\bin" 
 to the end of the Variable Value (ensure that the current contents of 
 the User Value are not deleted) and click OK. If a PATH user variable 
 is not already defined, in the User variables pane of the Environment 
@@ -115,7 +115,7 @@ and use a new MS-DOS Command Prompt window.
 
 C. RUNNING THE SOFTWARE
 
-After the executable file in the GWM2005.1_2\bin directory is installed 
+After the executable file in the GWM2005.1_2_1\bin directory is installed 
 in a directory that is included in your PATH, the program is initiated
 in a DOS Command-Prompt window using the commands:
 
@@ -148,7 +148,7 @@ D. TESTING
 Data files for seven test problems are provided to confirm that 
 GWM-2005 is correctly installed and running on the system.  
 The tests also may be looked at as examples of how to use the program.  
-The directory GWM2005.1_2\data contains the input data and expected 
+The directory GWM2005.1_2_1\data contains the input data and expected 
 results for the tests. The file 'README_data.txt' located in the 
 \data subdirectory describes the seven test problems.
 
@@ -156,7 +156,7 @@ results for the tests. The file 'README_data.txt' located in the
 E. COMPILING
 
 Although an executable version of the program is provided, the source 
-code is available in the GWM2005.1_2\src directory so that the 
+code is available in the GWM2005.1_2_1\src directory so that the 
 programs can be recompiled if necessary.  However, no support can be 
 provided for users generating their own versions of the software. 
 
@@ -170,7 +170,7 @@ with the GMG Package, the source-code files written in the C language
 the resulting object files must be linked together.  Alternatively, 
 the GMG solver can be removed so that only a Fortran compiler
 is required.  Follow instruction in the Nogmg.txt file in the  
-GWM2005.1_2\src directory for removing GMG from MODFLOW.  If the calls to GMG 
+GWM2005.1_2_1\src directory for removing GMG from MODFLOW.  If the calls to GMG 
 subroutines are removed, the GMG Package will not be available when 
 GWM-2005 is run.  For tips on compiling the mixed-language code of 
 GWM-2005 with various compilers, follow the instructions for  

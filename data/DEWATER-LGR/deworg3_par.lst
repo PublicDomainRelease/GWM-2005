@@ -1,6 +1,9 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 VERSION GWM2005 1.2 120709,FROM MF-LGR V1.1.02
+                VERSION GWM2005 1.2.01 012210,FROM MF-LGR V1.1.2
+
+
+     FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
 
 
  REWOUND ..\data\DEWATER-LGR\deworg3_par.dis

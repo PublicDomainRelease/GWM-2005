@@ -311,12 +311,12 @@ C
 C
 C***********************************************************************
       SUBROUTINE GWM1BAS3RW(INUNIT,FNAME,CUNIT,NIUNIT,IOUT,VERSION,
-     &                      MFVNAM)
+     &                      MFVNAM,GWMSTRG)
 C***********************************************************************
 C     
 C-----GWM1BAS3RW CREATED FROM PES1BAS6RW VERSION 19990811ERB 
 C     ******************************************************************
-C     VERSION: 22MAR2008 
+C     VERSION: 21JAN2010 
 C     PURPOSE: REWIND FILES.
 C     ******************************************************************
 C
@@ -328,6 +328,7 @@ C     ------------------------------------------------------------------
       CHARACTER(LEN=4),INTENT(IN)::CUNIT(NIUNIT)
       CHARACTER(LEN=40),INTENT(IN)::VERSION
       CHARACTER(LEN=10),INTENT(IN)::MFVNAM
+      CHARACTER(LEN=200),INTENT(IN)::GWMSTRG
       INTERFACE
 C
         SUBROUTINE URWORD(LINE,ICOL,ISTART,ISTOP,NCODE,N,R,IOUT,IN)
@@ -386,6 +387,7 @@ C
         LENVER=LEN_TRIM(VERSION)
         INDENT=40-(LENVER+8)/2
         WRITE(IOUT,1000) MFVNAM,SPACES(1:INDENT),VERSION(1:LENVER)
+        WRITE(IOUT,1010) GWMSTRG
       ELSE
         WRITE(IOUT,3000)LINE(INAM1:INAM2),LINE(ITYP1:ITYP2),IU
       ENDIF
@@ -401,6 +403,7 @@ C
      &       6X,'U.S. GEOLOGICAL SURVEY MODULAR',
      &       ' FINITE-DIFFERENCE GROUND-WATER FLOW MODEL',/,
      &       A,'VERSION ',A,/)
+ 1010   FORMAT(/,5X,A,/)
  3000 FORMAT(1X,/1X,'REWOUND ',A,/
      1       1X,'FILE TYPE:',A,'   UNIT ',I4)
 C

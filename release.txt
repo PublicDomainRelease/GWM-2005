@@ -5,6 +5,22 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.2.01; 22 January 2010
+	Correct bugs in handling of flow process status arrays MFCNVRG, 
+		DEWATER, and DEWATERQ that caused GWM to fail when IBASE set to
+		one in the SOLN input file.  Bug was introduced with version 1.2.
+		Changes to properly access these arrays in GWM1RMS3AR, GWM1HDC3OS,
+		GWM1RMS3OS, GWM1RMS3PP, GWM1RMS3OS, GWM1RMS3FP, and main program.
+
+	Correct output bug in SGWM1RMS3AP that reported wrong sign on objective
+		function for SLP iteration output when OBJTYP set to MAX. 
+
+	Minor output improvements: add write statement in GWM1BAS3RW to put 
+		explanatory text at top of listing file; add more output to 
+		GWM1RMS3SLP to explain convergence of SLP; improve error 
+		messaging when response matrix file already exists.
+
+
 Version 1.2; 7 December 2009
 	MF2005-GWM is renamed GWM-2005. 
 

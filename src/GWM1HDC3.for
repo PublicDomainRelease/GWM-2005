@@ -592,7 +592,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1HDC3OS(IGRID,KPER,IPERT,HDRY,NDEP,DEPVALS)
 C***********************************************************************
-C     VERSION: 16JULY2009
+C     VERSION: 21JAN2010
 C     PURPOSE: ASSIGN COMPUTED HEAD STATE TO STATE ARRAY
 C-----------------------------------------------------------------------
       USE GWM1RMS3, ONLY :  DEWATER
@@ -611,7 +611,7 @@ C---- FOR HEAD BOUND CONSTRAINTS ASSIGN HEAD VALUE TO HDCSTATE
         IF(IGRID.EQ.GRDLOCHDC(I))THEN                       ! CONSTRAINT ON GRID
           IF(KPER.EQ.HDCSP(I)) THEN                         ! ACTIVE THIS SP
             STATE1 = HNEW(HDCJLOC(I,1),HDCILOC(I,1),HDCKLOC(I,1))
-            IF(REAL(STATE1,SP).EQ.HDRY)DEWATER=.TRUE.       ! CELL HAS DEWATERED
+            IF(REAL(STATE1,SP).EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
             HDCSTATE(I) = STATE1
           ENDIF
         ENDIF
@@ -623,8 +623,8 @@ C---- FOR HEAD DIFFERENCE CONSTRAINTS ASSIGN HEAD DIFFERENCE TO HDCSTATE
           IF(KPER.EQ.HDCSP(I)) THEN                         ! ACTIVE THIS SP
             STATE1 = HNEW(HDCJLOC(I,1),HDCILOC(I,1),HDCKLOC(I,1))
             STATE2 = HNEW(HDCJLOC(I,2),HDCILOC(I,2),HDCKLOC(I,2))
-            IF(REAL(STATE1,SP).EQ.HDRY)DEWATER=.TRUE.       ! CELL HAS DEWATERED
-            IF(REAL(STATE2,SP).EQ.HDRY)DEWATER=.TRUE.       ! CELL HAS DEWATERED
+            IF(REAL(STATE1,SP).EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
+            IF(REAL(STATE2,SP).EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
             HDCSTATE(I) = STATE1 - STATE2
           ENDIF
         ENDIF
