@@ -26,15 +26,15 @@ and renamed SUPPLY2, as described in Ahlfeld and others (2009).
 The DEWATER-LGR, SEAWATER-LGR, and SUPPLY3-GRID problems are described
 in Ahlfeld and others (2009).
 
-The directory GWM2005.1_2_1\test-win can be used to conveniently run the
-tests without destroying the original results in the GWM2005.1_2_1\data
-subdirectories. The GWM2005.1_2_1\test-win directory contains batch (BAT) 
+The directory GWM2005.1_2_2\test-win can be used to conveniently run the
+tests without destroying the original results in the GWM2005.1_2_2\data
+subdirectories. The GWM2005.1_2_2\test-win directory contains batch (BAT) 
 files to run the tests.  Each test can be run by entering the name of 
 the test as a command in a DOS command-prompt window with the current 
-directory being GWM2005.1_2_1\test-win or by double-clicking on the 
+directory being GWM2005.1_2_2\test-win or by double-clicking on the 
 corresponding BAT file in Windows Explorer.  The output files that are 
-created in GWM2005.1_2_1\test-win can then be compared to those in the
-GWM2005.1_2_1\data subdirectories. Note that there are three batch files
+created in GWM2005.1_2_2\test-win can then be compared to those in the
+GWM2005.1_2_2\data subdirectories. Note that there are three batch files
 provided for the DEWATER-LGR test problem, one each for the three levels
 of horizontal grid refinement (1:1, 3:1, and 7:1).
 

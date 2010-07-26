@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                VERSION GWM2005 1.2.01 012210,FROM MF-LGR V1.1.2
+                 VERSION GWM2005 1.2.02 072710,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -117,7 +117,7 @@
 
      0 Recharge parameters
 
- SFR7 -- STREAMFLOW ROUTING PACKAGE, VERSION 7.1.01, 02/15/2009
+ SFR7 -- STREAMFLOW ROUTING PACKAGE, VERSION 7.1.02, 06/29/2009
          INPUT READ FROM UNIT  16
  #SUPPLY2 Sample Problem, SFR file
  #March 2009
@@ -134,6 +134,8 @@
  MAXIMUM ERROR FOR STREAM LEAKAGE RATES IS  1.00E-04
 
  CONSTANT FOR MANNINGS EQUATION IS  1.2839E+05
+
+
 
  STREAM OUTPUT WILL BE WRITTEN TO FILE ON UNIT  81
 
@@ -1682,6 +1684,6 @@
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2010/01/22  7:08:50
- Elapsed run time:  2.108 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2010/07/27  9:29:05
+ Elapsed run time:  2.061 Seconds
 
