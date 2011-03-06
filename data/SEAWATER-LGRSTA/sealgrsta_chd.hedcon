@@ -1,0 +1,8 @@
+#SEAWATER-LGRSTA Sample Problem, HEDCON Child file
+#July, 2010
+ 1                                   #1-IPRN
+ 0  0  0  4                          #2-NHB NDD NDF NGD
+ gd-3 1 10 34 1 10 40 400. 0.007 1   #6-GRADNAME (L,R,C)1 (L,R,C)2 LEN GRAD NSP 
+ gd-4 2 10 34 2 10 40 400. 0.007 1
+ gd-5 1 16 34 1 16 40 400. 0.007 1
+ gd-6 2 16 34 2 16 40 400. 0.007 1

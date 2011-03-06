@@ -1,5 +1,5 @@
       MODULE GWM1BAS3
-C     VERSION: 3SEPT2008
+C     VERSION: 26JAN2011
       IMPLICIT NONE
       PRIVATE
       PUBLIC::GWMOUT,MPSFILE,RMFILE,RMFILEF,GWMWFILE,ZERO,ONE,
@@ -134,14 +134,15 @@ C
 C
 C
 C***********************************************************************
-      SUBROUTINE GWM1BAS3CS(CTYPE,CNAME,CARHS,CDIR,TFLG)
+C      SUBROUTINE GWM1BAS3CS(CTYPE,CNAME,CARHS,CDIR,TFLG)
+      SUBROUTINE GWM1BAS3CS(CTYPE,CNAME,CLHS,CRHS,CARHS,CDIR,TFLG)
 C***********************************************************************
-C     VERSION: 21MAR2008
+C     VERSION: 26JAN2011
 C     PURPOSE: WRITE STATUS OF CONSTRAINTS
 C-----------------------------------------------------------------------
       CHARACTER (LEN=*),INTENT(IN)::CTYPE
       CHARACTER (LEN=*),INTENT(IN)::CNAME
-      REAL(DP),INTENT(IN)::CARHS
+      REAL(DP),INTENT(IN)::CLHS,CRHS,CARHS
       INTEGER(I4B),INTENT(IN)::CDIR,TFLG
       INTERFACE  
         SUBROUTINE USTOP(STOPMESS)
@@ -149,24 +150,22 @@ C-----------------------------------------------------------------------
         END
       END INTERFACE
       CHARACTER(LEN=12)::CSTAT
+      CHARACTER(LEN=1)::DIRC(3)
+      DATA DIRC/'<','>','='/
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
-C-----WRITE INITIAL STATUS OF CONSTRAINT
-      IF((CARHS.LE.ZERO .AND. CDIR.EQ.2)  .OR.
-     &   (CARHS.GE.ZERO .AND. CDIR.EQ.1) ) THEN
+      IF((CARHS.GE.ZERO .AND. CDIR.EQ.2)  .OR.
+     &   (CARHS.EQ.ZERO .AND. CDIR.EQ.3)  .OR.
+     &   (CARHS.LE.ZERO .AND. CDIR.EQ.1) ) THEN
         CSTAT =  'Satisfied'
-      ELSEIF(CDIR.EQ.0)THEN
-        IF(TFLG.EQ.0)THEN
-          CSTAT =  'Binding'
-        ELSEIF(TFLG.EQ.1)THEN
-          CSTAT =  'Near-Binding'
-        ENDIF
+      ELSEIF(CDIR.EQ.0.AND.TFLG.EQ.0)THEN
+        CSTAT =  'Binding'
       ELSE
         CSTAT =  'Not Met'
       ENDIF
 C
-	IF(TFLG.EQ.1)THEN                          ! WRITE CONSTRAINT STATUS
-	  WRITE(GWMOUT,1100)CTYPE,CNAME,CSTAT,ABS(CARHS) 
+	IF(TFLG.EQ.-1)THEN                         ! WRITE STATE VARIABLE STATUS
+	  WRITE(GWMOUT,1200)CTYPE,CNAME,CARHS    
 	ELSEIF(TFLG.EQ.0)THEN                      ! WRITE SHADOW PRICE INFO
         IF(CARHS.EQ.BIGINF)THEN                  ! CONSTRAINT BINDING BUT 
           WRITE(GWMOUT,1000)CTYPE,CNAME,CSTAT,ZERO  ! BUT SHADOW PRICE IS ZERO
@@ -175,11 +174,17 @@ C
         ELSE                                     ! NO SHADOW PRICE AVAILABLE
 	    WRITE(GWMOUT,1050)CTYPE,CNAME,CSTAT
         ENDIF
+	ELSEIF(TFLG.EQ.1)THEN                      ! WRITE CONSTRAINT STATUS
+	  WRITE(GWMOUT,1100)CTYPE,CNAME,CSTAT,ABS(CARHS) 
+	ELSEIF(TFLG.EQ.2)THEN                      ! WRITE FINAL FLOW PROCESS
+      	WRITE(GWMOUT,1020)CTYPE,CNAME,CLHS,DIRC(CDIR),CRHS,CARHS 
       ENDIF
 C
  1000 FORMAT(T1,A,T24,A,T33,A,T44,ES12.4)
+ 1020 FORMAT(T7,A,T30,A,T41,ES13.4,T55,A,ES11.4,ES13.4)
  1050 FORMAT(T1,A,T24,A,T33,A,T44,'Not Available')
- 1100 FORMAT(T7,A,T30,A,T39,A,T54,ES11.4)
+ 1100 FORMAT(T7,A,T30,A,T41,A,T54,ES11.4)
+ 1200 FORMAT(T7,A,T30,A,T41,ES14.7)
       RETURN
 C
 C-----ERROR HANDLING

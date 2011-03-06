@@ -1,12 +1,12 @@
 
                                   MODFLOW-LGR      
-    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2.02 072710,FROM MF-LGR V1.2  
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
+                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
 
 
 
 
- OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ OPENING GWM FILE FOR GWM1 -- GROUNDWATER MANAGEMENT PROCESS
  INPUT READ FROM UNIT  15
 
  #DEWATER Sample Problem, GWM file                                                                                                                                                                       
@@ -22,28 +22,28 @@
  BINARY VARIABLES ARE NOT ACTIVE.
 
  FLOW-RATE VARIABLES:
-                                                       FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
- --------------------------------------------------------------
-    1      Q1         WITHDRAWAL     1    7   14    1.00000000
+                                                   FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
+ ----------------------------------------------------------
+    1      Q1         WITHDRAWAL     1    7   14    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      Q2         WITHDRAWAL     1    7   16    1.00000000
+    2      Q2         WITHDRAWAL     1    7   16    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    3      Q3         WITHDRAWAL     1    8   15    1.00000000
+    3      Q3         WITHDRAWAL     1    8   15    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      Q4         WITHDRAWAL     1    9   14    1.00000000
+    4      Q4         WITHDRAWAL     1    9   14    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    5      Q5         WITHDRAWAL     1    9   16    1.00000000
+    5      Q5         WITHDRAWAL     1    9   16    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    6      Q6         WITHDRAWAL     1   11   17    1.00000000
+    6      Q6         WITHDRAWAL     1   11   17    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    7      Q7         WITHDRAWAL     1   13   16    1.00000000
+    7      Q7         WITHDRAWAL     1   13   16    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -62,6 +62,7 @@
  NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    7
  NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     0
  NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+ NO. OF STATE VARIABLES IN OBJECTIVE FUNCTION (NSVOBJ):                 0
 
  OBJECTIVE FUNCTION: (excluding flow duration terms)
 
@@ -126,8 +127,11 @@
 
  SOLNTYP IS LP: GWM WILL COMPLETE A SINGLE ITERATION OF THE LINEAR PROBLEM.
 
- IRM EQUALS 2: RESPONSE MATRIX WILL BE CALCULATED BY GWM
- BUT NOT WRITTEN TO FILE
+ IRM EQUALS 3: RESPONSE MATRIX WILL BE CALCULATED BY GWM
+ AND PRINTED TO FILE 
+
+ OPENING RESPONSE-MATRIX FILE FOR PRINTING ON UNIT    8:
+ rmout                                                                                                                                                                                                   
 
  MAXIMUM NUMBER OF LP ITERATIONS:               1000
  MAXIMUM NUMBER OF BRANCH AND BOUND ITER:       2000
@@ -161,18 +165,18 @@
   Begin Solution Algorithm
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             b-01     Not Met         2.1724E+01
-      Head Bound             b-02     Not Met         2.0345E+01
-      Head Bound             b-03     Not Met         1.8966E+01
-      Head Bound             b-04     Not Met         2.1724E+01
-      Head Bound             b-05     Not Met         1.8966E+01
-      Head Bound             b-06     Not Met         2.1724E+01
-      Head Bound             b-07     Not Met         2.0345E+01
-      Head Bound             b-08     Not Met         1.9655E+01
-      Head Bound             b-09     Not Met         1.9655E+01
-      Head Bound             b-10     Not Met         1.8966E+01
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Bound             b-01       Not Met       2.1724E+01
+      Head Bound             b-02       Not Met       2.0345E+01
+      Head Bound             b-03       Not Met       1.8966E+01
+      Head Bound             b-04       Not Met       2.1724E+01
+      Head Bound             b-05       Not Met       1.8966E+01
+      Head Bound             b-06       Not Met       2.1724E+01
+      Head Bound             b-07       Not Met       2.0345E+01
+      Head Bound             b-08       Not Met       1.9655E+01
+      Head Bound             b-09       Not Met       1.9655E+01
+      Head Bound             b-10       Not Met       1.8966E+01
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -201,7 +205,7 @@
   Optimal Solution Found
 
 ----------------------------------------------------------------------
-               Ground-Water Management Solution
+               Groundwater Management Solution
 ----------------------------------------------------------------------
 
        OPTIMAL SOLUTION FOUND 
@@ -322,22 +326,24 @@ Q7          0.0000E+00    1.0000E+03    6.7387E+02       b-10        Q2
     
       Status of Simulation-Based Constraints 
         Using Optimal Flow Rate Variable Values
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             b-01     Near-Binding    3.4739E-07
-      Head Bound             b-02     Satisfied       2.0745E+00
-      Head Bound             b-03     Near-Binding    2.8216E-07
-      Head Bound             b-04     Satisfied       2.0528E+00
-      Head Bound             b-05     Satisfied       1.1167E+00
-      Head Bound             b-06     Near-Binding    2.6732E-07
-      Head Bound             b-07     Satisfied       2.6182E+00
-      Head Bound             b-08     Satisfied       1.8584E+00
-      Head Bound             b-09     Satisfied       1.0158E+00
-      Head Bound             b-10     Near-Binding    1.8573E-07
 
-  Distance to RHS is the absolute value of the difference between the
-    the right hand side of the constraint and the left side of the
-    constraint evaluated using the current set of decision variable values.
-  Because of precision limitations and possible nonlinear behavior, 
-    the status of binding constraints computed directly by the flow process 
-    may differ slightly from those computed using the linear program.  
+                                           Simulated    Specified
+                                            By Flow        in
+      Constraint Type        Name           Process    Constraints   Difference
+      ---------------        ----          ----------   ----------   ----------
+      Head Bound             b-01          5.0000E+01 < 5.0000E+01  -3.4739E-07
+      Head Bound             b-02          4.7926E+01 < 5.0000E+01  -2.0745E+00
+      Head Bound             b-03          5.0000E+01 < 5.0000E+01  -2.8216E-07
+      Head Bound             b-04          4.7947E+01 < 5.0000E+01  -2.0528E+00
+      Head Bound             b-05          4.8883E+01 < 5.0000E+01  -1.1167E+00
+      Head Bound             b-06          5.0000E+01 < 5.0000E+01  -2.6732E-07
+      Head Bound             b-07          4.7382E+01 < 5.0000E+01  -2.6182E+00
+      Head Bound             b-08          4.8142E+01 < 5.0000E+01  -1.8584E+00
+      Head Bound             b-09          4.8984E+01 < 5.0000E+01  -1.0158E+00
+      Head Bound             b-10          5.0000E+01 < 5.0000E+01  -1.8573E-07
+
+  Difference is computed by subtracting right hand side of the constraint 
+    from the left side of the constraint.
+  Precision limitations and nonlinear response may cause the 
+    values of the binding constraints computed directly by the flow process 
+    to differ from those computed using the linear program.  

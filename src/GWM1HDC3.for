@@ -1,5 +1,5 @@
       MODULE GWM1HDC3
-C     VERSION: 19MAR2008
+C     VERSION: 25JAN2011
       IMPLICIT NONE
       PRIVATE
       PUBLIC::HDCNAME,HDCSTATE,HDCSTATE0,HDCRHS,HDCDIR,HDCNUM,
@@ -888,11 +888,11 @@ C
 C***********************************************************************
       SUBROUTINE GWM1HDC3OT(RSTRT,IFLG)
 C***********************************************************************
-C     VERSION: 19MAR2008
+C     VERSION: 25JAN2011
 C     PURPOSE - WRITE STATUS OF CONSTRAINT
 C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : ZERO,ONE
-      USE GWM1RMS3, ONLY : RHS,RANGENAME,NDV
+      USE GWM1RMS3, ONLY : RHS,RANGENAME,NDV,HCLOSEG
       USE GWM1BAS3, ONLY : GWM1BAS3CS
       INTEGER(I4B),INTENT(INOUT)::RSTRT
       INTEGER(I4B),INTENT(IN)::IFLG
@@ -903,16 +903,17 @@ C-----LOCAL VARIABLES
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----WRITE STATUS FOR A FLOW PROCESS SIMULATION
-      IF(IFLG.EQ.1)THEN            
+      IF(IFLG.EQ.1.OR.IFLG.EQ.4)THEN            
         DO 100 IHDC=1,HDCNUM
           CALL SGWM1HDC3OT
-          DIFF = HDCRHS(IHDC) - HDCSTATE(IHDC)
-          IF(ABS(DIFF).LT. 1.0D-06*(ONE+HDCRHS(IHDC)))THEN
-            DIRR = 0                        ! CONSTRAINT IS NEAR BINDING
-          ELSE
-            DIRR = HDCDIR(IHDC)             ! CONSTRAINT IS NOT BINDING
+          DIFF = HDCSTATE(IHDC) - HDCRHS(IHDC)
+          DIRR = HDCDIR(IHDC)             
+          IF(IFLG.EQ.1)THEN
+            CALL GWM1BAS3CS(CTYPE,HDCNAME(IHDC),0.0,0.0,DIFF,DIRR,1)
+          ELSEIF(IFLG.EQ.4)THEN
+            CALL GWM1BAS3CS(CTYPE,HDCNAME(IHDC),
+     &                      HDCSTATE(IHDC),HDCRHS(IHDC),DIFF,DIRR,2)
           ENDIF
-          CALL GWM1BAS3CS(CTYPE,HDCNAME(IHDC),DIFF,DIRR,1)
   100   ENDDO
 C
 C-----WRITE STATUS FOR THE LINEAR PROGRAM OUTPUT
@@ -923,7 +924,7 @@ C-----WRITE STATUS FOR THE LINEAR PROGRAM OUTPUT
           IF(ABS(RHS(ROW)).GT.ZERO)THEN          ! DUAL VARIABLE IS NON-ZERO 
                                                  ! CONSTRAINT IS BINDING         
             CALL SGWM1HDC3OT
-            CALL GWM1BAS3CS(CTYPE,HDCNAME(IHDC),RHS(ROW),0,0) 
+            CALL GWM1BAS3CS(CTYPE,HDCNAME(IHDC),0.0,0.0,RHS(ROW),0,0) 
           ENDIF
   200   ENDDO
         RSTRT = RSTRT+HDCNUM                     ! SET NEXT STARTING LOCATION

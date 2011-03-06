@@ -1,5 +1,5 @@
       MODULE GWM1SMC3
-C     VERSION: 20MAR2008
+C     VERSION: 25JAN2011
       IMPLICIT NONE
       PRIVATE
       PUBLIC::GWM1SMC3AR,GWM1SMC3FM,GWM1SMC3OT
@@ -39,11 +39,12 @@ C
 C***********************************************************************
       SUBROUTINE GWM1SMC3AR(FNAME,IOUT,NFVAR,NEVAR,NBVAR,NV,NCON)
 C***********************************************************************
-C   VERSION: 20MAR2008
+C   VERSION: 11SEPT2009
 C   PURPOSE: READ INPUT FROM THE GENERALIZED-SUMMATION CONSTRAINTS
 C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : ZERO
       USE GWM1DCV3, ONLY : FVNAME,EVNAME,BVNAME
+      USE GWM1STA3, ONLY : STANUM,SVNAME
       CHARACTER(LEN=200),INTENT(IN)::FNAME
       INTEGER(I4B),INTENT(IN)::IOUT,NFVAR,NEVAR,NBVAR
       INTEGER(I4B),INTENT(INOUT)::NV,NCON
@@ -123,7 +124,7 @@ C-----ALLOCATE LOCAL WORK ARRAYS FOR OUPUT
      &          SMCCNM(SMCNUM,NVAR),CSW(SMCNUM,NVAR),STAT=ISTAT)
       IF(ISTAT.NE.0)GOTO 992
 C
-C----READ MASS-BALANCE CONSTRAINTS
+C-----READ SUMMATION CONSTRAINTS
       DO 200 I=1,SMCNUM
         READ(LOCAT,'(A)',ERR=991)LINE
         LLOC=1
@@ -212,6 +213,15 @@ C---------PROCESS GVNM AND COEFF, NAME OF VARIABLE AND COEFFICIENT
               GOTO 160
             ENDIF
   150     ENDDO
+          DO 155 II=1,STANUM
+            IF(SVNAME(II).EQ.TGVNM)THEN
+              SMCCNM(I,JJ)=SVNAME(II)             ! THIS IS A HEAD STATE VARIABLE
+              TSMCCLOC(I,JJ)=-II                  ! MINUS VALUE INDICATES SV
+              NFOUND=.FALSE.
+              GOTO 160
+            ENDIF
+  155     ENDDO
+C 
 C
           IF(NFOUND)THEN
             WRITE(IOUT,5000,ERR=990)TGVNM
@@ -369,26 +379,44 @@ C
 C***********************************************************************
       SUBROUTINE GWM1SMC3FM(RSTRT,NSLK)
 C***********************************************************************
-C   VERSION: 20MAR2008
+C   VERSION: 11SEPT2009
 C   PURPOSE: PLACE SUMMATION CONSTRAINTS IN LP MATRIX STARTING IN ROW RSTRT
 C-----------------------------------------------------------------------
       USE GWM1RMS3, ONLY : AMAT,RHS,
      &                     RHSIN,RHSINF,RANGENAME,RANGENAMEF,NDV,CONTYP
+      USE GWM1STA3, ONLY : STATERES,STARHS
+      USE GWM1DCV3, ONLY : NFVAR,FVDIR
       INTEGER(I4B),INTENT(IN)::NSLK
       INTEGER(I4B),INTENT(INOUT)::RSTRT
 C-----LOCAL VARIABLES
-      INTEGER(I4B)::ISMC,ROW,J,K
+      INTEGER(I4B)::ISMC,ROW,I,J,K
+	  REAL(DP)::SVCOEF,ADDRHS
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       ISMC = 0
       DO 110 ROW=RSTRT,RSTRT+SMCNUM-1
+        ADDRHS = 0.0
         ISMC = ISMC + 1                          ! DETERMINE CONSTRAINT INDEX
         DO 100 J=1,SMCNTERMS(ISMC)               ! LOOP OVER TERMS IN ROW
           K = SMCCLOC(ISMC,J)                    ! FIND COLUMN FOR JTH TERM
-          AMAT(ROW,K)=REAL(SMCCOEF(ISMC,J),DP)   ! ASSIGN COEFFICIENT TO A
+          IF(K.GT.0)THEN                         ! TERM IS ON ACTUAL DV
+            AMAT(ROW,K)=REAL(SMCCOEF(ISMC,J),DP) ! ASSIGN COEFFICIENT TO A
+          ELSEIF(K.LT.0)THEN                     ! TERM IS ON A STATE VARIABLE
+            K = -K                               ! K POINTS TO ROW OF STATERES
+            SVCOEF = REAL(SMCCOEF(ISMC,J),DP)
+            DO 90 I=1,NFVAR                      ! LOOP OVER ALL FLOW VARIABLES
+C-------------FOR SUMMATION CONSTRAINTS SIGN CHANGE TO WITHDRAWAL COLUMNS IS HERE
+              IF(FVDIR(I).EQ.1)THEN              ! FV IS INJECTION
+                AMAT(ROW,I)=AMAT(ROW,I) + SVCOEF*STATERES(K,I) 
+              ELSE                               ! FV IS WITHDRAWAL
+                AMAT(ROW,I)=AMAT(ROW,I) - SVCOEF*STATERES(K,I) ! FV POSITIVE
+              ENDIF                                            ! IN LP 
+   90       ENDDO
+            ADDRHS = ADDRHS + SVCOEF*STARHS(K)   ! ACCUMULATE STATE RHS VALUES
+          ENDIF
   100   ENDDO
         AMAT(ROW,NSLK) = DBLE(SMCDIR(ISMC))      ! ASSIGN SLACK 
-        RHS(ROW) = SMCRHS(ISMC)                  ! ASSIGN RIGHT HAND SIDE
+        RHS(ROW) = SMCRHS(ISMC) + ADDRHS         ! ASSIGN RIGHT HAND SIDE
         RHSIN(ROW)= SMCRHS(ISMC)                 ! STORE THE INPUT RHS
         RANGENAME(ROW+NDV-1)=SMCNAME(ISMC)       ! LOAD FOR RANGE ANALYSIS OUTPUT
         RHSINF(ROW)= SMCRHS(ISMC)                ! STORE THE INPUT RHS
@@ -410,18 +438,19 @@ C
 C***********************************************************************
       SUBROUTINE GWM1SMC3OT(RSTRT,IFLG)
 C***********************************************************************
-C  VERSION: 28JAN2009
+C  VERSION: 25JAN2011
 C  PURPOSE - WRITE STATUS OF CONSTRAINT
 C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : ZERO,ONE,BIGINF,SMALLEPS
-      USE GWM1RMS3, ONLY : CST,RHS,RHSIN,RANGENAME,NDV
+      USE GWM1STA3, ONLY : STATERES,STARHS,STASTATE
+      USE GWM1RMS3, ONLY : CST,RHS,RHSIN,RANGENAME,NDV,HCLOSEG
       USE GWM1BAS3, ONLY : GWM1BAS3CS
       USE GWM1DCV3, ONLY : NFVAR,FVBASE,FVDIR
       INTEGER(I4B),INTENT(INOUT)::RSTRT
       INTEGER(I4B),INTENT(IN)::IFLG
 C-----LOCAL VARIABLES
       CHARACTER(LEN=25)::CTYPE
-      INTEGER(I4B)::J,ISMC,ROW,DIRR,JLOC
+      INTEGER(I4B)::I,J,K,ISMC,ROW,DIRR,JLOC
 	REAL(DP)::LHS,DIFF,SVCOEF
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
@@ -429,14 +458,17 @@ C  IFLG=1 WRITE STATUS FOR BASE FLOW PROCESS SIMULATION
 C         EXTERNAL AND BINARY VARIABLES ARE ASSUMED TO HAVE ZERO VALUE
 C  IFLG=3 WRITE STATUS FOR OPTIMAL FLOW PROCESS SIMULATION
 C         EXTERNAL AND BINARY VARIABLES STORED IN CST
-      IF(IFLG.EQ.1 .OR. IFLG.EQ.3)THEN 
+      IF(IFLG.NE.2)THEN 
         CTYPE = 'Summation'
         DO 110 ISMC=1,SMCNUM
-          LHS = ZERO
+          LHS = ZERO                             ! ZERO LHS ACCUMULATOR
           DO 100 J=1,SMCNTERMS(ISMC)             ! COMPUTE CONSTRAINT LEFT SIDE
             JLOC = SMCCLOC(ISMC,J)
             SVCOEF = REAL(SMCCOEF(ISMC,J),DP)
-            IF(JLOC.LE.NFVAR)THEN                ! THIS IS A FLOW VARIABLE
+            IF(JLOC.LT.0)THEN                    ! THIS IS A STATE VARIABLE
+              K = -JLOC                          ! K POINTS TO ROW OF STATERES
+              LHS = LHS + SVCOEF*STASTATE(K)     ! ADD STATE VARIABLE 
+            ELSEIF(JLOC.LE.NFVAR)THEN            ! THIS IS A FLOW VARIABLE
 	        IF(FVDIR(JLOC).EQ.1)THEN           ! THIS IS INJECTION
                 LHS = LHS + SVCOEF*FVBASE(JLOC) 
 	        ELSEIF(FVDIR(JLOC).EQ.2)THEN       ! WITHDRAWAL - SWITCH SIGN
@@ -446,37 +478,54 @@ C         EXTERNAL AND BINARY VARIABLES STORED IN CST
               LHS = LHS + SVCOEF*CST(JLOC)       ! AND CST HAS MEANING
             ENDIF
   100     ENDDO
-          DIFF = SMCRHS(ISMC) - LHS
-          IF(ABS(DIFF).LT. 1.0D-06*(ONE+SMCRHS(ISMC)))THEN
-            DIRR = 0                        ! CONSTRAINT IS NEAR BINDING
-          ELSE
-            IF(SMCDIR(ISMC).EQ. 1)DIRR=1     ! NON-BINDING LESS THAN CONSTRAINT
-            IF(SMCDIR(ISMC).EQ.-1)DIRR=2     ! NON-BINDING GREATER THAN CONSTRAINT
-            IF(SMCDIR(ISMC).EQ. 0)DIRR=3     ! NON-BINDING EQUALITY CONSTRAINT
+          DIFF = LHS - SMCRHS(ISMC) 
+          IF(SMCDIR(ISMC).EQ. 1)DIRR=1     ! NON-BINDING LESS THAN CONSTRAINT
+          IF(SMCDIR(ISMC).EQ.-1)DIRR=2     ! NON-BINDING GREATER THAN CONSTRAINT
+          IF(SMCDIR(ISMC).EQ. 0)DIRR=3     ! NON-BINDING EQUALITY CONSTRAINT
+          IF(IFLG.EQ.1.OR.IFLG.EQ.3)THEN
+            CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),0.,0.,DIFF,DIRR,1) 
+          ELSEIF(IFLG.EQ.4)THEN
+            CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),LHS,
+     &                                   SMCRHS(ISMC),DIFF,DIRR,2)
           ENDIF
-          CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),DIFF,DIRR,1) 
   110   ENDDO
 C
 C-----WRITE STATUS FOR LINEAR PROGRAM OUTPUT
       ELSEIF(IFLG.EQ.2)THEN
         ISMC = 0
-        DO 210 ROW=RSTRT,RSTRT+SMCNUM-1
+        DO 220 ROW=RSTRT,RSTRT+SMCNUM-1
           ISMC = ISMC + 1
-          IF(RHS(ROW).EQ.BIGINF*2.0D0)THEN         ! THIS CONSTRAINT WAS NOT IN LP
-            LHS = ZERO
-            DO 200 J=1,SMCNTERMS(ISMC)             ! COMPUTE CONSTRAINT LEFT SIDE
-              LHS = LHS + REAL(SMCCOEF(ISMC,J),DP)*CST(SMCCLOC(ISMC,J))  
-  200       ENDDO
+          IF(RHS(ROW).EQ.BIGINF*2.0D0)THEN       ! THIS CONSTRAINT WAS NOT IN LP
+            LHS = ZERO                           ! SO CONSTRUCT IT
+            DO 210 J=1,SMCNTERMS(ISMC)           ! COMPUTE CONSTRAINT LEFT SIDE
+              JLOC = SMCCLOC(ISMC,J)
+              SVCOEF = REAL(SMCCOEF(ISMC,J),DP)
+              IF(JLOC.LT.0)THEN                  ! THIS IS A STATE VARIABLE
+                K = -JLOC                        ! K POINTS TO ROW OF STATERES
+                DO 200 I=1,NFVAR                 ! LOOP OVER ALL FLOW VARIABLES
+C-----------------ALL COEFFICIENTS IN STATERES ARE POSITIVE, SIGN IN CST ACCOUNTS
+                  LHS = LHS + SVCOEF*STATERES(K,I)*CST(I) ! FOR WITHDRAWAL
+  200           ENDDO
+              ELSEIF(JLOC.LE.NFVAR)THEN          ! THIS IS A FLOW VARIABLE
+	            IF(FVDIR(JLOC).EQ.1)THEN         ! THIS IS INJECTION
+                  LHS = LHS + SVCOEF*CST(JLOC) 
+	            ELSEIF(FVDIR(JLOC).EQ.2)THEN     ! WITHDRAWAL - SWITCH SIGN
+                  LHS = LHS - SVCOEF*CST(JLOC) 
+                ENDIF
+              ELSEIF(JLOC.GT.NFVAR)THEN          ! THIS IS AN EXTERNAL OR BINARY
+                LHS = LHS + SVCOEF*CST(JLOC)      
+              ENDIF
+  210       ENDDO
             IF(ABS(LHS-RHSIN(ROW)).LT.SMALLEPS)THEN ! CONSTRAINT IS BINDING
               CTYPE = 'Summation'
-              CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),ZERO,0,0) 
+              CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),ZERO,ZERO,ZERO,0,0) 
             ENDIF
           ELSEIF(ABS(RHS(ROW)).GT.ZERO)THEN        ! DUAL VARIABLE IS NON-ZERO 
 C                                                  ! CONSTRAINT IS BINDING         
             CTYPE = 'Summation'
-            CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),RHS(ROW),0,0) 
+            CALL GWM1BAS3CS(CTYPE,SMCNAME(ISMC),ZERO,ZERO,RHS(ROW),0,0) 
           ENDIF
-  210   ENDDO
+  220   ENDDO
         RSTRT = RSTRT+SMCNUM                       ! SET NEXT STARTING LOCATION
 C
 	ENDIF

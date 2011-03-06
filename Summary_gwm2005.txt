@@ -47,6 +47,9 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
+Version 1.3.0; 2011/3 - Update GWM-2005 with State Variables Package (Ahlfeld and 
+others,2011).  Also made small adjustments to the format of the GWM output file.
+
 Version 1.2.02 2010/7 – Update GWM-2005 with most recent version of MODFLOW-LGR
 (version 1.2).
 
@@ -106,6 +109,11 @@ DOCUMENTATION
 Ahlfeld, D.P., Baker, K.M., and Barlow, P.M., 2009, GWM-2005--A Groundwater-
 Management Process for MODFLOW-2005 with Local Grid Refinement (LGR)
 capability: U.S. Geological Survey Techniques and Methods, 6-A33, 65 p.
+
+Ahlfeld, D.P., Barlow, P.M., and Baker, K.M., 2011, Documentation for the
+State Variables Package for the Groundwater-Management Process of
+MODFLOW-2005 (GWM-2005): U.S. Geological Survey Techniques and Methods, 
+6-A36, 45 p.
 
 Ahlfeld, D.P., Barlow, P.M., and Mulligan, A.E., 2005, GWM--A ground-water
 management process for the U.S. Geological Survey modular ground-water

@@ -1,0 +1,8 @@
+# STORAGE sample problem
+OUT     storage.gwmout
+DECVAR  ..\data\STORAGE\storage.decvar
+STAVAR  ..\data\STORAGE\storage.stavar
+OBJFNC  ..\data\STORAGE\storage.objfnc
+VARCON  ..\data\STORAGE\storage.varcon
+SUMCON  ..\data\STORAGE\storage.sumcon
+SOLN    ..\data\STORAGE\storage.soln

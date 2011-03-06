@@ -1,0 +1,24 @@
+#DEWATER-SV Sample Problem, SUMCON file
+#December 2009
+ 1                            #1-IPRN
+ 10                           #2-SMCNUM
+ Hedcon1   1 le 50.0          #3a-SMCNAME NTERMS TYPE RHS 
+  b-01 1.0                    #3b-GVNAME  GVCOEFF
+ Hedcon2   1 le 50.0
+  b-02 1.0
+ Hedcon3   1 le 50.0
+  b-03 1.0
+ Hedcon4   1 le 50.0
+  b-04 1.0
+ Hedcon5   1 le 50.0
+  b-05 1.0
+ Hedcon6   1 le 50.0
+  b-06 1.0
+ Hedcon7   1 le 50.0
+  b-07 1.0
+ Hedcon8   1 le 50.0
+  b-08 1.0
+ Hedcon9   1 le 50.0
+  b-09 1.0
+ Hedcon10   1 le 50.0
+  b-10 1.0

@@ -1,0 +1,6 @@
+LIST  10   maximin.lst
+DIS   11   ..\data\MAXIMIN\maximin.dis
+BAS6  12   ..\data\MAXIMIN\maximin.ba6
+LPF   13   ..\data\MAXIMIN\maximin.lpf
+PCG   14   ..\data\MAXIMIN\maximin.pcg
+GWM   15   ..\data\MAXIMIN\maximin.gwm

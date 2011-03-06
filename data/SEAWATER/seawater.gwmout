@@ -1,12 +1,12 @@
 
                                   MODFLOW-LGR      
-    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2.02 072710,FROM MF-LGR V1.2  
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
+                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
 
 
 
 
- OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ OPENING GWM FILE FOR GWM1 -- GROUNDWATER MANAGEMENT PROCESS
  INPUT READ FROM UNIT  18
 
  #SEAWATER Sample Problem, GWM file                                                                                                                                                                      
@@ -24,35 +24,35 @@
  BINARY VARIABLES ARE NOT ACTIVE.
 
  FLOW-RATE VARIABLES:
-                                                       FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
- --------------------------------------------------------------
-    1      W1         WITHDRAWAL     1    7   12    1.00000000
+                                                   FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
+ ----------------------------------------------------------
+    1      W1         WITHDRAWAL     1    7   12    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      W2         WITHDRAWAL     1   10   13    1.00000000
+    2      W2         WITHDRAWAL     1   10   13    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    3      W3         WITHDRAWAL     1   10   16    1.00000000
+    3      W3         WITHDRAWAL     1   10   16    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      W4         WITHDRAWAL     1   12   15    1.00000000
+    4      W4         WITHDRAWAL     1   12   15    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    5      W5         WITHDRAWAL     1   15   11    0.50000000
-                                     2   15   11    0.50000000
+    5      W5         WITHDRAWAL     1   15   11    0.5000
+                                     2   15   11    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    6      I1          INJECTION     1    7   27    0.50000000
-                                     2    7   27    0.50000000
+    6      I1          INJECTION     1    7   27    0.5000
+                                     2    7   27    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    7      I2          INJECTION     1   11   27    0.50000000
-                                     2   11   27    0.50000000
+    7      I2          INJECTION     1   11   27    0.5000
+                                     2   11   27    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    8      I3          INJECTION     1   15   27    0.50000000
-                                     2   15   27    0.50000000
+    8      I3          INJECTION     1   15   27    0.5000
+                                     2   15   27    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -71,6 +71,7 @@
  NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    8
  NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     0
  NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+ NO. OF STATE VARIABLES IN OBJECTIVE FUNCTION (NSVOBJ):                 0
 
  OBJECTIVE FUNCTION: (excluding flow duration terms)
 
@@ -232,42 +233,42 @@
   Begin Solution Algorithm
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             m-01     Satisfied       3.7103E-01
-      Head Bound             m-02     Satisfied       4.8707E-01
-      Head Bound             m-03     Satisfied       5.1690E-01
-      Head Difference        hd-01    Satisfied       5.3533E-02
-      Head Difference        hd-02    Satisfied       5.3335E-02
-      Head Difference        hd-03    Satisfied       5.2875E-02
-      Head Difference        hd-04    Satisfied       5.2172E-02
-      Head Difference        hd-05    Satisfied       5.1312E-02
-      Head Difference        hd-06    Satisfied       5.0499E-02
-      Head Difference        hd-07    Satisfied       5.0027E-02
-      Head Difference        hd-08    Satisfied       5.0048E-02
-      Head Difference        hd-09    Satisfied       5.0374E-02
-      Head Difference        hd-10    Satisfied       5.0681E-02
-      Head Gradient          gd-01    Satisfied       9.4952E-01
-      Head Gradient          gd-02    Satisfied       8.9861E-01
-      Head Gradient          gd-03    Satisfied       9.4284E-01
-      Head Gradient          gd-04    Satisfied       8.9200E-01
-      Head Gradient          gd-05    Satisfied       9.2728E-01
-      Head Gradient          gd-06    Satisfied       8.7661E-01
-      Head Gradient          gd-07    Satisfied       9.0348E-01
-      Head Gradient          gd-08    Satisfied       8.5307E-01
-      Head Gradient          gd-09    Satisfied       8.7427E-01
-      Head Gradient          gd-10    Satisfied       8.2417E-01
-      Head Gradient          gd-11    Satisfied       8.4655E-01
-      Head Gradient          gd-12    Satisfied       7.9675E-01
-      Head Gradient          gd-13    Satisfied       8.3044E-01
-      Head Gradient          gd-14    Satisfied       7.8080E-01
-      Head Gradient          gd-15    Satisfied       8.3121E-01
-      Head Gradient          gd-16    Satisfied       7.8156E-01
-      Head Gradient          gd-17    Satisfied       8.4240E-01
-      Head Gradient          gd-18    Satisfied       7.9262E-01
-      Head Gradient          gd-19    Satisfied       8.5287E-01
-      Head Gradient          gd-20    Satisfied       8.0298E-01
-      Summation              rech-a   Near-Binding    0.0000E+00
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Bound             m-01       Satisfied     3.7103E-01
+      Head Bound             m-02       Satisfied     4.8707E-01
+      Head Bound             m-03       Satisfied     5.1690E-01
+      Head Difference        hd-01      Satisfied     5.3533E-02
+      Head Difference        hd-02      Satisfied     5.3335E-02
+      Head Difference        hd-03      Satisfied     5.2875E-02
+      Head Difference        hd-04      Satisfied     5.2172E-02
+      Head Difference        hd-05      Satisfied     5.1312E-02
+      Head Difference        hd-06      Satisfied     5.0499E-02
+      Head Difference        hd-07      Satisfied     5.0027E-02
+      Head Difference        hd-08      Satisfied     5.0048E-02
+      Head Difference        hd-09      Satisfied     5.0374E-02
+      Head Difference        hd-10      Satisfied     5.0681E-02
+      Head Gradient          gd-01      Satisfied     9.4952E-01
+      Head Gradient          gd-02      Satisfied     8.9861E-01
+      Head Gradient          gd-03      Satisfied     9.4284E-01
+      Head Gradient          gd-04      Satisfied     8.9200E-01
+      Head Gradient          gd-05      Satisfied     9.2728E-01
+      Head Gradient          gd-06      Satisfied     8.7661E-01
+      Head Gradient          gd-07      Satisfied     9.0348E-01
+      Head Gradient          gd-08      Satisfied     8.5307E-01
+      Head Gradient          gd-09      Satisfied     8.7427E-01
+      Head Gradient          gd-10      Satisfied     8.2417E-01
+      Head Gradient          gd-11      Satisfied     8.4655E-01
+      Head Gradient          gd-12      Satisfied     7.9675E-01
+      Head Gradient          gd-13      Satisfied     8.3044E-01
+      Head Gradient          gd-14      Satisfied     7.8080E-01
+      Head Gradient          gd-15      Satisfied     8.3121E-01
+      Head Gradient          gd-16      Satisfied     7.8156E-01
+      Head Gradient          gd-17      Satisfied     8.4240E-01
+      Head Gradient          gd-18      Satisfied     7.9262E-01
+      Head Gradient          gd-19      Satisfied     8.5287E-01
+      Head Gradient          gd-20      Satisfied     8.0298E-01
+      Summation              rech-a     Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -303,42 +304,42 @@
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             m-01     Satisfied       2.0549E+00
-      Head Bound             m-02     Satisfied       1.8048E+00
-      Head Bound             m-03     Satisfied       1.9387E+00
-      Head Difference        hd-01    Satisfied       2.7829E-02
-      Head Difference        hd-02    Satisfied       2.7734E-02
-      Head Difference        hd-03    Satisfied       2.7586E-02
-      Head Difference        hd-04    Satisfied       2.7594E-02
-      Head Difference        hd-05    Satisfied       2.7646E-02
-      Head Difference        hd-06    Satisfied       2.9108E-02
-      Head Difference        hd-07    Satisfied       2.7611E-02
-      Head Difference        hd-08    Satisfied       2.8253E-02
-      Head Difference        hd-09    Satisfied       2.7601E-02
-      Head Difference        hd-10    Satisfied       2.7596E-02
-      Head Gradient          gd-01    Satisfied       4.9407E-02
-      Head Gradient          gd-02    Satisfied       6.4056E-03
-      Head Gradient          gd-03    Satisfied       4.5939E-02
-      Head Gradient          gd-04    Satisfied       2.9631E-03
-      Head Gradient          gd-05    Satisfied       4.0503E-02
-      Head Gradient          gd-06    Not Met         2.4294E-03
-      Head Gradient          gd-07    Satisfied       4.0970E-02
-      Head Gradient          gd-08    Not Met         2.3047E-03
-      Head Gradient          gd-09    Satisfied       4.2385E-02
-      Head Gradient          gd-10    Not Met         5.2509E-04
-      Head Gradient          gd-11    Satisfied       9.7447E-02
-      Head Gradient          gd-12    Satisfied       5.1164E-02
-      Head Gradient          gd-13    Satisfied       4.0931E-02
-      Head Gradient          gd-14    Not Met         1.9472E-03
-      Head Gradient          gd-15    Satisfied       6.5654E-02
-      Head Gradient          gd-16    Satisfied       2.0929E-02
-      Head Gradient          gd-17    Satisfied       4.0929E-02
-      Head Gradient          gd-18    Not Met         1.9924E-03
-      Head Gradient          gd-19    Satisfied       4.0902E-02
-      Head Gradient          gd-20    Not Met         2.0380E-03
-      Summation              rech-a   Satisfied       1.4124E+04
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Bound             m-01       Satisfied     2.0549E+00
+      Head Bound             m-02       Satisfied     1.8048E+00
+      Head Bound             m-03       Satisfied     1.9387E+00
+      Head Difference        hd-01      Satisfied     2.7829E-02
+      Head Difference        hd-02      Satisfied     2.7734E-02
+      Head Difference        hd-03      Satisfied     2.7586E-02
+      Head Difference        hd-04      Satisfied     2.7594E-02
+      Head Difference        hd-05      Satisfied     2.7646E-02
+      Head Difference        hd-06      Satisfied     2.9108E-02
+      Head Difference        hd-07      Satisfied     2.7611E-02
+      Head Difference        hd-08      Satisfied     2.8253E-02
+      Head Difference        hd-09      Satisfied     2.7601E-02
+      Head Difference        hd-10      Satisfied     2.7596E-02
+      Head Gradient          gd-01      Satisfied     4.9407E-02
+      Head Gradient          gd-02      Satisfied     6.4056E-03
+      Head Gradient          gd-03      Satisfied     4.5939E-02
+      Head Gradient          gd-04      Satisfied     2.9631E-03
+      Head Gradient          gd-05      Satisfied     4.0503E-02
+      Head Gradient          gd-06      Not Met       2.4294E-03
+      Head Gradient          gd-07      Satisfied     4.0970E-02
+      Head Gradient          gd-08      Not Met       2.3047E-03
+      Head Gradient          gd-09      Satisfied     4.2385E-02
+      Head Gradient          gd-10      Not Met       5.2509E-04
+      Head Gradient          gd-11      Satisfied     9.7447E-02
+      Head Gradient          gd-12      Satisfied     5.1164E-02
+      Head Gradient          gd-13      Satisfied     4.0931E-02
+      Head Gradient          gd-14      Not Met       1.9472E-03
+      Head Gradient          gd-15      Satisfied     6.5654E-02
+      Head Gradient          gd-16      Satisfied     2.0929E-02
+      Head Gradient          gd-17      Satisfied     4.0929E-02
+      Head Gradient          gd-18      Not Met       1.9924E-03
+      Head Gradient          gd-19      Satisfied     4.0902E-02
+      Head Gradient          gd-20      Not Met       2.0380E-03
+      Summation              rech-a     Satisfied     1.4124E+04
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -380,42 +381,42 @@
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             m-01     Satisfied       2.0505E+00
-      Head Bound             m-02     Satisfied       1.8023E+00
-      Head Bound             m-03     Satisfied       1.9355E+00
-      Head Difference        hd-01    Satisfied       2.7897E-02
-      Head Difference        hd-02    Satisfied       2.7802E-02
-      Head Difference        hd-03    Satisfied       2.7653E-02
-      Head Difference        hd-04    Satisfied       2.7658E-02
-      Head Difference        hd-05    Satisfied       2.7706E-02
-      Head Difference        hd-06    Satisfied       2.9156E-02
-      Head Difference        hd-07    Satisfied       2.7665E-02
-      Head Difference        hd-08    Satisfied       2.8304E-02
-      Head Difference        hd-09    Satisfied       2.7656E-02
-      Head Difference        hd-10    Satisfied       2.7652E-02
-      Head Gradient          gd-01    Satisfied       5.1911E-02
-      Head Gradient          gd-02    Satisfied       8.8922E-03
-      Head Gradient          gd-03    Satisfied       4.8431E-02
-      Head Gradient          gd-04    Satisfied       5.4380E-03
-      Head Gradient          gd-05    Satisfied       4.2950E-02
-      Head Gradient          gd-06    Near-Binding    1.4160E-08
-      Head Gradient          gd-07    Satisfied       4.3288E-02
-      Head Gradient          gd-08    Near-Binding    2.4126E-08
-      Head Gradient          gd-09    Satisfied       4.4562E-02
-      Head Gradient          gd-10    Satisfied       1.6376E-03
-      Head Gradient          gd-11    Satisfied       9.9181E-02
-      Head Gradient          gd-12    Satisfied       5.2901E-02
-      Head Gradient          gd-13    Satisfied       4.2891E-02
-      Head Gradient          gd-14    Near-Binding    2.8028E-08
-      Head Gradient          gd-15    Satisfied       6.7484E-02
-      Head Gradient          gd-16    Satisfied       2.2754E-02
-      Head Gradient          gd-17    Satisfied       4.2935E-02
-      Head Gradient          gd-18    Near-Binding    1.4009E-08
-      Head Gradient          gd-19    Satisfied       4.2954E-02
-      Head Gradient          gd-20    Near-Binding    8.0249E-09
-      Summation              rech-a   Satisfied       1.4088E+04
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Bound             m-01       Satisfied     2.0505E+00
+      Head Bound             m-02       Satisfied     1.8023E+00
+      Head Bound             m-03       Satisfied     1.9355E+00
+      Head Difference        hd-01      Satisfied     2.7897E-02
+      Head Difference        hd-02      Satisfied     2.7802E-02
+      Head Difference        hd-03      Satisfied     2.7653E-02
+      Head Difference        hd-04      Satisfied     2.7658E-02
+      Head Difference        hd-05      Satisfied     2.7706E-02
+      Head Difference        hd-06      Satisfied     2.9156E-02
+      Head Difference        hd-07      Satisfied     2.7665E-02
+      Head Difference        hd-08      Satisfied     2.8304E-02
+      Head Difference        hd-09      Satisfied     2.7656E-02
+      Head Difference        hd-10      Satisfied     2.7652E-02
+      Head Gradient          gd-01      Satisfied     5.1911E-02
+      Head Gradient          gd-02      Satisfied     8.8922E-03
+      Head Gradient          gd-03      Satisfied     4.8431E-02
+      Head Gradient          gd-04      Satisfied     5.4380E-03
+      Head Gradient          gd-05      Satisfied     4.2950E-02
+      Head Gradient          gd-06      Satisfied     1.4160E-08
+      Head Gradient          gd-07      Satisfied     4.3288E-02
+      Head Gradient          gd-08      Satisfied     2.4126E-08
+      Head Gradient          gd-09      Satisfied     4.4562E-02
+      Head Gradient          gd-10      Satisfied     1.6376E-03
+      Head Gradient          gd-11      Satisfied     9.9181E-02
+      Head Gradient          gd-12      Satisfied     5.2901E-02
+      Head Gradient          gd-13      Satisfied     4.2891E-02
+      Head Gradient          gd-14      Satisfied     2.8028E-08
+      Head Gradient          gd-15      Satisfied     6.7484E-02
+      Head Gradient          gd-16      Satisfied     2.2754E-02
+      Head Gradient          gd-17      Satisfied     4.2935E-02
+      Head Gradient          gd-18      Satisfied     1.4009E-08
+      Head Gradient          gd-19      Satisfied     4.2954E-02
+      Head Gradient          gd-20      Satisfied     8.0249E-09
+      Summation              rech-a     Satisfied     1.4088E+04
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -455,7 +456,7 @@
   SLP Iterations have converged
 
 ----------------------------------------------------------------------
-               Ground-Water Management Solution
+               Groundwater Management Solution
 ----------------------------------------------------------------------
 
        OPTIMAL SOLUTION FOUND 
@@ -654,46 +655,48 @@ I3          0.0000E+00   -1.0000E+00   -1.1114E+00       gd-20       gd-16
     
       Status of Simulation-Based Constraints 
         Using Optimal Flow Rate Variable Values
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Bound             m-01     Satisfied       2.0505E+00
-      Head Bound             m-02     Satisfied       1.8023E+00
-      Head Bound             m-03     Satisfied       1.9355E+00
-      Head Difference        hd-01    Satisfied       2.7897E-02
-      Head Difference        hd-02    Satisfied       2.7802E-02
-      Head Difference        hd-03    Satisfied       2.7653E-02
-      Head Difference        hd-04    Satisfied       2.7658E-02
-      Head Difference        hd-05    Satisfied       2.7706E-02
-      Head Difference        hd-06    Satisfied       2.9156E-02
-      Head Difference        hd-07    Satisfied       2.7665E-02
-      Head Difference        hd-08    Satisfied       2.8304E-02
-      Head Difference        hd-09    Satisfied       2.7656E-02
-      Head Difference        hd-10    Satisfied       2.7652E-02
-      Head Gradient          gd-01    Satisfied       5.1911E-02
-      Head Gradient          gd-02    Satisfied       8.8922E-03
-      Head Gradient          gd-03    Satisfied       4.8431E-02
-      Head Gradient          gd-04    Satisfied       5.4380E-03
-      Head Gradient          gd-05    Satisfied       4.2950E-02
-      Head Gradient          gd-06    Near-Binding    1.4530E-08
-      Head Gradient          gd-07    Satisfied       4.3288E-02
-      Head Gradient          gd-08    Near-Binding    1.3689E-08
-      Head Gradient          gd-09    Satisfied       4.4562E-02
-      Head Gradient          gd-10    Satisfied       1.6376E-03
-      Head Gradient          gd-11    Satisfied       9.9181E-02
-      Head Gradient          gd-12    Satisfied       5.2901E-02
-      Head Gradient          gd-13    Satisfied       4.2891E-02
-      Head Gradient          gd-14    Near-Binding    1.2701E-08
-      Head Gradient          gd-15    Satisfied       6.7484E-02
-      Head Gradient          gd-16    Satisfied       2.2754E-02
-      Head Gradient          gd-17    Satisfied       4.2935E-02
-      Head Gradient          gd-18    Near-Binding    1.2746E-08
-      Head Gradient          gd-19    Satisfied       4.2954E-02
-      Head Gradient          gd-20    Near-Binding    1.2570E-08
-      Summation              rech-a   Satisfied       1.4088E+04
 
-  Distance to RHS is the absolute value of the difference between the
-    the right hand side of the constraint and the left side of the
-    constraint evaluated using the current set of decision variable values.
-  Because of precision limitations and possible nonlinear behavior, 
-    the status of binding constraints computed directly by the flow process 
-    may differ slightly from those computed using the linear program.  
+                                           Simulated    Specified
+                                            By Flow        in
+      Constraint Type        Name           Process    Constraints   Difference
+      ---------------        ----          ----------   ----------   ----------
+      Head Bound             m-01          2.9495E+00 < 5.0000E+00  -2.0505E+00
+      Head Bound             m-02          3.1977E+00 < 5.0000E+00  -1.8023E+00
+      Head Bound             m-03          3.0645E+00 < 5.0000E+00  -1.9355E+00
+      Head Difference        hd-01         7.7897E-02 > 5.0000E-02   2.7897E-02
+      Head Difference        hd-02         7.7802E-02 > 5.0000E-02   2.7802E-02
+      Head Difference        hd-03         7.7653E-02 > 5.0000E-02   2.7653E-02
+      Head Difference        hd-04         7.7658E-02 > 5.0000E-02   2.7658E-02
+      Head Difference        hd-05         7.7706E-02 > 5.0000E-02   2.7706E-02
+      Head Difference        hd-06         7.9156E-02 > 5.0000E-02   2.9156E-02
+      Head Difference        hd-07         7.7665E-02 > 5.0000E-02   2.7665E-02
+      Head Difference        hd-08         7.8304E-02 > 5.0000E-02   2.8304E-02
+      Head Difference        hd-09         7.7656E-02 > 5.0000E-02   2.7656E-02
+      Head Difference        hd-10         7.7652E-02 > 5.0000E-02   2.7652E-02
+      Head Gradient          gd-01         1.5519E+00 > 1.5000E+00   5.1911E-02
+      Head Gradient          gd-02         1.5089E+00 > 1.5000E+00   8.8922E-03
+      Head Gradient          gd-03         1.5484E+00 > 1.5000E+00   4.8431E-02
+      Head Gradient          gd-04         1.5054E+00 > 1.5000E+00   5.4380E-03
+      Head Gradient          gd-05         1.5429E+00 > 1.5000E+00   4.2950E-02
+      Head Gradient          gd-06         1.5000E+00 > 1.5000E+00   1.4530E-08
+      Head Gradient          gd-07         1.5433E+00 > 1.5000E+00   4.3288E-02
+      Head Gradient          gd-08         1.5000E+00 > 1.5000E+00   1.3689E-08
+      Head Gradient          gd-09         1.5446E+00 > 1.5000E+00   4.4562E-02
+      Head Gradient          gd-10         1.5016E+00 > 1.5000E+00   1.6376E-03
+      Head Gradient          gd-11         1.5992E+00 > 1.5000E+00   9.9181E-02
+      Head Gradient          gd-12         1.5529E+00 > 1.5000E+00   5.2901E-02
+      Head Gradient          gd-13         1.5429E+00 > 1.5000E+00   4.2891E-02
+      Head Gradient          gd-14         1.5000E+00 > 1.5000E+00   1.2701E-08
+      Head Gradient          gd-15         1.5675E+00 > 1.5000E+00   6.7484E-02
+      Head Gradient          gd-16         1.5228E+00 > 1.5000E+00   2.2754E-02
+      Head Gradient          gd-17         1.5429E+00 > 1.5000E+00   4.2935E-02
+      Head Gradient          gd-18         1.5000E+00 > 1.5000E+00   1.2746E-08
+      Head Gradient          gd-19         1.5430E+00 > 1.5000E+00   4.2954E-02
+      Head Gradient          gd-20         1.5000E+00 > 1.5000E+00   1.2570E-08
+      Summation              rech-a        1.4088E+04 > 0.0000E+00   1.4088E+04
+
+  Difference is computed by subtracting right hand side of the constraint 
+    from the left side of the constraint.
+  Precision limitations and nonlinear response may cause the 
+    values of the binding constraints computed directly by the flow process 
+    to differ from those computed using the linear program.  

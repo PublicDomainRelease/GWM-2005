@@ -1,0 +1,10 @@
+#SEAWATER-LGRSTA Sample Problem, GWM Parent file
+#July, 2010
+OUT     sealgrsta_par.out
+DECVAR  ..\data\SEAWATER-LGRSTA\sealgrsta_par.decvar
+STAVAR  ..\data\SEAWATER-LGRSTA\sealgrsta_par.stavar
+OBJFNC  ..\data\SEAWATER-LGRSTA\sealgrsta_par.objfnc
+VARCON  ..\data\SEAWATER-LGRSTA\sealgrsta_par.varcon
+SUMCON  ..\data\SEAWATER-LGRSTA\sealgrsta_par.sumcon
+HEDCON  ..\data\SEAWATER-LGRSTA\sealgrsta_par.hedcon
+SOLN    ..\data\SEAWATER-LGRSTA\sealgrsta_par.soln

@@ -1,12 +1,12 @@
 
                                   MODFLOW-LGR      
-    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2.02 072710,FROM MF-LGR V1.2  
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
+                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
 
 
 
 
- OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ OPENING GWM FILE FOR GWM1 -- GROUNDWATER MANAGEMENT PROCESS
  INPUT READ FROM UNIT  19
 
  #SUPPLY2 Sample Problem, GWM file                                                                                                                                                                       
@@ -24,46 +24,46 @@
  BINARY VARIABLES ARE NOT ACTIVE.
 
  FLOW-RATE VARIABLES:
-                                                       FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
- --------------------------------------------------------------
-    1      Q1         WITHDRAWAL     1   12   11    1.00000000
+                                                   FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
+ ----------------------------------------------------------
+    1      Q1         WITHDRAWAL     1   12   11    1.0000
    AVAILABLE IN STRESS PERIODS: 1-12                                                                                                                    
 
-    2      Q2a        WITHDRAWAL     1   16   17    1.00000000
+    2      Q2a        WITHDRAWAL     1   16   17    1.0000
    AVAILABLE IN STRESS PERIODS: 1:5:9                                                                                                                   
 
-    3      Q2b        WITHDRAWAL     1   16   17    1.00000000
+    3      Q2b        WITHDRAWAL     1   16   17    1.0000
    AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
 
-    4      Q2c        WITHDRAWAL     1   16   17    1.00000000
+    4      Q2c        WITHDRAWAL     1   16   17    1.0000
    AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
 
-    5      Q2d        WITHDRAWAL     1   16   17    1.00000000
+    5      Q2d        WITHDRAWAL     1   16   17    1.0000
    AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
 
-    6      Q4a        WITHDRAWAL     1   14   25    1.00000000
+    6      Q4a        WITHDRAWAL     1   14   25    1.0000
    AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
 
-    7      Q4b        WITHDRAWAL     1   14   25    1.00000000
+    7      Q4b        WITHDRAWAL     1   14   25    1.0000
    AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
 
 
  EXTERNAL VARIABLES:
 
-  NUMBER     NAME
+  NUMBER     NAME      TYPE
  ------------------------------
 
-    1        Im9       
+    1        Im9         Import  
    AVAILABLE IN STRESS PERIODS: 9                                                                                                                       
 
-    2        Im10      
+    2        Im10        Import  
    AVAILABLE IN STRESS PERIODS: 10                                                                                                                      
 
-    3        Im11      
+    3        Im11        Import  
    AVAILABLE IN STRESS PERIODS: 11                                                                                                                      
 
-    4        Im12      
+    4        Im12        Import  
    AVAILABLE IN STRESS PERIODS: 12                                                                                                                      
 
 
@@ -82,6 +82,7 @@
  NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    7
  NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     4
  NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+ NO. OF STATE VARIABLES IN OBJECTIVE FUNCTION (NSVOBJ):                 0
 
  OBJECTIVE FUNCTION: (excluding flow duration terms)
 
@@ -114,7 +115,7 @@
 
  EXTERNAL VARIABLES:
                         MINIMUM        MAXIMUM
-  NUMBER   NAME          FLOW RATE      FLOW RATE
+  NUMBER   NAME          VALUE          VALUE
 -------------------------------------------------
     1      Im9          0.000D+00      0.100D+07
     2      Im10         0.000D+00      0.100D+07
@@ -303,36 +304,36 @@
     Running Flow Process Simulation
       for both Reference and Base 
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Stream Depletion       S01.9    Satisfied       1.5000E+04
-      Stream Depletion       S01.10   Satisfied       1.5000E+04
-      Stream Depletion       S01.11   Satisfied       1.5000E+04
-      Stream Depletion       S01.12   Satisfied       1.5000E+04
-      Stream Depletion       S02.11   Satisfied       2.0000E+04
-      Stream Depletion       S02.12   Satisfied       2.0000E+04
-      Stream Depletion       S03.9    Satisfied       1.5000E+04
-      Stream Depletion       S03.10   Satisfied       1.5000E+04
-      Stream Depletion       S03.11   Satisfied       1.5000E+04
-      Stream Depletion       S03.12   Satisfied       1.5000E+04
-      Stream Depletion       S04.11   Satisfied       3.0000E+04
-      Stream Depletion       S04.12   Satisfied       3.0000E+04
-      Summation              p01u     Satisfied       8.0000E+04
-      Summation              p01l     Not Met         3.0000E+04
-      Summation              p02u     Satisfied       8.0000E+04
-      Summation              p02l     Not Met         3.0000E+04
-      Summation              p03u     Satisfied       8.0000E+04
-      Summation              p03l     Not Met         3.0000E+04
-      Summation              p04u     Satisfied       8.0000E+04
-      Summation              p04l     Not Met         3.0000E+04
-      Summation              p09u     Satisfied       8.0000E+04
-      Summation              p09l     Not Met         4.5000E+04
-      Summation              p10u     Satisfied       8.0000E+04
-      Summation              p10l     Not Met         4.5000E+04
-      Summation              p11u     Satisfied       8.0000E+04
-      Summation              p11l     Not Met         4.5000E+04
-      Summation              p12u     Satisfied       8.0000E+04
-      Summation              p12l     Not Met         4.5000E+04
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Stream Depletion       S01.9      Satisfied     1.5000E+04
+      Stream Depletion       S01.10     Satisfied     1.5000E+04
+      Stream Depletion       S01.11     Satisfied     1.5000E+04
+      Stream Depletion       S01.12     Satisfied     1.5000E+04
+      Stream Depletion       S02.11     Satisfied     2.0000E+04
+      Stream Depletion       S02.12     Satisfied     2.0000E+04
+      Stream Depletion       S03.9      Satisfied     1.5000E+04
+      Stream Depletion       S03.10     Satisfied     1.5000E+04
+      Stream Depletion       S03.11     Satisfied     1.5000E+04
+      Stream Depletion       S03.12     Satisfied     1.5000E+04
+      Stream Depletion       S04.11     Satisfied     3.0000E+04
+      Stream Depletion       S04.12     Satisfied     3.0000E+04
+      Summation              p01u       Satisfied     8.0000E+04
+      Summation              p01l       Not Met       3.0000E+04
+      Summation              p02u       Satisfied     8.0000E+04
+      Summation              p02l       Not Met       3.0000E+04
+      Summation              p03u       Satisfied     8.0000E+04
+      Summation              p03l       Not Met       3.0000E+04
+      Summation              p04u       Satisfied     8.0000E+04
+      Summation              p04l       Not Met       3.0000E+04
+      Summation              p09u       Satisfied     8.0000E+04
+      Summation              p09l       Not Met       4.5000E+04
+      Summation              p10u       Satisfied     8.0000E+04
+      Summation              p10l       Not Met       4.5000E+04
+      Summation              p11u       Satisfied     8.0000E+04
+      Summation              p11l       Not Met       4.5000E+04
+      Summation              p12u       Satisfied     8.0000E+04
+      Summation              p12l       Not Met       4.5000E+04
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -366,36 +367,36 @@
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Stream Depletion       S01.9    Not Met         7.2975E-01
-      Stream Depletion       S01.10   Satisfied       5.3011E+03
-      Stream Depletion       S01.11   Satisfied       5.8091E+03
-      Stream Depletion       S01.12   Satisfied       5.8640E+03
-      Stream Depletion       S02.11   Near-Binding    4.5464E-01
-      Stream Depletion       S02.12   Near-Binding    2.2081E-01
-      Stream Depletion       S03.9    Satisfied       1.4046E+04
-      Stream Depletion       S03.10   Not Met         6.8205E-01
-      Stream Depletion       S03.11   Satisfied       1.4217E+04
-      Stream Depletion       S03.12   Satisfied       1.2093E+04
-      Stream Depletion       S04.11   Satisfied       6.4398E+03
-      Stream Depletion       S04.12   Near-Binding    1.5578E-01
-      Summation              p01u     Satisfied       2.6514E+04
-      Summation              p01l     Satisfied       2.3486E+04
-      Summation              p02u     Near-Binding    0.0000E+00
-      Summation              p02l     Satisfied       5.0000E+04
-      Summation              p03u     Satisfied       4.9603E+04
-      Summation              p03l     Satisfied       3.9723E+02
-      Summation              p04u     Satisfied       4.1705E+04
-      Summation              p04l     Satisfied       8.2950E+03
-      Summation              p09u     Satisfied       2.6514E+04
-      Summation              p09l     Satisfied       8.4857E+03
-      Summation              p10u     Near-Binding    0.0000E+00
-      Summation              p10l     Satisfied       3.5000E+04
-      Summation              p11u     Satisfied       3.5000E+04
-      Summation              p11l     Near-Binding    0.0000E+00
-      Summation              p12u     Satisfied       3.5000E+04
-      Summation              p12l     Near-Binding    0.0000E+00
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Stream Depletion       S01.9      Not Met       7.2975E-01
+      Stream Depletion       S01.10     Satisfied     5.3011E+03
+      Stream Depletion       S01.11     Satisfied     5.8091E+03
+      Stream Depletion       S01.12     Satisfied     5.8640E+03
+      Stream Depletion       S02.11     Satisfied     4.5464E-01
+      Stream Depletion       S02.12     Satisfied     2.2081E-01
+      Stream Depletion       S03.9      Satisfied     1.4046E+04
+      Stream Depletion       S03.10     Not Met       6.8205E-01
+      Stream Depletion       S03.11     Satisfied     1.4217E+04
+      Stream Depletion       S03.12     Satisfied     1.2093E+04
+      Stream Depletion       S04.11     Satisfied     6.4398E+03
+      Stream Depletion       S04.12     Satisfied     1.5578E-01
+      Summation              p01u       Satisfied     2.6514E+04
+      Summation              p01l       Satisfied     2.3486E+04
+      Summation              p02u       Satisfied     0.0000E+00
+      Summation              p02l       Satisfied     5.0000E+04
+      Summation              p03u       Satisfied     4.9603E+04
+      Summation              p03l       Satisfied     3.9723E+02
+      Summation              p04u       Satisfied     4.1705E+04
+      Summation              p04l       Satisfied     8.2950E+03
+      Summation              p09u       Satisfied     2.6514E+04
+      Summation              p09l       Satisfied     8.4857E+03
+      Summation              p10u       Satisfied     0.0000E+00
+      Summation              p10l       Satisfied     3.5000E+04
+      Summation              p11u       Satisfied     3.5000E+04
+      Summation              p11l       Satisfied     0.0000E+00
+      Summation              p12u       Satisfied     3.5000E+04
+      Summation              p12l       Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -436,36 +437,36 @@
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Stream Depletion       S01.9    Near-Binding    3.8801E-05
-      Stream Depletion       S01.10   Satisfied       5.3009E+03
-      Stream Depletion       S01.11   Satisfied       5.8092E+03
-      Stream Depletion       S01.12   Satisfied       5.8643E+03
-      Stream Depletion       S02.11   Near-Binding    7.8506E-04
-      Stream Depletion       S02.12   Near-Binding    7.9806E-05
-      Stream Depletion       S03.9    Satisfied       1.4046E+04
-      Stream Depletion       S03.10   Near-Binding    2.1292E-04
-      Stream Depletion       S03.11   Satisfied       1.4217E+04
-      Stream Depletion       S03.12   Satisfied       1.2093E+04
-      Stream Depletion       S04.11   Satisfied       6.4391E+03
-      Stream Depletion       S04.12   Near-Binding    7.6909E-05
-      Summation              p01u     Satisfied       2.6516E+04
-      Summation              p01l     Satisfied       2.3484E+04
-      Summation              p02u     Near-Binding    0.0000E+00
-      Summation              p02l     Satisfied       5.0000E+04
-      Summation              p03u     Satisfied       4.9602E+04
-      Summation              p03l     Satisfied       3.9812E+02
-      Summation              p04u     Satisfied       4.1705E+04
-      Summation              p04l     Satisfied       8.2953E+03
-      Summation              p09u     Satisfied       2.6516E+04
-      Summation              p09l     Satisfied       8.4844E+03
-      Summation              p10u     Near-Binding    0.0000E+00
-      Summation              p10l     Satisfied       3.5000E+04
-      Summation              p11u     Satisfied       3.5000E+04
-      Summation              p11l     Near-Binding    0.0000E+00
-      Summation              p12u     Satisfied       3.5000E+04
-      Summation              p12l     Near-Binding    7.2760E-12
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Stream Depletion       S01.9      Satisfied     3.8801E-05
+      Stream Depletion       S01.10     Satisfied     5.3009E+03
+      Stream Depletion       S01.11     Satisfied     5.8092E+03
+      Stream Depletion       S01.12     Satisfied     5.8643E+03
+      Stream Depletion       S02.11     Satisfied     7.8506E-04
+      Stream Depletion       S02.12     Not Met       7.9806E-05
+      Stream Depletion       S03.9      Satisfied     1.4046E+04
+      Stream Depletion       S03.10     Not Met       2.1292E-04
+      Stream Depletion       S03.11     Satisfied     1.4217E+04
+      Stream Depletion       S03.12     Satisfied     1.2093E+04
+      Stream Depletion       S04.11     Satisfied     6.4391E+03
+      Stream Depletion       S04.12     Not Met       7.6909E-05
+      Summation              p01u       Satisfied     2.6516E+04
+      Summation              p01l       Satisfied     2.3484E+04
+      Summation              p02u       Satisfied     0.0000E+00
+      Summation              p02l       Satisfied     5.0000E+04
+      Summation              p03u       Satisfied     4.9602E+04
+      Summation              p03l       Satisfied     3.9812E+02
+      Summation              p04u       Satisfied     4.1705E+04
+      Summation              p04l       Satisfied     8.2953E+03
+      Summation              p09u       Satisfied     2.6516E+04
+      Summation              p09l       Satisfied     8.4844E+03
+      Summation              p10u       Satisfied     0.0000E+00
+      Summation              p10l       Satisfied     3.5000E+04
+      Summation              p11u       Satisfied     3.5000E+04
+      Summation              p11l       Satisfied     0.0000E+00
+      Summation              p12u       Satisfied     3.5000E+04
+      Summation              p12l       Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -504,7 +505,7 @@
   SLP Iterations have converged
 
 ----------------------------------------------------------------------
-               Ground-Water Management Solution
+               Groundwater Management Solution
 ----------------------------------------------------------------------
 
        OPTIMAL SOLUTION FOUND 
@@ -524,17 +525,17 @@ Name               Rate                Rate                To Objective
                    ------------        ------------        ------------
 TOTALS             1.917246E+05        0.000000E+00        5.535500E+04
 
-       OPTIMAL RATES FOR EACH EXTERNAL VARIABLE 
+       OPTIMAL VALUES FOR EACH EXTERNAL VARIABLE 
        ---------------------------------------
-Variable           Export              Import              Contribution
-Name               Rate                Rate                To Objective
+Variable           Variable            Optimal             Contribution
+Name               Type                Value               To Objective
 ----------         --------------      ------------        ------------
- Im9                                   0.000000E+00        0.000000E+00
- Im10                                  0.000000E+00        0.000000E+00
- Im11                                  1.460187E+04       -1.594525E+03
- Im12                                  6.704713E+03       -7.321546E+02
-                   ------------        ------------        ------------
-TOTALS             0.000000E+00        2.130659E+04       -2.326679E+03
+ Im9                Import             0.000000E+00        0.000000E+00
+ Im10               Import             0.000000E+00        0.000000E+00
+ Im11               Import             1.460187E+04       -1.594525E+03
+ Im12               Import             6.704713E+03       -7.321546E+02
+                                                           ------------
+TOTAL                                                     -2.326679E+03
 
 
        OBJECTIVE FUNCTION VALUE                            5.302832E+04
@@ -554,7 +555,7 @@ Summation              p12l     Binding     -1.0920E-01
 Maximum Flow Rate      Q2a      Binding    Not Available
 
   Binding constraint values are determined from the linear program
-    and based on the response matrix approximation of the flow-process.
+    and based on the response matrix approximation of the flow process.
  
        Range Analysis Not Reported 
 ---------------------------------------------------------------
@@ -565,40 +566,42 @@ Maximum Flow Rate      Q2a      Binding    Not Available
     
       Status of Simulation-Based Constraints 
         Using Optimal Flow Rate Variable Values
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Stream Depletion       S01.9    Near-Binding    6.1263E-05
-      Stream Depletion       S01.10   Satisfied       5.3009E+03
-      Stream Depletion       S01.11   Satisfied       5.8092E+03
-      Stream Depletion       S01.12   Satisfied       5.8643E+03
-      Stream Depletion       S02.11   Near-Binding    4.1214E-04
-      Stream Depletion       S02.12   Near-Binding    1.0736E-03
-      Stream Depletion       S03.9    Satisfied       1.4046E+04
-      Stream Depletion       S03.10   Near-Binding    9.3714E-04
-      Stream Depletion       S03.11   Satisfied       1.4217E+04
-      Stream Depletion       S03.12   Satisfied       1.2093E+04
-      Stream Depletion       S04.11   Satisfied       6.4391E+03
-      Stream Depletion       S04.12   Near-Binding    1.2708E-03
-      Summation              p01u     Satisfied       2.6516E+04
-      Summation              p01l     Satisfied       2.3484E+04
-      Summation              p02u     Near-Binding    0.0000E+00
-      Summation              p02l     Satisfied       5.0000E+04
-      Summation              p03u     Satisfied       4.9602E+04
-      Summation              p03l     Satisfied       3.9813E+02
-      Summation              p04u     Satisfied       4.1705E+04
-      Summation              p04l     Satisfied       8.2953E+03
-      Summation              p09u     Satisfied       2.6516E+04
-      Summation              p09l     Satisfied       8.4844E+03
-      Summation              p10u     Near-Binding    0.0000E+00
-      Summation              p10l     Satisfied       3.5000E+04
-      Summation              p11u     Satisfied       3.5000E+04
-      Summation              p11l     Near-Binding    0.0000E+00
-      Summation              p12u     Satisfied       3.5000E+04
-      Summation              p12l     Near-Binding    7.2760E-12
 
-  Distance to RHS is the absolute value of the difference between the
-    the right hand side of the constraint and the left side of the
-    constraint evaluated using the current set of decision variable values.
-  Because of precision limitations and possible nonlinear behavior, 
-    the status of binding constraints computed directly by the flow process 
-    may differ slightly from those computed using the linear program.  
+                                           Simulated    Specified
+                                            By Flow        in
+      Constraint Type        Name           Process    Constraints   Difference
+      ---------------        ----          ----------   ----------   ----------
+      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05   6.1263E-05
+      Stream Depletion       S01.10        5.4663E+05 > 5.4133E+05   5.3009E+03
+      Stream Depletion       S01.11        5.3517E+05 > 5.2936E+05   5.8092E+03
+      Stream Depletion       S01.12        5.4082E+05 > 5.3496E+05   5.8643E+03
+      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -4.1214E-04
+      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05   1.0736E-03
+      Stream Depletion       S03.9         2.7511E+05 > 2.6107E+05   1.4046E+04
+      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05   9.3714E-04
+      Stream Depletion       S03.11        2.7404E+05 > 2.5982E+05   1.4217E+04
+      Stream Depletion       S03.12        2.7441E+05 > 2.6232E+05   1.2093E+04
+      Stream Depletion       S04.11        1.1327E+06 > 1.1263E+06   6.4391E+03
+      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06   1.2708E-03
+      Summation              p01u          5.3484E+04 < 8.0000E+04  -2.6516E+04
+      Summation              p01l          5.3484E+04 > 3.0000E+04   2.3484E+04
+      Summation              p02u          8.0000E+04 < 8.0000E+04   0.0000E+00
+      Summation              p02l          8.0000E+04 > 3.0000E+04   5.0000E+04
+      Summation              p03u          3.0398E+04 < 8.0000E+04  -4.9602E+04
+      Summation              p03l          3.0398E+04 > 3.0000E+04   3.9813E+02
+      Summation              p04u          3.8295E+04 < 8.0000E+04  -4.1705E+04
+      Summation              p04l          3.8295E+04 > 3.0000E+04   8.2953E+03
+      Summation              p09u          5.3484E+04 < 8.0000E+04  -2.6516E+04
+      Summation              p09l          5.3484E+04 > 4.5000E+04   8.4844E+03
+      Summation              p10u          8.0000E+04 < 8.0000E+04   0.0000E+00
+      Summation              p10l          8.0000E+04 > 4.5000E+04   3.5000E+04
+      Summation              p11u          4.5000E+04 < 8.0000E+04  -3.5000E+04
+      Summation              p11l          4.5000E+04 > 4.5000E+04   0.0000E+00
+      Summation              p12u          4.5000E+04 < 8.0000E+04  -3.5000E+04
+      Summation              p12l          4.5000E+04 > 4.5000E+04   0.0000E+00
+
+  Difference is computed by subtracting right hand side of the constraint 
+    from the left side of the constraint.
+  Precision limitations and nonlinear response may cause the 
+    values of the binding constraints computed directly by the flow process 
+    to differ from those computed using the linear program.  

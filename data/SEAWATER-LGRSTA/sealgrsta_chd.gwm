@@ -1,0 +1,7 @@
+#SEAWATER-LGRSTA Sample Problem, GWM Child file
+#July, 2010
+DECVAR  ..\data\SEAWATER-LGRSTA\sealgrsta_chd.decvar
+STAVAR  ..\data\SEAWATER-LGRSTA\sealgrsta_chd.stavar
+VARCON  ..\data\SEAWATER-LGRSTA\sealgrsta_chd.varcon
+HEDCON  ..\data\SEAWATER-LGRSTA\sealgrsta_chd.hedcon
+

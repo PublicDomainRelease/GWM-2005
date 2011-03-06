@@ -1,0 +1,9 @@
+#MAXIMIN Sample Problem, GWM file
+#December 2009
+OUT     maximin.gwmout
+DECVAR  ..\data\MAXIMIN\maximin.decvar
+STAVAR  ..\data\MAXIMIN\maximin.stavar
+OBJFNC  ..\data\MAXIMIN\maximin.objfnc
+VARCON  ..\data\MAXIMIN\maximin.varcon
+SUMCON  ..\data\MAXIMIN\maximin.sumcon
+SOLN    ..\data\MAXIMIN\maximin.soln

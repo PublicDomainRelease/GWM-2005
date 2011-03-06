@@ -1,0 +1,12 @@
+#SEAWATER-LGRSTA Sample Problem, DECVAR Child file
+#July, 2010
+ 1 0                        #1-IPRN  GWMWFILE
+ 2 0 2                      #2-NFVAR  NEVAR  NBVAR
+ W1  2 0 0 0  W  Y  1    #3a-FVNAME NC LAY ROW COL FTYPE FSTAT WSP
+     0.500  1  10 16   
+     0.500  2  10 16   
+ W2  2 0 0 0  W  Y  1
+     0.500  1  19  7  
+     0.500  2  19  7  
+ BV1  1  W1                 #BVNAME  NDV  BVLIST
+ BV2  1  W2

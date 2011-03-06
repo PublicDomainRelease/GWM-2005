@@ -1,11 +1,11 @@
 
                                   MODFLOW-LGR      
-    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 Version GWM2005 1.2.02 072710,FROM MF-LGR V1.2  
+    U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
+                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
 
 
 
- OPENING GWM FILE FOR GWM1 -- GROUND-WATER MANAGEMENT PROCESS
+ OPENING GWM FILE FOR GWM1 -- GROUNDWATER MANAGEMENT PROCESS
  PARENT GRID INPUT READ FROM UNIT  18
  #SEAWATER-LGR Sample Problem, GWM Parent file                                                                                                                                                           
 
@@ -25,38 +25,38 @@
  BINARY VARIABLES ARE ACTIVE. NBVAR:               4
 
  FLOW-RATE VARIABLES:
-                                                       FRACTION
-  NUMBER     NAME       TYPE      LAY   ROW   COL       OF FLOW
- --------------------------------------------------------------
+                                                   FRACTION
+  NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
+ ----------------------------------------------------------
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
 
-    1      W3         WITHDRAWAL     1   17   20    0.50000000
-                                     2   17   20    0.50000000
+    1      W3         WITHDRAWAL     1   17   20    0.5000
+                                     2   17   20    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      W4         WITHDRAWAL     1    3   19    0.50000000
-                                     2    3   19    0.50000000
+    2      W4         WITHDRAWAL     1    3   19    0.5000
+                                     2    3   19    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.decvar                                                                                  
 
-    3      W1         WITHDRAWAL     1   10   13    0.50000000
-                                     2   10   13    0.50000000
+    3      W1         WITHDRAWAL     1   10   13    0.5000
+                                     2   10   13    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      W2         WITHDRAWAL     1   19    4    0.50000000
-                                     2   19    4    0.50000000
+    4      W2         WITHDRAWAL     1   19    4    0.5000
+                                     2   19    4    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
  EXTERNAL VARIABLES:
 
-  NUMBER     NAME
+  NUMBER     NAME      TYPE
  ------------------------------
 
   EXTERNAL VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
 
-    1        E         
+    1        E           Import  
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -88,6 +88,7 @@
  NO. OF FLOW-RATE DECISION VARIABLES IN OBJECTIVE FUNCTION (NFVOBJ):    0
  NO. OF EXTERNAL DECISION VARIABLES IN OBJECTIVE FUNCTION (NEVOBJ):     1
  NO. OF BINARY DECISION VARIABLES IN OBJECTIVE FUNCTION (NBVOBJ):       0
+ NO. OF STATE VARIABLES IN OBJECTIVE FUNCTION (NSVOBJ):                 0
 
  OBJECTIVE FUNCTION: (excluding flow duration terms)
 
@@ -117,7 +118,7 @@
 
  EXTERNAL VARIABLES:
                         MINIMUM        MAXIMUM
-  NUMBER   NAME          FLOW RATE      FLOW RATE
+  NUMBER   NAME          VALUE          VALUE
 -------------------------------------------------
     1      E            0.000D+00      0.100D+07
 
@@ -244,28 +245,28 @@
   Begin Solution Algorithm
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Difference        hd-01    Satisfied       4.3809E-02
-      Head Difference        hd-02    Satisfied       4.3808E-02
-      Head Difference        hd-03    Satisfied       4.2891E-02
-      Head Difference        hd-08    Satisfied       4.2891E-02
-      Head Difference        hd-09    Satisfied       4.3807E-02
-      Head Difference        hd-10    Satisfied       4.3808E-02
-      Head Difference        hd-04    Satisfied       4.3769E-02
-      Head Difference        hd-05    Satisfied       4.3781E-02
-      Head Difference        hd-06    Satisfied       4.3781E-02
-      Head Difference        hd-07    Satisfied       4.3769E-02
-      Head Gradient          gd-1     Satisfied       1.9690E+00
-      Head Gradient          gd-2     Satisfied       1.9729E+00
-      Head Gradient          gd-7     Satisfied       1.9689E+00
-      Head Gradient          gd-8     Satisfied       1.9728E+00
-      Head Gradient          gd-3     Satisfied       1.9670E+00
-      Head Gradient          gd-4     Satisfied       1.9709E+00
-      Head Gradient          gd-5     Satisfied       1.9670E+00
-      Head Gradient          gd-6     Satisfied       1.9709E+00
-      Summation              demand   Not Met         5.0000E+04
-      Summation              wellson  Satisfied       3.0000E+00
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Difference        hd-01      Satisfied     4.3809E-02
+      Head Difference        hd-02      Satisfied     4.3808E-02
+      Head Difference        hd-03      Satisfied     4.2891E-02
+      Head Difference        hd-08      Satisfied     4.2891E-02
+      Head Difference        hd-09      Satisfied     4.3807E-02
+      Head Difference        hd-10      Satisfied     4.3808E-02
+      Head Difference        hd-04      Satisfied     4.3769E-02
+      Head Difference        hd-05      Satisfied     4.3781E-02
+      Head Difference        hd-06      Satisfied     4.3781E-02
+      Head Difference        hd-07      Satisfied     4.3769E-02
+      Head Gradient          gd-1       Satisfied     1.9690E+00
+      Head Gradient          gd-2       Satisfied     1.9729E+00
+      Head Gradient          gd-7       Satisfied     1.9689E+00
+      Head Gradient          gd-8       Satisfied     1.9728E+00
+      Head Gradient          gd-3       Satisfied     1.9670E+00
+      Head Gradient          gd-4       Satisfied     1.9709E+00
+      Head Gradient          gd-5       Satisfied     1.9670E+00
+      Head Gradient          gd-6       Satisfied     1.9709E+00
+      Summation              demand     Not Met       5.0000E+04
+      Summation              wellson    Satisfied     3.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -384,28 +385,28 @@ Binary Variables
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Difference        hd-01    Satisfied       3.6025E-02
-      Head Difference        hd-02    Satisfied       3.6026E-02
-      Head Difference        hd-03    Satisfied       3.5342E-02
-      Head Difference        hd-08    Satisfied       3.5389E-02
-      Head Difference        hd-09    Satisfied       3.6025E-02
-      Head Difference        hd-10    Satisfied       3.6029E-02
-      Head Difference        hd-04    Satisfied       3.6013E-02
-      Head Difference        hd-05    Satisfied       3.6018E-02
-      Head Difference        hd-06    Satisfied       3.6068E-02
-      Head Difference        hd-07    Satisfied       3.6106E-02
-      Head Gradient          gd-1     Not Met         3.5594E-02
-      Head Gradient          gd-2     Not Met         3.3665E-02
-      Head Gradient          gd-7     Not Met         3.5484E-02
-      Head Gradient          gd-8     Not Met         3.3511E-02
-      Head Gradient          gd-3     Not Met         3.5364E-02
-      Head Gradient          gd-4     Not Met         3.3388E-02
-      Head Gradient          gd-5     Not Met         1.7492E-02
-      Head Gradient          gd-6     Not Met         1.5558E-02
-      Summation              demand   Near-Binding    0.0000E+00
-      Summation              wellson  Near-Binding    0.0000E+00
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Difference        hd-01      Satisfied     3.6025E-02
+      Head Difference        hd-02      Satisfied     3.6026E-02
+      Head Difference        hd-03      Satisfied     3.5342E-02
+      Head Difference        hd-08      Satisfied     3.5389E-02
+      Head Difference        hd-09      Satisfied     3.6025E-02
+      Head Difference        hd-10      Satisfied     3.6029E-02
+      Head Difference        hd-04      Satisfied     3.6013E-02
+      Head Difference        hd-05      Satisfied     3.6018E-02
+      Head Difference        hd-06      Satisfied     3.6068E-02
+      Head Difference        hd-07      Satisfied     3.6106E-02
+      Head Gradient          gd-1       Not Met       3.5594E-02
+      Head Gradient          gd-2       Not Met       3.3665E-02
+      Head Gradient          gd-7       Not Met       3.5484E-02
+      Head Gradient          gd-8       Not Met       3.3511E-02
+      Head Gradient          gd-3       Not Met       3.5364E-02
+      Head Gradient          gd-4       Not Met       3.3388E-02
+      Head Gradient          gd-5       Not Met       1.7492E-02
+      Head Gradient          gd-6       Not Met       1.5558E-02
+      Summation              demand     Satisfied     0.0000E+00
+      Summation              wellson    Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -532,28 +533,28 @@ Binary Variables
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
       Status of Simulation-Based Constraints 
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Difference        hd-01    Satisfied       3.6125E-02
-      Head Difference        hd-02    Satisfied       3.6126E-02
-      Head Difference        hd-03    Satisfied       3.5439E-02
-      Head Difference        hd-08    Satisfied       3.5486E-02
-      Head Difference        hd-09    Satisfied       3.6125E-02
-      Head Difference        hd-10    Satisfied       3.6129E-02
-      Head Difference        hd-04    Satisfied       3.6113E-02
-      Head Difference        hd-05    Satisfied       3.6117E-02
-      Head Difference        hd-06    Satisfied       3.6167E-02
-      Head Difference        hd-07    Satisfied       3.6205E-02
-      Head Gradient          gd-1     Not Met         7.3327E-06
-      Head Gradient          gd-2     Satisfied       1.9506E-03
-      Head Gradient          gd-7     Not Met         7.2815E-06
-      Head Gradient          gd-8     Satisfied       1.9942E-03
-      Head Gradient          gd-3     Not Met         7.4535E-06
-      Head Gradient          gd-4     Satisfied       1.9968E-03
-      Head Gradient          gd-5     Satisfied       1.7539E-02
-      Head Gradient          gd-6     Satisfied       1.9501E-02
-      Summation              demand   Near-Binding    7.2760E-12
-      Summation              wellson  Near-Binding    0.0000E+00
+      Constraint Type        Name       Status   Distance To RHS
+      ---------------        ----       ------   ---------------
+      Head Difference        hd-01      Satisfied     3.6125E-02
+      Head Difference        hd-02      Satisfied     3.6126E-02
+      Head Difference        hd-03      Satisfied     3.5439E-02
+      Head Difference        hd-08      Satisfied     3.5486E-02
+      Head Difference        hd-09      Satisfied     3.6125E-02
+      Head Difference        hd-10      Satisfied     3.6129E-02
+      Head Difference        hd-04      Satisfied     3.6113E-02
+      Head Difference        hd-05      Satisfied     3.6117E-02
+      Head Difference        hd-06      Satisfied     3.6167E-02
+      Head Difference        hd-07      Satisfied     3.6205E-02
+      Head Gradient          gd-1       Not Met       7.3327E-06
+      Head Gradient          gd-2       Satisfied     1.9506E-03
+      Head Gradient          gd-7       Not Met       7.2815E-06
+      Head Gradient          gd-8       Satisfied     1.9942E-03
+      Head Gradient          gd-3       Not Met       7.4535E-06
+      Head Gradient          gd-4       Satisfied     1.9968E-03
+      Head Gradient          gd-5       Satisfied     1.7539E-02
+      Head Gradient          gd-6       Satisfied     1.9501E-02
+      Summation              demand     Satisfied     7.2760E-12
+      Summation              wellson    Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -678,7 +679,7 @@ Binary Variables
   SLP Iterations have converged
 
 ----------------------------------------------------------------------
-               Ground-Water Management Solution
+               Groundwater Management Solution
 ----------------------------------------------------------------------
 
        OPTIMAL SOLUTION FOUND 
@@ -695,14 +696,14 @@ Name               Rate                Rate                To Objective
                    ------------        ------------        ------------
 TOTALS             1.787558E+04        0.000000E+00        0.000000E+00
 
-       OPTIMAL RATES FOR EACH EXTERNAL VARIABLE 
+       OPTIMAL VALUES FOR EACH EXTERNAL VARIABLE 
        ---------------------------------------
-Variable           Export              Import              Contribution
-Name               Rate                Rate                To Objective
+Variable           Variable            Optimal             Contribution
+Name               Type                Value               To Objective
 ----------         --------------      ------------        ------------
- E                                     3.212442E+04        3.212442E+04
-                   ------------        ------------        ------------
-TOTALS             0.000000E+00        3.212442E+04        3.212442E+04
+ E                  Import             3.212442E+04        3.212442E+04
+                                                           ------------
+TOTAL                                                      3.212442E+04
 
        OPTIMAL VALUES FOR EACH BINARY VARIABLE 
        ---------------------------------------
@@ -840,32 +841,34 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
     
       Status of Simulation-Based Constraints 
         Using Optimal Flow Rate Variable Values
-      Constraint Type        Name     Status     Distance To RHS
-      ---------------        ----     ------     ---------------
-      Head Difference        hd-01    Satisfied       3.6125E-02
-      Head Difference        hd-02    Satisfied       3.6126E-02
-      Head Difference        hd-03    Satisfied       3.5439E-02
-      Head Difference        hd-08    Satisfied       3.5486E-02
-      Head Difference        hd-09    Satisfied       3.6125E-02
-      Head Difference        hd-10    Satisfied       3.6129E-02
-      Head Difference        hd-04    Satisfied       3.6113E-02
-      Head Difference        hd-05    Satisfied       3.6117E-02
-      Head Difference        hd-06    Satisfied       3.6168E-02
-      Head Difference        hd-07    Satisfied       3.6205E-02
-      Head Gradient          gd-1     Near-Binding    2.9457E-08
-      Head Gradient          gd-2     Satisfied       1.9579E-03
-      Head Gradient          gd-7     Near-Binding    2.9608E-08
-      Head Gradient          gd-8     Satisfied       2.0015E-03
-      Head Gradient          gd-3     Near-Binding    2.6975E-08
-      Head Gradient          gd-4     Satisfied       2.0043E-03
-      Head Gradient          gd-5     Satisfied       1.7547E-02
-      Head Gradient          gd-6     Satisfied       1.9509E-02
-      Summation              demand   Near-Binding    7.2760E-12
-      Summation              wellson  Near-Binding    0.0000E+00
 
-  Distance to RHS is the absolute value of the difference between the
-    the right hand side of the constraint and the left side of the
-    constraint evaluated using the current set of decision variable values.
-  Because of precision limitations and possible nonlinear behavior, 
-    the status of binding constraints computed directly by the flow process 
-    may differ slightly from those computed using the linear program.  
+                                           Simulated    Specified
+                                            By Flow        in
+      Constraint Type        Name           Process    Constraints   Difference
+      ---------------        ----          ----------   ----------   ----------
+      Head Difference        hd-01         4.1125E-02 > 5.0000E-03   3.6125E-02
+      Head Difference        hd-02         4.1126E-02 > 5.0000E-03   3.6126E-02
+      Head Difference        hd-03         4.0439E-02 > 5.0000E-03   3.5439E-02
+      Head Difference        hd-08         4.0486E-02 > 5.0000E-03   3.5486E-02
+      Head Difference        hd-09         4.1125E-02 > 5.0000E-03   3.6125E-02
+      Head Difference        hd-10         4.1129E-02 > 5.0000E-03   3.6129E-02
+      Head Difference        hd-04         4.1113E-02 > 5.0000E-03   3.6113E-02
+      Head Difference        hd-05         4.1117E-02 > 5.0000E-03   3.6117E-02
+      Head Difference        hd-06         4.1168E-02 > 5.0000E-03   3.6168E-02
+      Head Difference        hd-07         4.1205E-02 > 5.0000E-03   3.6205E-02
+      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00  -2.9457E-08
+      Head Gradient          gd-2          2.8020E+00 > 2.8000E+00   1.9579E-03
+      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00  -2.9608E-08
+      Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   2.0015E-03
+      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00  -2.6975E-08
+      Head Gradient          gd-4          2.8020E+00 > 2.8000E+00   2.0043E-03
+      Head Gradient          gd-5          2.8175E+00 > 2.8000E+00   1.7547E-02
+      Head Gradient          gd-6          2.8195E+00 > 2.8000E+00   1.9509E-02
+      Summation              demand        5.0000E+04 > 5.0000E+04  -7.2760E-12
+      Summation              wellson       3.0000E+00 < 3.0000E+00   0.0000E+00
+
+  Difference is computed by subtracting right hand side of the constraint 
+    from the left side of the constraint.
+  Precision limitations and nonlinear response may cause the 
+    values of the binding constraints computed directly by the flow process 
+    to differ from those computed using the linear program.  

@@ -1,0 +1,45 @@
+#SEAWATER-LGRSTA Sample Problem, SUMCON file
+#July, 2010
+ 1                  #1-IPRN
+ 12                  #2-SMCNUM
+ demand 5 ge 5.0d4  #3a-SMCNAME NTERMS TYPE RHS 
+  W1  1.0           #3b-GVNAME GVCOEFF
+  W2  1.0
+  W3  1.0
+  W4  1.0
+   E  1.0
+ wellson 4 le 3.1  #3a-SMCNAME NTERMS TYPE RHS 
+  BV4  1.0           #3b-GVNAME GVCOEFF
+  BV3  1.0
+  BV2  1.0
+  BV1  1.0
+ hd01 2 ge 0.04
+  hd-01-1   1.0
+  hd-01-2  -1.0
+ hd02 2 ge 0.04
+  hd-02-1   1.0
+  hd-02-2  -1.0
+ hd03 2 ge 0.04
+  hd-03-1   1.0
+  hd-03-2  -1.0
+ hd08 2 ge 0.04
+  hd-08-1   1.0
+  hd-08-2  -1.0
+ hd09 2 ge 0.04
+  hd-09-1   1.0
+  hd-09-2  -1.0
+ hd10 2 ge 0.04
+  hd-10-1   1.0
+  hd-10-2  -1.0
+ hd04 2 ge 0.04
+  hd-04-1   1.0
+  hd-04-2  -1.0
+ hd05 2 ge 0.04
+  hd-05-1   1.0
+  hd-05-2  -1.0
+ hd06 2 ge 0.04
+  hd-06-1   1.0
+  hd-06-2  -1.0
+ hd07 2 ge 0.04
+  hd-07-1   1.0
+  hd-07-2  -1.0

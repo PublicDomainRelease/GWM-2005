@@ -2515,13 +2515,13 @@ C-----ALLOCATE MEMORY FOR ARRAYS TO STORE THE LINEAR PROGRAM
      2          RHSREL(NCON),RHSRLL(NCON),RHSREU(NCON),RHSRLU(NCON),
      3          CSTROR(NV),CSTRLB(NV),CSTRUB(NV),
      4          CSTREL(NV),CSTRLL(NV),CSTREU(NV),CSTRLU(NV),
-     5          RHSIN(NCON),RHSINF(NCON-NLBR),CONTYP(NCON),
-     6          RANGENAME(NCON-NLBR+NDV),RANGENAMEF(NCON-NLBR+NDV),
+     5          RHSIN(NCON),RHSINF(NCON),CONTYP(NCON),
+     6          RANGENAME(NCON+NDV),RANGENAMEF(NCON+NDV),
      7          STAT=ISTAT)
       IF(ISTAT.NE.0)GOTO 992
       BYTES = BYTES + 8*(NCON*NDV + 2*NV + NCON) +
      1         8*3*NCON + 4*4*NCON + 8*3*NV + 4*4*NV +
-     2         8*NCON + 8*(NCON-NLBR) + 10*2*(NCON-NLBR+NDV)
+     2         8*2*NCON + 10*2*(NCON+NDV)
 C-----CLEAR MEMORY
       RHS  = ZERO
       AMAT = ZERO
@@ -2775,6 +2775,7 @@ C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : GWM1BAS3PS,GWM1BAS3PF
       USE GWM1HDC3, ONLY : GWM1HDC3FPR 
       USE GWM1STC3, ONLY : GWM1STC3FPR
+      USE GWM1STA3, ONLY : GWM1STA3FPR
       INTERFACE 
         SUBROUTINE USTOP(STOPMESS)
         CHARACTER STOPMESS*(*)
@@ -2809,11 +2810,14 @@ C-----FIRST, READ HEAD CONSTRAINT REFERENCE AND BASE STATE INTO FULL RHS ARRAYS
       CALL GWM1HDC3FPR(RSTRT, 0, 0)        
 C-----2ND, READ STREAM CONSTRAINT REFERENCE AND BASE STATE INTO FULL RHS ARRAYS
       CALL GWM1STC3FPR(RSTRT, 0, 0)              ! READ BASE STATE
+C-----3RD, READ BASE STATE FOR STATE VARIABLES
+      CALL GWM1STA3FPR(0,0)
 C-----READ THE RESPONSE MATRIX INTO AMAT ARRAY, ONE FULL COLUMN AT A TIME
       DO 200 I=1,NFVAR                           ! LOOP OVER COLUMNS                                
         RSTRT = 1                                ! START FROM THE FIRST ROW
         CALL GWM1HDC3FPR(RSTRT, 1, I)            ! READ HEAD CON IN COLUMN
         CALL GWM1STC3FPR(RSTRT, 1, I)            ! READ STRM CON IN COLUMN
+        CALL GWM1STA3FPR(1, I)                   ! READ STATE RESPONSE
   200 ENDDO
 C
 C-----WRITE CONSTRAINT STATUS
@@ -3168,6 +3172,7 @@ C-----------------------------------------------------------------------
      1                     HCLOSEG,SLPITCNT,SLPITPRT,DELINC,NPGNMX,
      2                     VARBASE,NRESET,IREF,NPGNA,MFCNVRG
       USE GWM1DCV3, ONLY : NFVAR,NEVAR,NBVAR,FVBASE
+      USE GWM1STA3, ONLY : GWM1STA3FP  
       USE GWM1BAS3, ONLY : ZERO,RMFILE
       USE GWM1OBJ3, ONLY : SOLNTYP
       USE GWM1HDC3, ONLY : GWM1HDC3FP 
@@ -3265,6 +3270,9 @@ C-----FORMULATE THE HEAD CONSTRAINT COEFFICIENTS FOR THE PERTURBED VARIABLE
 C
 C-----FORMULATE THE STREAM CONSTRAINT COEFFICIENTS FOR THE PERTURBED VARIABLE
       CALL GWM1STC3FP(RSTRT,IPERT)
+C    
+C-----FORMULATE THE STATE RESPONSE COEFFICIENTS FOR THE PERTURBED VARIABLE
+      CALL GWM1STA3FP(IPERT)
 C
 C-----WRITE OUTPUT FOR BASE SIMULATIONS
       IF(IPERT.EQ.0)THEN                   ! THIS IS A BASE SIMULATION
@@ -3379,7 +3387,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3FM 
 C***********************************************************************
-C  VERSION: 21MAR2008
+C  VERSION: 11SEPT2009
 C  PURPOSE - ASSEMBLE THE COEFFICIENT MATRIX, COST COEFFICIENT, UPPER BOUNDS
 C              AND RIGHT HAND SIDE FOR THE LINEAR PROGRAM
 C    INPUT:
@@ -3453,42 +3461,63 @@ C
 C  PURPOSE - DETERMINE SIGNIFICANT DIGITS IN RESPONSE MATRIX ELEMENT
 C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : GWM1BAS3PF,RMFILEF
+	USE GWM1STA3, ONLY : STATERES, STANUM
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----WRITE RESPONSE MATRIX TO FORMATTED FILE
       IF(IRM.GE.3)THEN
-        WRITE(RMFILEF,9000)
-        CALL UCOLNO(1,NFVAR,5,5,14,RMFILEF)
-        DO 300 IROW = 1,NRMC 
-          WRITE(RMFILEF,9010) IROW,(AMAT(IROW,IPERT),IPERT=1,NFVAR)
-  300   ENDDO
+        IF(NRMC.GT.0)THEN 
+          WRITE(RMFILEF,9000)
+          CALL UCOLNO(1,NFVAR,5,5,14,RMFILEF)
+          DO 300 IROW = 1,NRMC 
+            WRITE(RMFILEF,9010) IROW,(AMAT(IROW,IPERT),IPERT=1,NFVAR)
+  300     ENDDO
+        ENDIF
+        IF(STANUM.GT.0)THEN
+          WRITE(RMFILEF,9005)
+          CALL UCOLNO(1,NFVAR,5,5,14,RMFILEF)
+          DO 400 IROW = 1,STANUM
+            WRITE(RMFILEF,9010)IROW,(STATERES(IROW,IPERT),IPERT=1,NFVAR)
+  400     ENDDO
+        ENDIF
       ENDIF
 C
       IF(IRM.EQ.5)RETURN ! THIS IS AN EXISTING RESPONSE MATRIX
-
       ISIG = 0
       NSIG = 0
 C
 C-----LOOP OVER ALL ELEMENTS OF THE RESPONSE MATRIX
-      DO 200 IROW = 1,NRMC 
-        DO 100 IPERT = 1,NFVAR
-C
-C-------RECOVER THE DIFFERENCE IN STATE VALUES
-          XNUM = AMAT(IROW,IPERT)*DELINC(IPERT)
-          IF(XNUM.NE.ZERO)THEN
-C
-C-------DETERMINE THE MAGNITUDE RELATIVE TO MODFLOW CONVERGENCE
+      DO 100 IROW = 1,NRMC 
+        DO 80 IPERT = 1,NFVAR
+C---------RECOVER THE DIFFERENCE IN STATE VALUES
+          XNUM = AMAT(IROW,IPERT)*DELINC(IPERT) 
+          IF(XNUM.NE.ZERO)THEN                  
+C-----------DETERMINE THE MAGNITUDE RELATIVE TO MODFLOW CONVERGENCE
             XNUM = XNUM/HCLOSEG
-C
-C-------DETERMINE ORDER OF MAGNITUDE OF STATE DIFFERENCE
+C-----------DETERMINE ORDER OF MAGNITUDE OF STATE DIFFERENCE
             LNUM = IDINT(DLOG10(DABS(XNUM))) + 1
             IF(LNUM .LT. 0) LNUM = 0
-C
-C-------ACCUMULATE STATISTICS
-            ISIG = ISIG + LNUM
+            ISIG = ISIG + LNUM                  ! ACCUMULATE STATISTICS
             NSIG = NSIG + 1
           ENDIF
-  100   ENDDO
+   80   ENDDO
+  100 ENDDO
+C
+C-----LOOP OVER ALL ELEMENTS OF THE STATE RESPONSE MATRIX
+      DO 200 IROW = 1,STANUM 
+        DO 180 IPERT = 1,NFVAR
+C---------RECOVER THE DIFFERENCE IN STATE VALUES
+          XNUM = STATERES(IROW,IPERT)*DELINC(IPERT)
+          IF(XNUM.NE.ZERO)THEN
+C-----------DETERMINE THE MAGNITUDE RELATIVE TO MODFLOW CONVERGENCE
+            XNUM = XNUM/HCLOSEG
+C-----------DETERMINE ORDER OF MAGNITUDE OF STATE DIFFERENCE
+            LNUM = IDINT(DLOG10(DABS(XNUM))) + 1
+            IF(LNUM .LT. 0) LNUM = 0
+            ISIG = ISIG + LNUM                  ! ACCUMULATE STATISTICS
+            NSIG = NSIG + 1
+          ENDIF
+  180   ENDDO
   200 ENDDO
 C
       CALL GWM1BAS3PF(' ',0,ZERO)
@@ -3503,11 +3532,15 @@ C
       ENDIF
 
       RETURN
- 9000 FORMAT('  GWM RESPONSE MATRIX ',/,
+ 9000 FORMAT('  GWM CONSTRAINT RESPONSE MATRIX ',/,
      &   '    ROWS IN READ-ORDER FOR SIMULATION-BASED CONSTRAINTS',/,
      &   '       HEAD CONSTRAINTS IN ORDER READ FROM HEDCON',/,
      &   '       STREAM CONSTRAINTS IN ORDER READ FROM STRMCON',/,
-     &   '    COLUMNS IN READ-ORDER FOR FLOW-RATE DECISION VARIABLES',/,
+     &   '    COLUMNS IN READ-ORDER FOR FLOW RATE VARIABLES',/,
+     &   '-------------------------------------------------------')
+ 9005 FORMAT(/,'  STATE VARIABLE RESPONSE MATRIX ',/,
+     &   '    ROWS FOR STATE VARIABLES IN READ-ORDER FROM STAVAR',/,
+     &   '    COLUMNS IN READ-ORDER FOR FLOW RATE VARIABLES',/,
      &   '-------------------------------------------------------')
  9010 FORMAT((I5,1X,5G14.6):/(6X,5G14.6))
       END SUBROUTINE SGWM1RMS3FM
@@ -3528,7 +3561,7 @@ C-----------------------------------------------------------------------
      &                     RHS,OBJ,SLPITCNT,SLPITMAX,NCONF,NVF
       USE GWM1DCV3, ONLY : NFVAR,NEVAR,NBVAR,FVBASE,FVDIR,FVNAME,
      &                     FVMIN,FVMAX,EVMIN,EVMAX,FVCURRENT
-      USE GWM1OBJ3, ONLY : SOLNTYP,OBJTYP
+      USE GWM1OBJ3, ONLY : SOLNTYP,OBJTYP,OBJCNST
       USE GWM1RMS3, ONLY : LASTLP
       LOGICAL(LGT),INTENT(OUT)::GWMCNVRG
       INTERFACE 
@@ -3639,6 +3672,9 @@ C-----SWITCH SIGN OF OBJ IF MAXIMIZATION
       IF(OBJTYP.EQ.'MAX')THEN                ! CONVERT TO MINIMIZATION
          OBJ = -OBJ
 	  ENDIF
+C
+C-----ADD THE CONSTANT PART BACK INTO THE OBJECTIVE FUNCTION
+      OBJ = OBJ + OBJCNST
 C
 C-----IF VARIABLE VALUES ARE WITHIN ROUNDOFF ERROR OF THEIR BOUNDS, THEN RESET
       DO 300 I=1,NFVAR
@@ -3993,7 +4029,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3OT(IFLG,NGRIDS)
 C***********************************************************************
-C  VERSION: 28JAN2009
+C  VERSION: 26JAN2011
 C  PURPOSE - WRITE OUTPUT FOR GWM SOLUTION  
 C-----------------------------------------------------------------------
       USE GLOBAL,   ONLY : NPER
@@ -4011,6 +4047,7 @@ C-----------------------------------------------------------------------
       USE GWM1HDC3, ONLY : GWM1HDC3OT
       USE GWM1STC3, ONLY : GWM1STC3OT
       USE GWM1SMC3, ONLY : GWM1SMC3OT
+      USE GWM1STA3, ONLY : GWM1STA3OT,STANUM
       USE GWM1DCC3, ONLY : GWM1DCC3OT
       INTEGER(I4B),INTENT(IN)::IFLG,NGRIDS
       INTERFACE 
@@ -4049,10 +4086,10 @@ C-----WRITE CONSTRAINT STATUS FOR A FLOW PROCESS SIMULATION
         CALL GWM1BAS3PF('      Status of Simulation-Based Constraints '
      &       ,0,ZERO)
         CALL GWM1BAS3PF(
-     &'      Constraint Type        Name     Status     Distance To RHS'
+     &'      Constraint Type        Name       Status   Distance To RHS'
      &       ,0,ZERO)
         CALL GWM1BAS3PF(
-     &'      ---------------        ----     ------     ---------------'
+     &'      ---------------        ----       ------   ---------------'
      &       ,0,ZERO)
 C
         RSTRT = 0                           ! RSTRT IS A DUMMY ARGUMENT HERE
@@ -4072,7 +4109,7 @@ C-----WRITE LINEAR PROGRAM OUTPUT
         IF(IFLG.EQ.-1)THEN                  ! THIS IS AN SLP ITERATION
 	    WRITE(GWMOUT,1000,ERR=990)'Solution at This Iteration of SLP'
 	  ELSE
-	    WRITE(GWMOUT,1000,ERR=990)'Ground-Water Management Solution'
+	    WRITE(GWMOUT,1000,ERR=990)'Groundwater Management Solution'
           WRITE(GWMOUT,1010,ERR=990)
         ENDIF
         CALL GWM1OBJ3OT                     ! WRITE OBJECTIVE FUNCTION INFO
@@ -4244,24 +4281,36 @@ C
           CALL GWM1BAS3PF('       Range Analysis Not Reported ',0,ZERO)
         ENDIF
 C
-C-----WRITE FINAL CONSTRAINT STATUS
+C-----WRITE FINAL STATE VARIABLE AND CONSTRAINT STATUS
       ELSEIF(OFLG.EQ.3 .OR. OFLG.EQ.4)THEN          
+        IF(STANUM.GT.0)THEN
+          CALL GWM1BAS3PF('      Status of State Variable Values '
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &       '        Using Optimal Flow Rate Variable Values'
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      State Variable Type    Name        Computed Value'
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      -------------------    ----        --------------'
+     &       ,0,ZERO)
+          CALL GWM1STA3OT                        ! WRITE STATE VARIABLE STATUS
+	    WRITE(GWMOUT,7002,ERR=990)
+          CALL GWM1BAS3PF(' ',0,ZERO)              ! BLANK LINE
+        ENDIF
+C
         CALL GWM1BAS3PF('      Status of Simulation-Based Constraints '
      &       ,0,ZERO)
         CALL GWM1BAS3PF(
      &       '        Using Optimal Flow Rate Variable Values'
      &       ,0,ZERO)
-        CALL GWM1BAS3PF(
-     &'      Constraint Type        Name     Status     Distance To RHS'
-     &       ,0,ZERO)
-        CALL GWM1BAS3PF(
-     &'      ---------------        ----     ------     ---------------'
-     &       ,0,ZERO)
+	  WRITE(GWMOUT,7007,ERR=990)
         RSTRT = 0                                 ! RSTRT IS A DUMMY ARGUMENT HERE
-        CALL GWM1HDC3OT(RSTRT,1)                  ! WRITE HEAD CONSTRAINT STATUS
-        CALL GWM1STC3OT(RSTRT,1)                  ! WRITE STREAM CONSTRAINT STATUS
-        CALL GWM1SMC3OT(RSTRT,3)                  ! WRITE SUMMATION CONSTRAINT STATUS
-	  WRITE(GWMOUT,7005,ERR=990)
+        CALL GWM1HDC3OT(RSTRT,4)                  ! WRITE HEAD CONSTRAINT STATUS
+        CALL GWM1STC3OT(RSTRT,4)                  ! WRITE STREAM CONSTRAINT STATUS
+        CALL GWM1SMC3OT(RSTRT,4)                  ! WRITE SUMMATION CONSTRAINT STATUS
+	  WRITE(GWMOUT,7006,ERR=990)
 	  WRITE(GWMOUT,7000,ERR=990)
         IF(OFLG.EQ.4)WRITE(GWMOUT,7010,ERR=990)   ! DEWATERING IN HEADS OR WELLS
 C
@@ -4369,18 +4418,36 @@ C
  5030 FORMAT(/,
      &  '  Binding constraint values are ',
      &  'determined from the linear program',/,'    and based on the',
-     &  ' response matrix approximation of the flow-process.')
+     &  ' response matrix approximation of the flow process.')
  7000 FORMAT(
-     &  '  Because of precision limitations and possible ',
-     &  'nonlinear behavior, ',/,'    the status of binding ',
+     &  '  Precision limitations and nonlinear ',
+     &  'response may cause the ',/,'    values of the binding ',
      &  'constraints computed directly by the flow process ',/,
-     &  '    may differ slightly from those computed using ',
+     &  '    to differ from those computed using ',
+     &  'the linear program.  ')
+ 7002 FORMAT(
+     &  '  Precision limitations and ',
+     &  'nonlinear response may cause ',/,'    the state ',
+     &  'variables computed directly by the flow process ',/,
+     &  '    to differ from those computed using ',
      &  'the linear program.  ')
  7005 FORMAT(/,
      &'  Distance to RHS is the absolute value of the difference ',
      &'between the',/,'    the right hand side of the constraint and ',
      &'the left side of the',/,'    constraint evaluated using the ',
      &'current set of decision variable values.')    
+ 7006 FORMAT(/,
+     &'  Difference is computed by subtracting right hand side ',
+     &'of the constraint ',/,
+     &'    from the left side of the constraint.')    
+ 7007 FORMAT(/,
+     &'                                           Simulated    ',
+     &'Specified',/,
+     &'                                            By Flow        in',/,
+     &'      Constraint Type        Name           Process    ',
+     &'Constraints   Difference',/,
+     &'      ---------------        ----          ----------   ',
+     &'----------   ----------')
  7010 FORMAT(/,
      &  '    WARNING: At least one constrained head or active',
      &  ' well dewatered',/,

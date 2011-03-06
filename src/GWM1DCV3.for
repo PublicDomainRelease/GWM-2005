@@ -57,8 +57,7 @@ C      EVNAME   -name of external variable (10 digits)
 C      EVMIN    -lower bound for external variable
 C      EVMAX    -upper bound for external variable
 C      EVBASE   -current value of external variable during solution process 
-C      EVDIR    -flag for direction of flow for external variable 
-C                 1 => import, 2 => export
+C      EVDIR    -code for the type of external variable
 C      EVSP     -logical array (NEVAR x # stress periods) which records if a
 C                  external variable is a candidate during a stress period
 C
@@ -136,11 +135,14 @@ C-----LOCAL VARIABLES
       CHARACTER(LEN=200)::FNAME,LINE
       INTEGER(I4B),DIMENSION(NGRIDS)::NFVARG,NEVARG,NBVARG
       INTEGER(I4B)::JFVROW,JEVROW,JBVROW,G
+      CHARACTER(LEN=10)::ETYPED(6)
 C-----ALLOCATE TEMPORARY STORAGE UNTIL SIZE CAN BE DETERMINED
       INTEGER(I4B),ALLOCATABLE::TBVLIST(:,:)
       CHARACTER(LEN=120),ALLOCATABLE::WSP(:),ESP(:)
       INTEGER(I4B),ALLOCATABLE::GRDLOCFV(:),GRDLOCEV(:),
      &             GRDLOCBV(:)
+      DATA ETYPED /'  Import  ','  Export  ','  Head    ',
+     &             '  Strmflow','  Storage ','  General '/
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----LOOP OVER ALL GRIDS TO OPEN FILES AND COUNT DECISION VARIABLES
@@ -369,10 +371,18 @@ C-------------CHECK THAT EXTERNAL-VARIABLE NAME HAS NOT BEEN USED
               GRDLOCEV(J)=G  
 C-------------PROCESS ETYPE, THE EXTERNAL VARIABLE DIRECTION 
               ETYPE=LINE(IPTS:IPTF)
-              IF(ETYPE.EQ.'im'.OR.ETYPE.EQ.'IM')THEN
+              IF(ETYPE.EQ.'IM'.OR.ETYPE.EQ.'im'.OR.ETYPE.EQ.'Im')THEN
                 EVDIR(J)=1
-              ELSEIF(ETYPE.EQ.'EX'.OR.ETYPE.EQ.'ex')THEN
+             ELSEIF(ETYPE.EQ.'EX'.OR.ETYPE.EQ.'ex'.OR.ETYPE.EQ.'Ex')THEN
                 EVDIR(J)=2
+             ELSEIF(ETYPE.EQ.'HD'.OR.ETYPE.EQ.'hd'.OR.ETYPE.EQ.'Hd')THEN
+                EVDIR(J)=3
+             ELSEIF(ETYPE.EQ.'SF'.OR.ETYPE.EQ.'sf'.OR.ETYPE.EQ.'Sf')THEN
+                EVDIR(J)=4
+             ELSEIF(ETYPE.EQ.'ST'.OR.ETYPE.EQ.'st'.OR.ETYPE.EQ.'St')THEN
+                EVDIR(J)=5
+             ELSEIF(ETYPE.EQ.'GN'.OR.ETYPE.EQ.'gn'.OR.ETYPE.EQ.'Gn')THEN
+                EVDIR(J)=6
               ELSE
                 WRITE(IOUT,4020,ERR=990)ETYPE    ! VALUE OF ETYPE IS INVALID 
                 CALL USTOP(' ')
@@ -539,7 +549,7 @@ C
                 WRITE(IOUT,7055,ERR=990)FNAMEN(GRDLOCDCV(J+JJ))
               ENDIF
             ENDIF
-            WRITE(IOUT,7060,ERR=990)J,EVNAME(J),ESP(J)
+            WRITE(IOUT,7060,ERR=990)J,EVNAME(J),ETYPED(EVDIR(J)),ESP(J)
   700     ENDDO
         ENDIF
 C
@@ -617,20 +627,20 @@ C
      1  ' ASSOCIATED WITH BINARY VARIABLE ',A,' IS NOT VALID.')
  6020 FORMAT(1X,/1X,'PROGRAM STOPPED.',A,' WAS NOT DEFINED AS A', 
      1  ' VARIABLE NAME (FVNAME)')
- 7000 FORMAT(/,T2,'FLOW-RATE VARIABLES:',/,T56,'FRACTION',/,
+ 7000 FORMAT(/,T2,'FLOW-RATE VARIABLES:',/,T52,'FRACTION',/,
      1  T3,'NUMBER',T14,'NAME',T25,'TYPE',T35,'LAY',T41,'ROW',
-     2  T47,'COL',T57,'OF FLOW',/,1X,'----------------------',
-     3  '----------------------------------------')
+     2  T47,'COL',T53,'OF FLOW',/,1X,'----------------------',
+     3  '------------------------------------')
 C
  7005 FORMAT('  FLOW-RATE VARIABLES READ FROM FILE: ',A120,/)
- 7010 FORMAT(I5,6X,A10,1X,A10,1X,3I5,4X,F10.8)
- 7020 FORMAT(T34,3I5,4X,F10.8)
+ 7010 FORMAT(I5,6X,A10,1X,A10,1X,3I5,4X,F6.4)
+ 7020 FORMAT(T34,3I5,4X,F6.4)
  7030 FORMAT('   AVAILABLE IN STRESS PERIODS: ',A120,/)
  7040 FORMAT('   UNAVAILABLE IN ALL STRESS PERIODS',/)
  7050 FORMAT(/,T2,'EXTERNAL VARIABLES:',/,/,T3,'NUMBER',T14,'NAME',
-     1  /,1X'------------------------------',/)
+     1  T24,'TYPE',/,1X'------------------------------',/)
  7055 FORMAT('  EXTERNAL VARIABLES READ FROM FILE: ',A120,/)
- 7060 FORMAT(I5,8X,A10,/,'   AVAILABLE IN STRESS PERIODS: ',A120,/)
+ 7060 FORMAT(I5,8X,A10,A10,/,'   AVAILABLE IN STRESS PERIODS: ',A120,/)
  7070 FORMAT(/,T2,'BINARY VARIABLES:',/,T24,'NUMBER OF',T46,
      1  'NAME OF',/,T3,'NUMBER',T14,'NAME',T20,
      2  'ASSOCIATED VARIABLES',T42,'ASSOCIATED VARIABLES',/,

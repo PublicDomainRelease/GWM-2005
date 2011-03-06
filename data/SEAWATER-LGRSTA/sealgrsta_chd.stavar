@@ -1,0 +1,11 @@
+# Seawater-lgrsta sample problem, STAVAR file
+ 1                     #1-IPRN
+ 8   0   0             #2-NHVAR NRVAR NSVAR
+ hd-04-1  1  4 37  1   #3-SVNAME LAYH ROWH COLH SSP
+ hd-04-2  2  4 37  1
+ hd-05-1  1 10 37  1
+ hd-05-2  2 10 37  1
+ hd-06-1  1 16 37  1
+ hd-06-2  2 16 37  1
+ hd-07-1  1 22 37  1
+ hd-07-2  2 22 37  1

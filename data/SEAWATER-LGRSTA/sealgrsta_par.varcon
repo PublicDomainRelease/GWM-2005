@@ -1,0 +1,6 @@
+#SEAWATER-LGR Sample Problem, VARCON Parent file
+#December, 2007
+ 1                         #1-IPRN
+ W3 0.0d0  1.0d4  0.0d0    #2-FVNAME FVMIN FVMAX FVREF
+ W4 0.0d0  1.0d4  0.0d0
+ E  0.0d0  1.0d6

@@ -1,0 +1,12 @@
+# STORAGE sample problem for GWM
+LIST  7 storage.lst
+BAS6  8 ..\data\STORAGE\storage.ba6
+LPF  11 ..\data\STORAGE\storage.lpf
+WEL  12 ..\data\STORAGE\storage.wel
+DRN  13 ..\data\STORAGE\storage.drn
+RCH  18 ..\data\STORAGE\storage.rch
+SIP  19 ..\data\STORAGE\storage.sip
+OC   22 ..\data\STORAGE\storage.oc
+DIS  10 ..\data\STORAGE\storage.dis
+GWM  20 ..\data\STORAGE\storage.gwm
+DATA 75 storage.gwmwell
