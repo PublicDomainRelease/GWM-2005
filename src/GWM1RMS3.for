@@ -2127,7 +2127,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3AR(FNAME,IOUT,NFVAR,NEVAR,NBVAR,NDV,NV,NCON)
 C***********************************************************************
-C   VERSION: 16JULY2009
+C   VERSION: 30MAY2011
 C   PURPOSE: READ INPUT FROM THE SOLUTION AND OUTPUT-CONTROL FILE
 C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : ZERO,RMFILE,RMFILEF,MPSFILE,CUTCOM
@@ -2193,7 +2193,8 @@ C-----READ SOLUTION TYPE
       IF(LINE(IKEYS:IKEYF).NE.'NS'  .AND.
      1   LINE(IKEYS:IKEYF).NE.'MPS' .AND.
      2   LINE(IKEYS:IKEYF).NE.'LP'  .AND.
-     3   LINE(IKEYS:IKEYF).NE.'SLP')THEN
+     3   LINE(IKEYS:IKEYF).NE.'SLP' .AND.
+     4   LINE(IKEYS:IKEYF).NE.'FR') THEN
         WRITE(IOUT,2000,ERR=990)
         CALL USTOP(' ')
       ENDIF
@@ -2438,6 +2439,14 @@ C-------PROCESS BBITPRT
 C
       ENDIF
 C
+C-----IF SOLNTYP IS FR (FORWARD RUN) CALCULATE A FORWARD RUN, 
+C       EVALUATE THE CONSTRAINTS AND OBJECTIVE FUNCTION AND THEN STOP.
+      IF(SOLNTYP.EQ.'FR')THEN
+        WRITE(IOUT,3300,ERR=990)
+        CRITMFC = 0.0
+        IRM = 2
+      ENDIF
+C
 C-----ECHO INPUT PARAMETERS THAT ARE COMMON TO ALL SOLNTYP
 C
 C-------PROCESS CRITMFC, THE FLOW PROCESS ACCEPTABILITY CRITERIA
@@ -2622,6 +2631,9 @@ C
  3232 FORMAT(/1X,'CRITMFC SET TO ',T45,D11.3,/,
      &   1X,'GWM WILL ACCEPT FLOW PROCESS RESULTS IF PERCENT ',/,
      &      'DISCREPANCY OF WATER BALANCE FLOW RATE IS BELOW CRITMFC')
+ 3300 FORMAT(1X,/1X,'NO RESPONSE MATRIX OR SOLUTION WILL BE COMPUTED.',
+     1  ' GWM WILL',/,' CALCULATE A FORWARD RUN, EVALUATE THE CONS',
+     2  'TRAINTS AND',/,' OBJECTIVE FUNCTION AND THEN STOP.') 
  4000 FORMAT(/,T2,'BASE PUMPING RATES TAKEN FROM FVREF SPECIFIED IN',
      1  ' VARCON INPUT FILE')
  4010 FORMAT(1X,/1X,'PROGRAM STOPPED. ',A10,' WAS NOT DEFINED AS A', 
@@ -2902,7 +2914,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3PP(IOUT,IPERT,FIRSTSIM,LASTSIM,NPERT,GWMSTRG)
 C***********************************************************************
-C  VERSION: 21JAN2010
+C  VERSION: 30MAY2011
 C  PURPOSE - SET OUTPUT FLAGS AT BEGINNING OF SIMULATION,
 C            PERTURB THE PUMPING RATE FOR RESPONSE MATRIX GENERATION
 C-----------------------------------------------------------------------
@@ -2911,7 +2923,7 @@ C-----------------------------------------------------------------------
      2                     DEWATERQ,NPGNMX,MFCNVRG
       USE GWM1DCV3, ONLY : NFVAR,FVBASE,FVINI,FVMAX,FVNAME,FVCURRENT
       USE GWM1BAS3, ONLY : ZERO,GWMOUT
-      USE GWM1OBJ3, ONLY : SOLNTYP
+      USE GWM1OBJ3, ONLY : SOLNTYP,GWM1OBJ3OT2 
       USE GWM1BAS3, ONLY : GWM1BAS3PF,GWM1BAS3PS
       INTEGER(I4B),INTENT(IN)::IOUT,IPERT,NPERT
       LOGICAL(LGT),INTENT(IN):: FIRSTSIM,LASTSIM
@@ -2937,7 +2949,8 @@ C-------THIS IS A BASE OR REFERENCE SIMULATION
             DEWATER(I) = .FALSE.                 ! INITIALIZE DEWATER FLAGS
             DEWATERQ(I)= .FALSE.                 ! INITIALIZE DEWATERQ FLAGS
           ENDDO
-          CALL SGWM1RMS3PP(1)
+          IF(SOLNTYP.NE.'FR')CALL SGWM1RMS3PP(1)
+          IF(SOLNTYP.EQ.'FR')CALL SGWM1RMS3PP(0)
         ELSEIF(.NOT.FIRSTSIM .AND. .NOT.LASTSIM)THEN
           IF(MFCNVRG(IPERT).AND..NOT.DEWATER(IPERT)
      &               .AND..NOT.DEWATERQ(IPERT))THEN  ! FLOW PROCESS SUCCESSFUL
@@ -2983,6 +2996,12 @@ C-------THIS IS A BASE OR REFERENCE SIMULATION
         ENDIF                                    
       ELSEIF(IPERT.GT.0)THEN
 C-------THIS IS A PERTURBATION SIMULATION
+        IF(SOLNTYP.EQ.'FR')THEN
+          CALL GWM1OBJ3OT2                       ! WRITE OBJECTIVE VALUE
+          CALL GWM1BAS3PS('    ',0)
+          CALL GWM1BAS3PS('    SOLNTYP is FR - GWM Run is Terminated',0)
+          CALL USTOP('  ')
+        ENDIF
         IF(IPERT.EQ.1.AND.IPGNA(IPERT).EQ.0)THEN ! WRITE PERTURBATION HEADER
           CALL SGWM1RMS3PP(5)                    
         ENDIF
@@ -3008,7 +3027,32 @@ C  PURPOSE - WRITE OUTPUT FOR GWM1RMS3PP
       INTEGER(I4B)::IFLG
 C-----------------------------------------------------------------------
 C
-      IF(IFLG.EQ.1)THEN
+      IF(IFLG.EQ.0)THEN
+        CALL GWM1BAS3PF(
+     &'---------------------------------------------------------------'
+     &                    ,0,ZERO)
+        CALL GWM1BAS3PF(
+     &'   Running SOLNTYP=FR option (Groundwater Flow Process only):'
+     &                    ,0,ZERO)
+        CALL GWM1BAS3PF(
+     &'  All External and Binary Variables are assigned a value of zero'
+     &                    ,0,ZERO)
+        CALL GWM1BAS3PF(
+     &'---------------------------------------------------------------'
+     &                    ,0,ZERO)
+        IF(IPERT.LT.0)THEN                       ! THIS IS A REFERENCE RUN
+          CALL GWM1BAS3PS('    Running Reference Simulation',0)
+          GWMSTRG = 'REFERENCE FLOW PROCESS SIMULATION FOR GWM'
+        ELSEIF(IPERT.EQ.0 .AND. IREF.EQ.1)THEN   ! THIS IS A BASE AND REF RUN
+          CALL GWM1BAS3PS('    Running Flow Process Simulation',0)
+          CALL GWM1BAS3PS('      for both Reference and Base ',0)
+          GWMSTRG = 
+     &     'FLOW PROCESS SIMULATION FOR GWM FOR BOTH REFERENCE AND BASE'
+        ELSEIF(IPERT.EQ.0 .AND. IREF.EQ.0)THEN   ! THIS IS JUST A BASE RUN
+          CALL GWM1BAS3PS('    Running Base Flow Process Simulation',0)
+          GWMSTRG = 'BASE FLOW PROCESS SIMULATION FOR GWM'
+        ENDIF
+      ELSEIF(IFLG.EQ.1)THEN
         CALL GWM1BAS3PF(
      &'---------------------------------------------------------------'
      &                    ,0,ZERO)
@@ -4029,7 +4073,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3OT(IFLG,NGRIDS)
 C***********************************************************************
-C  VERSION: 26JAN2011
+C  VERSION: 30MAY2011
 C  PURPOSE - WRITE OUTPUT FOR GWM SOLUTION  
 C-----------------------------------------------------------------------
       USE GLOBAL,   ONLY : NPER
@@ -4083,6 +4127,18 @@ C-----ADJUST VALUE OF IFLG AS NECESSARY
 C
 C-----WRITE CONSTRAINT STATUS FOR A FLOW PROCESS SIMULATION
       IF(OFLG.EQ.1)THEN     
+        IF(STANUM.GT.0)THEN
+          CALL GWM1BAS3PF('      Status of State Variable Values '
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      State Variable Type    Name        Computed Value'
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      -------------------    ----        --------------'
+     &       ,0,ZERO)
+          CALL GWM1STA3OT                        ! WRITE STATE VARIABLE STATUS
+          CALL GWM1BAS3PF(' ',0,ZERO)              ! BLANK LINE
+        ENDIF
         CALL GWM1BAS3PF('      Status of Simulation-Based Constraints '
      &       ,0,ZERO)
         CALL GWM1BAS3PF(
@@ -4352,10 +4408,11 @@ C-----------IF GRID IS FOUND, WRITE THE WELL INFORMATION
                 WRITE(GWMWFILE(GRDNUM),6000)II,0,KPER ! WRITE THE NUMBER OF WELLS 
                 DO 620 I2 = ISTART,IEND        ! LOOP OVER FV ON THIS GRID
                   IF(FVSP(I2,KPER))THEN        ! FLOW VARIABLE ACTIVE
-                    DO 615 K=1,FVNCELL(I)      ! LOOP OVER CELLS FOR THIS VARIABLE
+                    DO 615 K=1,FVNCELL(I2)     ! LOOP OVER CELLS FOR THIS VARIABLE
                       Q=REAL(CST(I2),KIND=4)*FVRATIO(I2,K)! ASSIGN FLOW RATE 
                       WRITE(GWMWFILE(GRDNUM),6010)FVKLOC(I2,K),
-     &                        FVILOC(I2,K),FVJLOC(I2,K),Q,FVNAME(I2),K
+     &                        FVILOC(I2,K),FVJLOC(I2,K),Q,
+     &                        FVNAME(I2),FVRATIO(I2,K)
   615               ENDDO
                   ENDIF
   620           ENDDO
@@ -4368,7 +4425,7 @@ C-----------IF GRID IS FOUND, WRITE THE WELL INFORMATION
       ENDIF
       
  6000 FORMAT(2I10,T50,'Stress Period:',I5)
- 6010 FORMAT(3I10,E15.7,T50,'Flow Variable:',A10,' NC=',I3)
+ 6010 FORMAT(3I10,E15.7,T50,'Flow Variable:',A10,' RATIO=',F8.4)
 C
  1000 FORMAT(/,70('-'),/,T16,A,/,70('-'))
  1010 FORMAT(1P,/,T8,'OPTIMAL SOLUTION FOUND ',/)

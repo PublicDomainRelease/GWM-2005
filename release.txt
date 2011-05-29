@@ -5,6 +5,66 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.3.1;  30 May 2011
+	Correct bugs in GWM1DCV3AR; incorrect reading of binary variable input 
+		data when binary variables are present on multiple grids, error 
+		during input echo of list of external variables associated with 
+		a binary variable.
+
+	Correct bug in GWM1DCC3FM that caused error in calculation of the sum of 
+		upper bounds of associated variables when one of the associated 
+		variables is an external variable.  This could have caused 
+		improper calculation of the constraint on binary variables that 
+		they take the value of one if any of their associated variables 
+		are active.
+
+	Correct bug in GWM1RMS3OT that caused an output error in the file created 
+		when the GWMWFILE item is actived in the DECVAR file.  The error 
+		only affects cases when NC is greater than one.
+
+	Add output feature to GWM1RMS3OT so that state variable status is printed 
+		after completion of base run along with constraint status.
+
+
+	Added a new solution type to the Solution and Output-Control Parameters 
+(SOLN) File. The new solution type allows the user to do a forward run of GWM with 
+user-specified values of the flow-rate decision variables. Such a run can be 
+useful for evaluating how small changes in the values of the flow-rate decision 
+variables affect the value of the objective function and simulation-based 
+constraints. To use this option, input variable SOLNTYP must be specified to be 
+FR. The user must then specify a value of IBASE in record 6 of the SOLN file. 
+IBASE can be set to a value of 0, in which case the flow-rate decision variables 
+are specified with variable FVREF in the VARCON file, or a value of 1, in which 
+case they are specified with variable FVBASE in record 6b of the SOLN file.
+        GWM will use the specified flow rates in a forward run of the MODFLOW 
+Groundwater Flow (GWF) Process.   As with all other SOLNTYP options, if IBASE is
+set to a value of 1 and either drawdown or stream depletion constraints are included
+in the formulation, then both a reference and a base run for the GWF Process will be 
+conducted. The value of the objective function that is reported for the run will
+include only the flow-rate decision variable and state-variable portions of the
+objective function; the external-variable and binary-variable portions of the 
+objective function will be set to zero for the computation. GWM will also write the 
+simulated value of each state variable and the status of the simulation-based 
+constraints in a format that is equivalent to the output of a base-condition flow 
+simulation.  Any external variables or binary variables that appear in constraints 
+will be assigned a value of zero.   GWM will then stop, without calculating a 
+response matrix or solving an optimization formulation.
+
+        An example use of the FR option is provided for the DEWATER sample problem.
+The sample problem uses the NAME file ‘dewater.fr.nam,’ the GWM file 
+‘dewater.fr.gwm,’ and the SOLN file ‘dewater.fr.soln’ located in the \data\DEWATER
+subdirectory. To run the sample problem, double click on the ‘dewater.fr.bat’ batch
+file located in the \test-win subdirectory. The output files ‘dewater.fr.gwmout’ and 
+‘dewater.fr.lst’ will be created in the \test-win directory by GWM. 
+
+	Changes to accommodate the new forward run only option (SOLNTYP = FR):
+		In GWM1RMS3AR, look for FR as an option for SOLNTYP.  In 
+		SGWM1RMS3PP, write a different output header for the case of 
+		SOLNTYP = FR.  Add a call to FR header.  Add a check before 
+		perturbations begin that terminates if SOLNTYP = FR and writes a 
+		message.  In GWM1OBJ3OT2, create new subroutine which computes 
+		the flow and state variable portions of the objective function.
+
 Version 1.3.0;  7 March 2011
 	Update GWM-2005 with State Variables Package (Ahlfeld and others,
                 2011).  Also made small adjustments to the format of the
@@ -125,3 +185,4 @@ Version 1.0; 12 August 2007
 		in the documentation for MF2005_GWM V1.0
 
 	This version is the initial release.
+=

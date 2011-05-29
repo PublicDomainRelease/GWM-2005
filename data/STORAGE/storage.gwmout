@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
+                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
 
 
 
@@ -467,6 +467,17 @@
 ---------------------------------------------------------------
   Begin Solution Algorithm
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Change in Storage      SCHNG2     -7.1476241E+08
+      Change in Storage      SCHNG3     -5.7872862E+08
+      Change in Storage      SCHNG4     -4.7147618E+08
+      Change in Storage      SCHNG5     -3.8573351E+08
+      Change in Storage      SCHNG6     -3.1578943E+08
+      Change in Storage      SCHNGN     -9.1255006E+06
+      Change in Storage      SCHNGS     -7.3828338E+06
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
@@ -700,6 +711,17 @@ Maximum Flow Rate      Q4-3-e   Binding    Not Available
  
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Change in Storage      SCHNG2      4.1168056E+08
+      Change in Storage      SCHNG3      3.2240047E+08
+      Change in Storage      SCHNG4      2.6046385E+08
+      Change in Storage      SCHNG5      1.9811373E+08
+      Change in Storage      SCHNG6      1.4181462E+08
+      Change in Storage      SCHNGN      4.7309697E+06
+      Change in Storage      SCHNGS      4.2458350E+06
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
@@ -940,6 +962,17 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
  
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Change in Storage      SCHNG2      4.1820593E+08
+      Change in Storage      SCHNG3      3.3207558E+08
+      Change in Storage      SCHNG4      2.6564439E+08
+      Change in Storage      SCHNG5      1.9923416E+08
+      Change in Storage      SCHNG6      1.3946317E+08
+      Change in Storage      SCHNGN      4.7953642E+06
+      Change in Storage      SCHNGS      4.3158301E+06
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
@@ -1180,6 +1213,17 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
  
   SLP Algorithm: Begin Iteration     4
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Change in Storage      SCHNG2      4.1819056E+08
+      Change in Storage      SCHNG3      3.3206295E+08
+      Change in Storage      SCHNG4      2.6565031E+08
+      Change in Storage      SCHNG5      1.9923772E+08
+      Change in Storage      SCHNG6      1.3946640E+08
+      Change in Storage      SCHNGN      4.7953118E+06
+      Change in Storage      SCHNGS      4.3157807E+06
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------

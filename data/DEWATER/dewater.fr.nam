@@ -1,0 +1,6 @@
+LIST  10   dewater.fr.lst
+DIS   11   ..\data\DEWATER\dewater.dis
+BAS6  12   ..\data\DEWATER\dewater.ba6
+BCF6  13   ..\data\DEWATER\dewater.bc6
+PCG   14   ..\data\DEWATER\dewater.pcg
+GWM   15   ..\data\DEWATER\dewater.fr.gwm

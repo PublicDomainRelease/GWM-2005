@@ -1,9 +1,9 @@
       MODULE GWM1OBJ3
-C     VERSION: 02JAN2010
+C     VERSION: 30MAY2011
       IMPLICIT NONE
       PRIVATE
       PUBLIC::OBJTYP,SOLNTYP,OBJCNST
-      PUBLIC::GWM1OBJ3AR,GWM1OBJ3FM,GWM1OBJ3OT
+      PUBLIC::GWM1OBJ3AR,GWM1OBJ3FM,GWM1OBJ3OT,GWM1OBJ3OT2
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
       INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
@@ -700,6 +700,54 @@ C-----FILE-WRITING ERROR
       CALL USTOP(' ')
 C
       END SUBROUTINE GWM1OBJ3OT
+C
+C***********************************************************************
+      SUBROUTINE GWM1OBJ3OT2
+C***********************************************************************
+C     VERSION: 30MAY2011
+C     PURPOSE: COMPUTE VALUE OF OBJECTIVE FUNCTION 
+C-----------------------------------------------------------------------
+      USE GWM1BAS3, ONLY : ZERO,GWMOUT
+      USE GWM1DCV3, ONLY : NFVAR,FVBASE,FVDIR
+      USE GWM1STA3, ONLY : STANUM,STASTATE
+      INTERFACE
+        SUBROUTINE USTOP(STOPMESS)
+        CHARACTER STOPMESS*(*)
+        END
+      END INTERFACE
+      INTEGER(I4B)::I
+      REAL(DP)::SUMC,Q
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+C
+      SUMC = ZERO                                ! INITIALIZE OBJECTIVE VALUE
+C-----ADD UP FLOW VARIABLE PORTION OF OBJECTIVE
+      DO 100 I=1,NFVAR
+        IF(FVDIR(I).EQ.1)THEN                    ! THIS IS INJECTION OF WATER
+          Q = FVBASE(I)
+        ELSE                                     ! THIS IS WITHDRAWAL OF WATER
+          Q = -FVBASE(I)
+        ENDIF
+        SUMC = SUMC + REAL(FVOBJC(I),DP)*Q
+ 100  ENDDO
+C
+C-----ASSUME EXTERNAL VARIABLES TAKE VALUE ZERO
+C
+C-----ASSUME BINARY VARIABLES TAKE VALUE ZERO
+C
+C-----ADD UP STATE VARIABLE PORTION OF OBJECTIVE
+      IF(STANUM.GT.0)THEN
+      DO 500 I=1,STANUM
+	  SUMC = SUMC + STASTATE(I)*SVOBJC(I)    
+  500 ENDDO
+      ENDIF
+C
+      WRITE(GWMOUT,9000)SUMC
+ 9000 FORMAT(1P,/,T5,'Value of Flow Variable and State Variable ',/,
+     &            T7,'parts of objective function =',T50,ES13.6,/)
+C
+      RETURN
+C
+      END SUBROUTINE GWM1OBJ3OT2
 C
 C
       END MODULE GWM1OBJ3

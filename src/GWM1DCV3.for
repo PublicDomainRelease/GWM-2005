@@ -1,5 +1,5 @@
       MODULE GWM1DCV3
-C     VERSION: 21MAR2008
+C     VERSION: 17MAY2011
       IMPLICIT NONE
       PRIVATE  
       PUBLIC::NFVAR,FVNAME,FVMIN,FVMAX,FVBASE,FVINI,FVRATIO,FVILOC,EVSP,
@@ -90,7 +90,7 @@ C*************************************************************************
       SUBROUTINE GWM1DCV3AR(FNAMEN,IOUT,NPER,NFVAR,NEVAR,
      &                      NBVAR,NDV,NGRIDS)
 C*************************************************************************
-C     VERSION: 3SEPT2008
+C     VERSION: 17MAY2011
 C     PURPOSE: READ INPUT FROM THE DECISION-VARIABLE FILE 
 C---------------------------------------------------------------------------
       USE GWM1BAS3, ONLY : ONE,ZERO,GWMWFILE,GWM1BAS3PS,CUTCOM
@@ -478,7 +478,7 @@ C---------------PROCESS THE ASSOCIATED VARIABLE
   430         ENDDO
   440       ENDDO
 C
-          JBVROW=JBVROW+NBVARG(I)
+          JBVROW=JBVROW+NBVARG(G)
           ENDIF
   450   ENDDO
 C   
@@ -568,14 +568,14 @@ C
             IF(BVLIST(I,1).LE.NFVAR)THEN
               TFVNAME=FVNAME(BVLIST(I,1))
             ELSE
-              TFVNAME=EVNAME(BVLIST(I,1))
+              TFVNAME=EVNAME(BVLIST(I,1)-NFVAR)
             ENDIF
             WRITE(IOUT,7080,ERR=990)I,BVNAME(I),TNPV,TFVNAME
             DO 810 II=2,TNPV
               IF(BVLIST(I,II).LE.NFVAR)THEN
                 TFVNAME=FVNAME(BVLIST(I,II))
               ELSE
-                TFVNAME=EVNAME(BVLIST(I,II))
+                TFVNAME=EVNAME(BVLIST(I,II)-NFVAR)
               ENDIF
               WRITE(IOUT,7090,ERR=990)TFVNAME
   810       ENDDO

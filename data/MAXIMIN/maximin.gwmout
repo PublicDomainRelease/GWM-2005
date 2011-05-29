@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
+                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
 
 
 
@@ -214,6 +214,14 @@
 ---------------------------------------------------------------
   Begin Solution Algorithm
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Head                   H1          6.9655172E+01
+      Head                   H2          7.1034483E+01
+      Head                   H3          6.8275862E+01
+      Head                   H4          6.6206897E+01
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------

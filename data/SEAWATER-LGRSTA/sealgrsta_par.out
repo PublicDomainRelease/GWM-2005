@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3 012611,FROM MF-LGR V1.2    
+                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
 
 
 
@@ -367,6 +367,30 @@
 ---------------------------------------------------------------
   Begin Solution Algorithm
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Head                   hd-01-1     7.7752590E+00
+      Head                   hd-01-2     7.7264504E+00
+      Head                   hd-02-1     7.7754102E+00
+      Head                   hd-02-2     7.7266021E+00
+      Head                   hd-03-1     7.7752058E+00
+      Head                   hd-03-2     7.7272925E+00
+      Head                   hd-08-1     7.7751479E+00
+      Head                   hd-08-2     7.7272347E+00
+      Head                   hd-09-1     7.7753160E+00
+      Head                   hd-09-2     7.7265081E+00
+      Head                   hd-10-1     7.7751115E+00
+      Head                   hd-10-2     7.7263032E+00
+      Head                   hd-04-1     7.7848664E+00
+      Head                   hd-04-2     7.7361358E+00
+      Head                   hd-05-1     7.7854040E+00
+      Head                   hd-05-2     7.7366658E+00
+      Head                   hd-06-1     7.7853941E+00
+      Head                   hd-06-2     7.7366559E+00
+      Head                   hd-07-1     7.7848352E+00
+      Head                   hd-07-2     7.7361046E+00
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
@@ -524,6 +548,30 @@ Binary Variables
  
   SLP Algorithm: Begin Iteration     2
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Head                   hd-01-1     5.2948716E+00
+      Head                   hd-01-2     5.2525047E+00
+      Head                   hd-02-1     5.2571608E+00
+      Head                   hd-02-2     5.2148937E+00
+      Head                   hd-03-1     5.1800058E+00
+      Head                   hd-03-2     5.1386523E+00
+      Head                   hd-08-1     5.1763725E+00
+      Head                   hd-08-2     5.1350217E+00
+      Head                   hd-09-1     5.2199134E+00
+      Head                   hd-09-2     5.1777694E+00
+      Head                   hd-10-1     5.2484562E+00
+      Head                   hd-10-2     5.2062391E+00
+      Head                   hd-04-1     5.1055856E+00
+      Head                   hd-04-2     5.0637955E+00
+      Head                   hd-05-1     5.0606674E+00
+      Head                   hd-05-2     5.0190206E+00
+      Head                   hd-06-1     5.0760383E+00
+      Head                   hd-06-2     5.0343230E+00
+      Head                   hd-07-1     5.1296123E+00
+      Head                   hd-07-2     5.0877158E+00
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
@@ -689,6 +737,30 @@ Binary Variables
  
   SLP Algorithm: Begin Iteration     3
     Running Base Flow Process Simulation
+      Status of State Variable Values 
+      State Variable Type    Name        Computed Value
+      -------------------    ----        --------------
+      Head                   hd-01-1     4.7132021E+00
+      Head                   hd-01-2     4.6720735E+00
+      Head                   hd-02-1     4.7112258E+00
+      Head                   hd-02-2     4.6701024E+00
+      Head                   hd-03-1     4.7066387E+00
+      Head                   hd-03-2     4.6662016E+00
+      Head                   hd-08-1     4.7300881E+00
+      Head                   hd-08-2     4.6896010E+00
+      Head                   hd-09-1     4.7202367E+00
+      Head                   hd-09-2     4.6791141E+00
+      Head                   hd-10-1     4.7189879E+00
+      Head                   hd-10-2     4.6778564E+00
+      Head                   hd-04-1     4.7115601E+00
+      Head                   hd-04-2     4.6704784E+00
+      Head                   hd-05-1     4.7162365E+00
+      Head                   hd-05-2     4.6751605E+00
+      Head                   hd-06-1     4.7320589E+00
+      Head                   hd-06-2     4.6909298E+00
+      Head                   hd-07-1     4.7438960E+00
+      Head                   hd-07-2     4.7027162E+00
+ 
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
