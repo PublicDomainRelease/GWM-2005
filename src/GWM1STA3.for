@@ -1,9 +1,11 @@
       MODULE GWM1STA3
-C     VERSION: 15JAN2010
+C     VERSION: 21MAR2012
+      USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE
       PUBLIC::STANUM,SVNAME,SVBASE,SVILOC,SVJLOC,
-     &        SVKLOC,SVSP,STASTATE,STASTATE0,STATERES,STARHS
+     &        SVKLOC,SVSP,STASTATE,STASTATE0,STATERES,STARHS,
+     &        NHVAR,NRVAR,NSVAR,NDVAR,GWMSTADAT
       PUBLIC::GWM1STA3AR,GWM1STA3OS,GWM1STA3FP,GWM1STA3FPR,GWM1STA3OT
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
@@ -13,7 +15,7 @@ C
       INTEGER, PARAMETER :: LGT = KIND(.TRUE.)
 C
 C-----VARIABLES FOR STATE VARIABLES
-      INTEGER(I4B),SAVE::STANUM,NHVAR,NRVAR,NSVAR
+      INTEGER(I4B),SAVE::STANUM,NHVAR,NRVAR,NSVAR,NDVAR
       CHARACTER(LEN=10),SAVE,ALLOCATABLE::SVNAME(:)
       REAL(DP),SAVE,ALLOCATABLE::SVBASE(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::SVILOC(:),SVJLOC(:),SVKLOC(:)
@@ -23,9 +25,14 @@ C-----VARIABLES FOR STATE VARIABLES
       REAL(DP),SAVE,ALLOCATABLE::STASTATE(:),STASTATE0(:),STATERES(:,:),
      &        STARHS(:)
       INTEGER(I4B),SAVE,POINTER::SVZONE(:,:,:,:)
+      INTEGER(I4B),SAVE,POINTER::MDCELLOC(:,:)
 C
+      TYPE MDCEL_IJK
+        INTEGER(I4B),POINTER,DIMENSION(:,:)::MDCELLOC_TARGET
+      END TYPE
       TYPE GWMSTATYPE
-       INTEGER(I4B),POINTER,DIMENSION(:,:,:,:)::SVZONE
+        INTEGER(I4B),POINTER,DIMENSION(:,:,:,:)::SVZONE_TARGET
+        TYPE(MDCEL_IJK),POINTER,DIMENSION(:)::MDCELVAR
       END TYPE
       TYPE(GWMSTATYPE), SAVE  ::GWMSTADAT(10) 
 C
@@ -33,15 +40,24 @@ C      STANUM   -total number of state variables
 C      NHVAR    -number of head state variables
 C      NRVAR    -number of streamflow state variables
 C      NSVAR    -number of storage state variables
+C      NDVAR    -number of drain state variables
 C      SVNAME   -name of state variable (10 digits)
 C      SVBASE   -current value of state variable during solution process 
 C      SVILOC(I), SVJLOC(I), SVKLOC(I)
 C               -i,j,k location in MODFLOW grid of the ith head state variable
 C                  or segment (SVILOC) and reach (SVJLOC) for ith streamflow SV
+C                  or number of cells in drain state variable (SVILOC).
 C      SVZONE   - indicator array for cells to be included in calculation of storage change
 c                  for storage state variables
-C      SVSP     -vector recording information about the stress period(s) in which the
-C                  state variable is to be evaluated
+C      SVSP     -2-d array recording information about the stress period(s) in which the
+C                  state variable is to be evaluated; for head and streamflow state 
+C                  variables, the second entry is ignored; for storage state variables the 
+C                  two entries record start and end times for state variable evaluation;
+C                  for drain state variables, if the second entry is negative, the first 
+C                  entry is the stress period to evaluate flow; if the second entry is
+C                  positive the two entries record start and end times for volume evaluation.
+C      MDCELLOC -2-d array storing the layer, row, column indices for the set of drain cells 
+C                  assoicated with the ith Drain state variable listed in MDCELVAR
 C      GRDLOCSTA-grid number on which state variable is located
 C      NSSVGZL  -vector containing the number of grids associated with a storage state variable
 C      SSVGLOC  -vector holding storage state variable grid number information 
@@ -64,10 +80,10 @@ C
 C*************************************************************************
       SUBROUTINE GWM1STA3AR(FNAMEN,IOUT,NPER,NGRIDS)
 C*************************************************************************
-C     VERSION: 15JAN2010
+C     VERSION: 29DEC2011
 C     PURPOSE: READ INPUT FROM THE STATE VARIABLE FILE (STAVAR)
 C---------------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : GWM1BAS3PS
+      USE GWM1BAS3, ONLY : GWM1BAS3PS,ZERO,CUTCOM
       USE GLOBAL,   ONLY : NCOL,NROW,NLAY
       USE GWM1DCV3, ONLY : NFVAR
       INTEGER(I4B),INTENT(IN)::IOUT,NPER,NGRIDS
@@ -83,10 +99,7 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
+
 C 
         INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
         INTEGER I,IFIRST,IOST,MAXUNIT
@@ -96,19 +109,23 @@ C
 C-----LOCAL VARIABLES  
       CHARACTER(LEN=10),SAVE,ALLOCATABLE::SVNM(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::NG(:),NLMX(:)
-      INTEGER(I4B),DIMENSION(NGRIDS)::NHVARG,NRVARG,NSVARG,NSVARGU
-      INTEGER(I4B),DIMENSION(NGRIDS)::NUNOPN
+      INTEGER(I4B),DIMENSION(NGRIDS)::NHVARG,NRVARG,NSVARG,NDVARG
+      INTEGER(I4B),DIMENSION(NGRIDS)::NUNOPN,NSVARGU
       INTEGER(I4B)::LOCAT,ISTART,ISTOP,IPRN,IPRNG,LLOC,INMS,INMF,BYTES
-      INTEGER(I4B)::JSVROW,NSEG,NRCH,SVSPL
-      INTEGER(I4B)::ICZS,ICZF,SPSTRT,SPEND,NSVZL,NGMAX
-      INTEGER(I4B)::G,I,J,K,II,JJ,KK,IR,IC,IL,JE,JS,JZ,JESV,JSR
+      INTEGER(I4B)::JSVROW,NSEG,NRCH,SVSPL,NMDCEL,DRNTYP
+      INTEGER(I4B)::ICZS,ICZF,SPSTRT,SPEND,NSVZL,NGMAX,SEQNUM
+      INTEGER(I4B)::G,I,J,K,L,II,JJ,KK,IR,IC,IL,JE,JS,JZ,JESV,JSR,IA
+      INTEGER(I4B)::MNWCNT
       CHARACTER(LEN=200)::LINE
+      CHARACTER(LEN=10)::TCTNM
+      CHARACTER(LEN=20)::TCMNW
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----LOOP OVER ALL GRIDS TO OPEN FILES AND COUNT STATE VARIABLES
       NHVARG = 0
       NRVARG = 0
       NSVARG = 0
+      NDVARG = 0
       NSVARGU= 0
       IPRN = -1
       DO 100 G=1,NGRIDS
@@ -128,11 +145,12 @@ C---------READ IPRN
             IPRN = MAX(IPRN,IPRNG)               ! USE MOST DETAILED ECHO
           ELSE
             WRITE(IOUT,2000,ERR=990)IPRNG        ! INVALID VALUE OF IPRN
-            CALL USTOP(' ')
+            CALL GSTOP(' ')
           ENDIF
 C
-C---------READ NHVAR, NRVAR AND NSVAR
+C---------READ NHVAR, NRVAR, NSVAR AND NDVAR
           READ(LOCAT,'(A)',ERR=991)LINE
+          CALL CUTCOM(LINE,200)                  ! REMOVE COMMENTS FROM LINE
           LLOC=1
           CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NHVARG(G),RDUM,IOUT,
      &                LOCAT)
@@ -140,10 +158,12 @@ C---------READ NHVAR, NRVAR AND NSVAR
      &                LOCAT)
           CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSVARG(G),RDUM,IOUT,
      &                LOCAT)
-          IF(NHVARG(G)+NRVARG(G)+NSVARG(G).LE.0)THEN
+          CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NDVARG(G),RDUM,IOUT,
+     &                LOCAT)
+          IF(NHVARG(G)+NRVARG(G)+NSVARG(G)+NDVARG(G).LE.0)THEN
             CALL GWM1BAS3PS(' PROGRAM STOPPED: NO STATE
      &                    VARIABLES ON GRID',G)
-            CALL USTOP(' ')
+            CALL GSTOP(' ')
           ENDIF
         ENDIF
   100 ENDDO
@@ -161,11 +181,12 @@ C-----SUM UP THE STATE VARIABLES
         DEALLOCATE (SVNM,NG)                     ! ERASE TEMP STORAGE
         NSVAR=SUM(NSVARGU)  ! NOW, NSVAR=NUMBER OF UNIQUE STATE VARIABLES
       ENDIF
-      STANUM=NHVAR+NRVAR+NSVAR                   ! TOTAL NUMBER OF SV
+      NDVAR=SUM(NDVARG)                          ! TOTAL NUMBER OF DRAIN SV
+      STANUM=NHVAR+NRVAR+NSVAR+NDVAR             ! TOTAL NUMBER OF SV
 C
 C-----WRITE HEADER AND ALLOCATE SPACE FOR STATE VARIABLE INFORMATION
       IF(STANUM.GT.0)THEN
-        WRITE(IOUT,3000,ERR=990)NHVAR,NRVAR,NSVAR
+        WRITE(IOUT,3000,ERR=990)NHVAR,NRVAR,NSVAR,NDVAR
         IF(NSVAR.NE.SUM(NSVARG))WRITE(IOUT,3010,ERR=990)SUM(NSVARG)
         ALLOCATE (SVNAME(STANUM),SVBASE(STANUM),
      &      SVSP(STANUM,2),GRDLOCSTA(STANUM), 
@@ -182,7 +203,7 @@ C-----WRITE HEADER AND ALLOCATE SPACE FOR STATE VARIABLE INFORMATION
         DO 120 G=1,NGRIDS                 ! ALLOCATE ON EACH GRID
           IF(NSVARG(G).GT.0)THEN
             CALL SGWF2BAS7PNT(G)                 ! POINT TO GRID DIMENSIONS
-            ALLOCATE (GWMSTADAT(G)%SVZONE(NCOL,NROW,NLAY,NSVARG(G)),
+         ALLOCATE (GWMSTADAT(G)%SVZONE_TARGET(NCOL,NROW,NLAY,NSVARG(G)),
      &                STAT=ISTAT)
             IF(ISTAT.NE.0)GOTO 992 
             BYTES = BYTES + 4*NCOL*NROW*NLAY*NSVARG(G)
@@ -195,7 +216,7 @@ C
 C-----READ HEAD STATE VARIABLE INFORMATION
       JSVROW=0
       DO 200 G=1,NGRIDS
-        IF(FNAMEN(G).NE.' ')THEN
+        IF(FNAMEN(G).NE.' '.AND.NHVARG(G).GT.0)THEN
 C---------LOOP OVER HEAD STATE VARIABLES IN EACH ACTIVE GRID FILE
           LOCAT=NUNOPN(G)  
           DO 180 J=1+JSVROW,NHVARG(G)+JSVROW
@@ -222,7 +243,7 @@ C-----------STORE STRESS PERIOD AND GRID FOR EVALUATION OF THIS STATE VARIABLE
 C
 C-----READ STREAMFLOW STATE VARIABLE INFORMATION
       DO 300 G=1,NGRIDS
-        IF(FNAMEN(G).NE.' ')THEN
+        IF(FNAMEN(G).NE.' '.AND.NRVARG(G).GT.0)THEN
 C---------LOOP OVER STREAMFLOW STATE VARIABLES IN EACH ACTIVE GRID FILE
           LOCAT=NUNOPN(G)  
           DO 280 J=1+JSVROW,NRVARG(G)+JSVROW
@@ -237,9 +258,9 @@ C-----------PROCESS NAME OF STATE VARIABLE; CHECK IF NAME UNIQUE
             CALL CHKNAME(LINE(INMS:INMF),G,J,-1)
             SVNAME(J)=LINE(INMS:INMF)            ! SAVE THE NAME
 C-----------PROCESS SEGMENT AND REACH NUMBER 
-            IF(NSEG.LT.0)CALL USTOP('PROGRAM STOPPED: NSEG IS NEGATIVE')
+            IF(NSEG.LT.0)CALL GSTOP('PROGRAM STOPPED: NSEG IS NEGATIVE')
             SVILOC(J)=NSEG                       ! STORE SEGMENT NUMBER 
-            IF(NRCH.LT.0)CALL USTOP('PROGRAM STOPPED: NRCH IS NEGATIVE')
+            IF(NRCH.LT.0)CALL GSTOP('PROGRAM STOPPED: NRCH IS NEGATIVE')
             SVJLOC(J)=NRCH                       ! STORE REACH NUMBER 
 C-----------STORE STRESS PERIOD AND GRID FOR EVALUATION OF THIS STATE VARIABLE
             SVSP(J,1)=SVSPL
@@ -277,10 +298,10 @@ C-----READ STORAGE STATE VARIABLE INFORMATION
       JSR = JSVROW  ! SET INDEX TO END OF HEAD AND STRM SV
       JS  = JSR     ! INITIALIZE COUNTER FOR NUMBER OF UNIQUE STATE VARIABLES
       DO 700 G=1,NGRIDS
-        IF(FNAMEN(G).NE.' ')THEN
+        IF(FNAMEN(G).NE.' '.AND.NSVARG(G).GT.0)THEN
 C---------LOOP OVER STORAGE STATE VARIABLES IN EACH ACTIVE GRID FILE
           LOCAT=NUNOPN(G)  
-          SVZONE=>GWMSTADAT(G)%SVZONE   ! POINT TO CORRECT SVZONE ARRAY 
+          SVZONE=>GWMSTADAT(G)%SVZONE_TARGET   ! POINT TO CORRECT SVZONE ARRAY 
           CALL SGWF2BAS7PNT(G)                 ! POINT TO GRID DIMENSIONS
           DO 680 JZ=1+JSVROW,NSVARG(G)+JSVROW
             READ(LOCAT,'(A)',ERR=991)LINE
@@ -316,7 +337,7 @@ C             CHECK THAT SPSTRT AND SPEND READ ON THIS GRID ARE VALID
               IF(SVSP(JE,1).NE.SPSTRT.OR.SVSP(JE,2).NE.SPEND)THEN
                 CALL GWM1BAS3PS(' PROGRAM STOPPED: SPSTRT/SPEND DO NOT M
      &ATCH FOR STORAGE STATE VARIABLE ON GRID',G)
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF     
               IF(IPRN.EQ.1)                      ! WRITE INFORMATION         
      &        WRITE(IOUT,6605,ERR=990)JZ,SVNAME(JE),GRDLOCSTA(JE)
@@ -343,13 +364,89 @@ C-----------PROCESS THE ZONE FOR STORAGE VARIABLE
             ELSE                                 ! INVALID ENTRY
               CALL GWM1BAS3PS(' PROGRAM STOPPED: INVALID ENTRY CZONE FOR
      & STORAGE STATE VARIABLE ON GRID',G)
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
  680      ENDDO
           JSVROW=JSVROW+NSVARG(G) ! INCREMENT JSVROW FOR SV READ
         ENDIF
  700  ENDDO
       JSVROW = JSR + NSVAR  ! NOW, JSVROW IS NUMBER OF UNIQUE SV
+C
+C-----READ DRAIN STATE VARIABLE INFORMATION
+C-----WRITE DRAIN SV HEADER
+      IF(NDVAR.GT.0.AND.IPRN.EQ.1)WRITE(IOUT,8500,ERR=990)
+      DO 800 G=1,NGRIDS
+        IF(FNAMEN(G).NE.' '.AND.NDVARG(G).GT.0)THEN
+C---------LOOP OVER STREAMFLOW STATE VARIABLES IN EACH ACTIVE GRID FILE
+          LOCAT=NUNOPN(G) 
+C---------ALLOCATE FOR NUMBER OF DRAINS SV ON THIS GRID 
+          ALLOCATE (GWMSTADAT(G)%MDCELVAR(NDVARG(G))) 
+          JE = 0
+          DO 780 J=1+JSVROW,NDVARG(G)+JSVROW
+            JE = JE+1
+            READ(LOCAT,'(A)',ERR=991)LINE
+            LLOC=1
+C              TRACK START AND END COL FOR SVNAME
+            CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
+            CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NMDCEL,RDUM,IOUT,LOCAT)
+            CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,DRNTYP,RDUM,IOUT,LOCAT)
+            CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,SVSPL,RDUM,IOUT,LOCAT)
+            CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,SPSTRT,RDUM,IOUT,LOCAT)
+            CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,SPEND,RDUM,IOUT,LOCAT)
+C-----------PROCESS NAME OF STATE VARIABLE; CHECK IF NAME UNIQUE
+            CALL CHKNAME(LINE(INMS:INMF),G,J,-1)
+            SVNAME(J)=LINE(INMS:INMF)            ! SAVE THE NAME
+C-----------PROCESS DRAIN STATE VARIABLE TYPE
+            IF(DRNTYP.EQ.1)THEN
+              IF(SVSPL.LE.0)CALL GSTOP('PROGRAM STOPPED: SVSP IS NOT SPE
+     &CIFIED, BUT DRAIN TYPE IS 1')
+              SPSTRT=SVSPL                      ! STORE STRESS PERIOD HERE
+              SPEND=-1                          ! USE -1 AS A FLAG FOR TYPE 1
+              IF(IPRN.EQ.1)                      ! WRITE INFORMATION         
+     &          WRITE(IOUT,8600,ERR=990)
+     &          J,SVNAME(J),SPSTRT
+            ELSEIF(DRNTYP.EQ.2)THEN
+              IF(SPSTRT.LE.0)CALL GSTOP('PROGRAM STOPPED: SPSTRT IS NOT 
+     &SPECIFIED, BUT DRAIN TYPE IS 2')
+              IF(SPEND.LE.0)CALL GSTOP('PROGRAM STOPPED: SPEND IS NOT SP
+     &ECIFIED, BUT DRAIN TYPE IS 2')
+              IF(IPRN.EQ.1)                      ! WRITE INFORMATION         
+     &          WRITE(IOUT,8610,ERR=990)J,SVNAME(J),SPSTRT,SPEND
+            ELSE
+              CALL GSTOP('PROGRAM STOPPED: INVALID VALUE OF DRAIN TYPE')
+            ENDIF
+            SVSP(J,1)=SPSTRT                  ! STORE START STRESS PERIODS
+            SVSP(J,2)=SPEND                   ! STORE END STRESS PERIOS
+C-----------PROCESS NUMBER OF DRAIN CELLS IN THIS STATE VARIABLE
+            SVILOC(J)=NMDCEL                  ! STORE NUMBER OF CELLS
+C-----------ALLOCATE FOR NUMBER OF CELLS ON THIS DRAIN SV
+          ALLOCATE (GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(NMDCEL,4))     ! ALLOCATE TEMP SPACE
+            BYTES = BYTES + 4*3*NMDCEL
+            DO 760 II=1,NMDCEL
+              READ(LOCAT,'(A)',ERR=991)LINE
+              LLOC=1
+              CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IL,RDUM,IOUT,LOCAT)
+              CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IR,RDUM,IOUT,LOCAT)
+              CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IC,RDUM,IOUT,LOCAT)
+              GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(II,1)=IL ! PLACE L,R,C INTO
+              GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(II,2)=IR !  STORAGE 
+              GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(II,3)=IC !
+              ! READ OPTIONAL AUXILIARY VARIABLE
+              CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IA,RDUM,IOUT,LOCAT)
+              IF(IA.EQ.0)THEN
+                GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(II,4)=-1
+                IF(IPRN.EQ.1)WRITE(IOUT,8620,ERR=990)IL,IR,IC ! WRITE INFO    
+              ELSE
+                GWMSTADAT(G)%MDCELVAR(JE)%MDCELLOC_TARGET(II,4)=IA 
+                IF(IPRN.EQ.1)WRITE(IOUT,8622,ERR=990)IL,IR,IC,IA ! WRITE INFO    
+              ENDIF
+ 760        ENDDO           
+C-----------STORE STRESS PERIOD AND GRID FOR EVALUATION OF THIS STATE VARIABLE
+            GRDLOCSTA(J)=G
+ 780      ENDDO
+          JSVROW=JSVROW+NDVARG(G)
+        ENDIF
+ 800  ENDDO
 C
 C-----CLOSE FILE
       DO I=1,NGRIDS
@@ -358,7 +455,8 @@ C-----CLOSE FILE
       WRITE(IOUT,7000,ERR=990)BYTES
       WRITE(IOUT,7100,ERR=990)
 C
-C-----OUTPUTS TO FILE
+      RETURN
+C
  1000 FORMAT(1X,/1X,'OPENING STATE VARIABLE FILE ON UNIT ',I4,':',
      1  /1X,A200)
  2000 FORMAT(1X,/1X,'PROGRAM STOPPED. IPRN MUST BE EQUAL TO 0 OR 1: ',
@@ -368,13 +466,15 @@ C-----OUTPUTS TO FILE
  3000 FORMAT(1X,/1X,'NO. OF HEAD STATE VARIABLES (NHVAR):',
      1  T45,I8,/1X,'NO. OF STREAMFLOW STATE VARIABLES (NRVAR):',
      2  T45,I8,/1X,'NO. OF STORAGE STATE VARIABLES (NSVAR):',
-     3  T45,I8)
+     3  T45,I8,/1X,'NO. OF DRAIN STATE VARIABLES (NDVAR):',
+     4  T45,I8)
  3010 FORMAT(1X,'NO. OF STORAGE VARIABLE RECORDS IN INPUT:',T45,I8)
  5000 FORMAT(/,T2,'HEAD TYPE STATE VARIABLES:',/,
      1  T3,'NUMBER',T14,'NAME',T30,'LAY',T35,'ROW',
      2  T40,'COL',/,1X,'----------------------',
      3  '------------------------------------')
  5100 FORMAT(T3,I5,T14,A10,T26,3I5)
+ 5110 FORMAT(T3,I5,T14,A10,T26,A)
  5200 FORMAT('   AVAILABLE IN STRESS PERIOD: ',I5,/)
  6000 FORMAT(/,T2,'STREAMFLOW TYPE STATE VARIABLES:',/,
      1  T3,'NUMBER',T14,'NAME',T30,'SEG',T40,'REACH',/,
@@ -395,8 +495,19 @@ C-----OUTPUTS TO FILE
  7000 FORMAT(/,1X,I8,' BYTES OF MEMORY ALLOCATED TO STORE DATA FOR',
      1               ' STATE VARIABLES')
  7100 FORMAT(/,1X,'CLOSING STATE VARIABLE FILE',/)
-C
-      RETURN
+ 8500 FORMAT(/,T2,'DRAIN TYPE STATE VARIABLES:')
+ 8600 FORMAT(/,' NUMBER:',I5,', NAME: ',A,
+     &  ', FLOW AT END OF STRESS PERIOD:',I5,/
+     &  ,T2,'CALCULATED AT CELL(S):',
+     &  /,T30,'LAY',T35,'ROW',T40,'COL',T45,'AUX'
+     &  /,T30,'---',T35,'---',T40,'---',T45,'---')
+ 8610 FORMAT(/,' NUMBER:',I5,', NAME: ',A,', VOLUME FROM SPSTRT:',I5,
+     &          ' TO SPEND:',I5,
+     &  /,T2,'CALCULATED AT CELL(S):'
+     &  /,T30,'LAY',T35,'ROW',T40,'COL',T45,'AUX'
+     &  /,T30,'---',T35,'---',T40,'---',T45,'---')
+ 8620 FORMAT(T28,3I5,' NONE')
+ 8622 FORMAT(T28,4I5)
 C
 C-----ERROR HANDLING
   990 CONTINUE
@@ -408,7 +519,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   991 CONTINUE
 C-----FILE-READING ERROR
@@ -420,14 +531,14 @@ C-----FILE-READING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   992 CONTINUE
 C-----ARRAY-ALLOCATING ERROR
       WRITE(*,9920)
  9920 FORMAT(/,1X,'*** ERROR ALLOCATING ARRAY(S)',
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   999 CONTINUE
 C-----FILE-OPENING ERROR
@@ -441,7 +552,7 @@ C-----FILE-OPENING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
 	CONTAINS
 C
@@ -457,7 +568,7 @@ C
       INTEGER(I4B)::IOTMP
       INTEGER(I4B),ALLOCATABLE::DUMMY(:,:)
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
-      IOTMP=IGETUNIT(10,200)                     ! TEMP OUTPUT UNIT  
+      IOTMP=IGETUNIT(10,200)                      ! TEMP OUTPUT UNIT  
       OPEN(UNIT=IOTMP,STATUS='SCRATCH')          ! CREATE SCRATCH FILE
       JJ=1
       DO 200 G=1,NGRIDS
@@ -494,13 +605,13 @@ C-----------READ PAST THE ZONE INFORMATION; COLLECT LAYER MAX
                 READ(LOCAT,*,ERR=991)KK          ! READ LAYER NUMBER
                 ALLOCATE (DUMMY(NROW,NCOL))      ! CREATE ARRAY FOR READ
                 CALL U2DINT(DUMMY(:,:),
-     &        ' DUMMY READ',NROW,NCOL,0,LOCAT,IOTMP)
+     &        '              DUMMY READ',NROW,NCOL,0,LOCAT,IOTMP)
                 DEALLOCATE (DUMMY)               ! ERASE ARRAY
   160         ENDDO 
             ELSE                                 ! INVALID ENTRY
             CALL GWM1BAS3PS(' PROGRAM STOPPED: INVALID ENTRY CZONE FOR
      & STORAGE STATE VARIABLE ON GRID',G)
-            CALL USTOP(' ')
+            CALL GSTOP(' ')
             ENDIF
   180     ENDDO          
 C
@@ -523,7 +634,7 @@ C-----FILE-READING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
       END SUBROUTINE SVREAD
 C
 C***********************************************************************
@@ -554,7 +665,7 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
             IF(SVNM(I).EQ.SVNM(JJ))THEN       ! NAME MATCHES EARLIER NAME
               IF(NG(I).EQ.NG(JJ))THEN         ! THIS IS AN INVALID MATCH
                 WRITE(IOUT,4000,ERR=990)SVNM(I),NG(I)
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
               IFLG = 1
               ! INCREMENT COUNTER ON GRID WHERE NAME FIRST APPEARS
@@ -586,7 +697,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1STA3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C    
       END SUBROUTINE SVSRCH
 C      
@@ -635,7 +746,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (LOADSV)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE LOADSV
 C
@@ -658,7 +769,7 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
              GOTO 110                       ! THERE ARE NO MORE REDUNDANCIES
            ELSE                             ! AN IMPROPER REDUNDANCY
              WRITE(IOUT,4000,ERR=990)SVNMT
-             CALL USTOP(' ')
+             CALL GSTOP(' ')
            ENDIF
          ENDIF
   100  ENDDO
@@ -666,19 +777,19 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
        DO 200 II=1,NFVAR
          IF(SVNMT.EQ.FVNAME(II))THEN        ! A FLOW VARIABLE NAME
            WRITE(IOUT,4000,ERR=990)SVNMT
-           CALL USTOP(' ')
+           CALL GSTOP(' ')
          ENDIF
   200  ENDDO
        DO 300 II=1,NEVAR
          IF(SVNMT.EQ.EVNAME(II))THEN        ! AN EXTERNAL VARIABLE NAME
            WRITE(IOUT,4000,ERR=990)SVNMT
-           CALL USTOP(' ')
+           CALL GSTOP(' ')
          ENDIF
   300  ENDDO
        DO 400 II=1,NBVAR                   
          IF(SVNMT.EQ.BVNAME(II))THEN        ! A BINARY VARIABLE NAME
            WRITE(IOUT,4000,ERR=990)SVNMT
-           CALL USTOP(' ')
+           CALL GSTOP(' ')
          ENDIF
   400  ENDDO
 
@@ -696,7 +807,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (CHKNAME)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE CHKNAME
 C
@@ -704,71 +815,123 @@ C
 C
 C***********************************************************************
       SUBROUTINE GWM1STA3OS(IGRID,KPER,IPERT,KSTP,HDRY,ITIME,STRON,
-     &                      SFRON,BCFON,LPFON,HUFON,NDUM,NDEP,DEPVALS)
+     &                      SFRON,BCFON,LPFON,HUFON,IC1,NDEP,DEPVALS)
 C***********************************************************************
-C     VERSION: 27JUL2010
+C     VERSION: 24JAN2012
 C     PURPOSE: ASSIGN COMPUTED STATE VARIABLE VALUES TO STATE ARRAY
 C-----------------------------------------------------------------------
+      USE GLOBAL,       ONLY: NCOL,NROW,NLAY,ISSFLG,IBOUND,HNEW,HOLD,
+     1                        BOTM,LBOTM
       USE GWM1RMS3,     ONLY: DEWATER
-      USE GLOBAL,       ONLY: HNEW
-      USE GWM1BAS3,     ONLY: ZERO,GWM1BAS3PS
+      USE GWM1BAS3,     ONLY: GWM1BAS3PS,ZERO,ONE
+      USE GWFBASMODULE, ONLY: DELT
+      USE GLOBAL,       ONLY: NPER,NSTP ! Only accessed for calls from GWM-VI
       INTEGER(I4B),INTENT(IN)::IGRID,KPER,IPERT,KSTP,ITIME
       INTEGER(I4B),INTENT(IN)::STRON,SFRON,BCFON,LPFON,HUFON
       REAL(DP),INTENT(IN)::HDRY
-C-----PLACE-HOLDER VARIABLES FOR FUTURE GWM IMPLEMENTATION WITH PLL
-      INTEGER(I4B),INTENT(IN)::NDUM,NDEP
-      DOUBLE PRECISION, DIMENSION(NDEP), INTENT(IN) :: DEPVALS
+C-----VARIABLES USED WHEN ROUTINE IS CALLED FROM GWM-VI
+      INTEGER(I4B),INTENT(IN)::IC1,NDEP
+      DOUBLE PRECISION, DIMENSION(NDEP), INTENT(IN), OPTIONAL :: DEPVALS
 C-----LOCAL VARIABLES
-      INTEGER(I4B)::I,J,K,ISEG,IREC,LOC,NSLOC,SGRID,SZONE,SVN
-      REAL(DP)::STATE1
+      INTEGER(I4B)::I,J,K,T,SP,ISEG,IREC,LOC,NSLOC,SGRID,SZONE,SVN
+      INTEGER(I4B)::DRPAUX
+      REAL(DP)::STATE1,QTOT,DELTA,STATOT 
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
-      IF(ITIME.EQ.1)THEN ! CALLED AT END OF STRESS PERIOD
-C
       IF(STANUM.EQ.0)RETURN                      ! NO STATE VARIABLES
-C-----ASSIGN MODFLOW RESULTS FOR EACH HEAD TYPE STATE VARIABLE
-      DO 100 I=1,NHVAR
-        IF(IGRID.EQ.GRDLOCSTA(I))THEN            ! STATE VARIABLE ON GRID
-          IF(SVSP(I,1).EQ.KPER) THEN             ! STATE VAR ACTIVE IN THIS SP
-            STATE1 = HNEW(SVJLOC(I),SVILOC(I),SVKLOC(I))
-            IF(REAL(STATE1,SP).EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
-            STASTATE(I) = STATE1
-          ENDIF
-        ENDIF
-  100 ENDDO
+      IF(NDEP.EQ.0)THEN                          ! CALL IS NOT FROM GWM-VI
+!
+C-----INITIALIZE STATE VARIABLE STORAGE ARRAY AT FIRST CALL
+      IF(KPER.EQ.1.AND.KSTP.EQ.1)THEN            ! THIS IS FIRST TIME THROUGH
+        DO I=1,STANUM
+          STASTATE(I) = ZERO                
+        ENDDO
+      ENDIF
 C
-C-----ASSIGN MODFLOW RESULTS FOR EACH STREAMFLOW TYPE STATE VARIABLE
-      DO 200 I=NHVAR+1,NHVAR+NRVAR
-        IF(IGRID.EQ.GRDLOCSTA(I))THEN            ! STATE VARIABLE ON GRID
-          IF(SVSP(I,1).EQ.KPER) THEN             ! STATE VAR ACTIVE IN THIS SP
-            IF(STRON.GT.0)THEN                   ! STR PACKAGE
-              CALL GWM1STA3OSSTR(IGRID,I)
-            ELSEIF(SFRON.GT.0)THEN               ! SFR PACKAGE
-              CALL GWM1STA3OSSFR(IGRID,I)
+C-----HEADS AND STREAMFLOWS EVALUATED AT THE END OF A STRESS PERIOD      
+      IF(ITIME.EQ.1)THEN                         ! AT END OF STRESS PERIOD
+        IF(NHVAR.GT.0)CALL GWM1STA3OSH           ! STORE HEAD VALUES
+        IF(NRVAR.GT.0)CALL GWM1STA3OSR           ! STORE STREAMFLOW VALUES
+C
+C-----STORAGE CHANGE EVALUATED AT END OF EACH TIME STEP
+      ELSEIF(ITIME.EQ.0)THEN                     ! AT END OF TIME STEP
+        IF(NSVAR.GT.0)CALL GWM1STA3OSS           ! STORE STORAGE CHANGE
+      ENDIF
+C
+C-----DRAIN STATE VARIABLES MAY BE EVALUATED AS FLOWS OR VOLUMES
+      IF(NDVAR.GT.0)CALL GWM1STA3OSD             ! STORE DRAIN VALUES
+
+      ELSEIF(NDEP.GT.0 .AND. PRESENT(DEPVALS))THEN ! CALL IS FROM GWM-VI
+        J = IC1                                  ! POINTER TO NEXT VALUE IN DEPVAL
+        DO I=1,NHVAR+NRVAR+NSVAR                 ! LOAD HEAD, STREAM AND STORAGE
+          STASTATE(I) = DEPVALS(J)               ! MOVE INTO GWM ARRAY
+          J=J+1                                  ! INCREMENT POINTER
+        ENDDO
+        NSLOC = NHVAR+NRVAR+NSVAR
+        DO I=NSLOC+1,NSLOC+NDVAR                 ! LOOP OVER DRAIN STATE VARIABLES
+          STATOT=0.0D0
+          DO K=1,SVILOC(I)                       ! LOOP OVER NUMBER OF CELLS
+            ! By convention, drain flow is negative. 
+            ! Change sign to conform to GWM usage.
+            STATOT=STATOT-DEPVALS(J)             ! ADD NEXT LEAKAGE
+            J=J+1                                ! INCREMENT POINTER
+          ENDDO
+          STASTATE(I) = STATOT                   ! MOVE INTO GWM ARRAY
+        ENDDO
+      ENDIF
+
+      RETURN
+C
+	CONTAINS
+C***********************************************************************
+      SUBROUTINE GWM1STA3OSH
+C***********************************************************************
+C  PURPOSE: ASSIGN MODFLOW RESULTS FOR EACH HEAD TYPE STATE VARIABLE
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        REAL(DP) :: EPS = 1.0D-5
+        DO I=1,NHVAR
+          IF(IGRID.EQ.GRDLOCSTA(I))THEN          ! STATE VARIABLE ON GRID
+            IF(SVSP(I,1).EQ.KPER) THEN           ! STATE VAR ACTIVE IN THIS SP
+              STATE1 = HNEW(SVJLOC(I),SVILOC(I),SVKLOC(I))
+              IF(STATE1.EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
+              STASTATE(I) = STATE1
             ENDIF
           ENDIF
-        ENDIF
-  200 ENDDO
-C
-      ELSEIF(ITIME.EQ.0)THEN ! CALLED AT END OF TIME STEP
-C
-C-----ASSIGN MODFLOW RESULTS FOR STORAGE CHANGES
-      IF(NSVAR.GT.0)THEN
+        ENDDO
+      RETURN
+      END SUBROUTINE GWM1STA3OSH
+C***********************************************************************
+      SUBROUTINE GWM1STA3OSR
+C***********************************************************************
+C  PURPOSE: ASSIGN MODFLOW RESULTS FOR EACH STREAMFLOW TYPE STATE VARIABLE
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+        DO I=NHVAR+1,NHVAR+NRVAR
+          IF(IGRID.EQ.GRDLOCSTA(I))THEN          ! STATE VARIABLE ON GRID
+            IF(SVSP(I,1).EQ.KPER) THEN           ! STATE VAR ACTIVE IN THIS SP
+              IF(STRON.GT.0)THEN                 ! STR PACKAGE
+                CALL GWM1STA3OSSTR(IGRID,I)
+              ELSEIF(SFRON.GT.0)THEN             ! SFR PACKAGE
+                CALL GWM1STA3OSSFR(IGRID,I)
+              ENDIF
+            ENDIF
+          ENDIF
+        ENDDO
+      RETURN
+      END SUBROUTINE GWM1STA3OSR
+C***********************************************************************
+      SUBROUTINE GWM1STA3OSS
+C***********************************************************************
+C  PURPOSE: ASSIGN MODFLOW RESULTS FOR STORAGE CHANGES
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
         NSLOC = NHVAR+NRVAR
-        IF(KPER.EQ.1.AND.KSTP.EQ.1)THEN          ! THIS IS FIRST TIME THROUGH
-          DO 260 I=NSLOC+1,NSLOC+NSVAR
-            STASTATE(I) = ZERO                   ! INITIALIZE ACCUMULATOR
- 260      ENDDO
-        ENDIF
-C
-C-----DETERMINE IF STORAGE CHANGE IS NEEDED IN THIS STRESS PERIOD 
         DO 300 SVN=1,NSVAR
           J=SVN+NSLOC
           IF(KPER.GE.SVSP(J,1).AND.KPER.LE.SVSP(J,2))THEN
+C-----------STORAGE CHANGE IS NEEDED IN THIS STRESS PERIOD 
             DO 280 I=1,NSSVGZL(SVN)              ! LOOP OVER GRIDS 
               SGRID = SSVGLOC(SVN,I)             ! OBTAIN GRID NUMBER
               SZONE = SSVZLOC(SVN,I)             ! OBTAIN ZONE NUMBER 
-              SVZONE=>GWMSTADAT(SGRID)%SVZONE    ! POINT TO CORRECT ZONE
+              SVZONE=>GWMSTADAT(SGRID)%SVZONE_TARGET ! POINT TO CORRECT ZONE
               IF(BCFON.GT.0)THEN                 ! BCF IS ACTIVE
                 CALL GWM1STA3OSB(NSLOC,SGRID,SZONE,SVN)
               ELSEIF(LPFON.GT.0)THEN             ! LPF IS ACTIVE
@@ -776,17 +939,43 @@ C-----DETERMINE IF STORAGE CHANGE IS NEEDED IN THIS STRESS PERIOD
               ELSEIF(HUFON.GT.0)THEN             ! HUF IS ACTIVE
                 CALL GWM1BAS3PS('Program Stopped: Storage state variables can
      & not be used with HUF Package',0)          ! HUF NOT IMPLEMENTED
-                CALL USTOP(' ')                  ! WITH STORAGE SV
+                CALL GSTOP(' ')                  ! WITH STORAGE SV
               ENDIF
  280        ENDDO
           ENDIF                              
  300    ENDDO
-      ENDIF
-C
-      ENDIF
       RETURN
-C
-	CONTAINS
+      END SUBROUTINE GWM1STA3OSS
+C***********************************************************************
+      SUBROUTINE GWM1STA3OSD
+C***********************************************************************
+C  PURPOSE: ASSIGN MODFLOW RESULTS FOR EACH DRAIN-FLOW TYPE STATE VARIABLE
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      USE GWFDRNMODULE,ONLY:DRNAUX
+      NSLOC = NHVAR+NRVAR+NSVAR
+      DRPAUX = -1                     ! SET INDEX FOR AUX LOCATION  
+      DO I=1,20
+        IF(DRNAUX(I).EQ.'GWM-DR')THEN
+          DRPAUX = I+5                ! AUX LOCATION FOUND
+        ENDIF
+      ENDDO
+      DO I=NSLOC+1,NSLOC+NDVAR
+        IF(IGRID.EQ.GRDLOCSTA(I))THEN            ! STATE VARIABLE ON GRID
+          IF(SVSP(I,2).LT.0.AND.ITIME.EQ.1)THEN  ! FLOW-TYPE DRAIN SV
+            IF(SVSP(I,1).EQ.KPER)THEN            ! STATE VAR ACTIVE IN THIS SP
+              CALL SGWM1STA3OSDQ(I-NSLOC,QTOT)
+              STASTATE(I) = QTOT                 ! STORE THE FLOW VALUE
+            ENDIF
+          ELSEIF(SVSP(I,2).GT.0.AND.ITIME.EQ.0)THEN ! VOLUME-TYPE DRAIN SV
+            IF(KPER.GE.SVSP(I,1).AND.KPER.LE.SVSP(I,2))THEN
+              CALL SGWM1STA3OSDQ(I-NSLOC,QTOT)
+              STASTATE(I) = STASTATE(I) + QTOT*DELT ! ACCUMULATE THE VOLUME
+            ENDIF
+          ENDIF
+        ENDIF
+      ENDDO
+      RETURN
+      END SUBROUTINE GWM1STA3OSD
 C
 C***********************************************************************
       SUBROUTINE GWM1STA3OSSTR(IGRID,ISVAR)
@@ -839,11 +1028,9 @@ C
 C***********************************************************************
       SUBROUTINE GWM1STA3OSB(SVARCT,SGRID,SZONE,SVN)
 C***********************************************************************
-C     VERSION: 08JAN2010
 C     PURPOSE: ASSEMBLE CHANGE-IN-STORAGE STATE VARIABLE VALUE
 C      BUILT FROM SUBROUTINE GWF2BCF7BDS
 C-----------------------------------------------------------------------
-      USE GLOBAL,      ONLY:NCOL,NROW,NLAY,ISSFLG          
       USE GWFBCFMODULE,ONLY:LAYCON,SC1,SC2
       INTEGER(I4B),INTENT(IN)::SVARCT,SGRID,SZONE,SVN
       LOGICAL, ALLOCATABLE :: LAYFLG(:)
@@ -862,7 +1049,7 @@ C
         ENDIF
  100  ENDDO
 C        
-      CALL GWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,SZONE,SVN)
+      CALL SGWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,SZONE,SVN)
 
       RETURN
       END SUBROUTINE GWM1STA3OSB
@@ -870,11 +1057,9 @@ C
 C***********************************************************************
       SUBROUTINE GWM1STA3OSL(SVARCT,SGRID,SZONE,SVN)
 C***********************************************************************
-C     VERSION: 08JAN2010
 C     PURPOSE: GRAB RELEVANT LPF INFO
 C      BUILT FROM SUBROUTINE GWF2LPF7BDS
 C-----------------------------------------------------------------------
-      USE GLOBAL,      ONLY:NCOL,NROW,NLAY,ISSFLG
       USE GWFLPFMODULE,ONLY:LAYTYP,SC1,SC2
       INTEGER(I4B),INTENT(IN)::SVARCT,SGRID,SZONE,SVN
       LOGICAL, ALLOCATABLE :: LAYFLG(:)
@@ -893,28 +1078,23 @@ C
         ENDIF
  100  ENDDO
 C      
-      CALL GWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,SZONE,SVN)
+      CALL SGWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,SZONE,SVN)
 C
       RETURN
       END SUBROUTINE GWM1STA3OSL
 C
 C***********************************************************************
-      SUBROUTINE GWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,
+      SUBROUTINE SGWM1STA3OSS(NCOL,NROW,NLAY,SVARCT,LAYFLG,SC1,SC2,
      &                       SZONE,SVN)
 C***********************************************************************
-C     VERSION: 08JAN2010
 C     PURPOSE: ASSEMBLE CHANGE-IN-STORAGE STATE VARIABLE VALUE
 C      BUILT FROM SUBROUTINE GWF2LPF7BDS/GWF2BCF7BDS
 C-----------------------------------------------------------------------
-      USE GLOBAL,       ONLY: NCOL,NROW,NLAY,ISSFLG,IBOUND,HNEW,HOLD,
-     1                        BOTM,LBOTM
-      USE GWFBASMODULE, ONLY: DELT
-      USE GWM1BAS3,     ONLY: ONE
       INTEGER(I4B),INTENT(IN)::NCOL,NROW,NLAY,SVARCT,SZONE,SVN
       LOGICAL,     INTENT(IN)::LAYFLG(NLAY)
       REAL(DP),    INTENT(IN)::SC1(NCOL,NROW,NLAY),SC2(NCOL,NROW,NLAY)
 C-----LOCAL VARIABLES
-      INTEGER(I4B)::I,J,K,I2,I3,KT
+      INTEGER(I4B)::I2,I3,KT
       REAL(DP)::STRG,RHO,RHO1,RHO2,SOLD,SNEW,TP,HSING,TLED
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
@@ -959,8 +1139,66 @@ C
   300 CONTINUE
 C
       RETURN
-      END SUBROUTINE GWM1STA3OSS
-     
+      END SUBROUTINE SGWM1STA3OSS
+C
+C***********************************************************************
+      SUBROUTINE SGWM1STA3OSDQ(INDEX,QTOT)
+C***********************************************************************
+C     PURPOSE: ASSEMBLE DRAIN STATE VARIABLE VALUE (FROM ROUTINE GWF2DRN7BD)
+      USE GWFDRNMODULE,ONLY:NDRAIN,DRAI
+      INTEGER(I4B),INTENT(IN)::INDEX
+      REAL(DP),INTENT(OUT)::QTOT
+C-----LOCAL VARIABLES
+      INTEGER(I4B)::IL,IR,IC,L,II,SEQNUM,DRAUX
+      REAL(DP)::HHNEW,EL,C,Q 
+C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      CALL SGWF2DRN7PNT(IGRID)
+      MDCELLOC=>GWMSTADAT(IGRID)%MDCELVAR(INDEX)%MDCELLOC_TARGET ! POINT TO STORAGE
+      QTOT=ZERO
+C-----LOOP OVER THE NUMBER OF CELLS FOR DRAIN STATE VARIABLE I   
+      DO 200 II=1,SVILOC(I)
+        IL= MDCELLOC(II,1)  ! RETRIEVE THE L,R,C
+        IR= MDCELLOC(II,2) 
+        IC= MDCELLOC(II,3) 
+        DRAUX = MDCELLOC(II,4)
+C-------FIND THE SEQUENCE NUMBER IN THE DRAIN PARAMETER LIST ASSOCIATED WITH THIS CELL
+        SEQNUM=-1
+        DO 150 L=1,NDRAIN
+          IF(IL.EQ.DRAI(1,L))THEN
+            IF(IR.EQ.DRAI(2,L))THEN
+              IF(IC.EQ.DRAI(3,L))THEN
+                IF(DRAUX.LT.0)THEN          ! THIS IS ONLY DRAIN IN CELL
+                  SEQNUM=L
+                  GOTO 180
+                ELSEIF(DRPAUX.NE.-1)THEN    ! AUX VARIABLES AVAILABLE
+                  IF(DRAUX.EQ.INT(DRAI(DRPAUX,L)))THEN 
+                    SEQNUM=L         ! MATCH TO DRAIN IN CELL FOUND
+                    GOTO 180
+                  ENDIF
+                ENDIF
+              ENDIF
+            ENDIF
+          ENDIF
+  150   ENDDO
+C
+        IF(SEQNUM.LT.0)CALL GSTOP('PROGRAM STOPPED: DRAIN STATE VA
+     &RIABLE CELL NOT IN THE LIST OF CELLS IN DRAIN PACKAGE')
+C5C-----GET DRAIN PARAMETERS FROM DRAIN LIST.
+  180   EL=DRAI(4,SEQNUM)
+        C=DRAI(5,SEQNUM)
+        HHNEW=HNEW(IC,IR,IL)
+C5D-----IF HEAD HIGHER THAN DRAIN, CALCULATE Q=C*(HHNEW-EL).
+        IF(HHNEW.GT.EL) THEN
+          Q=C*(HHNEW-EL)
+        ELSE
+          Q=ZERO
+        END IF
+        QTOT=QTOT+Q
+ 200  ENDDO
+C
+      RETURN
+      END SUBROUTINE SGWM1STA3OSDQ
+C      
       END SUBROUTINE GWM1STA3OS
 C
 C***********************************************************************
@@ -1066,6 +1304,8 @@ C-----WRITE STATUS FOR A FLOW PROCESS SIMULATION
             CTYPE = 'Streamflow'
           ELSEIF(ROW.LE.NHVAR+NRVAR+NSVAR)THEN
             CTYPE = 'Change in Storage'
+          ELSEIF(ROW.LE.NHVAR+NRVAR+NSVAR+NDVAR)THEN
+            CTYPE = 'Drain'
           ENDIF
           CALL GWM1BAS3CS(CTYPE,SVNAME(ROW),0.0,0.0,STASTATE(ROW),0,-1)
   100   ENDDO

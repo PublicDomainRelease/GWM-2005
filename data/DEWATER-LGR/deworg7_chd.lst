@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -2130,18 +2130,18 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2857054.9247         CONSTANT HEAD =        2857.0549
+       CONSTANT HEAD =     2857054.9745         CONSTANT HEAD =        2857.0550
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =     2857054.9247              TOTAL IN =        2857.0549
+            TOTAL IN =     2857054.9745              TOTAL IN =        2857.0550
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =     2857054.9393          MANAGED FLOW =        2857.0549
+        MANAGED FLOW =     2857054.9891          MANAGED FLOW =        2857.0550
 
-           TOTAL OUT =     2857054.9393             TOTAL OUT =        2857.0549
+           TOTAL OUT =     2857054.9891             TOTAL OUT =        2857.0550
 
             IN - OUT =      -1.4592E-02              IN - OUT =      -1.4592E-05
 
@@ -2166,11 +2166,11 @@
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
      ------------------                 ------------------------
 
-   TOTAL IN TO CHILD =     2857054.9214     TOTAL IN TO CHILD =        2857.0549
+   TOTAL IN TO CHILD =     2857054.9713     TOTAL IN TO CHILD =        2857.0550
 
  TOTAL OUT TO PARENT =           0.0000   TOTAL OUT TO PARENT =           0.0000
 
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2011/05/30 15:03:26
- Elapsed run time: 14.736 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  8:58:01
+ Elapsed run time:  6.412 Seconds
 

@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.4.0 040212,FROM MF-LGR V1.2  
 
 
 
@@ -173,6 +173,7 @@
  NO. OF HEAD STATE VARIABLES (NHVAR):              0
  NO. OF STREAMFLOW STATE VARIABLES (NRVAR):        0
  NO. OF STORAGE STATE VARIABLES (NSVAR):           7
+ NO. OF DRAIN STATE VARIABLES (NDVAR):             0
 
  STORAGE TYPE STATE VARIABLES:
 
@@ -714,13 +715,13 @@ Maximum Flow Rate      Q4-3-e   Binding    Not Available
       Status of State Variable Values 
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Change in Storage      SCHNG2      4.1168056E+08
-      Change in Storage      SCHNG3      3.2240047E+08
+      Change in Storage      SCHNG2      4.1168055E+08
+      Change in Storage      SCHNG3      3.2240046E+08
       Change in Storage      SCHNG4      2.6046385E+08
       Change in Storage      SCHNG5      1.9811373E+08
       Change in Storage      SCHNG6      1.4181462E+08
       Change in Storage      SCHNGN      4.7309697E+06
-      Change in Storage      SCHNGS      4.2458350E+06
+      Change in Storage      SCHNGS      4.2458349E+06
  
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
@@ -839,10 +840,10 @@ Maximum Flow Rate      Q4-3-e   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  5.973249E-04
+      Value at this iteration        =  5.973275E-04
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  2.828005E-01
+      For Flow Variable Max Change   =  2.827998E-01
   SLP Algorithm: End Iteration    2
   No SLP convergence at this iteration
 
@@ -874,8 +875,8 @@ Name               Rate                Rate                To Objective
  Q4-1-c            0.000000E+00                            0.000000E+00
  Q4-1-d            2.471369E+04                            0.000000E+00
  Q4-1-e            6.400000E+04                            0.000000E+00
- Q4-2-a            2.114693E+04                            7.718631E+07
- Q4-2-b            3.289458E+04                            0.000000E+00
+ Q4-2-a            2.114698E+04                            7.718648E+07
+ Q4-2-b            3.289457E+04                            0.000000E+00
  Q4-2-c            3.171606E+04                            0.000000E+00
  Q4-2-d            6.400000E+04                            0.000000E+00
  Q4-2-e            2.471369E+04                            0.000000E+00
@@ -889,13 +890,13 @@ Name               Rate                Rate                To Objective
  Q5-1-c            0.000000E+00                            0.000000E+00
  Q5-1-d            0.000000E+00                            0.000000E+00
  Q5-1-e            0.000000E+00                            0.000000E+00
- Q5-2-a            3.566756E+03                            1.301866E+07
+ Q5-2-a            3.566711E+03                            1.301849E+07
  Q5-2-b            0.000000E+00                            0.000000E+00
  Q5-2-c            0.000000E+00                            0.000000E+00
  Q5-2-d            0.000000E+00                            0.000000E+00
  Q5-2-e            0.000000E+00                            0.000000E+00
  Q5-3-a            6.400000E+04                            2.336000E+08
- Q5-3-b            5.581911E+04                            0.000000E+00
+ Q5-3-b            5.581912E+04                            0.000000E+00
  Q5-3-c            5.699763E+04                            0.000000E+00
  Q5-3-d            0.000000E+00                            0.000000E+00
  Q5-3-e            0.000000E+00                            0.000000E+00
@@ -907,9 +908,9 @@ TOTALS             1.723568E+06        0.000000E+00        1.258205E+09
 Variable                                                   Contribution
 Name               Value                                   To Objective
 ----------         ------------                            ------------
- SCHNG2             4.182268E+08                            0.000000E+00
+ SCHNG2             4.182267E+08                            0.000000E+00
  SCHNG3             3.320564E+08                            0.000000E+00
- SCHNG4             2.656451E+08                            0.000000E+00
+ SCHNG4             2.656452E+08                            0.000000E+00
  SCHNG5             1.992339E+08                            0.000000E+00
  SCHNG6             1.394637E+08                            0.000000E+00
  SCHNGN             4.795375E+06                            0.000000E+00
@@ -965,11 +966,11 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Status of State Variable Values 
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Change in Storage      SCHNG2      4.1820593E+08
-      Change in Storage      SCHNG3      3.3207558E+08
-      Change in Storage      SCHNG4      2.6564439E+08
-      Change in Storage      SCHNG5      1.9923416E+08
-      Change in Storage      SCHNG6      1.3946317E+08
+      Change in Storage      SCHNG2      4.1820592E+08
+      Change in Storage      SCHNG3      3.3207556E+08
+      Change in Storage      SCHNG4      2.6564440E+08
+      Change in Storage      SCHNG5      1.9923417E+08
+      Change in Storage      SCHNG6      1.3946318E+08
       Change in Storage      SCHNGN      4.7953642E+06
       Change in Storage      SCHNGS      4.3158301E+06
  
@@ -977,14 +978,14 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
       Summation              ST1-2      Satisfied     2.3399E+07
-      Summation              ST1-3      Satisfied     1.6069E+04
-      Summation              ST1-4      Not Met       8.7048E+02
-      Summation              ST1-5      Satisfied     7.4314E+02
-      Summation              ST2-1      Not Met       2.2703E+00
-      Summation              EQ-b       Not Met       2.1828E-11
+      Summation              ST1-3      Satisfied     1.6046E+04
+      Summation              ST1-4      Not Met       8.7104E+02
+      Summation              ST1-5      Satisfied     7.4309E+02
+      Summation              ST2-1      Not Met       2.3032E+00
+      Summation              EQ-b       Not Met       3.6380E-11
       Summation              EQ-c       Not Met       1.4552E-11
-      Summation              EQ-d       Not Met       1.4552E-11
-      Summation              EQ-e       Not Met       1.4552E-11
+      Summation              EQ-d       Not Met       2.9104E-11
+      Summation              EQ-e       Not Met       2.1828E-11
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -1090,10 +1091,10 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  8.742524E-08
+      Value at this iteration        =  8.243613E-08
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  7.496077E-04
+      For Flow Variable Max Change   =  7.485841E-04
   SLP Algorithm: End Iteration    3
   No SLP convergence at this iteration
 
@@ -1125,7 +1126,7 @@ Name               Rate                Rate                To Objective
  Q4-1-c            0.000000E+00                            0.000000E+00
  Q4-1-d            2.471372E+04                            0.000000E+00
  Q4-1-e            6.400000E+04                            0.000000E+00
- Q4-2-a            2.119491E+04                            7.736142E+07
+ Q4-2-a            2.119489E+04                            7.736135E+07
  Q4-2-b            3.287872E+04                            0.000000E+00
  Q4-2-c            3.171860E+04                            0.000000E+00
  Q4-2-d            6.400000E+04                            0.000000E+00
@@ -1140,7 +1141,7 @@ Name               Rate                Rate                To Objective
  Q5-1-c            0.000000E+00                            0.000000E+00
  Q5-1-d            0.000000E+00                            0.000000E+00
  Q5-1-e            0.000000E+00                            0.000000E+00
- Q5-2-a            3.518811E+03                            1.284366E+07
+ Q5-2-a            3.518829E+03                            1.284373E+07
  Q5-2-b            0.000000E+00                            0.000000E+00
  Q5-2-c            0.000000E+00                            0.000000E+00
  Q5-2-d            0.000000E+00                            0.000000E+00
@@ -1158,7 +1159,7 @@ TOTALS             1.723569E+06        0.000000E+00        1.258205E+09
 Variable                                                   Contribution
 Name               Value                                   To Objective
 ----------         ------------                            ------------
- SCHNG2             4.181904E+08                            0.000000E+00
+ SCHNG2             4.181905E+08                            0.000000E+00
  SCHNG3             3.320629E+08                            0.000000E+00
  SCHNG4             2.656503E+08                            0.000000E+00
  SCHNG5             1.992377E+08                            0.000000E+00
@@ -1217,25 +1218,25 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
       Change in Storage      SCHNG2      4.1819056E+08
-      Change in Storage      SCHNG3      3.3206295E+08
-      Change in Storage      SCHNG4      2.6565031E+08
-      Change in Storage      SCHNG5      1.9923772E+08
-      Change in Storage      SCHNG6      1.3946640E+08
+      Change in Storage      SCHNG3      3.3206296E+08
+      Change in Storage      SCHNG4      2.6565030E+08
+      Change in Storage      SCHNG5      1.9923771E+08
+      Change in Storage      SCHNG6      1.3946639E+08
       Change in Storage      SCHNGN      4.7953118E+06
-      Change in Storage      SCHNGS      4.3157807E+06
+      Change in Storage      SCHNGS      4.3157806E+06
  
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
       Summation              ST1-2      Satisfied     2.3399E+07
-      Summation              ST1-3      Satisfied     5.2907E+01
-      Summation              ST1-4      Satisfied     1.6179E+01
-      Summation              ST1-5      Satisfied     4.8136E+00
-      Summation              ST2-1      Not Met       3.1065E-02
-      Summation              EQ-b       Not Met       3.6380E-11
-      Summation              EQ-c       Not Met       3.6380E-11
-      Summation              EQ-d       Not Met       2.9104E-11
-      Summation              EQ-e       Not Met       2.9104E-11
+      Summation              ST1-3      Satisfied     6.5795E+01
+      Summation              ST1-4      Satisfied     1.6624E+01
+      Summation              ST1-5      Satisfied     4.9465E+00
+      Summation              ST2-1      Not Met       1.1801E-02
+      Summation              EQ-b       Not Met       7.2760E-12
+      Summation              EQ-c       Not Met       7.2760E-12
+      Summation              EQ-d       Satisfied     0.0000E+00
+      Summation              EQ-e       Not Met       7.2760E-12
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -1341,10 +1342,10 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.630345E-09
+      Value at this iteration        =  1.325548E-09
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  2.645235E-06
+      For Flow Variable Max Change   =  3.223467E-06
   SLP Algorithm: End Iteration    4
   SLP Iterations have converged
 
@@ -1379,7 +1380,7 @@ Name               Rate                Rate                To Objective
  Q4-1-c            0.000000E+00                            0.000000E+00
  Q4-1-d            2.471372E+04                            0.000000E+00
  Q4-1-e            6.400000E+04                            0.000000E+00
- Q4-2-a            2.119508E+04                            7.736204E+07
+ Q4-2-a            2.119510E+04                            7.736210E+07
  Q4-2-b            3.287872E+04                            0.000000E+00
  Q4-2-c            3.171860E+04                            0.000000E+00
  Q4-2-d            6.400000E+04                            0.000000E+00
@@ -1394,7 +1395,7 @@ Name               Rate                Rate                To Objective
  Q5-1-c            0.000000E+00                            0.000000E+00
  Q5-1-d            0.000000E+00                            0.000000E+00
  Q5-1-e            0.000000E+00                            0.000000E+00
- Q5-2-a            3.518642E+03                            1.284304E+07
+ Q5-2-a            3.518623E+03                            1.284297E+07
  Q5-2-b            0.000000E+00                            0.000000E+00
  Q5-2-c            0.000000E+00                            0.000000E+00
  Q5-2-d            0.000000E+00                            0.000000E+00
@@ -1417,7 +1418,7 @@ Name               Value                                   To Objective
  SCHNG4             2.656503E+08                            0.000000E+00
  SCHNG5             1.992377E+08                            0.000000E+00
  SCHNG6             1.394664E+08                            0.000000E+00
- SCHNGN             4.795312E+06                            0.000000E+00
+ SCHNGN             4.795311E+06                            0.000000E+00
  SCHNGS             4.315780E+06                            0.000000E+00
                    ------------                            ------------
 TOTALS              1.363719E+09                            0.000000E+00
@@ -1432,7 +1433,7 @@ Summation              ST1-3    Binding      1.6353E-02
 Summation              ST1-4    Binding      4.4970E-02
 Summation              ST1-5    Binding      3.9403E-01
 Summation              ST2-1    Binding      1.7836E+02
-Summation              EQ-b     Binding      8.6442E+01
+Summation              EQ-b     Binding      8.6443E+01
 Summation              EQ-c     Binding      2.5799E+02
 Summation              EQ-d     Binding     -2.7076E+02
 Summation              EQ-e     Binding      3.5251E+03
@@ -1480,7 +1481,7 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Change in Storage      SCHNG5      1.9923773E+08
       Change in Storage      SCHNG6      1.3946641E+08
       Change in Storage      SCHNGN      4.7953115E+06
-      Change in Storage      SCHNGS      4.3157804E+06
+      Change in Storage      SCHNGS      4.3157803E+06
   Precision limitations and nonlinear response may cause 
     the state variables computed directly by the flow process 
     to differ from those computed using the linear program.  
@@ -1493,14 +1494,14 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
       Summation              ST1-2        -2.3399E+07 < 0.0000E+00  -2.3399E+07
-      Summation              ST1-3        -6.8939E+00 < 0.0000E+00  -6.8939E+00
-      Summation              ST1-4         5.6488E+00 < 0.0000E+00   5.6488E+00
-      Summation              ST1-5         4.5553E-01 < 0.0000E+00   4.5553E-01
-      Summation              ST2-1         6.4611E-03 < 0.0000E+00   6.4611E-03
-      Summation              EQ-b          2.1828E-11 = 0.0000E+00   2.1828E-11
-      Summation              EQ-c          2.1828E-11 = 0.0000E+00   2.1828E-11
-      Summation              EQ-d          2.9104E-11 = 0.0000E+00   2.9104E-11
-      Summation              EQ-e          2.1828E-11 = 0.0000E+00   2.1828E-11
+      Summation              ST1-3        -2.6350E-02 < 0.0000E+00  -2.6350E-02
+      Summation              ST1-4         2.4133E-02 < 0.0000E+00   2.4133E-02
+      Summation              ST1-5         9.5978E-04 < 0.0000E+00   9.5978E-04
+      Summation              ST2-1         1.2694E-06 < 0.0000E+00   1.2694E-06
+      Summation              EQ-b          5.0932E-11 = 0.0000E+00   5.0932E-11
+      Summation              EQ-c          5.0932E-11 = 0.0000E+00   5.0932E-11
+      Summation              EQ-d          5.8208E-11 = 0.0000E+00   5.8208E-11
+      Summation              EQ-e          5.0932E-11 = 0.0000E+00   5.0932E-11
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

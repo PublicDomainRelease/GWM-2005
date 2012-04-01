@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.4.0 040212,FROM MF-LGR V1.2  
 
 
 
@@ -438,7 +438,7 @@ External Variables
 Binary Variables
     BV3         0.0000E+00    BV4         2.1112E-01    BV1         1.4774E-01
     BV2         5.0000E-01
-    Objective Function =  3.282279E+04
+    Objective Function =  3.282281E+04
  
     Feasible Solution Found
  SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
@@ -451,7 +451,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         2.4480E-01    BV1         1.2944E-01
     BV2         3.1514E-01
-    Objective Function =  3.208734E+04
+    Objective Function =  3.208735E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           2
                  AND VARIABLE           2
@@ -466,7 +466,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0514E-01
     BV2         5.0000E-01
-    Objective Function =  3.294004E+04
+    Objective Function =  3.294007E+04
  
     Feasible Solution Found
  SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
@@ -479,7 +479,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.2944E-01
     BV2         3.1514E-01
-    Objective Function =  3.208734E+04
+    Objective Function =  3.208735E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           4
                  AND VARIABLE           3
@@ -494,7 +494,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
     BV2         5.0000E-01
-    Objective Function =  3.213743E+04
+    Objective Function =  3.213744E+04
  
     Feasible Solution Found
  SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
@@ -521,11 +521,11 @@ Binary Variables
     Objective Value  3.212436E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-03
-      Value at this iteration        =  9.851292E-03
+      Value at this iteration        =  9.851307E-03
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
-      For Flow Variable Max Change   =  1.784100E-02
-      For Ext Variables Max Change   =  9.851292E-03
+      For Flow Variable Max Change   =  1.784104E-02
+      For Ext Variables Max Change   =  9.851307E-03
       For Binary Variable Max Change =  0.000000E+00
   SLP Algorithm: End Iteration    2
   No SLP convergence at this iteration
@@ -545,15 +545,15 @@ Binary Variables
       Head Difference        hd-05      Satisfied     3.6117E-02
       Head Difference        hd-06      Satisfied     3.6167E-02
       Head Difference        hd-07      Satisfied     3.6205E-02
-      Head Gradient          gd-1       Not Met       7.3327E-06
-      Head Gradient          gd-2       Satisfied     1.9506E-03
-      Head Gradient          gd-7       Not Met       7.2815E-06
-      Head Gradient          gd-8       Satisfied     1.9942E-03
-      Head Gradient          gd-3       Not Met       7.4535E-06
-      Head Gradient          gd-4       Satisfied     1.9968E-03
+      Head Gradient          gd-1       Not Met       7.2779E-06
+      Head Gradient          gd-2       Satisfied     1.9507E-03
+      Head Gradient          gd-7       Not Met       7.2249E-06
+      Head Gradient          gd-8       Satisfied     1.9943E-03
+      Head Gradient          gd-3       Not Met       7.4081E-06
+      Head Gradient          gd-4       Satisfied     1.9969E-03
       Head Gradient          gd-5       Satisfied     1.7539E-02
       Head Gradient          gd-6       Satisfied     1.9501E-02
-      Summation              demand     Satisfied     7.2760E-12
+      Summation              demand     Not Met       7.2760E-12
       Summation              wellson    Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
@@ -614,7 +614,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0513E-01
     BV2         5.0000E-01
-    Objective Function =  3.294017E+04
+    Objective Function =  3.294016E+04
  
     Feasible Solution Found
  SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
@@ -642,7 +642,7 @@ External Variables
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
     BV2         5.0000E-01
-    Objective Function =  3.213747E+04
+    Objective Function =  3.213746E+04
  
     Feasible Solution Found
  SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
@@ -669,11 +669,11 @@ Binary Variables
     Objective Value  3.212442E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-03
-      Value at this iteration        =  2.044689E-06
+      Value at this iteration        =  2.030229E-06
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
-      For Flow Variable Max Change   =  3.961668E-06
-      For Ext Variables Max Change   =  2.044689E-06
+      For Flow Variable Max Change   =  3.981929E-06
+      For Ext Variables Max Change   =  2.030229E-06
       For Binary Variable Max Change =  0.000000E+00
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
@@ -818,17 +818,17 @@ demand      0.0000E+00    5.0000E+04    1.7876E+04       demand      E
 Variable    Reduced       Original      Lower/Upper
 Name        Cost          Coefficient   Bound            Entering    Leaving
 ----------  ----------    ----------    ----------       ----------  ----------
-W3          0.0000E+00    0.0000E+00   -1.5368E-02       W2          W2        
+W3          0.0000E+00    0.0000E+00   -1.5370E-02       W2          W2        
                                         2.7926E-01       gd-7        W1        
 
-W4          0.0000E+00    0.0000E+00   -6.7927E-02       W2          W2        
+W4          0.0000E+00    0.0000E+00   -6.7938E-02       W2          W2        
                                         1.3038E-01       gd-1        gd-5      
 
-W1          0.0000E+00    0.0000E+00   -1.1184E-02       W2          W2        
+W1          0.0000E+00    0.0000E+00   -1.1186E-02       W2          W2        
                                         1.1106E-01       gd-3        W1        
 
-W2         -5.8754E-03    0.0000E+00      Infinity       ----- No Change -----
-                                        5.8754E-03       W2          W2        
+W2         -5.8763E-03    0.0000E+00      Infinity       ----- No Change -----
+                                        5.8763E-03       W2          W2        
 
 E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E         
                                           Infinity       ----- No Change -----
@@ -856,15 +856,15 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
       Head Difference        hd-05         4.1117E-02 > 5.0000E-03   3.6117E-02
       Head Difference        hd-06         4.1168E-02 > 5.0000E-03   3.6168E-02
       Head Difference        hd-07         4.1205E-02 > 5.0000E-03   3.6205E-02
-      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00  -2.9457E-08
+      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00   1.5541E-10
       Head Gradient          gd-2          2.8020E+00 > 2.8000E+00   1.9579E-03
-      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00  -2.9608E-08
+      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00   1.5279E-10
       Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   2.0015E-03
-      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00  -2.6975E-08
+      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00   1.5095E-10
       Head Gradient          gd-4          2.8020E+00 > 2.8000E+00   2.0043E-03
       Head Gradient          gd-5          2.8175E+00 > 2.8000E+00   1.7547E-02
       Head Gradient          gd-6          2.8195E+00 > 2.8000E+00   1.9509E-02
-      Summation              demand        5.0000E+04 > 5.0000E+04  -7.2760E-12
+      Summation              demand        5.0000E+04 > 5.0000E+04   0.0000E+00
       Summation              wellson       3.0000E+00 < 3.0000E+00   0.0000E+00
 
   Difference is computed by subtracting right hand side of the constraint 

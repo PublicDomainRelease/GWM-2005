@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.3.1 053011,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.4.0 040212,FROM MF-LGR V1.2  
 
 
 
@@ -369,18 +369,18 @@
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Stream Depletion       S01.9      Not Met       7.2975E-01
+      Stream Depletion       S01.9      Not Met       7.2968E-01
       Stream Depletion       S01.10     Satisfied     5.3011E+03
       Stream Depletion       S01.11     Satisfied     5.8091E+03
       Stream Depletion       S01.12     Satisfied     5.8640E+03
-      Stream Depletion       S02.11     Satisfied     4.5464E-01
-      Stream Depletion       S02.12     Satisfied     2.2081E-01
+      Stream Depletion       S02.11     Satisfied     4.5525E-01
+      Stream Depletion       S02.12     Satisfied     2.2135E-01
       Stream Depletion       S03.9      Satisfied     1.4046E+04
-      Stream Depletion       S03.10     Not Met       6.8205E-01
+      Stream Depletion       S03.10     Not Met       6.8186E-01
       Stream Depletion       S03.11     Satisfied     1.4217E+04
       Stream Depletion       S03.12     Satisfied     1.2093E+04
       Stream Depletion       S04.11     Satisfied     6.4398E+03
-      Stream Depletion       S04.12     Satisfied     1.5578E-01
+      Stream Depletion       S04.12     Satisfied     1.5642E-01
       Summation              p01u       Satisfied     2.6514E+04
       Summation              p01l       Satisfied     2.3486E+04
       Summation              p02u       Satisfied     0.0000E+00
@@ -426,11 +426,11 @@
     Objective Value  5.302832E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.679662E-06
+      Value at this iteration        =  1.693388E-06
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  7.546591E-05
-      For Ext Variables Max Change   =  6.139343E-05
+      For Flow Variable Max Change   =  7.544995E-05
+      For Ext Variables Max Change   =  6.146107E-05
   SLP Algorithm: End Iteration    2
   No SLP convergence at this iteration
  
@@ -439,24 +439,24 @@
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Stream Depletion       S01.9      Satisfied     3.8801E-05
+      Stream Depletion       S01.9      Satisfied     2.6331E-06
       Stream Depletion       S01.10     Satisfied     5.3009E+03
       Stream Depletion       S01.11     Satisfied     5.8092E+03
       Stream Depletion       S01.12     Satisfied     5.8643E+03
-      Stream Depletion       S02.11     Satisfied     7.8506E-04
-      Stream Depletion       S02.12     Not Met       7.9806E-05
+      Stream Depletion       S02.11     Satisfied     4.5039E-06
+      Stream Depletion       S02.12     Satisfied     7.1683E-06
       Stream Depletion       S03.9      Satisfied     1.4046E+04
-      Stream Depletion       S03.10     Not Met       2.1292E-04
+      Stream Depletion       S03.10     Satisfied     3.1135E-06
       Stream Depletion       S03.11     Satisfied     1.4217E+04
       Stream Depletion       S03.12     Satisfied     1.2093E+04
       Stream Depletion       S04.11     Satisfied     6.4391E+03
-      Stream Depletion       S04.12     Not Met       7.6909E-05
+      Stream Depletion       S04.12     Satisfied     1.0312E-05
       Summation              p01u       Satisfied     2.6516E+04
       Summation              p01l       Satisfied     2.3484E+04
       Summation              p02u       Satisfied     0.0000E+00
       Summation              p02l       Satisfied     5.0000E+04
       Summation              p03u       Satisfied     4.9602E+04
-      Summation              p03l       Satisfied     3.9812E+02
+      Summation              p03l       Satisfied     3.9813E+02
       Summation              p04u       Satisfied     4.1705E+04
       Summation              p04l       Satisfied     8.2953E+03
       Summation              p09u       Satisfied     2.6516E+04
@@ -496,11 +496,11 @@
     Objective Value  5.302832E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  8.034450E-09
+      Value at this iteration        =  1.683135E-10
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  2.321087E-08
-      For Ext Variables Max Change   =  8.439882E-08
+      For Flow Variable Max Change   =  3.135387E-10
+      For Ext Variables Max Change   =  9.069179E-10
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
 
@@ -517,7 +517,7 @@ Name               Rate                Rate                To Objective
 ----------         --------------      ------------        ------------
  Q1                3.484406E+03                            3.815424E+03
  Q2a               5.000000E+04                            1.380000E+04
- Q2b               2.749713E+04                            7.506717E+03
+ Q2b               2.749713E+04                            7.506716E+03
  Q2c               2.691372E+04                            7.347446E+03
  Q2d               2.674986E+04                            7.302713E+03
  Q4a               4.901846E+04                            1.338204E+04
@@ -533,7 +533,7 @@ Name               Type                Value               To Objective
  Im9                Import             0.000000E+00        0.000000E+00
  Im10               Import             0.000000E+00        0.000000E+00
  Im11               Import             1.460187E+04       -1.594525E+03
- Im12               Import             6.704713E+03       -7.321546E+02
+ Im12               Import             6.704712E+03       -7.321545E+02
                                                            ------------
 TOTAL                                                     -2.326679E+03
 
@@ -571,18 +571,18 @@ Maximum Flow Rate      Q2a      Binding    Not Available
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05   6.1263E-05
+      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05  -4.6566E-10
       Stream Depletion       S01.10        5.4663E+05 > 5.4133E+05   5.3009E+03
       Stream Depletion       S01.11        5.3517E+05 > 5.2936E+05   5.8092E+03
       Stream Depletion       S01.12        5.4082E+05 > 5.3496E+05   5.8643E+03
-      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -4.1214E-04
-      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05   1.0736E-03
+      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -8.1491E-10
+      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05  -1.1642E-10
       Stream Depletion       S03.9         2.7511E+05 > 2.6107E+05   1.4046E+04
-      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05   9.3714E-04
+      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05   1.1642E-10
       Stream Depletion       S03.11        2.7404E+05 > 2.5982E+05   1.4217E+04
       Stream Depletion       S03.12        2.7441E+05 > 2.6232E+05   1.2093E+04
       Stream Depletion       S04.11        1.1327E+06 > 1.1263E+06   6.4391E+03
-      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06   1.2708E-03
+      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06  -6.9849E-10
       Summation              p01u          5.3484E+04 < 8.0000E+04  -2.6516E+04
       Summation              p01l          5.3484E+04 > 3.0000E+04   2.3484E+04
       Summation              p02u          8.0000E+04 < 8.0000E+04   0.0000E+00

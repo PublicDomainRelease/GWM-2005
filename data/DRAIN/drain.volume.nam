@@ -1,0 +1,10 @@
+LIST    10   drain.volume.lst
+DIS     11   ..\data\DRAIN\drain.dis
+BAS6    12   ..\data\DRAIN\drain.ba6
+BCF6    13   ..\data\DRAIN\drain.bc6
+RCH     15   ..\data\DRAIN\drain.rch
+DRN     16   ..\data\DRAIN\drain.drn
+OC      17   ..\data\DRAIN\drain.oc
+PCG     18   ..\data\DRAIN\drain.pcg
+GWM     19   ..\data\DRAIN\drain.volume.gwm
+DATA    20   drain.volume.gwmwell

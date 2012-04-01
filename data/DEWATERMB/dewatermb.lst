@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -277,7 +277,7 @@
    (  1,  3,  2)  (  1,  3,  2)  (  1,  1,  2)  (  1,  2, 29)  (  1,  2, 29)
   1 -0.1000E-04  0 -0.5456E-05  0 -0.2681E-05  0 -0.1400E-05  0 -0.1010E-05
    (  1,  2, 29)  (  1,  1,  2)  (  1,  1,  2)  (  1,  3,  2)  (  1,  3, 28)
-  1 -0.7842E-06  0 -0.4419E-06  0 -0.2155E-06  0 -0.1353E-06  1 -0.9972E-07
+  1 -0.7842E-06  0 -0.4419E-06  0 -0.2155E-06  0 -0.1353E-06  1 -0.9971E-07
    (  1,  3,  2)  (  1,  3,  2)  (  1,  1,  2)  (  1,  2, 29)  (  1,  1,  2)
 
 
@@ -359,18 +359,18 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2879905.3980         CONSTANT HEAD =        2879.9054
+       CONSTANT HEAD =     2879905.4511         CONSTANT HEAD =        2879.9055
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =     2879905.3980              TOTAL IN =        2879.9054
+            TOTAL IN =     2879905.4511              TOTAL IN =        2879.9055
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =     2879905.3955          MANAGED FLOW =        2879.9054
+        MANAGED FLOW =     2879905.4487          MANAGED FLOW =        2879.9054
 
-           TOTAL OUT =     2879905.3955             TOTAL OUT =        2879.9054
+           TOTAL OUT =     2879905.4487             TOTAL OUT =        2879.9054
 
             IN - OUT =       2.4535E-03              IN - OUT =       2.4535E-06
 
@@ -389,6 +389,6 @@
          TOTAL TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2011/05/30 15:00:20
- Elapsed run time:  0.987 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  8:59:05
+ Elapsed run time:  0.452 Seconds
 

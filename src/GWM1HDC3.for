@@ -1,11 +1,12 @@
       MODULE GWM1HDC3
-C     VERSION: 25JAN2011
+C     VERSION: 21MAR2012
+      USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE
       PUBLIC::HDCNAME,HDCSTATE,HDCSTATE0,HDCRHS,HDCDIR,HDCNUM,
-     &        NHB,NDD,NDF,NGD
-      PUBLIC::GWM1HDC3AR,GWM1HDC3OS,GWM1HDC3FP,GWM1HDC3FPR,GWM1HDC3FM,
-     &        GWM1HDC3OT
+     &        HDCILOC,HDCJLOC,HDCKLOC,HDCSP,NHB,NDD,NDF,NGD
+      PUBLIC::GWM1HDC3AR,GWM1HDC3FP,GWM1HDC3FPR,GWM1HDC3FM,
+     &        GWM1HDC3OT,GWM1HDC3OS
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
       INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
@@ -81,10 +82,6 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
 C 
         INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
         INTEGER I,IFIRST,IOST,MAXUNIT
@@ -93,11 +90,13 @@ C
 C
       END INTERFACE
 C-----LOCAL VARIABLES
-      INTEGER(I4B)::NSP
+      INTEGER(I4B)::NSP,MNWCNT
       CHARACTER(LEN=10)::TCTNM
+      CHARACTER(LEN=20)::TCMNW
       REAL(SP)::TBND,TLEN,TGRAD
       CHARACTER(LEN=2)::FG2
-      INTEGER(I4B)::I,II,ITYPES,ITYPEF,IPRN,IR1,IC1,IL1,IR2,IC2,IL2
+      CHARACTER(LEN=1)::DIRPRT
+      INTEGER(I4B)::I,J,K,II,ITYPES,ITYPEF,IPRN,IR1,IC1,IL1,IR2,IC2,IL2
       INTEGER(I4B)::G,JROW,NH,IPRNG
       INTEGER(I4B)::BYTES,LOCAT,ISTART,ISTOP,LLOC,INMS,INMF
       CHARACTER(LEN=200)::LINE
@@ -132,15 +131,15 @@ C---------READ IPRN
             IPRN = MAX(IPRN,IPRNG)               ! USE MOST DETAILED ECHO
           ELSE
             WRITE(IOUT,2000,ERR=990)IPRNG        ! INVALID VALUE OF IPRN
-            CALL USTOP(' ')
+            CALL GSTOP(' ')
           ENDIF
 C
 C---------READ TOTAL NUMBER OF HEAD-TYPE CONSTRAINTS
           READ(LOCAT,*,ERR=991)TNHB(G),TNDD(G),TNDF(G),TNGD(G)
-          IF(TNHB(G).LT.0)CALL USTOP('PROGRAM STOPPED: NHB IS NEGATIVE')
-          IF(TNDD(G).LT.0)CALL USTOP('PROGRAM STOPPED: NDD IS NEGATIVE')
-          IF(TNDF(G).LT.0)CALL USTOP('PROGRAM STOPPED: NDF IS NEGATIVE')
-          IF(TNGD(G).LT.0)CALL USTOP('PROGRAM STOPPED: NGD IS NEGATIVE')
+          IF(TNHB(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NHB IS NEGATIVE')
+          IF(TNDD(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NDD IS NEGATIVE')
+          IF(TNDF(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NDF IS NEGATIVE')
+          IF(TNGD(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NGD IS NEGATIVE')
         ENDIF
   100 ENDDO   
 C-----ADD CONSTRAINTS FROM ALL GRIDS
@@ -194,7 +193,7 @@ C-----------CHECK THAT CONSTRAINT NAME HAS NOT BEEN USED
             DO 200 II=1,I-1
               IF(HDCNAME(II).EQ.TCTNM)THEN
                 WRITE(IOUT,3000,ERR=990)TCTNM
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
   200       ENDDO
             HDCNAME(I)=TCTNM                     ! STORE CONSTRAINT NAME
@@ -224,14 +223,14 @@ C-----------PROCESS THE TYPE OF CONSTRAINT
             ELSEIF(FG2.EQ.'GE') THEN
               HDCDIR(I) = 2
             ELSE
-              CALL USTOP('HEAD CONSTRAINT NOT LE OR GE  ')
+              CALL GSTOP('HEAD CONSTRAINT NOT LE OR GE  ')
             ENDIF
 C
 C-----------PROCESS BOUND AND STRESS PERIOD TO WHICH CONSTRAINT APPLIES 
             HDCRHS(I)=REAL(TBND,DP)                ! STORE RIGHT HAND SIDE
             IF(HDCRHS(I).GT.BIGINF)THEN
               WRITE(IOUT,3400,ERR=990)TCTNM,BIGINF ! RHS VALUE NOT WITHIN BOUNDS
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             HDCSP(I)=NSP                           ! STORE STRESS PERIOD
   210     ENDDO
@@ -265,7 +264,7 @@ C-----------CHECK THAT CONSTRAINT NAME HAS NOT BEEN USED
             DO 300 II=1,I-1
               IF(HDCNAME(II).EQ.TCTNM)THEN
                 WRITE(IOUT,3000,ERR=990)TCTNM
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
   300       ENDDO
             HDCNAME(I)=TCTNM                     ! STORE CONSTRAINT NAME
@@ -274,27 +273,27 @@ C-----------PROCESS ROW, COLUMN AND LAYER NUMBER
             CALL SGWF2BAS7PNT(G)                 ! CHANGE POINTERS TO THIS GRID
             IF(IR1.LT.1 .OR. IR1.GT.NROW)THEN
               WRITE(IOUT,3100,ERR=990)IR1        ! NOT A VALID ROW NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IC1.LT.1 .OR. IC1.GT.NCOL)THEN
               WRITE(IOUT,3200,ERR=990)IC1        ! NOT A VALID COLUMN NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IL1.LT.1 .OR. IL1.GT.NLAY)THEN
               WRITE(IOUT,3300,ERR=990)IL1        ! NOT A VALID LAYER NUMBER
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IR2.LT.1 .OR. IR2.GT.NROW)THEN
               WRITE(IOUT,3100,ERR=990)IR2        ! NOT A VALID ROW NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IC2.LT.1 .OR. IC2.GT.NCOL)THEN
               WRITE(IOUT,3200,ERR=990)IC2        ! NOT A VALID COLUMN NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IL2.LT.1 .OR. IL2.GT.NLAY)THEN
               WRITE(IOUT,3300,ERR=990)IL2        ! NOT A VALID LAYER NUMBER
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             HDCILOC(I,1)=IR1                     ! STORE ROW NUMBER 
             HDCJLOC(I,1)=IC1                     ! STORE COLUMN NUMBER 
@@ -307,7 +306,7 @@ C-----------PROCESS BOUND AND STRESS PERIOD TO WHICH CONSTRAINT APPLIES
             HDCRHS(I)=REAL(TBND,DP)              ! STORE RIGHT HAND SIDE
             IF(HDCRHS(I).GT.BIGINF)THEN
               WRITE(IOUT,3400,ERR=990)TCTNM,BIGINF ! RHS VALUE NOT WITHIN BOUNDS
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             HDCSP(I)=NSP                         ! STORE STRESS PERIOD
             HDCDIR(I)=2                          ! ONLY GE TYPE USED
@@ -340,7 +339,7 @@ C-----------CHECK THAT CONSTRAINT NAME HAS NOT BEEN USED
             DO 400 II=1,I-1
               IF(HDCNAME(II).EQ.TCTNM)THEN
                 WRITE(IOUT,3000,ERR=990)TCTNM
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
   400       ENDDO
             HDCNAME(I)=TCTNM                     ! STORE CONSTRAINT NAME
@@ -349,27 +348,27 @@ C-----------PROCESS ROW, COLUMN AND LAYER NUMBER
             CALL SGWF2BAS7PNT(G)                 ! CHANGE POINTERS TO THIS GRID
             IF(IR1.LT.1 .OR. IR1.GT.NROW)THEN
               WRITE(IOUT,3100,ERR=990)IR1        ! NOT A VALID ROW NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IC1.LT.1 .OR. IC1.GT.NCOL)THEN
               WRITE(IOUT,3200,ERR=990)IC1        ! NOT A VALID COLUMN NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IL1.LT.1 .OR. IL1.GT.NLAY)THEN
               WRITE(IOUT,3300,ERR=990)IL1        ! NOT A VALID LAYER NUMBER
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IR2.LT.1 .OR. IR2.GT.NROW)THEN
               WRITE(IOUT,3100,ERR=990)IR2        ! NOT A VALID ROW NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IC2.LT.1 .OR. IC2.GT.NCOL)THEN
               WRITE(IOUT,3200,ERR=990)IC2        ! NOT A VALID COLUMN NUMBER 
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             IF(IL2.LT.1 .OR. IL2.GT.NLAY)THEN
               WRITE(IOUT,3300,ERR=990)IL2        ! NOT A VALID LAYER NUMBER
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             HDCILOC(I,1)=IR1                     ! STORE ROW NUMBER 
             HDCJLOC(I,1)=IC1                     ! STORE COLUMN NUMBER 
@@ -385,7 +384,7 @@ C-----------PROCESS BOUND AND STRESS PERIOD TO WHICH CONSTRAINT APPLIES
             HDCRHS(I)=REAL(TBND,DP)              ! STORE RIGHT HAND SIDE
             IF(HDCRHS(I).GT.BIGINF)THEN
               WRITE(IOUT,3400,ERR=990)TCTNM,BIGINF ! RHS VALUE NOT WITHIN BOUNDS
-              CALL USTOP(' ')
+              CALL GSTOP(' ')
             ENDIF
             HDCSP(I)=NSP                           ! STORE STRESS PERIOD
             HDCDIR(I)=2                            ! ONLY GE TYPE USED
@@ -543,7 +542,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1HDC3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   991 CONTINUE
 C-----FILE-READING ERROR
@@ -555,14 +554,14 @@ C-----FILE-READING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1HDC3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   992 CONTINUE
 C-----ARRAY-ALLOCATING ERROR
       WRITE(*,9920)
  9920 FORMAT(/,1X,'*** ERROR ALLOCATING ARRAY(S)',
      &2X,'-- STOP EXECUTION (GWM1HDC3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   993 CONTINUE
 C-----ARRAY-DEALLOCATING ERROR
@@ -570,7 +569,7 @@ C-----ARRAY-DEALLOCATING ERROR
       WRITE(IOUT,9930)
  9930 FORMAT(/,1X,'*** ERROR DEALLOCATING ARRAY(S)',
      &2X,'-- STOP EXECUTION (GWM1HDC3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   999 CONTINUE
 C-----FILE-OPENING ERROR
@@ -584,7 +583,7 @@ C-----FILE-OPENING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1HDC3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE GWM1HDC3AR
 C
@@ -598,14 +597,15 @@ C-----------------------------------------------------------------------
       USE GWM1RMS3, ONLY :  DEWATER
       USE GLOBAL,      ONLY: NCOL,NROW,NLAY,HNEW
       INTEGER(I4B),INTENT(IN)::IGRID,KPER,IPERT,NDEP
-      DOUBLE PRECISION, DIMENSION(NDEP), INTENT(IN) :: DEPVALS
       REAL(DP),INTENT(IN)::HDRY
+      DOUBLE PRECISION, DIMENSION(NDEP), INTENT(IN), OPTIONAL :: DEPVALS
 C-----LOCAL VARIABLES
       INTEGER(I4B)::I,K
       REAL(DP)::STATE1,STATE2
+      REAL(DP) :: EPS = 1.0D-5
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
-      IF(NDEP.EQ.0)THEN                          ! CALL IS NOT FROM GWMPLL
+      IF(NDEP.EQ.0)THEN                          ! CALL IS NOT FROM GWM-VI
 C---- FOR HEAD BOUND CONSTRAINTS ASSIGN HEAD VALUE TO HDCSTATE
       DO 100 I=1,NHB+NDD   
         IF(IGRID.EQ.GRDLOCHDC(I))THEN                       ! CONSTRAINT ON GRID
@@ -630,7 +630,7 @@ C---- FOR HEAD DIFFERENCE CONSTRAINTS ASSIGN HEAD DIFFERENCE TO HDCSTATE
         ENDIF
   200 ENDDO
 C
-      ELSEIF(NDEP.GT.0)THEN                      ! CALL IS FROM GWMPLL
+      ELSEIF(NDEP.GT.0 .AND. PRESENT(DEPVALS))THEN ! CALL IS FROM GWM-VI
 C
 C---- FOR HEAD BOUND CONSTRAINTS ASSIGN HEAD VALUE TO HDCSTATE
         DO 300 I=1,NHB+NDD   

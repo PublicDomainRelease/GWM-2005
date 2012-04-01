@@ -1,8 +1,40 @@
+
+      MODULE GWM_STOP
+      CONTAINS
+  !-----------------------------------------------------------------------------
+      SUBROUTINE GSTOP(STOPMESS,IOUT)
+    ! A fatal error has occurred during execution. Terminate the run.
+    ! Version called from GWM-2005
+    !  USE GWM_SUBS, ONLY: CLEAN_UP
+      IMPLICIT NONE
+    ! Arguments
+      CHARACTER(LEN=*), OPTIONAL, INTENT(IN) :: STOPMESS
+      INTEGER, OPTIONAL, INTENT(IN) :: IOUT
+   10 FORMAT(/,1X,A)
+    !
+    ! Check to see if it necessary to restore original MNW2 input file
+    !  CALL CLEAN_UP()
+    !
+      IF (PRESENT(STOPMESS)) THEN
+        IF (STOPMESS .NE. ' ') THEN
+          IF (PRESENT(IOUT)) THEN
+            WRITE(IOUT,10) STOPMESS
+          ENDIF
+          WRITE(*,10) STOPMESS
+        ENDIF
+      ENDIF
+      STOP
+    !
+      END SUBROUTINE GSTOP
+  !-----------------------------------------------------------------------------
+      END MODULE GWM_STOP
+      
       MODULE GWM1BAS3
-C     VERSION: 26JAN2011
+C     VERSION: 21MAR2012
+      USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE
-      PUBLIC::GWMOUT,MPSFILE,RMFILE,RMFILEF,GWMWFILE,ZERO,ONE,
+      PUBLIC::GWMOUT,MPSFILE,RMFILE,RMFILEF,ZERO,ONE,GWMWFILE,
      &        SMALLEPS,BIGINF
       PUBLIC:: GWM1BAS3PS, GWM1BAS3PF, GWM1BAS3CS,CUTCOM
 C
@@ -46,11 +78,6 @@ C     PURPOSE: WRITE A LINE TO SCREEN AND FILE REPORTING GWM PROGRESS
 C-----------------------------------------------------------------------
       CHARACTER(LEN=*),INTENT(IN)::LINE
       INTEGER(I4B),INTENT(IN)::INDEX
-      INTERFACE 
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
-      END INTERFACE
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----WRITE TO THE SCREEN
@@ -82,7 +109,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1BAS3PS)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE GWM1BAS3PS
 C
@@ -96,11 +123,6 @@ C-----------------------------------------------------------------------
       CHARACTER (LEN=* ),INTENT(IN)::LINE
       INTEGER(I4B),INTENT(IN)::INDEX
       REAL(DP),INTENT(IN)::VALUE
-      INTERFACE
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
-      END INTERFACE
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----USE INDEX AND FILE VALUES TO DETERMINE CORRECT FORMAT
@@ -128,13 +150,12 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1BAS3PF)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE GWM1BAS3PF
 C
 C
 C***********************************************************************
-C      SUBROUTINE GWM1BAS3CS(CTYPE,CNAME,CARHS,CDIR,TFLG)
       SUBROUTINE GWM1BAS3CS(CTYPE,CNAME,CLHS,CRHS,CARHS,CDIR,TFLG)
 C***********************************************************************
 C     VERSION: 26JAN2011
@@ -144,11 +165,6 @@ C-----------------------------------------------------------------------
       CHARACTER (LEN=*),INTENT(IN)::CNAME
       REAL(DP),INTENT(IN)::CLHS,CRHS,CARHS
       INTEGER(I4B),INTENT(IN)::CDIR,TFLG
-      INTERFACE  
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
-      END INTERFACE
       CHARACTER(LEN=12)::CSTAT
       CHARACTER(LEN=1)::DIRC(3)
       DATA DIRC/'<','>','='/
@@ -177,7 +193,7 @@ C
 	ELSEIF(TFLG.EQ.1)THEN                      ! WRITE CONSTRAINT STATUS
 	  WRITE(GWMOUT,1100)CTYPE,CNAME,CSTAT,ABS(CARHS) 
 	ELSEIF(TFLG.EQ.2)THEN                      ! WRITE FINAL FLOW PROCESS
-      	WRITE(GWMOUT,1020)CTYPE,CNAME,CLHS,DIRC(CDIR),CRHS,CARHS 
+        WRITE(GWMOUT,1020)CTYPE,CNAME,CLHS,DIRC(CDIR),CRHS,CARHS 
       ENDIF
 C
  1000 FORMAT(T1,A,T24,A,T33,A,T44,ES12.4)
@@ -197,7 +213,7 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1BAS3CS)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE GWM1BAS3CS
 C

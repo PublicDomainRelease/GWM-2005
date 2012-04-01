@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -409,20 +409,20 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2865656.7157         CONSTANT HEAD =        2865.6567
+       CONSTANT HEAD =     2865656.7423         CONSTANT HEAD =        2865.6567
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
     PARENT FLUX B.C. =           0.0000      PARENT FLUX B.C. =           0.0000
 
-            TOTAL IN =     2865656.7157              TOTAL IN =        2865.6567
+            TOTAL IN =     2865656.7423              TOTAL IN =        2865.6567
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =     2865656.7153      PARENT FLUX B.C. =        2865.6567
+    PARENT FLUX B.C. =     2865656.7419      PARENT FLUX B.C. =        2865.6567
 
-           TOTAL OUT =     2865656.7153             TOTAL OUT =        2865.6567
+           TOTAL OUT =     2865656.7419             TOTAL OUT =        2865.6567
 
             IN - OUT =       3.7925E-04              IN - OUT =       3.7925E-07
 

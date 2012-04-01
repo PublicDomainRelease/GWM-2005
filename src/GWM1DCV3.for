@@ -1,5 +1,6 @@
       MODULE GWM1DCV3
-C     VERSION: 17MAY2011
+C     VERSION: 21MAR2012
+      USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE  
       PUBLIC::NFVAR,FVNAME,FVMIN,FVMAX,FVBASE,FVINI,FVRATIO,FVILOC,EVSP,
@@ -93,7 +94,7 @@ C*************************************************************************
 C     VERSION: 17MAY2011
 C     PURPOSE: READ INPUT FROM THE DECISION-VARIABLE FILE 
 C---------------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : ONE,ZERO,GWMWFILE,GWM1BAS3PS,CUTCOM
+      USE GWM1BAS3, ONLY: ONE,ZERO,GWM1BAS3PS,CUTCOM,GWMWFILE
       USE GLOBAL,   ONLY: NCOL,NROW,NLAY
       INTEGER(I4B),INTENT(IN)::IOUT,NPER,NGRIDS
       INTEGER(I4B),INTENT(OUT)::NFVAR,NEVAR,NBVAR,NDV
@@ -109,10 +110,7 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C
-        SUBROUTINE USTOP(STOPMESS)
-        CHARACTER STOPMESS*(*)
-        END
+
 C 
         INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
         INTEGER I,IFIRST,IOST,MAXUNIT
@@ -135,14 +133,15 @@ C-----LOCAL VARIABLES
       CHARACTER(LEN=200)::FNAME,LINE
       INTEGER(I4B),DIMENSION(NGRIDS)::NFVARG,NEVARG,NBVARG
       INTEGER(I4B)::JFVROW,JEVROW,JBVROW,G
-      CHARACTER(LEN=10)::ETYPED(6)
+      CHARACTER(LEN=10)::ETYPED(7)
 C-----ALLOCATE TEMPORARY STORAGE UNTIL SIZE CAN BE DETERMINED
       INTEGER(I4B),ALLOCATABLE::TBVLIST(:,:)
       CHARACTER(LEN=120),ALLOCATABLE::WSP(:),ESP(:)
       INTEGER(I4B),ALLOCATABLE::GRDLOCFV(:),GRDLOCEV(:),
      &             GRDLOCBV(:)
       DATA ETYPED /'  Import  ','  Export  ','  Head    ',
-     &             '  Strmflow','  Storage ','  General '/
+     &    '  Strmflow','  Storage ','  General ','  Drain   '/
+
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----LOOP OVER ALL GRIDS TO OPEN FILES AND COUNT DECISION VARIABLES
@@ -161,7 +160,12 @@ C---------OPEN FILE
           NUNOPN(G)=IGETUNIT(10,200)
           LOCAT=NUNOPN(G)
           WRITE(IOUT,1000,ERR=990)LOCAT,FNAMEN(G)
-          OPEN(UNIT=LOCAT,FILE=FNAMEN(G),ACTION='READ',ERR=999)
+          FLNM=FNAMEN(G)
+          FILACT='READ'
+          ACCARG='SEQUENTIAL'
+          FMTARG='FORMATTED'
+          OPEN(UNIT=LOCAT,FILE=FLNM,ACTION=FILACT,ACCESS=ACCARG,
+     &         FORM=FMTARG,ERR=999)
 C
 C---------CHECK FOR COMMENT LINES
           CALL URDCOM(LOCAT,IOUT,LINE)
@@ -174,7 +178,7 @@ C---------READ IPRN
             IPRN = MAX(IPRN,IPRNG)               ! USE MOST DETAILED ECHO
           ELSE
             WRITE(IOUT,2000,ERR=990)IPRNG        ! INVALID VALUE OF IPRN
-            CALL USTOP(' ')
+            CALL GSTOP(' ')
           ENDIF
 C
 C---------READ GWMWFILE IF PRESENT
@@ -271,15 +275,15 @@ C------------CHECK THAT DECISION-VARIABLE NAME HAS NOT BEEN USED
               DO 200 JJ=1,J-1
                 IF(LINE(INMS:INMF).EQ.FVNAME(JJ))THEN
                   WRITE(IOUT,4000,ERR=990)FVNAME(JJ)
-                  CALL USTOP(' ')
+                  CALL GSTOP(' ')
                 ENDIF
   200         ENDDO
               FVNAME(J)=LINE(INMS:INMF)
               GRDLOCFV(J)=G  
 C-------------PROCESS NC, THE NUMBER OF CELLS FOR THIS VARIABLE
-              IF(NC.LT.1)THEN
+              IF(NC.GT.-1 .AND. NC.LT.1)THEN
                 WRITE(IOUT,4010,ERR=990)NC       ! VALUE OF NC IS INVALID
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
               FVNCELL(J)=NC                      ! STORE THE NUMBER OF CELLS
 C
@@ -309,7 +313,7 @@ C-------------PROCESS FTYPE, THE FLOW-RATE VARIABLE DIRECTION
                 FVDIR(J)=2
               ELSE
                 WRITE(IOUT,4020,ERR=990)FTYPE    ! VALUE OF FTYPE IS INVALID 
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
 C
 C-------------PROCESS FSTAT, THE FLAG TO INDICATE FLOW-RATE VARIABLE IS ACTIVE
@@ -320,7 +324,7 @@ C-------------PROCESS FSTAT, THE FLAG TO INDICATE FLOW-RATE VARIABLE IS ACTIVE
                 FVON(J) = -1
               ELSE
                 WRITE(IOUT,4030,ERR=990)FSTAT    ! VALUE OF FSTAT IS INVALID
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
 C
 C-------------ASSIGN WELLSP TO IDENTIFY STRESS PERIODS VARIABLE IS ACTIVE
@@ -364,7 +368,7 @@ C-------------CHECK THAT EXTERNAL-VARIABLE NAME HAS NOT BEEN USED
               DO 300 JJ=1,J-1
                 IF(LINE(INMS:INMF).EQ.EVNAME(JJ))THEN
                   WRITE(IOUT,5000,ERR=990)EVNAME(JJ)
-                  CALL USTOP(' ')
+                  CALL GSTOP(' ')
                 ENDIF
   300         ENDDO
               EVNAME(J)=LINE(INMS:INMF)
@@ -383,9 +387,11 @@ C-------------PROCESS ETYPE, THE EXTERNAL VARIABLE DIRECTION
                 EVDIR(J)=5
              ELSEIF(ETYPE.EQ.'GN'.OR.ETYPE.EQ.'gn'.OR.ETYPE.EQ.'Gn')THEN
                 EVDIR(J)=6
+             ELSEIF(ETYPE.EQ.'DR'.OR.ETYPE.EQ.'dr'.OR.ETYPE.EQ.'Dr')THEN
+                EVDIR(J)=7
               ELSE
                 WRITE(IOUT,4020,ERR=990)ETYPE    ! VALUE OF ETYPE IS INVALID 
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
 C
 C-------------ASSIGN EVSP TO IDENTIFY STRESS PERIODS VARIABLE IS ACTIVE
@@ -428,7 +434,7 @@ C-------------CHECK THAT BINARY-VARIABLE NAME HAS NOT BEEN USED
               DO 400 JJ=1,J-1
                 IF(LINE(INMS:INMF).EQ.BVNAME(JJ))THEN
                   WRITE(IOUT,6000,ERR=990)BVNAME(JJ)
-                  CALL USTOP(' ')
+                  CALL GSTOP(' ')
                 ENDIF
   400         ENDDO
               BVNAME(J)=LINE(INMS:INMF)          ! STORE THE VARIABLE NAME
@@ -437,7 +443,7 @@ C
 C-------------PROCESS THE NUMBER OF VARIABLES ASSOCIATED WITH THE BINARY
               IF(TNPV.LT.1 .OR. TNPV.GT.NFVAR+NEVAR)THEN
                 WRITE(IOUT,6010,ERR=990)BVNAME(J)
-                CALL USTOP(' ')
+                CALL GSTOP(' ')
               ENDIF
               BVNLIST(J)=TNPV                    ! STORE THE NUMBER OF VARIABLES
               NPVMAX = MAX(NPVMAX,TNPV)          ! FIND THE MAXIMUM NUMBER 
@@ -473,7 +479,7 @@ C---------------PROCESS THE ASSOCIATED VARIABLE
   420           ENDDO
                 IF(NFOUND)THEN
                   WRITE(IOUT,6020,ERR=990)TFVNAME
-                  CALL USTOP(' ')
+                  CALL GSTOP(' ')
                 ENDIF
   430         ENDDO
   440       ENDDO
@@ -657,14 +663,11 @@ C
 C-----ERROR HANDLING
   990 CONTINUE
 C-----FILE-WRITING ERROR
-      INQUIRE(IOUT,NAME=FLNM,FORM=FMTARG,ACCESS=ACCARG,ACTION=FILACT)
-      WRITE(*,9900)TRIM(FLNM),IOUT,FMTARG,ACCARG,FILACT
+      INQUIRE(IOUT,NAME=FLNM)
+      WRITE(*,9900)TRIM(FLNM),IOUT
  9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
-     &7X,'SPECIFIED FILE FORMAT: ',A,/
-     &7X,'SPECIFIED FILE ACCESS: ',A,/
-     &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   991 CONTINUE
 C-----FILE-READING ERROR
@@ -676,25 +679,24 @@ C-----FILE-READING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   992 CONTINUE
 C-----ARRAY-ALLOCATING ERROR
       WRITE(*,9920)
  9920 FORMAT(/,1X,'*** ERROR ALLOCATING ARRAY(S)',
      &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   993 CONTINUE
 C-----ARRAY-DEALLOCATING ERROR
       WRITE(*,9930)
  9930 FORMAT(/,1X,'*** ERROR DEALLOCATING ARRAY(S)',
      &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
   999 CONTINUE
 C-----FILE-OPENING ERROR
-      INQUIRE(LOCAT,NAME=FLNM,FORM=FMTARG,ACCESS=ACCARG,ACTION=FILACT)
       WRITE(*,9990)TRIM(FLNM),LOCAT,'OLD',FMTARG,ACCARG,FILACT
       WRITE(IOUT,9990)TRIM(FLNM),LOCAT,'OLD',FMTARG,ACCARG,
      &                 FILACT
@@ -704,7 +706,7 @@ C-----FILE-OPENING ERROR
      &7X,'SPECIFIED FILE ACCESS: ',A,/
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       CONTAINS
 C***********************************************************************
@@ -717,15 +719,15 @@ C-----CHECK THAT CELL IS ON GRID
       CALL SGWF2BAS7PNT(G)                       ! CHANGE POINTERS TO THIS GRID
       IF(IR.LT.1 .OR. IR.GT.NROW)THEN
         WRITE(IOUT,1000,ERR=990)IR
-        CALL USTOP(' ')
+        CALL GSTOP(' ')
       ENDIF
       IF(IC.LT.1 .OR. IC.GT.NCOL)THEN
         WRITE(IOUT,2000,ERR=990)IC
-        CALL USTOP(' ')
+        CALL GSTOP(' ')
       ENDIF
       IF(IL.LT.1 .OR. IL.GT.NLAY)THEN
         WRITE(IOUT,3000,ERR=990)IL
-        CALL USTOP(' ')
+        CALL GSTOP(' ')
       ENDIF
 C
 C-----LOAD VARIABLES 
@@ -744,14 +746,11 @@ C
 C-----ERROR HANDLING
   990 CONTINUE
 C-----FILE-WRITING ERROR
-      INQUIRE(IOUT,NAME=FLNM,FORM=FMTARG,ACCESS=ACCARG,ACTION=FILACT)
-      WRITE(*,9900)TRIM(FLNM),IOUT,FMTARG,ACCARG,FILACT
+      INQUIRE(IOUT,NAME=FLNM)
+      WRITE(*,9900)TRIM(FLNM),IOUT
  9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
-     &7X,'SPECIFIED FILE FORMAT: ',A,/
-     &7X,'SPECIFIED FILE ACCESS: ',A,/
-     &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (LOADDV)')
-      CALL USTOP(' ')
+      CALL GSTOP(' ')
 C
       END SUBROUTINE LOADDV
 C
@@ -781,7 +780,7 @@ C
 C-----FIND NEXT PUNCTUATION MARK IN THE STRESS PERIOD STRING
       CALL CHREAD(SPSTRNG,IP,IN,IT,NUM)
       IF(NUM.LT.1 .OR. NUM.GT.NPER)THEN
-        CALL USTOP('PROGRAM STOPPED: INVALID STRESS PERIOD NUMBER')
+        CALL GSTOP('PROGRAM STOPPED: INVALID STRESS PERIOD NUMBER')
       ENDIF
 C
 C-----PROCESS THE PUNCTUATION MARK AND MOST RECENT NUMBER
@@ -847,7 +846,7 @@ C--- EVALUATE CURRENT NUMERAL
         IF(.NOT. (CT.EQ.'0' .OR. CT.EQ.'1' .OR. CT.EQ.'2' .OR.
      &     CT.EQ.'3' .OR. CT.EQ.'4' .OR. CT.EQ.'5' .OR. CT.EQ.'6'
      &     .OR. CT.EQ.'7' .OR.  CT.EQ.'8' .OR. CT.EQ.'9'))
-     &  CALL USTOP('STRESS PERIOD STRING CONTAINS NON-DIGIT')
+     &  CALL GSTOP('STRESS PERIOD STRING CONTAINS NON-DIGIT')
         NUM = NUM + (ICHAR(CT)-48)*10**(IP-1-II)
   200 ENDDO
 C
@@ -855,7 +854,7 @@ C
       END SUBROUTINE CHREAD
 
       END SUBROUTINE GWM1DCV3AR
-C
+
 C
 C***********************************************************************
       SUBROUTINE GWM1DCV3FM
@@ -907,7 +906,7 @@ C
             IL = FVKLOC(I,K)                ! ASSIGN CELL LAYER
             IR = FVILOC(I,K)                ! ASSIGN CELL ROW
             IC = FVJLOC(I,K)                ! ASSIGN CELL COLUMN
-            Q  = REAL(FVBASE(I),KIND=4)*FVRATIO(I,K)! ASSIGN FLOW RATE 
+            Q  = FVBASE(I)*FVRATIO(I,K)     ! ASSIGN FLOW RATE 
             IF(IBOUND(IC,IR,IL).GT.0)THEN   ! CELL IS ACTIVE 
               RHS(IC,IR,IL)=RHS(IC,IR,IL)-Q ! SUBTRACT FROM THE RHS ACCUMULATOR
             ENDIF  
@@ -919,6 +918,7 @@ C
       RETURN
       END SUBROUTINE GWF2DCV3FM
 C
+C***********************************************************************
       SUBROUTINE GWF2DCV3BD(KSTP,KPER,IGRID)
 C***********************************************************************
 C     VERSION: 21MAR2008
@@ -972,7 +972,7 @@ C5B-----IF THE CELL IS NO-FLOW OR CONSTANT_HEAD, IGNORE IT.
               IF(IBOUND(IC,IR,IL).LE.0)GOTO 99
 C
 C5C-----GET FLOW RATE FROM WELL LIST.
-              Q  = REAL(FVBASE(I),KIND=4)*FVRATIO(I,K)! ASSIGN FLOW RATE 
+              Q  = FVBASE(I)*FVRATIO(I,K)   ! ASSIGN FLOW RATE 
               QQ=Q
 C
 C5D-----PRINT FLOW RATE IF REQUESTED.

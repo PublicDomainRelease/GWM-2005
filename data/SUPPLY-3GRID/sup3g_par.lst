@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -1036,24 +1036,24 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     5561392.8659         CONSTANT HEAD =        5561.3929
+       CONSTANT HEAD =     5561393.1743         CONSTANT HEAD =        5561.3932
             RECHARGE =  1333680000.0000              RECHARGE =     1333680.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =    68788127.1933      PARENT FLUX B.C. =       68788.1272
+    PARENT FLUX B.C. =    68788127.2366      PARENT FLUX B.C. =       68788.1272
 
-            TOTAL IN =  1408029520.0592              TOTAL IN =     1408029.5201
+            TOTAL IN =  1408029520.4109              TOTAL IN =     1408029.5204
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =   519868830.5359         CONSTANT HEAD =      519868.8305
+       CONSTANT HEAD =   519868828.7420         CONSTANT HEAD =      519868.8287
             RECHARGE =           0.0000              RECHARGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =   888160689.5762      PARENT FLUX B.C. =      888160.6896
+    PARENT FLUX B.C. =   888160691.7219      PARENT FLUX B.C. =      888160.6917
 
-           TOTAL OUT =  1408029520.1121             TOTAL OUT =     1408029.5201
+           TOTAL OUT =  1408029520.4638             TOTAL OUT =     1408029.5205
 
-            IN - OUT =      -5.2889E-02              IN - OUT =      -5.2889E-05
+            IN - OUT =      -5.2888E-02              IN - OUT =      -5.2888E-05
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 

@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -307,23 +307,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    19119485.5691               STORAGE =      207820.4953
-       CONSTANT HEAD =   101746988.5824         CONSTANT HEAD =     1105945.5281
+             STORAGE =    19119485.5695               STORAGE =      207820.4953
+       CONSTANT HEAD =   101746988.5837         CONSTANT HEAD =     1105945.5281
             RECHARGE =     1269600.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   122136074.1514              TOTAL IN =     1327566.0234
+            TOTAL IN =   122136074.1532              TOTAL IN =     1327566.0234
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   117215524.8911        STREAM LEAKAGE =     1274081.7923
-        MANAGED FLOW =     4920565.3301          MANAGED FLOW =       53484.4058
+      STREAM LEAKAGE =   117215524.8862        STREAM LEAKAGE =     1274081.7922
+        MANAGED FLOW =     4920565.3367          MANAGED FLOW =       53484.4058
 
-           TOTAL OUT =   122136090.2211             TOTAL OUT =     1327566.1981
+           TOTAL OUT =   122136090.2229             TOTAL OUT =     1327566.1981
 
             IN - OUT =         -16.0697              IN - OUT =          -0.1747
 
@@ -429,23 +429,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    19763766.0152               STORAGE =        7080.0049
-       CONSTANT HEAD =   205652410.9363         CONSTANT HEAD =     1141817.8281
+             STORAGE =    19763766.0170               STORAGE =        7080.0049
+       CONSTANT HEAD =   205652410.9294         CONSTANT HEAD =     1141817.8280
             RECHARGE =     6292800.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   231708976.9515              TOTAL IN =     1204097.8330
+            TOTAL IN =   231708976.9464              TOTAL IN =     1204097.8329
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =        9095.9211               STORAGE =          99.9552
+             STORAGE =        9095.9222               STORAGE =          99.9552
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   219499347.0547        STREAM LEAKAGE =     1123998.0458
-        MANAGED FLOW =    12200565.1079          MANAGED FLOW =       79999.9976
+      STREAM LEAKAGE =   219499346.8197        STREAM LEAKAGE =     1123998.0432
+        MANAGED FLOW =    12200565.3367          MANAGED FLOW =       80000.0000
 
-           TOTAL OUT =   231709008.0837             TOTAL OUT =     1204097.9985
+           TOTAL OUT =   231709008.0786             TOTAL OUT =     1204097.9984
 
             IN - OUT =         -31.1322              IN - OUT =          -0.1655
 
@@ -551,23 +551,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20004543.1319               STORAGE =        2645.9024
-       CONSTANT HEAD =   311783030.8033         CONSTANT HEAD =     1166270.5480
+             STORAGE =    20004543.1330               STORAGE =        2645.9024
+       CONSTANT HEAD =   311783030.7832         CONSTANT HEAD =     1166270.5478
             RECHARGE =     6292800.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   338080373.9352              TOTAL IN =     1168916.4504
+            TOTAL IN =   338080373.9162              TOTAL IN =     1168916.4502
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =       46874.1885               STORAGE =         415.1458
+             STORAGE =       46874.1927               STORAGE =         415.1458
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   323066799.5406        STREAM LEAKAGE =     1138103.8735
-        MANAGED FLOW =    14966794.6162          MANAGED FLOW =       30398.1265
+      STREAM LEAKAGE =   323066799.3484        STREAM LEAKAGE =     1138103.8739
+        MANAGED FLOW =    14966794.7851          MANAGED FLOW =       30398.1258
 
-           TOTAL OUT =   338080468.3453             TOTAL OUT =     1168917.1457
+           TOTAL OUT =   338080468.3263             TOTAL OUT =     1168917.1456
 
             IN - OUT =         -94.4101              IN - OUT =          -0.6954
 
@@ -673,23 +673,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20008462.5766               STORAGE =          43.0708
-       CONSTANT HEAD =   416983067.9956         CONSTANT HEAD =     1156044.3648
+             STORAGE =    20008462.5778               STORAGE =          43.0708
+       CONSTANT HEAD =   416983068.0075         CONSTANT HEAD =     1156044.3651
             RECHARGE =     8804400.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   445795930.5722              TOTAL IN =     1183687.4356
+            TOTAL IN =   445795930.5853              TOTAL IN =     1183687.4359
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      145977.2751               STORAGE =        1089.0449
+             STORAGE =      145977.2677               STORAGE =        1089.0448
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   427198351.4740        STREAM LEAKAGE =     1144302.7685
-        MANAGED FLOW =    18451665.6987          MANAGED FLOW =       38295.2866
+      STREAM LEAKAGE =   427198351.1633        STREAM LEAKAGE =     1144302.7672
+        MANAGED FLOW =    18451666.0300          MANAGED FLOW =       38295.2884
 
-           TOTAL OUT =   445795994.4479             TOTAL OUT =     1183687.1000
+           TOTAL OUT =   445795994.4609             TOTAL OUT =     1183687.1004
 
             IN - OUT =         -63.8757              IN - OUT =           0.3355
 
@@ -795,23 +795,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20170176.5829               STORAGE =        1757.7609
-       CONSTANT HEAD =   524253336.5461         CONSTANT HEAD =     1165981.1799
+             STORAGE =    20170176.5764               STORAGE =        1757.7609
+       CONSTANT HEAD =   524253336.5621         CONSTANT HEAD =     1165981.1799
             RECHARGE =    10074000.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   554497513.1289              TOTAL IN =     1181538.9408
+            TOTAL IN =   554497513.1385              TOTAL IN =     1181538.9408
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      150920.1403               STORAGE =          53.7268
+             STORAGE =      150920.1329               STORAGE =          53.7268
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   530974454.8885        STREAM LEAKAGE =     1128001.1241
-        MANAGED FLOW =    23372231.0288          MANAGED FLOW =       53484.4058
+      STREAM LEAKAGE =   530974454.5676        STREAM LEAKAGE =     1128001.1240
+        MANAGED FLOW =    23372231.3666          MANAGED FLOW =       53484.4058
 
-           TOTAL OUT =   554497606.0576             TOTAL OUT =     1181539.2566
+           TOTAL OUT =   554497606.0671             TOTAL OUT =     1181539.2566
 
             IN - OUT =         -92.9286              IN - OUT =          -0.3158
 
@@ -917,23 +917,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20210951.2001               STORAGE =         448.0727
-       CONSTANT HEAD =   628511670.9687         CONSTANT HEAD =     1145695.9827
+             STORAGE =    20210951.1968               STORAGE =         448.0728
+       CONSTANT HEAD =   628511670.9767         CONSTANT HEAD =     1145695.9826
             RECHARGE =    15097200.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   663819822.1688              TOTAL IN =     1201344.0554
+            TOTAL IN =   663819822.1735              TOTAL IN =     1201344.0553
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      404764.2893               STORAGE =        2789.4961
+             STORAGE =      404764.2853               STORAGE =        2789.4962
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   632762866.1974        STREAM LEAKAGE =     1118553.9704
-        MANAGED FLOW =    30652230.8066          MANAGED FLOW =       79999.9976
+      STREAM LEAKAGE =   632762865.6461        STREAM LEAKAGE =     1118553.9679
+        MANAGED FLOW =    30652231.3666          MANAGED FLOW =       80000.0000
 
-           TOTAL OUT =   663819861.2934             TOTAL OUT =     1201343.4641
+           TOTAL OUT =   663819861.2981             TOTAL OUT =     1201343.4641
 
             IN - OUT =         -39.1246              IN - OUT =           0.5913
 
@@ -1039,23 +1039,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20405072.7006               STORAGE =        2133.2033
-       CONSTANT HEAD =   734664301.3718         CONSTANT HEAD =     1166512.4220
+             STORAGE =    20405072.6966               STORAGE =        2133.2033
+       CONSTANT HEAD =   734664301.3667         CONSTANT HEAD =     1166512.4219
             RECHARGE =    15097200.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   770166574.0724              TOTAL IN =     1168645.6253
+            TOTAL IN =   770166574.0633              TOTAL IN =     1168645.6252
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      444212.9337               STORAGE =         433.5016
+             STORAGE =      444212.9329               STORAGE =         433.5016
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   736303990.2567        STREAM LEAKAGE =     1137814.5501
-        MANAGED FLOW =    33418460.3149          MANAGED FLOW =       30398.1265
+      STREAM LEAKAGE =   736303989.7483        STREAM LEAKAGE =     1137814.5506
+        MANAGED FLOW =    33418460.8151          MANAGED FLOW =       30398.1258
 
-           TOTAL OUT =   770166663.5054             TOTAL OUT =     1168646.1782
+           TOTAL OUT =   770166663.4963             TOTAL OUT =     1168646.1780
 
             IN - OUT =         -89.4330              IN - OUT =          -0.5528
 
@@ -1161,23 +1161,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20408971.8346               STORAGE =          42.8476
-       CONSTANT HEAD =   839865738.2185         CONSTANT HEAD =     1156059.7456
+             STORAGE =    20408971.8307               STORAGE =          42.8476
+       CONSTANT HEAD =   839865738.2454         CONSTANT HEAD =     1156059.7459
             RECHARGE =    17608800.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   877883510.0532              TOTAL IN =     1183702.5932
+            TOTAL IN =   877883510.0761              TOTAL IN =     1183702.5935
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      546279.5075               STORAGE =        1121.6107
+             STORAGE =      546279.4950               STORAGE =        1121.6106
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   840433957.1893        STREAM LEAKAGE =     1144285.3509
-        MANAGED FLOW =    36903331.3975          MANAGED FLOW =       38295.2866
+      STREAM LEAKAGE =   840433956.5623        STREAM LEAKAGE =     1144285.3496
+        MANAGED FLOW =    36903332.0599          MANAGED FLOW =       38295.2884
 
-           TOTAL OUT =   877883568.0943             TOTAL OUT =     1183702.2482
+           TOTAL OUT =   877883568.1172             TOTAL OUT =     1183702.2486
 
             IN - OUT =         -58.0411              IN - OUT =           0.3450
 
@@ -1283,23 +1283,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20570494.0120               STORAGE =        1755.6758
-       CONSTANT HEAD =   947136098.4482         CONSTANT HEAD =     1165982.1764
+             STORAGE =    20570494.0005               STORAGE =        1755.6758
+       CONSTANT HEAD =   947136098.4792         CONSTANT HEAD =     1165982.1765
             RECHARGE =    18878400.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =   986584992.4602              TOTAL IN =     1181537.8523
+            TOTAL IN =   986584992.4797              TOTAL IN =     1181537.8522
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      551223.8558               STORAGE =          53.7429
+             STORAGE =      551223.8433               STORAGE =          53.7429
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =   944209958.9211        STREAM LEAKAGE =     1128000.0188
-        MANAGED FLOW =    41823896.7275          MANAGED FLOW =       53484.4058
+      STREAM LEAKAGE =   944209958.2839        STREAM LEAKAGE =     1128000.0187
+        MANAGED FLOW =    41823897.3966          MANAGED FLOW =       53484.4058
 
-           TOTAL OUT =   986585079.5044             TOTAL OUT =     1181538.1675
+           TOTAL OUT =   986585079.5238             TOTAL OUT =     1181538.1675
 
             IN - OUT =         -87.0441              IN - OUT =          -0.3153
 
@@ -1405,23 +1405,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20611268.4821               STORAGE =         448.0711
-       CONSTANT HEAD =  1051394438.9589         CONSTANT HEAD =     1145696.0496
+             STORAGE =    20611268.4738               STORAGE =         448.0711
+       CONSTANT HEAD =  1051394438.9818         CONSTANT HEAD =     1145696.0495
             RECHARGE =    23901600.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =  1095907307.4409              TOTAL IN =     1201344.1207
+            TOTAL IN =  1095907307.4555              TOTAL IN =     1201344.1206
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      805080.6345               STORAGE =        2789.6349
+             STORAGE =      805080.6254               STORAGE =        2789.6350
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =  1045998363.5366        STREAM LEAKAGE =     1118553.8969
-        MANAGED FLOW =    49103896.5054          MANAGED FLOW =       79999.9976
+      STREAM LEAKAGE =  1045998362.6691        STREAM LEAKAGE =     1118553.8943
+        MANAGED FLOW =    49103897.3966          MANAGED FLOW =       80000.0000
 
-           TOTAL OUT =  1095907340.6764             TOTAL OUT =     1201343.5294
+           TOTAL OUT =  1095907340.6910             TOTAL OUT =     1201343.5293
 
             IN - OUT =         -33.2355              IN - OUT =           0.5913
 
@@ -1527,23 +1527,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20805389.1192               STORAGE =        2133.1938
-       CONSTANT HEAD =  1157547069.7784         CONSTANT HEAD =     1166512.4266
+             STORAGE =    20805389.1102               STORAGE =        2133.1938
+       CONSTANT HEAD =  1157547069.7882         CONSTANT HEAD =     1166512.4264
             RECHARGE =    23901600.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =  1202254058.8977              TOTAL IN =     1168645.6204
+            TOTAL IN =  1202254058.8984              TOTAL IN =     1168645.6203
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      844529.2875               STORAGE =         433.5017
+             STORAGE =      844529.2816               STORAGE =         433.5017
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =  1149539487.1402        STREAM LEAKAGE =     1137814.5451
-        MANAGED FLOW =    51870126.0137          MANAGED FLOW =       30398.1265
+      STREAM LEAKAGE =  1149539486.3155        STREAM LEAKAGE =     1137814.5456
+        MANAGED FLOW =    51870126.8450          MANAGED FLOW =       30398.1258
 
-           TOTAL OUT =  1202254142.4413             TOTAL OUT =     1168646.1732
+           TOTAL OUT =  1202254142.4421             TOTAL OUT =     1168646.1731
 
             IN - OUT =         -83.5437              IN - OUT =          -0.5528
 
@@ -1649,23 +1649,23 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =    20809288.2531               STORAGE =          42.8476
-       CONSTANT HEAD =  1262748506.6540         CONSTANT HEAD =     1156059.7459
+             STORAGE =    20809288.2442               STORAGE =          42.8476
+       CONSTANT HEAD =  1262748506.6958         CONSTANT HEAD =     1156059.7462
             RECHARGE =    26413200.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =  1309970994.9072              TOTAL IN =     1183702.5935
+            TOTAL IN =  1309970994.9400              TOTAL IN =     1183702.5939
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =      946595.9215               STORAGE =        1121.6114
+             STORAGE =      946595.9039               STORAGE =        1121.6112
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
-      STREAM LEAKAGE =  1253669454.0412        STREAM LEAKAGE =     1144285.3506
-        MANAGED FLOW =    55354997.0962          MANAGED FLOW =       38295.2866
+      STREAM LEAKAGE =  1253669453.0980        STREAM LEAKAGE =     1144285.3493
+        MANAGED FLOW =    55354998.0899          MANAGED FLOW =       38295.2884
 
-           TOTAL OUT =  1309971047.0589             TOTAL OUT =     1183702.2485
+           TOTAL OUT =  1309971047.0918             TOTAL OUT =     1183702.2489
 
             IN - OUT =         -52.1518              IN - OUT =           0.3450
 
@@ -1684,6 +1684,6 @@
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2011/05/30 15:00:40
- Elapsed run time:  2.360 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  9:13:29
+ Elapsed run time:  0.998 Seconds
 

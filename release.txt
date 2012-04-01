@@ -5,6 +5,25 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.4.0;  2 April 2012
+	Addition of drains to state variable choices in GWM1STA3; major 
+		reorganization of GWM1STA3OS and subsidiary routines.
+                The use of drains as state variables is described in the
+                file 'Drains.pdf' in the doc subdirectory.
+
+	Conversion to single precision is eliminated for objective function
+		coefficients and assignment of rates for flow-rate decision 
+                variables.
+
+	Make changes in anticipation of future versions of GWM including: make
+		DEPVAL and optional argument in call statements, replace calls
+		to USTOP with calls to GSTOP, add module for GSTOP to GWM1BAS3.
+	
+	Added a current, complete set of input instructions for files used by
+		GWM-2005. See file 'Input_instructions_v1.4.0.pdf' in the doc
+		subdirectory.
+
+
 Version 1.3.1;  30 May 2011
 	Correct bugs in GWM1DCV3AR; incorrect reading of binary variable input 
 		data when binary variables are present on multiple grids, error 

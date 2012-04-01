@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.3.1 053011,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -409,22 +409,22 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2857966.8000         CONSTANT HEAD =        2857.9668
+       CONSTANT HEAD =     2857966.7293         CONSTANT HEAD =        2857.9667
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
     PARENT FLUX B.C. =           0.0000      PARENT FLUX B.C. =           0.0000
 
-            TOTAL IN =     2857966.8000              TOTAL IN =        2857.9668
+            TOTAL IN =     2857966.7293              TOTAL IN =        2857.9667
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =     2857966.7986      PARENT FLUX B.C. =        2857.9668
+    PARENT FLUX B.C. =     2857966.7280      PARENT FLUX B.C. =        2857.9667
 
-           TOTAL OUT =     2857966.7986             TOTAL OUT =        2857.9668
+           TOTAL OUT =     2857966.7280             TOTAL OUT =        2857.9667
 
-            IN - OUT =       1.3314E-03              IN - OUT =       1.3314E-06
+            IN - OUT =       1.3313E-03              IN - OUT =       1.3313E-06
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
