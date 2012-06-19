@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.1 062012,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -406,6 +406,6 @@
  TOTAL OUT TO PARENT =       11197.5494   TOTAL OUT TO PARENT =       11197.5494
 
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  9:07:12
- Elapsed run time: 20.707 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/06/28 11:38:43
+ Elapsed run time: 19.375 Seconds
 

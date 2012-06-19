@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.1 062012,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -525,7 +525,7 @@
 
            TOTAL OUT =    32730779.6906             TOTAL OUT =       32730.7797
 
-            IN - OUT =      -5.5303E-04              IN - OUT =      -5.5303E-07
+            IN - OUT =      -5.5245E-04              IN - OUT =      -5.5245E-07
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -553,6 +553,6 @@
  TOTAL OUT TO PARENT =    33752805.4372   TOTAL OUT TO PARENT =       33752.8054
 
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  9:14:41
- Elapsed run time:  2.215 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/06/28 11:43:39
+ Elapsed run time:  1.342 Seconds
 

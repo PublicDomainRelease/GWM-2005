@@ -5,6 +5,12 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.4.1;  20 June 2012
+        Correct bug that limits the number of coefficients that can be
+                applied to a state variable. Executable compiled with
+                'maximize speed' option.
+
+
 Version 1.4.0;  2 April 2012
 	Addition of drains to state variable choices in GWM1STA3; major 
 		reorganization of GWM1STA3OS and subsidiary routines.

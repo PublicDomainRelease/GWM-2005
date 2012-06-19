@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.0 040212,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.1 062012,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -978,14 +978,14 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =   424226525.7564               STORAGE =      105053.5509
+             STORAGE =   424226525.7563               STORAGE =      105053.5509
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =  4968280800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN =  5392507325.7564              TOTAL IN =     1465853.5509
+            TOTAL IN =  5392507325.7563              TOTAL IN =     1465853.5509
 
           OUT:                                     OUT:
           ----                                     ----
@@ -1487,14 +1487,14 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =   761411586.5438               STORAGE =       82848.6435
+             STORAGE =   761411586.5437               STORAGE =       82848.6435
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =  9935200800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN = 10696612386.5438              TOTAL IN =     1443648.6435
+            TOTAL IN = 10696612386.5437              TOTAL IN =     1443648.6435
 
           OUT:                                     OUT:
           ----                                     ----
@@ -1996,27 +1996,27 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1030613958.9870               STORAGE =       67254.7696
+             STORAGE =  1030613958.9868               STORAGE =       67254.7696
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 14902120800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN = 15932734758.9870              TOTAL IN =     1428054.7696
+            TOTAL IN = 15932734758.9868              TOTAL IN =     1428054.7696
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =      762390.3082               STORAGE =           0.0000
-       CONSTANT HEAD =  5755982946.5259         CONSTANT HEAD =      505162.2469
+       CONSTANT HEAD =  5755982946.5258         CONSTANT HEAD =      505162.2469
                WELLS =  4731048000.0000                 WELLS =      432000.0000
               DRAINS =  1670518118.7328                DRAINS =      146184.8940
             RECHARGE =           0.0000              RECHARGE =           0.0000
         MANAGED FLOW =  3774615235.1153          MANAGED FLOW =      344713.7201
 
-           TOTAL OUT = 15932926690.6821             TOTAL OUT =     1428060.8610
+           TOTAL OUT = 15932926690.6820             TOTAL OUT =     1428060.8610
 
-            IN - OUT =     -191931.6951              IN - OUT =          -6.0914
+            IN - OUT =     -191931.6952              IN - OUT =          -6.0914
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -2503,27 +2503,27 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1257541136.0111               STORAGE =       45899.7915
+             STORAGE =  1257541136.0108               STORAGE =       45899.7915
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 19869040800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN = 21126581936.0111              TOTAL IN =     1406699.7915
+            TOTAL IN = 21126581936.0108              TOTAL IN =     1406699.7915
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =    25892381.3793               STORAGE =           0.0000
+             STORAGE =    25892381.3792               STORAGE =           0.0000
        CONSTANT HEAD =  7567387401.6319         CONSTANT HEAD =      489193.7660
                WELLS =  6307848000.0000                 WELLS =      432000.0000
               DRAINS =  2192894416.0022                DRAINS =      140823.2034
             RECHARGE =           0.0000              RECHARGE =           0.0000
         MANAGED FLOW =  5032820313.4870          MANAGED FLOW =      344713.7201
 
-           TOTAL OUT = 21126842512.5004             TOTAL OUT =     1406730.6895
+           TOTAL OUT = 21126842512.5003             TOTAL OUT =     1406730.6895
 
-            IN - OUT =     -260576.4893              IN - OUT =         -30.8979
+            IN - OUT =     -260576.4895              IN - OUT =         -30.8979
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -3010,19 +3010,19 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1398884578.2575               STORAGE =       34175.8401
+             STORAGE =  1398884578.2573               STORAGE =       34175.8401
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 24835960800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN = 26234845378.2575              TOTAL IN =     1394975.8401
+            TOTAL IN = 26234845378.2573              TOTAL IN =     1394975.8401
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =    25956711.7595               STORAGE =           0.0000
-       CONSTANT HEAD =  9332679555.7753         CONSTANT HEAD =      480131.8437
+       CONSTANT HEAD =  9332679555.7752         CONSTANT HEAD =      480131.8437
                WELLS =  7884648000.0000                 WELLS =      432000.0000
               DRAINS =  2700904252.8078                DRAINS =      138142.5100
             RECHARGE =           0.0000              RECHARGE =           0.0000
@@ -3030,7 +3030,7 @@
 
            TOTAL OUT = 26235213912.2013             TOTAL OUT =     1394988.0738
 
-            IN - OUT =     -368533.9438              IN - OUT =         -12.2337
+            IN - OUT =     -368533.9440              IN - OUT =         -12.2337
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -3047,6 +3047,6 @@
          TOTAL TIME 1.57689E+09 2.62814E+07 4.38024E+05  18251.      49.969    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/04/12  9:11:08
- Elapsed run time: 15.287 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/06/28 11:40:11
+ Elapsed run time:  8.565 Seconds
 

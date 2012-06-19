@@ -47,23 +47,27 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
-Version 1.4.0; 2012/4 – Added capability for drain state variables that can 
+Version 1.4.1; 2012/6 - Corrected bug that limits the number of coefficients that 
+can be applied to a state variable. Executable compiled with 'maximize speed' 
+option.
+
+Version 1.4.0; 2012/4 - Added capability for drain state variables that can 
 be used to define flow or volume over time at multiple drain cells (see file
 'Drains.pdf' in the doc subdirectory). Also added a current, complete set of 
 input instructions for files used by GWM-2005. See file 
 'Input_instructions_v1.4.0.pdf' in the doc subdirectory.
 
-Version 1.3.1; 2011/5 – Correct several output bugs and bugs affecting binary 
+Version 1.3.1; 2011/5 - Correct several output bugs and bugs affecting binary 
 variables.  Add state variable output status feature and new solution type to 
 perform forward run, evaluate constraints and stop.
 
 Version 1.3.0; 2011/3 - Update GWM-2005 with State Variables Package (Ahlfeld and 
 others,2011).  Also made small adjustments to the format of the GWM output file.
 
-Version 1.2.02 2010/7 – Update GWM-2005 with most recent version of MODFLOW-LGR
+Version 1.2.02 2010/7 - Update GWM-2005 with most recent version of MODFLOW-LGR
 (version 1.2).
 
-Version 1.2.01 2010/1 – Bug corrected that caused GWM to fail when IBASE set to 
+Version 1.2.01 2010/1 - Bug corrected that caused GWM to fail when IBASE set to 
 one in the SOLN input file.   This bug only occurs in Version 1.2 of GWM-2005.   
 Implement minor improvements and corrections to output.
 
@@ -73,7 +77,7 @@ input parameter to control flow process closure criteria. Changed name of progra
 from MF2005-GWM to GWM-2005. Published new documentation report 
 (Ahlfeld and others, 2009).
 
-Version 1.1 2009/06 – Reconstructed from MODFLOW-2005 Version 1.6.02. Added
+Version 1.1 2009/06 - Reconstructed from MODFLOW-2005 Version 1.6.02. Added
 capability for placement of streamflow constraints when SFR package is used. Bug fix 
 that caused code failure when equality summation constraints were imposed on binary 
 variables. Bug fix to correct output for SLP runs. See ‘release.txt’ for more details.
