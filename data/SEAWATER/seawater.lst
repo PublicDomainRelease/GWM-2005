@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.1 062012,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -870,6 +870,6 @@
          TOTAL TIME  86400.      1440.0      24.000      1.0000     2.73785E-03
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/06/28 11:34:28
- Elapsed run time:  1.045 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:26:59
+ Elapsed run time:  1.063 Seconds
 

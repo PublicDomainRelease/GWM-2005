@@ -3,7 +3,8 @@ C     VERSION: 21MAR2012
       USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE
-      PUBLIC::STCNUM,STCSTATE,STCSTATE0,NSF,NSD,STCNAME,STCSLOC,STCRLOC
+      PUBLIC::STCNUM,STCSTATE,STCSTATE0,NSF,NSD,NLK,STCNAME,
+     &        STCSLOC,STCRLOC
       PUBLIC::GWM1STC3AR,GWM1STC3FP,GWM1STC3FPR,GWM1STC3FM,
      &        GWM1STC3OT,GWM1STC3OS,GWM1STC3OS2
 C-----MAKE PUBLIC FOR GWM-VI
@@ -21,7 +22,7 @@ C-----VARIABLES FOR STREAM CONSTRAINTS
       INTEGER(I4B),     SAVE,ALLOCATABLE::STCSLOC(:),STCRLOC(:)
       INTEGER(I4B),     SAVE,ALLOCATABLE::STCDIR(:),STCSP(:)
       INTEGER(I4B),     SAVE,ALLOCATABLE::GRDLOCSTC(:)
-      INTEGER(I4B),     SAVE            ::STCNUM,NSF,NSD
+      INTEGER(I4B),     SAVE            ::STCNUM,NSF,NSD,NLK
 C
 C      STCNAME  -name of constraint 
 C      STCSTATE -array of constraint left hand side values resulting from most 
@@ -37,6 +38,7 @@ C                 2 => left hand side > right hand side
 C      STCSP    -stress period during which this constraint is active 
 C      NSF      -number of streamflow constraints
 C      NSD      -number of stream depletion constraints
+C      NLK      -number of stream leakage constraints
 C      STCNUM   -total number of stream constraints
 C      GRDLOCSTC-grid number on which the constraint is located
 C
@@ -53,6 +55,7 @@ C***********************************************************************
 C***********************************************************************
 C   PURPOSE: READ INPUT FROM THE STREAM CONSTRAINTS FILE
 C-----------------------------------------------------------------------
+      USE GWM1BAS3, ONLY : CUTCOM
       USE GWM1RMS3, ONLY : IREF
       USE GLOBAL  , ONLY : IUNIT
       CHARACTER(LEN=200),INTENT(IN),DIMENSION(NGRIDS)::FNAMEN
@@ -86,12 +89,13 @@ C-----LOCAL VARIABLES
       CHARACTER(LEN=2)::FG2
       CHARACTER(LEN=200)::LINE
       INTEGER(I4B),DIMENSION(NGRIDS)::NUNOPN
-      INTEGER(I4B),DIMENSION(NGRIDS)::TNSF,TNSD,TNS
+      INTEGER(I4B),DIMENSION(NGRIDS)::TNSF,TNSD,TNLK,TNS
       INTEGER(I4B)::G,JROW,NS
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       TNSF = 0
       TNSD = 0
+      TNLK = 0 
       IPRN = -1
 C
 C-----LOOP OVER ALL GRIDS TO COUNT CONSTRAINTS
@@ -124,18 +128,26 @@ C---------READ IPRN
           ENDIF
 C
 C---------READ TOTAL NUMBER OF STREAM-CONSTRAINT TYPES
-          READ(LOCAT,*,ERR=991)TNSF(G),TNSD(G)
+          READ(LOCAT,'(A)',ERR=991)LINE
+          CALL CUTCOM(LINE,200)                  ! REMOVE COMMENTS FROM LINE
+          LLOC=1
+          CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,TNSF(G),RDUM,IOUT,LOCAT)
+          CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,TNSD(G),RDUM,IOUT,LOCAT)
+          CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,TNLK(G),RDUM,IOUT,LOCAT)
           IF(TNSF(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NSF IS NEGATIVE')
           IF(TNSD(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NSD IS NEGATIVE')
+          IF(TNLK(G).LT.0)CALL GSTOP('PROGRAM STOPPED: NLK IS NEGATIVE')
           WRITE(IOUT,3000,ERR=990)TNSF(G),TNSD(G)
+          WRITE(IOUT,3010,ERR=990)TNLK(G)
         ENDIF
   100 ENDDO 
 C
 C-----ADD CONSTRAINTS FROM ALL GRIDS
       NSF=SUM(TNSF)
       NSD=SUM(TNSD)
+      NLK=SUM(TNLK)
       IF(NSD.GT.0)IREF=1                         ! REFERENCE SIMULATION NEEDED
-      STCNUM= NSF + NSD
+      STCNUM= NSF + NSD + NLK
       NCON = NCON + STCNUM                       ! INCREMENT CONSTRAINT NUMBER
       NRMC = NRMC + STCNUM                       ! INCREMENT RESPONSE CONSTRAINTS
       NV   = NV   + STCNUM                       ! ADD CONSTRAINT SLACKS TO NV
@@ -155,9 +167,10 @@ C
 C-----READ CONSTRAINT INFORMATION
 C
       JROW=0                                     ! INITIALIZE MASTER ROW COUNTER
-      DO 230 NS =1,2
+      DO 230 NS =1,3
       IF(NS.EQ.1) TNS = TNSF                     ! READ STREAMFLOW CONSTRAINTS
       IF(NS.EQ.2) TNS = TNSD                     ! READ STREAM DEPLETION CONST.
+      IF(NS.EQ.3) TNS = TNLK                     ! READ STREAM LEAKAGE CONST.
 C-----LOOP OVER ALL GRIDS TO READ EACH STREAMFLOW CONSTRAINT SET
       DO 220 G=1,NGRIDS
         IF(TNS(G).GT.0)THEN     
@@ -233,6 +246,19 @@ C-----WRITE THE INFORMATION TO THE OUTPUT FILE
             ENDIF
   400     ENDDO
         ENDIF
+        IF(NLK.GT.0)THEN
+          WRITE(IOUT,5040,ERR=990)
+          DO 500 I=NSF+NSD+1,NSF+NSD+NLK
+            IF(STCDIR(I).EQ.1)THEN
+              WRITE(IOUT,5010,ERR=990)I,STCNAME(I),STCSLOC(I),
+     1                                STCRLOC(I),'<',STCRHS(I),STCSP(I)
+            ENDIF
+            IF(STCDIR(I).EQ.2)THEN
+              WRITE(IOUT,5010,ERR=990)I,STCNAME(I),STCSLOC(I),
+     1                                STCRLOC(I),'>',STCRHS(I),STCSP(I)
+            ENDIF
+  500     ENDDO
+        ENDIF
       ENDIF
 C      
  600  WRITE(IOUT,6000,ERR=990)BYTES
@@ -252,6 +278,7 @@ C
  3000 FORMAT(/,1X,'NUMBER OF STREAMFLOW (NSF) AND STREAMFLOW-',
      1  'DEPLETION',/,' CONSTRAINTS (NSD) ARE ',I5,' AND ',I5,' ,',
      2  ' RESPECTIVELY.')
+ 3010 FORMAT(/,1X,'NUMBER OF STREAM LEAKAGE (NLK) CONSTRAINTS IS',I5)
  4000 FORMAT(1X,/1X,'PROGRAM STOPPED. CONSTRAINT NAME ',A10,' HAS',
      1  ' ALREADY BEEN USED.') 
  5000 FORMAT(1X,/1X,'STREAMFLOW CONSTRAINTS:',/,T43,'RIGHT-HAND',
@@ -260,6 +287,11 @@ C
      3  '-------------------------------------------------------')
  5010 FORMAT(1X,I5,T11,A10,T21,I3,T30,I4,T37,A1,T42,ES11.4,T56,I5)
  5020 FORMAT(1X,/1X,'STREAMFLOW-DEPLETION CONSTRAINTS:',/,T43,
+     1  'RIGHT-HAND',T56,'STRESS',/,T2,'NUMBER',T10,'NAME',T20,
+     2  'SEGMENT',T29,'REACH',T36,'TYPE',T46,'SIDE',T56,'PERIOD',
+     3  /,' ---------------------------------------------------',
+     4  '------------')
+ 5040 FORMAT(1X,/1X,'STREAM LEAKAGE CONSTRAINTS:',/,T43,
      1  'RIGHT-HAND',T56,'STRESS',/,T2,'NUMBER',T10,'NAME',T20,
      2  'SEGMENT',T29,'REACH',T36,'TYPE',T46,'SIDE',T56,'PERIOD',
      3  /,' ---------------------------------------------------',
@@ -334,7 +366,7 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       IF(NDEP.EQ.0)THEN                          ! CALL NOT FROM GWM-VI
 C
-      DO 100 I= 1,NSF+NSD 
+      DO 100 I= 1,NSF+NSD+NLK 
         IF(IGRID.EQ.GRDLOCSTC(I))THEN            ! CONSTRAINT IS ON THIS GRID
           IF(KPER.EQ.STCSP(I)) THEN              ! CONSTRAINT ACTIVE THIS SP
             CALL SGWF2STR7PNT(IGRID)             ! POINT TO CORRECT GRID
@@ -348,14 +380,18 @@ C
    80       ENDDO
             GOTO 100
    90       CONTINUE
-C           STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED THIS
-            STCSTATE(I) = STRM(9,LOC)            ! LOAD STREAMFLOW VALUE
+            IF(I.LE.NSF+NSD)THEN                 ! THIS IS A STREAMFLOW CONSTR.
+C             STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED THIS
+              STCSTATE(I) = STRM(9,LOC)          ! LOAD STREAMFLOW VALUE
+            ELSE                                 ! THIS IS A STREAM LEAK CONSTR.
+              STCSTATE(I) = STRM(11,LOC)         ! LOAD STREAM LEAKAGE VALUE
+            ENDIF
           ENDIF
         ENDIF
   100 ENDDO
 C
       ELSEIF(NDEP.GT.0 .AND. PRESENT(DEPVALS))THEN ! CALL IS FROM GWM-VI
-        IC2 = IC1+NSF+NSD-1
+        IC2 = IC1+NSF+NSD+NLK-1
         J = 0
         DO 200 I=IC1,IC2 
           J = J+1
@@ -382,7 +418,7 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       IF(NDEP.EQ.0)THEN                          ! CALL NOT FROM GWM-VI
 C
-      DO 100 I= 1,NSF+NSD 
+      DO 100 I= 1,NSF+NSD+NLK 
         IF(IGRID.EQ.GRDLOCSTC(I))THEN            ! CONSTRAINT IS ON THIS GRID
           IF(KPER.EQ.STCSP(I)) THEN              ! CONSTRAINT ACTIVE THIS SP
             CALL SGWF2SFR7PNT(IGRID)             ! POINT TO CORRECT GRID
@@ -396,14 +432,18 @@ C
    80       ENDDO
             GOTO 100
    90       CONTINUE
-C           STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED THIS
-            STCSTATE(I) = STRM(9,LOC)            ! LOAD STREAMFLOW VALUE
+            IF(I.LE.NSF+NSD)THEN                 ! THIS IS A STREAMFLOW CONSTR.
+C             STCSTATE(I) = REAL(STRM(9,LOC),DP) ! IF STRM IS SINGLE PRECISION NEED THIS
+              STCSTATE(I) = STRM(9,LOC)          ! LOAD STREAMFLOW VALUE
+            ELSE                                 ! THIS IS A STREAM LEAK CONSTR.
+              STCSTATE(I) = STRM(11,LOC)         ! LOAD STREAM LEAKAGE VALUE
+            ENDIF
           ENDIF
         ENDIF
   100 ENDDO
 C
       ELSEIF(NDEP.GT.0 .AND. PRESENT(DEPVALS))THEN ! CALL IS FROM GWM-VI
-        IC2 = IC1+NSF+NSD-1
+        IC2 = IC1+NSF+NSD+NLK-1
         J = 0
         DO 200 I=IC1,IC2 
           J = J+1
@@ -698,6 +738,8 @@ C
         CTYPE = 'Streamflow'
       ELSEIF(ISTC.LE.NSF+NSD)THEN
         CTYPE = 'Stream Depletion'
+      ELSEIF(ISTC.LE.NSF+NSD+NLK)THEN
+        CTYPE = 'Stream Leakage'
       ENDIF
 C
       RETURN

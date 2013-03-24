@@ -5,6 +5,18 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.4.2;  25 March 2013
+	Implement stream leakage constraints in GWM1STC3.for and stream 
+                leakage state variables in GWM1STA3.for.  Instructions for
+                input of leakage constraints and state variables are in 
+                file 'Input_instructions_v1.4.2.pdf' in the doc subdirectory.
+
+	Minor output improvement: When FSTAT is set to N, FVMAX is forced 
+                to the square root of machine epsilon.  At output the value 
+                of the decision variable with FSTAT = N is reset to zero in 
+                SGWM1RMS3AP.
+
+
 Version 1.4.1;  20 June 2012
         Correct bug that limits the number of coefficients that can be
                 applied to a state variable. Executable compiled with

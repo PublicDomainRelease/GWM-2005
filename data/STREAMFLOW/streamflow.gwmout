@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.1 062012,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
 
 
 
@@ -65,18 +65,18 @@
  NO. OF DRAIN STATE VARIABLES (NDVAR):             0
 
  STREAMFLOW TYPE STATE VARIABLES:
-  NUMBER     NAME            SEG       REACH
+  NUMBER     NAME            SEG       REACH     TYPE
  ----------------------------------------------------------
-      1      SF1             1            14
+      1      SF1             1            14   FLOW-TYPE
    AVAILABLE IN STRESS PERIOD:    11
 
-      2      SF2             1            21
+      2      SF2             1            21   FLOW-TYPE
    AVAILABLE IN STRESS PERIOD:    11
 
-      3      SF3             2             8
+      3      SF3             2             8   FLOW-TYPE
    AVAILABLE IN STRESS PERIOD:    11
 
-      4      SF4             3             5
+      4      SF4             3             5   FLOW-TYPE
    AVAILABLE IN STRESS PERIOD:    11
 
 

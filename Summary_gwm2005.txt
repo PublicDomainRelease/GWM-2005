@@ -47,6 +47,9 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
+Version 1.4.2; 2013/03 - Add options for stream leakage constraints and stream 
+leakage state variables.  Minor output improvment.
+
 Version 1.4.1; 2012/6 - Corrected bug that limits the number of coefficients that 
 can be applied to a state variable. Executable compiled with 'maximize speed' 
 option.

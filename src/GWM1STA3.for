@@ -20,6 +20,7 @@ C-----VARIABLES FOR STATE VARIABLES
       REAL(DP),SAVE,ALLOCATABLE::SVBASE(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::SVILOC(:),SVJLOC(:),SVKLOC(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::SVSP(:,:)
+      lOGICAL     ,SAVE,ALLOCATABLE::FLOWTYPE(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::GRDLOCSTA(:),NSSVGZL(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::SSVGLOC(:,:),SSVZLOC(:,:)
       REAL(DP),SAVE,ALLOCATABLE::STASTATE(:),STASTATE0(:),STATERES(:,:),
@@ -56,6 +57,7 @@ C                  two entries record start and end times for state variable eva
 C                  for drain state variables, if the second entry is negative, the first 
 C                  entry is the stress period to evaluate flow; if the second entry is
 C                  positive the two entries record start and end times for volume evaluation.
+C      FLOWTYPE -logical array indicating if constraint is flow-type (TRUE) or leakage type.
 C      MDCELLOC -2-d array storing the layer, row, column indices for the set of drain cells 
 C                  assoicated with the ith Drain state variable listed in MDCELVAR
 C      GRDLOCSTA-grid number on which state variable is located
@@ -115,7 +117,7 @@ C-----LOCAL VARIABLES
       INTEGER(I4B)::JSVROW,NSEG,NRCH,SVSPL,NMDCEL,DRNTYP
       INTEGER(I4B)::ICZS,ICZF,SPSTRT,SPEND,NSVZL,NGMAX,SEQNUM
       INTEGER(I4B)::G,I,J,K,L,II,JJ,KK,IR,IC,IL,JE,JS,JZ,JESV,JSR,IA
-      INTEGER(I4B)::MNWCNT
+      INTEGER(I4B)::MNWCNT,FL_OR_LK
       CHARACTER(LEN=200)::LINE
       CHARACTER(LEN=10)::TCTNM
       CHARACTER(LEN=20)::TCMNW
@@ -189,7 +191,7 @@ C-----WRITE HEADER AND ALLOCATE SPACE FOR STATE VARIABLE INFORMATION
         WRITE(IOUT,3000,ERR=990)NHVAR,NRVAR,NSVAR,NDVAR
         IF(NSVAR.NE.SUM(NSVARG))WRITE(IOUT,3010,ERR=990)SUM(NSVARG)
         ALLOCATE (SVNAME(STANUM),SVBASE(STANUM),
-     &      SVSP(STANUM,2),GRDLOCSTA(STANUM), 
+     &      SVSP(STANUM,2),FLOWTYPE(STANUM),GRDLOCSTA(STANUM), 
      &      SVILOC(STANUM),SVJLOC(STANUM),SVKLOC(STANUM),
      &      STASTATE(STANUM),STASTATE0(STANUM),
      &      STATERES(STANUM,NFVAR),STARHS(STANUM),STAT=ISTAT)
@@ -248,12 +250,14 @@ C---------LOOP OVER STREAMFLOW STATE VARIABLES IN EACH ACTIVE GRID FILE
           LOCAT=NUNOPN(G)  
           DO 280 J=1+JSVROW,NRVARG(G)+JSVROW
             READ(LOCAT,'(A)',ERR=991)LINE
+            CALL CUTCOM(LINE,200)                ! REMOVE COMMENTS FROM LINE
             LLOC=1
 C              TRACK START AND END COL FOR SVNAME
             CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
             CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSEG,RDUM,IOUT,LOCAT)
             CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NRCH,RDUM,IOUT,LOCAT)
             CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,SVSPL,RDUM,IOUT,LOCAT)
+          CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,FL_OR_LK,RDUM,IOUT,LOCAT)
 C-----------PROCESS NAME OF STATE VARIABLE; CHECK IF NAME UNIQUE
             CALL CHKNAME(LINE(INMS:INMF),G,J,-1)
             SVNAME(J)=LINE(INMS:INMF)            ! SAVE THE NAME
@@ -265,6 +269,12 @@ C-----------PROCESS SEGMENT AND REACH NUMBER
 C-----------STORE STRESS PERIOD AND GRID FOR EVALUATION OF THIS STATE VARIABLE
             SVSP(J,1)=SVSPL
             GRDLOCSTA(J)=G
+C-----------DETERMINE IF THIS IS A FLOW OR LEAK TYPE CONSTRAINT
+            IF(FL_OR_LK.EQ.0)THEN
+              FLOWTYPE(J) = .TRUE.
+            ELSE
+              FLOWTYPE(J) = .FALSE.
+            ENDIF
  280      ENDDO
           JSVROW=JSVROW+NRVARG(G)
         ENDIF
@@ -285,8 +295,13 @@ C-------WRITE STREAMFLOW SV INFO
         IF(NRVAR.GT.0)THEN
           WRITE(IOUT,6000,ERR=990)
            DO 600 J=NHVAR+1,NHVAR+NRVAR
-             WRITE(IOUT,6100,ERR=990)J,SVNAME(J),
+             IF(FLOWTYPE(J))THEN
+               WRITE(IOUT,6100,ERR=990)J,SVNAME(J),
      &                SVILOC(J),SVJLOC(J)
+             ELSE
+               WRITE(IOUT,6102,ERR=990)J,SVNAME(J),
+     &                SVILOC(J),SVJLOC(J)
+             ENDIF
              WRITE(IOUT,6200,ERR=990)SVSP(J,1)
   600      ENDDO
         ENDIF
@@ -477,10 +492,11 @@ C
  5110 FORMAT(T3,I5,T14,A10,T26,A)
  5200 FORMAT('   AVAILABLE IN STRESS PERIOD: ',I5,/)
  6000 FORMAT(/,T2,'STREAMFLOW TYPE STATE VARIABLES:',/,
-     1  T3,'NUMBER',T14,'NAME',T30,'SEG',T40,'REACH',/,
+     1  T3,'NUMBER',T14,'NAME',T30,'SEG',T40,'REACH',T50,'TYPE',/,
      2  1X,'----------------------',
      3  '------------------------------------')
- 6100 FORMAT(T3,I5,T14,A10,T26,I5,T40,I5)
+ 6100 FORMAT(T3,I5,T14,A10,T26,I5,T40,I5,T48,'FLOW-TYPE')
+ 6102 FORMAT(T3,I5,T14,A10,T26,I5,T40,I5,T48,'LEAK-TYPE')
  6200 FORMAT('   AVAILABLE IN STRESS PERIOD: ',I5,/)
  6500 FORMAT(/,T2,'STORAGE TYPE STATE VARIABLES:')
  6600 FORMAT(/,' NUMBER:',I5,' NAME: ',A10,' SPSTRT:',I5,' SPEND:',I5)
@@ -997,7 +1013,11 @@ C
   100 ENDDO
       RETURN                                     ! STATE VARIABLE NOT FOUND
   200 CONTINUE
-      STASTATE(ISVAR) = STRM(9,LOC)              ! LOAD STREAMFLOW VALUE
+      IF(FLOWTYPE(ISVAR))THEN
+        STASTATE(ISVAR) = STRM(9,LOC)            ! LOAD STREAMFLOW VALUE
+      ELSE
+        STASTATE(ISVAR) = STRM(11,LOC)           ! LOAD LEAKAGE VALUE
+      ENDIF
       RETURN
       END SUBROUTINE GWM1STA3OSSTR
 C
@@ -1021,7 +1041,11 @@ C
   100 ENDDO
       RETURN                                     ! STATE VARIABLE NOT FOUND
   200 CONTINUE
-      STASTATE(ISVAR) = STRM(9,LOC)              ! LOAD STREAMFLOW VALUE
+      IF(FLOWTYPE(ISVAR))THEN
+        STASTATE(ISVAR) = STRM(9,LOC)            ! LOAD STREAMFLOW VALUE
+      ELSE
+        STASTATE(ISVAR) = STRM(11,LOC)           ! LOAD LEAKAGE VALUE
+      ENDIF
       RETURN
       END SUBROUTINE GWM1STA3OSSFR
 C
@@ -1301,7 +1325,11 @@ C-----WRITE STATUS FOR A FLOW PROCESS SIMULATION
           IF(ROW.LE.NHVAR)THEN
             CTYPE = 'Head '
           ELSEIF(ROW.LE.NHVAR+NRVAR)THEN
-            CTYPE = 'Streamflow'
+            IF(FLOWTYPE(ROW))THEN
+              CTYPE = 'Streamflow'
+            ELSE
+              CTYPE = 'Streamflow-Leak'
+            ENDIF
           ELSEIF(ROW.LE.NHVAR+NRVAR+NSVAR)THEN
             CTYPE = 'Change in Storage'
           ELSEIF(ROW.LE.NHVAR+NRVAR+NSVAR+NDVAR)THEN

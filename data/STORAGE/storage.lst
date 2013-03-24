@@ -1,6 +1,6 @@
                                   MODFLOW-LGR      
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.1 062012,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -2503,14 +2503,14 @@
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1257541136.0108               STORAGE =       45899.7915
+             STORAGE =  1257541136.0109               STORAGE =       45899.7915
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 19869040800.0000              RECHARGE =     1360800.0000
         MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
 
-            TOTAL IN = 21126581936.0108              TOTAL IN =     1406699.7915
+            TOTAL IN = 21126581936.0109              TOTAL IN =     1406699.7915
 
           OUT:                                     OUT:
           ----                                     ----
@@ -2521,7 +2521,7 @@
             RECHARGE =           0.0000              RECHARGE =           0.0000
         MANAGED FLOW =  5032820313.4870          MANAGED FLOW =      344713.7201
 
-           TOTAL OUT = 21126842512.5003             TOTAL OUT =     1406730.6895
+           TOTAL OUT = 21126842512.5004             TOTAL OUT =     1406730.6895
 
             IN - OUT =     -260576.4895              IN - OUT =         -30.8979
 
@@ -3047,6 +3047,6 @@
          TOTAL TIME 1.57689E+09 2.62814E+07 4.38024E+05  18251.      49.969    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2012/06/28 11:40:11
- Elapsed run time:  8.565 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:31:27
+ Elapsed run time:  9.108 Seconds
 

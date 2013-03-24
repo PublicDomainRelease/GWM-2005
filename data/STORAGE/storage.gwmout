@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR      
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.1 062012,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
 
 
 
@@ -1234,9 +1234,9 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Summation              ST1-5      Satisfied     4.9465E+00
       Summation              ST2-1      Not Met       1.1801E-02
       Summation              EQ-b       Not Met       7.2760E-12
-      Summation              EQ-c       Satisfied     0.0000E+00
+      Summation              EQ-c       Not Met       7.2760E-12
       Summation              EQ-d       Satisfied     0.0000E+00
-      Summation              EQ-e       Satisfied     0.0000E+00
+      Summation              EQ-e       Not Met       7.2760E-12
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -1342,7 +1342,7 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.325551E-09
+      Value at this iteration        =  1.325550E-09
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
       For Flow Variable Max Change   =  3.223468E-06
@@ -1494,14 +1494,14 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
       Summation              ST1-2        -2.3399E+07 < 0.0000E+00  -2.3399E+07
-      Summation              ST1-3        -2.6365E-02 < 0.0000E+00  -2.6365E-02
-      Summation              ST1-4         2.4132E-02 < 0.0000E+00   2.4132E-02
-      Summation              ST1-5         9.7170E-04 < 0.0000E+00   9.7170E-04
-      Summation              ST2-1         1.1642E-06 < 0.0000E+00   1.1642E-06
-      Summation              EQ-b          7.2760E-12 = 0.0000E+00   7.2760E-12
-      Summation              EQ-c          1.4552E-11 = 0.0000E+00   1.4552E-11
-      Summation              EQ-d          1.4552E-11 = 0.0000E+00   1.4552E-11
-      Summation              EQ-e          1.4552E-11 = 0.0000E+00   1.4552E-11
+      Summation              ST1-3        -2.6357E-02 < 0.0000E+00  -2.6357E-02
+      Summation              ST1-4         2.4141E-02 < 0.0000E+00   2.4141E-02
+      Summation              ST1-5         9.6223E-04 < 0.0000E+00   9.6223E-04
+      Summation              ST2-1         1.2666E-06 < 0.0000E+00   1.2666E-06
+      Summation              EQ-b         -2.9104E-11 = 0.0000E+00  -2.9104E-11
+      Summation              EQ-c         -2.1828E-11 = 0.0000E+00  -2.1828E-11
+      Summation              EQ-d         -2.9104E-11 = 0.0000E+00  -2.9104E-11
+      Summation              EQ-e         -2.1828E-11 = 0.0000E+00  -2.1828E-11
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.
