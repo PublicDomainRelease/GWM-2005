@@ -1,15 +1,17 @@
-LGR                  ; LGR keyword
+#Seawater sample problem using 1 child grid 
+#updated August 2013
+LGR
 2                    ;NGRIDS
 ..\data\SEAWATER-LGR\sealgr_par.nam           ;NAMEFILE for parent
 PARENTONLY           ;GRIDSTATUS
 00 00                ;IUPBHSV,IUPBFSV 
 ..\data\SEAWATER-LGR\sealgr_chd.nam           ;NAMEFILE for child
 CHILDONLY            ;GRIDSTATUS
-1 -59  0  0          ;ISHFLG, IBFLG, IUCBHSV, IUCBFSV
+1  59  0  0          ;ISHFLG, IBFLG, IUCBHSV, IUCBFSV
 50 0                 ;MXLGRITER, IOUTLGR
-0.500 0.500          ;RELAXH, RELAXF    relaxation for heads and fluxes
-1.0E-7 1.0E-7        ;HCLOSELGR, FCLOSELGR
-1 6  16              ;NPLBEG,NPRBEG,NPCBEG
-2 14 29              ;NPLEND,NPREND,NPCEND
+0.500 0.500          ;RFH, RFF    relaxation for heads and fluxes
+1.0E-7 1.0E-7        ;HCLOSELGR FCLOSELGR
+1 7  16              ;NPLBEG,NPRBEG,NPCBEG
+2 13 28              ;NPLEND,NPREND,NPCEND
 3                    ;NCPP  of child cells per width of parent
 1 1                  ;NCPPL  # of child layers per parent layer

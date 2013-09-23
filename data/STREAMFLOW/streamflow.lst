@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -121,10 +121,15 @@
 
      0 Recharge parameters
 
- SFR7 -- STREAMFLOW ROUTING PACKAGE, VERSION 7.1.02, 06/29/2009
+ SFR7 -- STREAMFLOW ROUTING PACKAGE, VERSION 1.0.7, 2013-01-15
          INPUT READ FROM UNIT  16
  #STREAMFLOW Sample Problem--SFR File
  #December 2009
+ No named parameters
+ Segment information will not be 
+ read by reach
+ No named parameters
+ No specifed inflow files
 
 
  NUMBER OF STREAM REACHES IS   40
@@ -133,7 +138,7 @@
 
  NUMBER OF STREAM PARAMETERS IS    0
 
- NUMBER OF STREAM SEGMENTS DEFINED USING PARAMETERS IS    0
+ NUMBER OF STREAM SEGMENTS DEFINED USING PARAMETERS IS              0
 
  MAXIMUM ERROR FOR STREAM LEAKAGE RATES IS  1.00E-04
 
@@ -141,13 +146,13 @@
 
 
 
- STREAM OUTPUT WILL BE WRITTEN TO FILE ON UNIT  81
+ STREAM OUTPUT WILL BE WRITTEN TO FILE ON UNIT   81
 
 
    STREAM NETWORK DESCRIPTION: 
 
    LAYER    ROW    COL   SEGMENT   REACH     LENGTH
-                          NUMBER   NUMBER    IN CELL
+                          NUMBER   NUMBER    IN CELL        
    --------------------------------------------------
       1     13      1       1        1    2.0000E+02
       1     13      2       1        2    2.0000E+02
@@ -236,6 +241,15 @@
 
 
 
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -303,7 +317,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -315,7 +329,7 @@
        CONSTANT HEAD =   101303144.9924         CONSTANT HEAD =     1101121.1412
             RECHARGE =     1269600.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   121571872.4064              TOTAL IN =     1321433.3957
 
@@ -325,7 +339,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   118811900.8039        STREAM LEAKAGE =     1291433.7044
-        MANAGED FLOW =     2760000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =     2760000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   121571900.8039             TOTAL OUT =     1321433.7044
 
@@ -338,7 +352,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -358,6 +372,16 @@
                  RECHARGE =  2.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    2
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -45000.00000000000    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -425,7 +449,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   2
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -437,7 +461,7 @@
        CONSTANT HEAD =   204580633.7123         CONSTANT HEAD =     1134917.4585
             RECHARGE =     6292800.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   230481666.2997              TOTAL IN =     1196810.9219
 
@@ -447,7 +471,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   223604015.1132        STREAM LEAKAGE =     1151561.6957
-        MANAGED FLOW =     6855000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =     6855000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =   230481709.2689             TOTAL OUT =     1196811.0820
 
@@ -460,7 +484,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    2
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    2
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -480,6 +504,16 @@
                  RECHARGE =   0.00000    
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    3
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -10000.00000000000    
+        3      1    14    25   -50000.00000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -547,7 +581,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   3
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   3
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -559,7 +593,7 @@
        CONSTANT HEAD =   310374948.3537         CONSTANT HEAD =     1162574.8862
             RECHARGE =     6292800.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   336603404.1347              TOTAL IN =     1166172.9432
 
@@ -569,7 +603,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   324265788.0342        STREAM LEAKAGE =     1106173.3288
-        MANAGED FLOW =    12315000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    12315000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =   336603482.1899             TOTAL OUT =     1166173.3288
 
@@ -582,7 +616,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    3
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    3
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -602,6 +636,15 @@
                  RECHARGE =  1.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    4
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -669,7 +712,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   4
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   4
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -681,7 +724,7 @@
        CONSTANT HEAD =   415527637.9896         CONSTANT HEAD =     1155524.0619
             RECHARGE =     8804400.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   444324600.6443              TOTAL IN =     1183749.4122
 
@@ -691,7 +734,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   429127511.6815        STREAM LEAKAGE =     1152326.6335
-        MANAGED FLOW =    15045000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    15045000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   444324645.4248             TOTAL OUT =     1183749.0465
 
@@ -704,7 +747,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    4
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    4
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -724,6 +767,15 @@
                  RECHARGE =  5.000000E-04
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    5
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -791,7 +843,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   5
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   5
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -803,7 +855,7 @@
        CONSTANT HEAD =   522348172.0993         CONSTANT HEAD =     1161092.7621
             RECHARGE =    10074000.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   552471801.1639              TOTAL IN =     1175513.0491
 
@@ -813,7 +865,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   534514729.4644        STREAM LEAKAGE =     1145513.2368
-        MANAGED FLOW =    17805000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    17805000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   552471863.2076             TOTAL OUT =     1175513.2368
 
@@ -826,7 +878,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    5
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    5
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -846,6 +898,16 @@
                  RECHARGE =  2.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    6
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -45000.00000000000    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -913,7 +975,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   6
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   6
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -925,7 +987,7 @@
        CONSTANT HEAD =   625978023.5416         CONSTANT HEAD =     1138789.5763
             RECHARGE =    15097200.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   661161072.5812              TOTAL IN =     1194387.5980
 
@@ -935,7 +997,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   638812210.6627        STREAM LEAKAGE =     1146126.1670
-        MANAGED FLOW =    21900000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =    21900000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =   661161109.5605             TOTAL OUT =     1194387.3226
 
@@ -948,7 +1010,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    6
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    6
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -968,6 +1030,16 @@
                  RECHARGE =   0.00000    
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    7
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -10000.00000000000    
+        3      1    14    25   -50000.00000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1035,7 +1107,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   7
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   7
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1047,7 +1119,7 @@
        CONSTANT HEAD =   731794304.3327         CONSTANT HEAD =     1162816.2724
             RECHARGE =    15097200.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   767256548.0362              TOTAL IN =     1165884.3457
 
@@ -1057,7 +1129,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   739447714.7841        STREAM LEAKAGE =     1105884.6607
-        MANAGED FLOW =    27360000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    27360000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =   767256613.6819             TOTAL OUT =     1165884.6607
 
@@ -1070,7 +1142,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    7
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    7
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1090,6 +1162,15 @@
                  RECHARGE =  1.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    8
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1157,7 +1238,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   8
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   8
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1169,7 +1250,7 @@
        CONSTANT HEAD =   836948390.2281         CONSTANT HEAD =     1155539.4054
             RECHARGE =    17608800.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   874978734.2340              TOTAL IN =     1183760.2879
 
@@ -1179,7 +1260,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   844307857.3812        STREAM LEAKAGE =     1152309.2593
-        MANAGED FLOW =    30090000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    30090000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   874978766.0090             TOTAL OUT =     1183759.9157
 
@@ -1192,7 +1273,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    8
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    8
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1212,6 +1293,15 @@
                  RECHARGE =  5.000000E-04
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period    9
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1279,7 +1369,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   9
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   9
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1291,7 +1381,7 @@
        CONSTANT HEAD =   943769015.7746         CONSTANT HEAD =     1161093.7559
             RECHARGE =    18878400.0000              RECHARGE =       13800.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   983125833.3968              TOTAL IN =     1175511.9474
 
@@ -1301,7 +1391,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =   949694973.7531        STREAM LEAKAGE =     1145512.1345
-        MANAGED FLOW =    32850000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    32850000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   983125882.3809             TOTAL OUT =     1175512.1345
 
@@ -1314,7 +1404,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    9
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    9
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -1334,6 +1424,16 @@
                  RECHARGE =  2.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period   10
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -45000.00000000000    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1401,7 +1501,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  10
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  10
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1413,7 +1513,7 @@
        CONSTANT HEAD =  1047398873.2867         CONSTANT HEAD =     1138789.6430
             RECHARGE =    23901600.0000              RECHARGE =       55200.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1091815110.7566              TOTAL IN =     1194387.6633
 
@@ -1423,7 +1523,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =  1053992448.2812        STREAM LEAKAGE =     1146126.0937
-        MANAGED FLOW =    36945000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =    36945000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =  1091815134.6754             TOTAL OUT =     1194387.3879
 
@@ -1436,7 +1536,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   10
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   10
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1456,6 +1556,16 @@
                  RECHARGE =   0.00000    
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period   11
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -10000.00000000000    
+        3      1    14    25   -50000.00000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1523,7 +1633,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  11
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  11
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1535,7 +1645,7 @@
        CONSTANT HEAD =  1153215154.4930         CONSTANT HEAD =     1162816.2770
             RECHARGE =    23901600.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1197910585.7577              TOTAL IN =     1165884.3407
 
@@ -1545,7 +1655,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =  1154627951.9484        STREAM LEAKAGE =     1105884.6557
-        MANAGED FLOW =    42405000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    42405000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =  1197910638.3426             TOTAL OUT =     1165884.6557
 
@@ -1558,7 +1668,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   11
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   11
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1578,6 +1688,15 @@
                  RECHARGE =  1.000000E-03
 
  REUSING STREAM SEGMENT DATA FROM LAST STRESS PERIOD
+
+Flows at Managed Wells for Stress Period   12
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11    0.000000000000000    
+        2      1    16    17   -30000.00000000000    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1645,7 +1764,7 @@
 
 
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  12
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  12
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1657,7 +1776,7 @@
        CONSTANT HEAD =  1258369240.4172         CONSTANT HEAD =     1155539.4058
             RECHARGE =    26413200.0000              RECHARGE =       27600.0000
       STREAM LEAKAGE =           0.0000        STREAM LEAKAGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1305632771.9804              TOTAL IN =     1183760.2882
 
@@ -1667,7 +1786,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
             RECHARGE =           0.0000              RECHARGE =           0.0000
       STREAM LEAKAGE =  1259488094.5141        STREAM LEAKAGE =     1152309.2590
-        MANAGED FLOW =    45135000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    45135000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =  1305632790.6946             TOTAL OUT =     1183759.9160
 
@@ -1680,7 +1799,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   12
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   12
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1688,6 +1807,6 @@
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:32:43
- Elapsed run time:  0.501 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  8:24:59
+ Elapsed run time:  0.559 Seconds
 

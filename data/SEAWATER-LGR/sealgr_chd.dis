@@ -1,6 +1,6 @@
 #SEAWATER-LGR Sample Problem, DIS-Package child file
-#December, 2007
- 2   25   40    1    4    0  NLAY,NROW,NCOL,NPER,ITMUNI,LENUNI
+#updated August 2013
+ 2   21   39    1    4    0  NLAY,NROW,NCOL,NPER,ITMUNI,LENUNI
  0 0
 CONSTANT   6.666667E+01  DELR
 CONSTANT   6.666667E+01  DELC

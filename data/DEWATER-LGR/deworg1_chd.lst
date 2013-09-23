@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -24,9 +24,9 @@
  BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   22
 
  DISCRETIZATION INPUT DATA READ FROM UNIT   21
- #DEWATER-LGR Sample Problem, child DIS file
- #December, 2007
-    1 LAYERS        13 ROWS        10 COLUMNS
+ #DEWATER-LGR2 Sample Problem, child DIS file
+ #updated August 2013
+    1 LAYERS        11 ROWS         8 COLUMNS
     1 STRESS PERIOD(S) IN SIMULATION
  MODEL TIME UNIT IS DAYS
  MODEL LENGTH UNIT IS UNDEFINED
@@ -39,7 +39,7 @@
 
  TOP ELEVATION OF LAYER 1 =   100.000    
 
-   MODEL LAYER BOTTOM EL. =   100.000     FOR LAYER   1
+   MODEL LAYER BOTTOM EL. =   0.00000     FOR LAYER   1
 
 
  STRESS PERIOD     LENGTH       TIME STEPS     MULTIPLIER FOR DELT    SS FLAG
@@ -51,8 +51,8 @@
 
 
  
- #DEWATER-LGR Sample Problem, child BAS6 for 13x10                               
- #December, 2007                                                                 
+ #DEWATER-LGR2 Sample Problem, child BAS6 for 11x8                               
+ #updated August 2013                                                            
  THE FREE FORMAT OPTION HAS BEEN SELECTED
 
 
@@ -60,44 +60,40 @@
                      BOUNDARY ARRAY FOR LAYER   1
  READING ON UNIT   22 WITH FORMAT: (20I4)              
 
-                1           2           3           4           5           6           7           8           9          10
- ............................................................................................................................
-   1          -59         -59         -59         -59         -59         -59         -59         -59         -59         -59
-   2          -59           1           1           1           1           1           1           1           1         -59
-   3          -59           1           1           1           1           1           1           1           1         -59
-   4          -59           1           1           1           1           1           1           1           1         -59
-   5          -59           1           1           1           1           1           1           1           1         -59
-   6          -59           1           1           1           1           1           1           1           1         -59
-   7          -59           1           1           1           1           1           1           1           1         -59
-   8          -59           1           1           1           1           1           1           1           1         -59
-   9          -59           1           1           1           1           1           1           1           1         -59
-  10          -59           1           1           1           1           1           1           1           1         -59
-  11          -59           1           1           1           1           1           1           1           1         -59
-  12          -59           1           1           1           1           1           1           1           1         -59
-  13          -59         -59         -59         -59         -59         -59         -59         -59         -59         -59
+                1           2           3           4           5           6           7           8
+ ....................................................................................................
+   1           59          59          59          59          59          59          59          59
+   2           59           1           1           1           1           1           1          59
+   3           59           1           1           1           1           1           1          59
+   4           59           1           1           1           1           1           1          59
+   5           59           1           1           1           1           1           1          59
+   6           59           1           1           1           1           1           1          59
+   7           59           1           1           1           1           1           1          59
+   8           59           1           1           1           1           1           1          59
+   9           59           1           1           1           1           1           1          59
+  10           59           1           1           1           1           1           1          59
+  11           59          59          59          59          59          59          59          59
 
  AQUIFER HEAD WILL BE SET TO  0.0000     AT ALL NO-FLOW NODES (IBOUND=0).
 
 
 
                        INITIAL HEAD FOR LAYER   1
- READING ON UNIT   22 WITH FORMAT: (10F13.0)           
+ READING ON UNIT   22 WITH FORMAT: (8F13.0)            
 
-            1           2           3           4           5           6           7           8           9          10
- ........................................................................................................................
-   1    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   2    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   3    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   4    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   5    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   6    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   7    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   8    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-   9    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-  10    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-  11    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-  12    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
-  13    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+            1           2           3           4           5           6           7           8
+ ................................................................................................
+   1    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   2    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   3    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   4    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   5    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   6    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   7    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   8    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+   9    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+  10    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
+  11    70.00       70.00       70.00       70.00       70.00       70.00       70.00       70.00    
 
  DEFAULT OUTPUT CONTROL
  THE FOLLOWING OUTPUT COMES AT THE END OF EACH STRESS PERIOD:
@@ -127,237 +123,249 @@
                                MULTIPLIER FOR DELT =     1.000
 
                             INITIAL TIME STEP SIZE =   1000.000    
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1     3     4   -1077.391141381504    
+        2      1     3     6   -78.23931646730290    
+        3      1     4     5    0.000000000000000    
+        4      1     5     4   -768.9505713710996    
+        5      1     5     6    0.000000000000000    
+        6      1     7     7    0.000000000000000    
+        7      1     9     6   -941.0759086870607    
+ ----------------------------------------------------
+                      Total:   -2865.656937906967    
  
  SOLVING FOR HEAD 
 
 
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     16 TOTAL ITERATIONS
+ LGRITER=   1
+ HCLOSELGR=  5.000E-05 HDIFFM=  8.136E+01  (1,11,6) GNHEAD=  6.966E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  1.472E+02  (1,4,1) GNFLUX=  1.472E+02
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     15 TOTAL ITERATIONS
+ LGRITER=   2
+ HCLOSELGR=  5.000E-05 HDIFFM= -9.076E+00  (1,1,4) GNHEAD=  6.196E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  6.986E+00  (1,1,8) GNFLUX=  2.948E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     15 TOTAL ITERATIONS
+ LGRITER=   3
+ HCLOSELGR=  5.000E-05 HDIFFM= -4.843E+00  (1,1,4) GNHEAD=  5.712E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  3.821E+00  (1,1,8) GNFLUX=  4.261E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    14 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     14 TOTAL ITERATIONS
+ LGRITER=   4
+ HCLOSELGR=  5.000E-05 HDIFFM= -2.390E+00  (1,4,1) GNHEAD=  6.169E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  9.409E-01  (1,1,8) GNFLUX=  4.337E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     14 TOTAL ITERATIONS
+ LGRITER=   5
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.504E+00  (1,5,1) GNHEAD=  6.034E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  3.940E-01  (1,11,8) GNFLUX=  3.287E+01
 
 
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
+
+     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    14 TOTAL ITERATIONS
+ LGRITER=   6
+ HCLOSELGR=  5.000E-05 HDIFFM= -9.191E-01  (1,7,1) GNHEAD=  6.035E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  3.433E-01  (1,1,1) GNFLUX=  3.525E+01
+
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     13 TOTAL ITERATIONS
+ LGRITER=   7
+ HCLOSELGR=  5.000E-05 HDIFFM= -5.615E-01  (1,9,1) GNHEAD=  6.100E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  2.604E-01  (1,1,1) GNFLUX=  3.761E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    13 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     11 TOTAL ITERATIONS
+ LGRITER=   8
+ HCLOSELGR=  5.000E-05 HDIFFM= -3.352E-01  (1,10,1) GNHEAD=  6.125E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  1.494E-01  (1,1,1) GNFLUX=  3.787E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    11 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     11 TOTAL ITERATIONS
+ LGRITER=   9
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.964E-01  (1,11,1) GNHEAD=  6.029E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  6.924E-02  (1,11,1) GNFLUX=  3.080E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    11 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     11 TOTAL ITERATIONS
+ LGRITER=  10
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.258E-01  (1,1,2) GNHEAD=  5.547E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  2.810E-02  (1,11,1) GNFLUX=  3.044E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    11 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     11 TOTAL ITERATIONS
+ LGRITER=  11
+ HCLOSELGR=  5.000E-05 HDIFFM= -7.858E-02  (1,1,7) GNHEAD=  5.188E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  8.257E-03  (1,1,8) GNFLUX=  3.468E+01
 
 
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+ LGRITER=  12
+ HCLOSELGR=  5.000E-05 HDIFFM= -4.510E-02  (1,1,8) GNHEAD=  5.225E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -1.181E-02  (1,1,1) GNFLUX=  3.553E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+ LGRITER=  13
+ HCLOSELGR=  5.000E-05 HDIFFM= -2.548E-02  (1,11,1) GNHEAD=  6.002E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -9.253E-03  (1,1,1) GNFLUX=  3.545E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+ LGRITER=  14
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.443E-02  (1,11,1) GNHEAD=  6.001E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -5.018E-03  (1,1,1) GNFLUX=  3.547E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    11 TOTAL ITERATIONS
+ LGRITER=  15
+ HCLOSELGR=  5.000E-05 HDIFFM= -8.760E-03  (1,4,1) GNHEAD=  5.814E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -2.323E-03  (1,11,1) GNFLUX=  2.982E+01
+
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     10 TOTAL ITERATIONS
+ LGRITER=  16
+ HCLOSELGR=  5.000E-05 HDIFFM= -5.644E-03  (1,4,1) GNHEAD=  5.813E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -1.241E-03  (1,11,1) GNFLUX=  2.983E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     10 TOTAL ITERATIONS
+ LGRITER=  17
+ HCLOSELGR=  5.000E-05 HDIFFM= -3.440E-03  (1,5,1) GNHEAD=  5.827E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -7.781E-04  (1,1,8) GNFLUX=  3.463E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
-
-
-     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     9 TOTAL ITERATIONS
-
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
      9 TOTAL ITERATIONS
+ LGRITER=  18
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.993E-03  (1,5,1) GNHEAD=  5.827E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -4.268E-04  (1,1,8) GNFLUX=  3.463E+01
 
-
-     1 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-     1 TOTAL ITERATIONS
 
 
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
      9 TOTAL ITERATIONS
+ LGRITER=  19
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.404E-03  (1,1,4) GNHEAD=  5.226E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -1.835E-04  (1,11,8) GNFLUX=  4.947E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     8 TOTAL ITERATIONS
+ LGRITER=  20
+ HCLOSELGR=  5.000E-05 HDIFFM= -9.175E-04  (1,1,4) GNHEAD=  5.226E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -1.241E-04  (1,11,8) GNFLUX=  4.947E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     8 TOTAL ITERATIONS
+ LGRITER=  21
+ HCLOSELGR=  5.000E-05 HDIFFM= -5.331E-04  (1,1,4) GNHEAD=  5.226E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -8.432E-05  (1,1,8) GNFLUX=  2.945E+01
+
+
+
+     3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     8 TOTAL ITERATIONS
+ LGRITER=  22
+ HCLOSELGR=  5.000E-05 HDIFFM= -2.758E-04  (1,1,4) GNHEAD=  5.226E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -5.395E-05  (1,1,1) GNFLUX=  3.555E+01
+
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     6 TOTAL ITERATIONS
+ LGRITER=  23
+ HCLOSELGR=  5.000E-05 HDIFFM= -1.520E-04  (1,9,8) GNHEAD=  5.158E+01
+ FCLOSELGR=  5.000E-04 FDIFFM= -2.806E-05  (1,1,1) GNFLUX=  3.556E+01
+
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     6 TOTAL ITERATIONS
+ LGRITER=  24
+ HCLOSELGR=  5.000E-05 HDIFFM= -9.128E-05  (1,9,8) GNHEAD=  5.158E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  1.667E-05  (1,11,2) GNFLUX=  3.709E+01
+
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     6 TOTAL ITERATIONS
+ LGRITER=  25
+ HCLOSELGR=  5.000E-05 HDIFFM= -5.718E-05  (1,9,1) GNHEAD=  6.023E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  1.733E-05  (1,1,8) GNFLUX=  2.945E+01
+
+
+
+     2 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+     6 TOTAL ITERATIONS
+ LGRITER=  26
+ HCLOSELGR=  5.000E-05 HDIFFM= -3.546E-05  (1,9,1) GNHEAD=  6.023E+01
+ FCLOSELGR=  5.000E-04 FDIFFM=  1.306E-05  (1,1,8) GNFLUX=  2.945E+01
+
 1
               HEAD IN LAYER   1 AT END OF TIME STEP   1 IN STRESS PERIOD    1
   ---------------------------------------------------------------------------
 
-            1           2           3           4           5           6           7           8           9          10
- ........................................................................................................................
-   1    59.49       57.33       55.30       53.54       52.26       51.66       51.56       51.79       52.19       52.71    
-   2    59.02       56.61       54.24       52.05       50.42       50.09       50.38       50.94       51.61       52.30    
-   3    58.56       55.87       53.01       50.00       47.28       47.93       48.91       50.00       50.99       51.88    
-   4    58.23       55.29       51.93       47.66       40.76       45.43       47.32       49.17       50.46       51.52    
-   5    58.13       55.13       51.77       47.95       44.23       45.69       47.35       48.88       50.17       51.29    
-   6    58.27       55.33       52.05       48.13       42.52       45.77       47.49       48.85       50.06       51.17    
-   7    58.62       55.88       52.99       50.00       47.34       47.38       47.99       48.95       50.05       51.14    
-   8    59.11       56.58       54.02       51.54       49.46       48.42       48.14       48.93       50.05       51.18    
-   9    59.66       57.31       54.96       52.67       50.55       48.70       47.23       48.56       50.03       51.29    
-  10    60.23       58.02       55.83       53.65       51.38       48.58       43.51       48.07       50.21       51.58    
-  11    60.79       58.73       56.70       54.71       52.73       50.74       48.98       50.00       51.17       52.18    
-  12    61.32       59.39       57.53       55.75       54.10       52.66       51.69       51.77       52.28       52.92    
-  13    61.80       59.99       58.27       56.68       55.26       54.10       53.34       53.12       53.27       53.63    
+            1           2           3           4           5           6           7           8
+ ................................................................................................
+   1    56.61       54.24       52.05       50.42       50.09       50.38       50.94       51.61    
+   2    55.87       53.01       50.00       47.28       47.93       48.91       50.00       50.99    
+   3    55.29       51.93       47.66       40.76       45.43       47.32       49.17       50.46    
+   4    55.13       51.77       47.95       44.23       45.69       47.35       48.88       50.17    
+   5    55.33       52.05       48.13       42.52       45.77       47.49       48.85       50.06    
+   6    55.88       52.99       50.00       47.34       47.38       47.99       48.95       50.05    
+   7    56.58       54.02       51.54       49.46       48.42       48.14       48.93       50.05    
+   8    57.31       54.96       52.67       50.55       48.70       47.23       48.56       50.03    
+   9    58.02       55.83       53.65       51.38       48.58       43.51       48.07       50.21    
+  10    58.73       56.70       54.71       52.73       50.74       48.98       50.00       51.17    
+  11    59.39       57.53       55.75       54.10       52.66       51.69       51.77       52.28    
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -366,20 +374,22 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2865656.7419         CONSTANT HEAD =        2865.6567
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
+     GHOST-NODE HEAD =     2865656.9379       GHOST-NODE HEAD =        2865.6569
 
-            TOTAL IN =     2865656.7419              TOTAL IN =        2865.6567
+            TOTAL IN =     2865656.9379              TOTAL IN =        2865.6569
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =     2865656.7420          MANAGED FLOW =        2865.6567
+       MANAGED WELLS =     2865656.9379         MANAGED WELLS =        2865.6569
+     GHOST-NODE HEAD =           0.0000       GHOST-NODE HEAD =           0.0000
 
-           TOTAL OUT =     2865656.7420             TOTAL OUT =        2865.6567
+           TOTAL OUT =     2865656.9379             TOTAL OUT =        2865.6569
 
-            IN - OUT =      -1.3894E-05              IN - OUT =      -1.3894E-08
+            IN - OUT =      -2.8262E-05              IN - OUT =      -2.8262E-08
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -388,7 +398,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
@@ -398,15 +408,10 @@
 1
   FLUX ACROSS PARENT-CHILD INTERFACE AT TIME STEP  1 IN STRESS PERIOD    1
   ------------------------------------------------------------------------
+ G-N FLUX        PARENT        CHILD         DIFFERENCE      % DIFFERENCE
+  RATE IN:      2.8657E+03    2.8657E+03    -2.0597E-08        0.0000
+ RATE OUT:      0.0000E+00    0.0000E+00     0.0000E+00        0.0000
 
-     CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
-     ------------------                 ------------------------
-
-   TOTAL IN TO CHILD =     2865656.7419     TOTAL IN TO CHILD =        2865.6567
-
- TOTAL OUT TO PARENT =           0.0000   TOTAL OUT TO PARENT =           0.0000
-
-
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:16:11
- Elapsed run time:  0.338 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  8:05:21
+ Elapsed run time:  0.364 Seconds
 

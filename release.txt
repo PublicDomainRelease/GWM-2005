@@ -5,6 +5,31 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.5.0;  24 September 2013
+        Add derived-type data structure for storage of MNW-type decision-variable
+                information to GWM1DCV3. Modify GWM1DCV3AR to read and echo MNW-
+                type decision-variable information. Add MODULE GWM1DCV3MNW, in file 
+                gwm1dcv3mnw.for, which defines storage for unmanaged MNW wells, 
+                reads the original MNW2 input file and creates the combined MNW2 
+                input file with both managed and unmanaged wells. Change line on 
+                volumetric budget from 'Managed Flow' to 'Managed Wells.'
+    
+        Modify GWM1STA3AR and GWM1STA3OS to read, echo, and process head state variables 
+                at MNW wells. Modify GWM1HDC3AR and GWM1HDC3OS to read, echo, and 
+                process head constraints at MNW wells. Modify GWM1RMS3OS to check the 
+                head in the well of an MNW-type decision variable for dewatering.
+
+        Add subroutine GWF2DCV3RP to GWM1DCV3.for; this writes to the listing file the 
+                stresses applied to each cell in each stress period by the GWM decision 
+                variables.
+
+        Make changes in anticipation of future versions of GWM including: Move FUNCTION 
+                IGETUNIT from GWM1BAS3SUBS.for to GWM1BAS3.for and replace INTERFACE 
+                references to IGETUNIT to USE references. Improve code flags in GWM1RMS3OT.  
+                Convert flow variable storage arrays to derived type to eliminate need to 
+                compute NCMAX.
+
+
 Version 1.4.2;  25 March 2013
 	Implement stream leakage constraints in GWM1STC3.for and stream 
                 leakage state variables in GWM1STA3.for.  Instructions for

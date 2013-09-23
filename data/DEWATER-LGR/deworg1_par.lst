@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -24,8 +24,8 @@
  BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   12
 
  DISCRETIZATION INPUT DATA READ FROM UNIT   11
- #DEWATER-LGR Sample Problem, parent DIS file
- #December, 2007
+ #DEWATER-LGR2 Sample Problem, parent DIS file
+ #updated August 2013
     1 LAYERS        20 ROWS        30 COLUMNS
     1 STRESS PERIOD(S) IN SIMULATION
  MODEL TIME UNIT IS DAYS
@@ -39,7 +39,7 @@
 
  TOP ELEVATION OF LAYER 1 =   100.000    
 
-   MODEL LAYER BOTTOM EL. =   100.000     FOR LAYER   1
+   MODEL LAYER BOTTOM EL. =   0.00000     FOR LAYER   1
 
 
  STRESS PERIOD     LENGTH       TIME STEPS     MULTIPLIER FOR DELT    SS FLAG
@@ -225,6 +225,13 @@
                                MULTIPLIER FOR DELT =     1.000
 
                             INITIAL TIME STEP SIZE =   1000.000    
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+ ----------------------------------------------------
+                      Total:    0.000000000000000    
  
  SOLVING FOR HEAD 
 
@@ -245,12 +252,16 @@
     39 TOTAL ITERATIONS
 
 
-     9 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    38 TOTAL ITERATIONS
+     8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    36 TOTAL ITERATIONS
 
 
-     9 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    39 TOTAL ITERATIONS
+     8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    36 TOTAL ITERATIONS
+
+
+     8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    34 TOTAL ITERATIONS
 
 
      8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
@@ -262,19 +273,7 @@
 
 
      8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    34 TOTAL ITERATIONS
-
-
-     8 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    34 TOTAL ITERATIONS
-
-
-     7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    30 TOTAL ITERATIONS
-
-
-     7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    30 TOTAL ITERATIONS
+    33 TOTAL ITERATIONS
 
 
      7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
@@ -285,8 +284,16 @@
     29 TOTAL ITERATIONS
 
 
-     6 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    26 TOTAL ITERATIONS
+     7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    29 TOTAL ITERATIONS
+
+
+     7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    28 TOTAL ITERATIONS
+
+
+     7 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    28 TOTAL ITERATIONS
 
 
      6 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
@@ -306,11 +313,7 @@
 
 
      5 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    21 TOTAL ITERATIONS
-
-
-     5 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    19 TOTAL ITERATIONS
+    20 TOTAL ITERATIONS
 
 
      5 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
@@ -321,12 +324,16 @@
     18 TOTAL ITERATIONS
 
 
+     5 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
+    19 TOTAL ITERATIONS
+
+
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     16 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
-    16 TOTAL ITERATIONS
+    15 TOTAL ITERATIONS
 
 
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
@@ -400,7 +407,7 @@
         61.27       59.83       58.54       57.44       56.55       55.88       55.44       55.20       55.15       55.26    
         55.49       55.82       56.22       56.68       57.18       57.72       58.27       58.84       59.42       60.00    
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -409,22 +416,22 @@
            IN:                                      IN:
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
-       CONSTANT HEAD =     2865656.7423         CONSTANT HEAD =        2865.6567
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =           0.0000      PARENT FLUX B.C. =           0.0000
+       CONSTANT HEAD =     2865656.9370         CONSTANT HEAD =        2865.6569
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
+     GHOST-NODE FLUX =           0.0000       GHOST-NODE FLUX =           0.0000
 
-            TOTAL IN =     2865656.7423              TOTAL IN =        2865.6567
+            TOTAL IN =     2865656.9370              TOTAL IN =        2865.6569
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
-    PARENT FLUX B.C. =     2865656.7419      PARENT FLUX B.C. =        2865.6567
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
+     GHOST-NODE FLUX =     2865656.9379       GHOST-NODE FLUX =        2865.6569
 
-           TOTAL OUT =     2865656.7419             TOTAL OUT =        2865.6567
+           TOTAL OUT =     2865656.9379             TOTAL OUT =        2865.6569
 
-            IN - OUT =       3.7925E-04              IN - OUT =       3.7925E-07
+            IN - OUT =      -8.2597E-04              IN - OUT =      -8.2597E-07
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -433,7 +440,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    

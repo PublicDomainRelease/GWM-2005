@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -184,6 +184,15 @@
      40 DRAINS
 
                  RECHARGE =  5.000000E-04
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -191,7 +200,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    1
     16 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    1   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    1   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -295,7 +304,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -307,7 +316,7 @@
        CONSTANT HEAD =   104052454.8219         CONSTANT HEAD =     1131004.9437
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =     1269600.0000              RECHARGE =       13800.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   125203567.4789              TOTAL IN =     1360908.3422
 
@@ -317,7 +326,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   122443620.4469                DRAINS =     1330908.9179
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =     2760000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =     2760000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   125203620.4469             TOTAL OUT =     1360908.9179
 
@@ -330,7 +339,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -352,6 +361,16 @@
      40 DRAINS
 
                  RECHARGE =  2.000000E-03
+
+Flows at Managed Wells for Stress Period    2
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -29514.02076371221    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -359,7 +378,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    2
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    2   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    2   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -463,7 +482,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   2
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   2
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -475,7 +494,7 @@
        CONSTANT HEAD =   210517007.1381         CONSTANT HEAD =     1169940.1353
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =     6292800.0000              RECHARGE =       55200.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   237365629.0971              TOTAL IN =     1232550.1277
 
@@ -485,7 +504,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   230508669.2643                DRAINS =     1187528.0090
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =     6855000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =     6855000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =   237365708.3039             TOTAL OUT =     1232550.4160
 
@@ -498,7 +517,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    2
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    2
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -520,6 +539,16 @@
      40 DRAINS
 
                  RECHARGE =   0.00000    
+
+Flows at Managed Wells for Stress Period    3
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -44514.02076371221    
+        3      1    14    25    0.000000000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -527,7 +556,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    3
     16 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    3   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    3   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -631,7 +660,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   3
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   3
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -643,7 +672,7 @@
        CONSTANT HEAD =   320100310.5332         CONSTANT HEAD =     1204212.1252
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =     6292800.0000              RECHARGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   347415664.1532              TOTAL IN =     1209341.0446
 
@@ -653,7 +682,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   335081026.0231                DRAINS =     1149146.7776
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    12315000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    12315000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =   347415748.5886             TOTAL OUT =     1209341.1020
 
@@ -666,7 +695,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    3
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    3
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -688,6 +717,15 @@
      40 DRAINS
 
                  RECHARGE =  1.000000E-03
+
+Flows at Managed Wells for Stress Period    4
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -695,7 +733,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    4
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    4   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    4   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -799,7 +837,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   4
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   4
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -811,7 +849,7 @@
        CONSTANT HEAD =   428260165.3208         CONSTANT HEAD =     1188569.8328
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =     8804400.0000              RECHARGE =       27600.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   458087118.9408              TOTAL IN =     1216169.8328
 
@@ -821,7 +859,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   442784409.0403                DRAINS =     1183553.6595
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    15045000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    15045000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   458087195.0765             TOTAL OUT =     1216169.7416
 
@@ -834,7 +872,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    4
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    4
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -856,6 +894,15 @@
      40 DRAINS
 
                  RECHARGE =  5.000000E-04
+
+Flows at Managed Wells for Stress Period    5
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -863,7 +910,7 @@
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    5
     11 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    5   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    5   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -967,7 +1014,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   5
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   5
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -979,7 +1026,7 @@
        CONSTANT HEAD =   538049164.3145         CONSTANT HEAD =     1193358.6847
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    10074000.0000              RECHARGE =       13800.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   569192213.2116              TOTAL IN =     1207664.0682
 
@@ -989,7 +1036,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   551129554.4005                DRAINS =     1177664.6235
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    17805000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    17805000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   569192340.4367             TOTAL OUT =     1207664.6235
 
@@ -1002,7 +1049,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    5
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    5
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -1024,6 +1071,16 @@
      40 DRAINS
 
                  RECHARGE =  2.000000E-03
+
+Flows at Managed Wells for Stress Period    6
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -29514.02076371221    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1031,7 +1088,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    6
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    6   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    6   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1135,7 +1192,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   6
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   6
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1147,7 +1204,7 @@
        CONSTANT HEAD =   644878408.9970         CONSTANT HEAD =     1173947.7438
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    15097200.0000              RECHARGE =       55200.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   681066536.6142              TOTAL IN =     1229388.1693
 
@@ -1157,7 +1214,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   658682470.8087                DRAINS =     1181900.1803
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    21900000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =    21900000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =   681066660.8313             TOTAL OUT =     1229388.1362
 
@@ -1170,7 +1227,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    6
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    6
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1192,6 +1249,16 @@
      40 DRAINS
 
                  RECHARGE =   0.00000    
+
+Flows at Managed Wells for Stress Period    7
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -44514.02076371221    
+        3      1    14    25    0.000000000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1199,7 +1266,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    7
     16 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    7   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    7   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1303,7 +1370,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   7
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   7
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1315,7 +1382,7 @@
        CONSTANT HEAD =   754484348.9779         CONSTANT HEAD =     1204460.8789
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    15097200.0000              RECHARGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   791090601.7853              TOTAL IN =     1209055.6612
 
@@ -1325,7 +1392,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   763227773.9037                DRAINS =     1148849.4846
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    27360000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    27360000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =   791090730.3776             TOTAL OUT =     1209055.7093
 
@@ -1338,7 +1405,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    7
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    7
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1360,6 +1427,15 @@
      40 DRAINS
 
                  RECHARGE =  1.000000E-03
+
+Flows at Managed Wells for Stress Period    8
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1367,7 +1443,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    8
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    8   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    8   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1471,7 +1547,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   8
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   8
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1483,7 +1559,7 @@
        CONSTANT HEAD =   862645636.7260         CONSTANT HEAD =     1188585.5796
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    17608800.0000              RECHARGE =       27600.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =   901763489.5334              TOTAL IN =     1216185.5796
 
@@ -1493,7 +1569,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   870929535.2464                DRAINS =     1183535.8389
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    30090000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    30090000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =   901763609.5009             TOTAL OUT =     1216185.4849
 
@@ -1506,7 +1582,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    8
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    8
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1528,6 +1604,15 @@
      40 DRAINS
 
                  RECHARGE =  5.000000E-04
+
+Flows at Managed Wells for Stress Period    9
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1535,7 +1620,7 @@
      3 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD    9
     11 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD    9   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD    9   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1639,7 +1724,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   9
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   9
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1651,7 +1736,7 @@
        CONSTANT HEAD =   972434729.2477         CONSTANT HEAD =     1193359.7013
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    18878400.0000              RECHARGE =       13800.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1012868480.2872              TOTAL IN =     1207662.9430
 
@@ -1661,7 +1746,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =   979274576.8672                DRAINS =     1177663.4959
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    32850000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    32850000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =  1012868651.1217             TOTAL OUT =     1207663.4959
 
@@ -1674,7 +1759,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    9
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    9
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.94880E+06 1.32480E+05  2208.0      92.000     0.25188    
@@ -1696,6 +1781,16 @@
      40 DRAINS
 
                  RECHARGE =  2.000000E-03
+
+Flows at Managed Wells for Stress Period   10
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17    0.000000000000000    
+        3      1    14    25   -29514.02076371221    
+ ----------------------------------------------------
+                      Total:   -45000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1703,7 +1798,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD   10
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD   10   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD   10   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1807,7 +1902,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  10
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  10
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1819,7 +1914,7 @@
        CONSTANT HEAD =  1079263980.1126         CONSTANT HEAD =     1173947.8117
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    23901600.0000              RECHARGE =       55200.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1124742809.7874              TOTAL IN =     1229388.2363
 
@@ -1829,7 +1924,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =  1086827486.4805                DRAINS =     1181900.1056
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    36945000.0000          MANAGED FLOW =       45000.0000
+       MANAGED WELLS =    36945000.0000         MANAGED WELLS =       45000.0000
 
            TOTAL OUT =  1124742977.6134             TOTAL OUT =     1229388.2032
 
@@ -1842,7 +1937,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   10
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   10
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -1864,6 +1959,16 @@
      40 DRAINS
 
                  RECHARGE =   0.00000    
+
+Flows at Managed Wells for Stress Period   11
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -44514.02076371221    
+        3      1    14    25    0.000000000000000    
+ ----------------------------------------------------
+                      Total:   -60000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -1871,7 +1976,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD   11
     16 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD   11   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD   11   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -1975,7 +2080,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  11
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  11
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -1987,7 +2092,7 @@
        CONSTANT HEAD =  1188869920.5146         CONSTANT HEAD =     1204460.8835
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    23901600.0000              RECHARGE =           0.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1234766874.5011              TOTAL IN =     1209055.6562
 
@@ -1997,7 +2102,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =  1191372789.1146                DRAINS =     1148849.4795
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    42405000.0000          MANAGED FLOW =       60000.0000
+       MANAGED WELLS =    42405000.0000         MANAGED WELLS =       60000.0000
 
            TOTAL OUT =  1234767046.7022             TOTAL OUT =     1209055.7043
 
@@ -2010,7 +2115,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   11
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   11
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -2032,6 +2137,15 @@
      40 DRAINS
 
                  RECHARGE =  1.000000E-03
+
+Flows at Managed Wells for Stress Period   12
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1    12    11   -15485.97923628778    
+        2      1    16    17   -14514.02076371222    
+ ----------------------------------------------------
+                      Total:   -30000.00000000000    
  
  SOLVING FOR HEAD 
 
@@ -2039,7 +2153,7 @@
      4 CALLS TO PCG ROUTINE FOR TIME STEP   1 IN STRESS PERIOD   12
     15 TOTAL ITERATIONS
 
- OUTPUT CONTROL FOR STRESS PERIOD   12   TIME STEP   1
+ OUTPUT CONTROL FOR STRESS PERIOD   12   TIME STEP    1
     PRINT BUDGET
     PRINT HEAD FOR ALL LAYERS
     SAVE BUDGET
@@ -2143,7 +2257,7 @@
   25    80.50   80.00   79.50   79.00   78.50   78.00   77.50   77.00   76.50   76.00   75.50   75.00   74.50   74.00   73.50
         73.00   72.50   72.00   71.50   71.00   70.50   70.00   69.50   69.00   68.50   68.00   67.50   67.00   66.50   66.00
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD  12
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD  12
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -2155,7 +2269,7 @@
        CONSTANT HEAD =  1297031208.2918         CONSTANT HEAD =     1188585.5800
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =    26413200.0000              RECHARGE =       27600.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =  1345439762.2782              TOTAL IN =     1216185.5800
 
@@ -2165,7 +2279,7 @@
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
               DRAINS =  1299074550.4255                DRAINS =     1183535.8386
             RECHARGE =           0.0000              RECHARGE =           0.0000
-        MANAGED FLOW =    45135000.0000          MANAGED FLOW =       30000.0000
+       MANAGED WELLS =    45135000.0000         MANAGED WELLS =       30000.0000
 
            TOTAL OUT =  1345439925.8545             TOTAL OUT =     1216185.4852
 
@@ -2178,7 +2292,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD   12
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD   12
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 7.86240E+06 1.31040E+05  2184.0      91.000     0.24914    
@@ -2186,6 +2300,6 @@
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:24:35
- Elapsed run time:  0.426 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  8:14:56
+ Elapsed run time:  0.421 Seconds
 

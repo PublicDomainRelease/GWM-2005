@@ -1,0 +1,11 @@
+#MNW-SUPPLY Sample Problem, GWM file
+#January 2012
+OUT     mnwsupply.gwmout
+DECVAR  ..\data\MNWSUPPLY\mnwsupply.decvar
+STAVAR  ..\data\MNWSUPPLY\mnwsupply.stavar
+OBJFNC  ..\data\MNWSUPPLY\mnwsupply.objfnc
+VARCON  ..\data\MNWSUPPLY\mnwsupply.varcon
+HEDCON  ..\data\MNWSUPPLY\mnwsupply.hedcon
+SUMCON  ..\data\MNWSUPPLY\mnwsupply.sumcon
+SOLN    ..\data\MNWSUPPLY\mnwsupply.soln
+

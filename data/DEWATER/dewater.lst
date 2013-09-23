@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -225,6 +225,20 @@
                                MULTIPLIER FOR DELT =     1.000
 
                             INITIAL TIME STEP SIZE =   1000.000    
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1     7    14   -1077.390473444154    
+        2      1     7    16   -78.23876650250294    
+        3      1     8    15    0.000000000000000    
+        4      1     9    14   -768.9506206763306    
+        5      1     9    16    0.000000000000000    
+        6      1    11    17    0.000000000000000    
+        7      1    13    16   -941.0751321471157    
+ ----------------------------------------------------
+                      Total:   -2865.654992770103    
  
  SOLVING FOR HEAD 
 
@@ -350,7 +364,7 @@
         61.27       59.83       58.54       57.44       56.55       55.88       55.44       55.20       55.15       55.26    
         55.49       55.82       56.22       56.68       57.18       57.72       58.27       58.84       59.42       60.00    
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -360,7 +374,7 @@
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =     2865654.9952         CONSTANT HEAD =        2865.6550
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =     2865654.9952              TOTAL IN =        2865.6550
 
@@ -368,7 +382,7 @@
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =     2865654.9928          MANAGED FLOW =        2865.6550
+       MANAGED WELLS =     2865654.9928         MANAGED WELLS =        2865.6550
 
            TOTAL OUT =     2865654.9928             TOTAL OUT =        2865.6550
 
@@ -381,7 +395,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
@@ -389,6 +403,6 @@
          TOTAL TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/03/21  9:12:10
- Elapsed run time:  0.051 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  7:58:08
+ Elapsed run time:  0.066 Seconds
 

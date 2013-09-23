@@ -2,16 +2,16 @@
 #December, 2007
  1                           #1-IPRN
  10 0  0  0                  #2-NHB NDD NDF NGD
- b-01  1  3 4 le 50.0 1      #3-HBNAME LAYH ROWH COLH TYPH BND NSP
- b-02  1  3 6 le 50.0 1
- b-03  1  3 8 le 50.0 1
- b-04  1  5 4 le 50.0 1
- b-05  1  5 8 le 50.0 1
- b-06  1  7 4 le 50.0 1
- b-07  1  7 6 le 50.0 1
- b-08  1  8 7 le 50.0 1
- b-09  1 11 7 le 50.0 1
- b-10  1 11 8 le 50.0 1
+ b-01  1  2 3 le 50.0 1      #3-HBNAME LAYH ROWH COLH TYPH BND NSP
+ b-02  1  2 5 le 50.0 1
+ b-03  1  2 7 le 50.0 1
+ b-04  1  4 3 le 50.0 1
+ b-05  1  4 7 le 50.0 1
+ b-06  1  6 3 le 50.0 1
+ b-07  1  6 5 le 50.0 1
+ b-08  1  7 6 le 50.0 1
+ b-09  1 10 6 le 50.0 1
+ b-10  1 10 7 le 50.0 1
 
 
 

@@ -1,7 +1,7 @@
 
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
 
 
 
@@ -23,35 +23,35 @@
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       0
  BINARY VARIABLES ARE NOT ACTIVE.
 
- FLOW-RATE VARIABLES:
+ FLOW-RATE VARIABLES: WEL-TYPE
                                                    FRACTION
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\DEWATER-LGR\deworg7_chd.decvar                                                                                  
 
-    1      Q1         WITHDRAWAL     1   22   29    1.0000
+    1      Q1         WITHDRAWAL     1   18   25    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      Q2         WITHDRAWAL     1   22   43    1.0000
+    2      Q2         WITHDRAWAL     1   18   39    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    3      Q3         WITHDRAWAL     1   29   36    1.0000
+    3      Q3         WITHDRAWAL     1   25   32    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      Q4         WITHDRAWAL     1   36   29    1.0000
+    4      Q4         WITHDRAWAL     1   32   25    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    5      Q5         WITHDRAWAL     1   36   43    1.0000
+    5      Q5         WITHDRAWAL     1   32   39    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    6      Q6         WITHDRAWAL     1   50   50    1.0000
+    6      Q6         WITHDRAWAL     1   46   46    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    7      Q7         WITHDRAWAL     1   64   43    1.0000
+    7      Q7         WITHDRAWAL     1   60   39    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
-      582 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+      610 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
@@ -105,20 +105,20 @@
  #December, 2007
 
  HEAD CONSTRAINTS:
-                                           RIGHT-HAND    STRESS
+                     MNW WELLID or         RIGHT-HAND    STRESS
  NUMBER  NAME        LAY  ROW  COL  TYPE      SIDE       PERIOD
  ---------------------------------------------------------------
   HEAD CONSTRAINTS READ FROM FILE: ..\data\DEWATER-LGR\deworg7_chd.hedcon                                                                                  
-     1   b-01          1   15   22   <    5.0000E+01         1
-     2   b-02          1   15   36   <    5.0000E+01         1
-     3   b-03          1   15   50   <    5.0000E+01         1
-     4   b-04          1   29   22   <    5.0000E+01         1
-     5   b-05          1   29   50   <    5.0000E+01         1
-     6   b-06          1   43   22   <    5.0000E+01         1
-     7   b-07          1   43   36   <    5.0000E+01         1
-     8   b-08          1   50   43   <    5.0000E+01         1
-     9   b-09          1   71   43   <    5.0000E+01         1
-    10   b-10          1   71   50   <    5.0000E+01         1
+     1   b-01          1   11   18   <    5.0000E+01         1
+     2   b-02          1   11   32   <    5.0000E+01         1
+     3   b-03          1   11   46   <    5.0000E+01         1
+     4   b-04          1   25   18   <    5.0000E+01         1
+     5   b-05          1   25   46   <    5.0000E+01         1
+     6   b-06          1   39   18   <    5.0000E+01         1
+     7   b-07          1   39   32   <    5.0000E+01         1
+     8   b-08          1   46   39   <    5.0000E+01         1
+     9   b-09          1   67   39   <    5.0000E+01         1
+    10   b-10          1   67   46   <    5.0000E+01         1
 
       700 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
 
@@ -217,26 +217,26 @@
 Variable           Withdrawal          Injection           Contribution
 Name               Rate                Rate                To Objective
 ----------         --------------      ------------        ------------
- Q1                1.058103E+03                            1.058103E+06
- Q2                9.803602E+01                            9.803602E+04
+ Q1                1.053198E+03                            1.053198E+06
+ Q2                9.976418E+01                            9.976418E+04
  Q3                0.000000E+00                            0.000000E+00
- Q4                7.686099E+02                            7.686099E+05
+ Q4                7.697597E+02                            7.697597E+05
  Q5                0.000000E+00                            0.000000E+00
  Q6                0.000000E+00                            0.000000E+00
- Q7                9.323061E+02                            9.323061E+05
+ Q7                9.296993E+02                            9.296993E+05
                    ------------        ------------        ------------
-TOTALS             2.857055E+03        0.000000E+00        2.857055E+06
+TOTALS             2.852421E+03        0.000000E+00        2.852421E+06
 
 
-       OBJECTIVE FUNCTION VALUE                            2.857055E+06
+       OBJECTIVE FUNCTION VALUE                            2.852421E+06
 
        BINDING CONSTRAINTS 
 Constraint Type        Name     Status      Shadow Price
 ---------------        ----     ------      ------------
-Head Bound             b-01     Binding     -2.7530E+04
-Head Bound             b-03     Binding     -3.2470E+04
-Head Bound             b-06     Binding     -3.0982E+04
-Head Bound             b-10     Binding     -5.1153E+04
+Head Bound             b-01     Binding     -2.7468E+04
+Head Bound             b-03     Binding     -3.2403E+04
+Head Bound             b-06     Binding     -3.1030E+04
+Head Bound             b-10     Binding     -5.0991E+04
 
   Binding constraint and range analysis values are determined from the linear
     program and based on the response matrix approximation of the flow-process.
@@ -255,34 +255,34 @@ Head Bound             b-10     Binding     -5.1153E+04
 Constraint                Original      Lower/Upper
 Name        Slack         RHS           Bound            Entering    Leaving
 ----------  ----------    ----------    ----------       ----------  ----------
-b-01        0.0000E+00    5.0000E+01    4.9305E+01       b-03        Q2        
-                                        5.3301E+01       b-01        b-02      
+b-01        0.0000E+00    5.0000E+01    4.9288E+01       b-03        Q2        
+                                        5.3306E+01       b-01        b-02      
 
-b-02        2.1267E+00    5.0000E+01    4.7873E+01       b-01        b-02      
+b-02        2.1305E+00    5.0000E+01    4.7870E+01       b-01        b-02      
                                           Infinity       ----- No Change -----
 
-b-03        0.0000E+00    5.0000E+01    4.2757E+01       b-01        Q1        
-                                        5.0411E+01       b-03        Q2        
+b-03        0.0000E+00    5.0000E+01    4.2737E+01       b-01        Q1        
+                                        5.0421E+01       b-03        Q2        
 
-b-04        2.1431E+00    5.0000E+01    4.7857E+01       b-01        b-04      
+b-04        2.1395E+00    5.0000E+01    4.7861E+01       b-01        b-04      
                                           Infinity       ----- No Change -----
 
-b-05        1.0891E+00    5.0000E+01    4.8911E+01       Q3          b-05      
+b-05        1.0917E+00    5.0000E+01    4.8908E+01       Q3          b-05      
                                           Infinity       ----- No Change -----
 
-b-06        0.0000E+00    5.0000E+01    4.7531E+01       b-03        Q2        
-                                        5.2745E+01       b-06        Q4        
+b-06        0.0000E+00    5.0000E+01    4.7482E+01       b-03        Q2        
+                                        5.2754E+01       b-06        Q4        
 
-b-07        2.6085E+00    5.0000E+01    4.7391E+01       Q3          b-07      
+b-07        2.6077E+00    5.0000E+01    4.7392E+01       Q3          b-07      
                                           Infinity       ----- No Change -----
 
-b-08        1.7117E+00    5.0000E+01    4.8288E+01       Q6          b-08      
+b-08        1.7086E+00    5.0000E+01    4.8291E+01       Q6          b-08      
                                           Infinity       ----- No Change -----
 
-b-09        7.5659E-01    5.0000E+01    4.9243E+01       b-10        b-09      
+b-09        7.5515E-01    5.0000E+01    4.9245E+01       b-10        b-09      
                                           Infinity       ----- No Change -----
 
-b-10        0.0000E+00    5.0000E+01    4.6276E+01       b-03        Q2        
+b-10        0.0000E+00    5.0000E+01    4.6162E+01       b-03        Q2        
                                         5.0656E+01       b-10        b-09      
 
 
@@ -299,26 +299,26 @@ b-10        0.0000E+00    5.0000E+01    4.6276E+01       b-03        Q2
 Variable    Reduced       Original      Lower/Upper
 Name        Cost          Coefficient   Bound            Entering    Leaving
 ----------  ----------    ----------    ----------       ----------  ----------
-Q1          0.0000E+00    1.0000E+03    9.0823E+02       b-01        Q2        
-                                        1.0693E+03       Q3          Q2        
+Q1          0.0000E+00    1.0000E+03    9.0801E+02       b-01        Q2        
+                                        1.0697E+03       Q3          Q2        
 
-Q2          0.0000E+00    1.0000E+03    8.6389E+02       b-03        Q1        
-                                        1.0469E+03       Q3          Q2        
+Q2          0.0000E+00    1.0000E+03    8.6337E+02       b-03        Q1        
+                                        1.0472E+03       Q3          Q2        
 
-Q3          1.6722E+01    1.0000E+03    9.8328E+02       Q3          Q2        
+Q3          1.6817E+01    1.0000E+03    9.8318E+02       Q3          Q2        
                                           Infinity       ----- No Change -----
 
-Q4          0.0000E+00    1.0000E+03    8.8936E+02       b-06        Q2        
-                                        1.0504E+03       Q3          Q2        
+Q4          0.0000E+00    1.0000E+03    8.8897E+02       b-06        Q2        
+                                        1.0507E+03       Q3          Q2        
 
-Q5          4.8358E+01    1.0000E+03    9.5164E+02       Q5          Q2        
+Q5          4.8720E+01    1.0000E+03    9.5128E+02       Q5          Q2        
                                           Infinity       ----- No Change -----
 
-Q6          8.1036E+01    1.0000E+03    9.1896E+02       Q6          Q2        
+Q6          8.1715E+01    1.0000E+03    9.1829E+02       Q6          Q2        
                                           Infinity       ----- No Change -----
 
-Q7          0.0000E+00    1.0000E+03    6.6986E+02       b-10        Q2        
-                                        1.1437E+03       Q6          Q2        
+Q7          0.0000E+00    1.0000E+03    6.6940E+02       b-10        Q2        
+                                        1.1451E+03       Q6          Q2        
 
 ---------------------------------------------------------------
          Final Flow Process Simulation
@@ -333,16 +333,16 @@ Q7          0.0000E+00    1.0000E+03    6.6986E+02       b-10        Q2
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Head Bound             b-01          5.0000E+01 < 5.0000E+01   2.9285E-05
-      Head Bound             b-02          4.7873E+01 < 5.0000E+01  -2.1267E+00
-      Head Bound             b-03          5.0000E+01 < 5.0000E+01   2.9264E-05
-      Head Bound             b-04          4.7857E+01 < 5.0000E+01  -2.1431E+00
-      Head Bound             b-05          4.8911E+01 < 5.0000E+01  -1.0891E+00
-      Head Bound             b-06          5.0000E+01 < 5.0000E+01   2.9367E-05
-      Head Bound             b-07          4.7392E+01 < 5.0000E+01  -2.6085E+00
-      Head Bound             b-08          4.8288E+01 < 5.0000E+01  -1.7117E+00
-      Head Bound             b-09          4.9243E+01 < 5.0000E+01  -7.5656E-01
-      Head Bound             b-10          5.0000E+01 < 5.0000E+01   2.9974E-05
+      Head Bound             b-01          5.0000E+01 < 5.0000E+01   2.9250E-05
+      Head Bound             b-02          4.7870E+01 < 5.0000E+01  -2.1305E+00
+      Head Bound             b-03          5.0000E+01 < 5.0000E+01   2.8381E-05
+      Head Bound             b-04          4.7861E+01 < 5.0000E+01  -2.1394E+00
+      Head Bound             b-05          4.8908E+01 < 5.0000E+01  -1.0917E+00
+      Head Bound             b-06          5.0000E+01 < 5.0000E+01   2.9854E-05
+      Head Bound             b-07          4.7392E+01 < 5.0000E+01  -2.6077E+00
+      Head Bound             b-08          4.8291E+01 < 5.0000E+01  -1.7086E+00
+      Head Bound             b-09          4.9245E+01 < 5.0000E+01  -7.5512E-01
+      Head Bound             b-10          5.0000E+01 < 5.0000E+01   2.8640E-05
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

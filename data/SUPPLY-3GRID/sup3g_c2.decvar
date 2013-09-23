@@ -1,4 +1,4 @@
 #SUP3G Sample Problem, child #2 DECVAR file
  1 0                              #1-IPRN  GWMWFILE
  1 0 0                            #2-NFVAR NEVAR NBVAR
- Q4  1  1  12  12  W  Y  1        #3a-FVNAME NC LAY ROW COL FTYPE FSTAT WSP
+ Q4  1  1   9   9  W  Y  1        #3a-FVNAME NC LAY ROW COL FTYPE FSTAT WSP

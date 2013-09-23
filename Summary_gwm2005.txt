@@ -47,6 +47,12 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
+Version 1.5.0; 2012/09 - Added capability to use MNW-type wells as decision 
+variables (Ahlfeld and Barlow, 2013). Head constraints and state variables also
+can be specified for MNW-type wells. Added version 2.0 of MODFLOW-LGR. Minor output 
+and code improvements.
+
+
 Version 1.4.2; 2013/03 - Add options for stream leakage constraints and stream 
 leakage state variables.  Minor output improvment.
 
@@ -99,14 +105,14 @@ PROCESSES
 
 This version of GWM-2005 includes the following processes: 
 
-GWF2 -- Ground-Water Flow Process 
-GWM1 -- Ground-Water Management Process 
+GWF2 -- Groundwater Flow Process 
+GWM1 -- Groundwater Management Process 
 OBS2 -- Observation Process 
 
 
 PACKAGES
 
-In addition to all of the packages included with Version 1.2 of MODFLOW-LGR
+In addition to all of the packages included with Version 2.0 of MODFLOW-LGR
 (based on Version 1.8 of MODFLOW-2005) this version of GWM-2005 includes 
 the following packages: 
 
@@ -128,6 +134,10 @@ DOCUMENTATION
 Ahlfeld, D.P., Baker, K.M., and Barlow, P.M., 2009, GWM-2005--A Groundwater-
 Management Process for MODFLOW-2005 with Local Grid Refinement (LGR)
 capability: U.S. Geological Survey Techniques and Methods, 6-A33, 65 p.
+
+Ahlfeld, D.P., and Barlow, P.M., 2013, Use of multi-node wells in the Ground-
+water-Management Process of MODFLOW-2005 (GWM-2005): U.S. Geological Survey 
+Techniques and Methods, 6-A47, 26 p.
 
 Ahlfeld, D.P., Barlow, P.M., and Baker, K.M., 2011, Documentation for the
 State Variables Package for the Groundwater-Management Process of

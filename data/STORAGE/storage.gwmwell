@@ -13,7 +13,7 @@
          3         5        11 -0.6400000E+05    Flow Variable:Q2-3-b     RATIO=  1.0000
          2         6        12 -0.6400000E+05    Flow Variable:Q3-2-b     RATIO=  1.0000
          1        11         8  0.0000000E+00    Flow Variable:Q4-1-b     RATIO=  1.0000
-         2        11         8 -0.3287871E+05    Flow Variable:Q4-2-b     RATIO=  1.0000
+         2        11         8 -0.3287872E+05    Flow Variable:Q4-2-b     RATIO=  1.0000
          3        11         8 -0.6400000E+05    Flow Variable:Q4-3-b     RATIO=  1.0000
          1        11        12  0.0000000E+00    Flow Variable:Q5-1-b     RATIO=  1.0000
          2        11        12  0.0000000E+00    Flow Variable:Q5-2-b     RATIO=  1.0000

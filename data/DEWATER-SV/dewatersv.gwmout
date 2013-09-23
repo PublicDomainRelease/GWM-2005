@@ -1,7 +1,7 @@
 
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
 
 
 
@@ -21,7 +21,7 @@
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       0
  BINARY VARIABLES ARE NOT ACTIVE.
 
- FLOW-RATE VARIABLES:
+ FLOW-RATE VARIABLES: WEL-TYPE
                                                    FRACTION
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
@@ -47,7 +47,7 @@
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
-      578 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+      606 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
@@ -63,6 +63,7 @@
  NO. OF DRAIN STATE VARIABLES (NDVAR):             0
 
  HEAD TYPE STATE VARIABLES:
+                             MNW WELLID or
   NUMBER     NAME            LAY  ROW  COL
  ----------------------------------------------------------
       1      b-01            1    6   13

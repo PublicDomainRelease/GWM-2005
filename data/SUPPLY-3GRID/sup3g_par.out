@@ -1,7 +1,7 @@
 
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
 
 
 
@@ -34,29 +34,29 @@
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       1
  BINARY VARIABLES ARE ACTIVE. NBVAR:               2
 
- FLOW-RATE VARIABLES:
+ FLOW-RATE VARIABLES: WEL-TYPE
                                                    FRACTION
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c1.decvar                                                                                    
 
-    1      Q1         WITHDRAWAL     1   12   12    1.0000
+    1      Q1         WITHDRAWAL     1    9    9    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    2      Q2         WITHDRAWAL     1   12   37    1.0000
+    2      Q2         WITHDRAWAL     1    9   34    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    3      Q3         WITHDRAWAL     1   37   22    1.0000
+    3      Q3         WITHDRAWAL     1   34   19    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c2.decvar                                                                                    
 
-    4      Q4         WITHDRAWAL     1   12   12    1.0000
+    4      Q4         WITHDRAWAL     1    9    9    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_c3.decvar                                                                                    
 
-    5      Q5         WITHDRAWAL     1   12   12    1.0000
+    5      Q5         WITHDRAWAL     1    9    9    1.0000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -84,7 +84,7 @@
     2        BV2            2                Q4        
                                              Q5        
 
-      544 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+      564 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
@@ -169,7 +169,7 @@
  #SUP3G Sample Problem, HEDCON file
 
  HEAD CONSTRAINTS:
-                                           RIGHT-HAND    STRESS
+                     MNW WELLID or         RIGHT-HAND    STRESS
  NUMBER  NAME        LAY  ROW  COL  TYPE      SIDE       PERIOD
  ---------------------------------------------------------------
   HEAD CONSTRAINTS READ FROM FILE: ..\data\SUPPLY-3GRID\sup3g_par.hedcon                                                                                   
@@ -227,7 +227,7 @@
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Head Bound             hd-1       Satisfied     2.6660E+01
+      Head Bound             hd-1       Satisfied     2.6661E+01
       Head Bound             hd-2       Satisfied     3.4286E+01
       Head Bound             hd-3       Satisfied     2.6661E+01
       Head Bound             hd-4       Satisfied     3.4286E+01
@@ -260,25 +260,25 @@
     Name          Value       Name          Value       Name          Value
 Flow Variables
     Q1          0.0000E+00    Q2          0.0000E+00    Q3          0.0000E+00
-    Q4          3.6597E+05    Q5          3.5688E+05
+    Q4          3.6599E+05    Q5          3.5683E+05
 External Variables
-    E           2.7715E+05
+    E           2.7719E+05
 Binary Variables
-    BV1         0.0000E+00    BV2         3.6143E-01
-    Objective Function =  2.771482E+08
+    BV1         0.0000E+00    BV2         3.6141E-01
+    Objective Function =  2.771858E+08
  
     Feasible Solution Found
  SUBPROBLEM           1 IS FATHOMED - IT IS RELAXED AND INFERIOR
  SUBPROBLEM           2 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    Q1          5.0000E+05    Q2          0.0000E+00    Q3          4.2569E+05
+    Q1          5.0000E+05    Q2          0.0000E+00    Q3          4.2565E+05
     Q4          0.0000E+00    Q5          0.0000E+00
 External Variables
-    E           7.4307E+04
+    E           7.4348E+04
 Binary Variables
     BV1         1.0000E+00    BV2         0.0000E+00
-    Objective Function =  7.430744E+07
+    Objective Function =  7.434791E+07
  
  
            2 RELAXED PROBLEMS WERE SOLVED.
@@ -298,20 +298,20 @@ Name               Rate                Rate                To Objective
 ----------         --------------      ------------        ------------
  Q1                5.000000E+05                            0.000000E+00
  Q2                0.000000E+00                            0.000000E+00
- Q3                4.256926E+05                            0.000000E+00
+ Q3                4.256521E+05                            0.000000E+00
  Q4                0.000000E+00                            0.000000E+00
  Q5                0.000000E+00                            0.000000E+00
                    ------------        ------------        ------------
-TOTALS             9.256926E+05        0.000000E+00        0.000000E+00
+TOTALS             9.256521E+05        0.000000E+00        0.000000E+00
 
        OPTIMAL VALUES FOR EACH EXTERNAL VARIABLE 
        ---------------------------------------
 Variable           Variable            Optimal             Contribution
 Name               Type                Value               To Objective
 ----------         --------------      ------------        ------------
- E                  Import             7.430744E+04        7.430744E+07
+ E                  Import             7.434791E+04        7.434791E+07
                                                            ------------
-TOTAL                                                      7.430744E+07
+TOTAL                                                      7.434791E+07
 
        OPTIMAL VALUES FOR EACH BINARY VARIABLE 
        ---------------------------------------
@@ -324,12 +324,12 @@ Name               Value                                   To Objective
 TOTALS                 1                                   0.000000E+00
 
 
-       OBJECTIVE FUNCTION VALUE                            7.430744E+07
+       OBJECTIVE FUNCTION VALUE                            7.434791E+07
 
        BINDING CONSTRAINTS 
 Constraint Type        Name     Status      Shadow Price
 ---------------        ----     ------      ------------
-Head Bound             hd-1     Binding      3.0429E+07
+Head Bound             hd-1     Binding      3.0430E+07
 Summation              DEMAND   Binding      1.0000E+03
 Summation              FIELDS   Binding    Not Available
 Maximum Flow Rate      Q1       Binding    Not Available
@@ -354,10 +354,10 @@ Minimum Flow Rate      Q5       Binding    Not Available
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Head Bound             hd-1          2.1000E+02 > 2.1000E+02  -1.8798E-05
-      Head Bound             hd-2          2.1871E+02 > 2.1000E+02   8.7066E+00
-      Head Bound             hd-3          2.1090E+02 > 2.1000E+02   8.9654E-01
-      Head Bound             hd-4          2.1950E+02 > 2.1000E+02   9.5032E+00
+      Head Bound             hd-1          2.1000E+02 > 2.1000E+02   1.9032E-07
+      Head Bound             hd-2          2.1871E+02 > 2.1000E+02   8.7065E+00
+      Head Bound             hd-3          2.1090E+02 > 2.1000E+02   8.9696E-01
+      Head Bound             hd-4          2.1950E+02 > 2.1000E+02   9.5033E+00
       Summation              DEMAND        1.0000E+06 > 1.0000E+06   0.0000E+00
       Summation              FIELDS        1.0000E+00 < 1.0000E+00   0.0000E+00
 

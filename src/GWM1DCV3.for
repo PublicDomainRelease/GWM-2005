@@ -1,13 +1,26 @@
+!    Structure of file GWM1DCV3.for
+!
+!    MODULE GWM1DCV3
+!      define storage for all decision variable data
+!      CONTAINS
+!      SUBROUTINE GWM1DCV3AR
+!        CONTAINS
+!          routines related to reading GWM input for WEL-type and MNW-type decision variables
+!      END SUBROUTINE GWM1DCV3AR
+!      FM and BD routines 
+!    END MODULE GWM1DCV3
+
       MODULE GWM1DCV3
-C     VERSION: 21MAR2012
+C     VERSION: 4APR2012
       USE GWM_STOP, ONLY:   GSTOP
       IMPLICIT NONE
       PRIVATE  
       PUBLIC::NFVAR,FVNAME,FVMIN,FVMAX,FVBASE,FVINI,FVRATIO,FVILOC,EVSP,
      &        FVJLOC,FVKLOC,FVNCELL,FVON,FVDIR,FVSP,EVNAME,EVMIN,EVMAX,
      &        EVBASE,EVDIR,NEVAR,BVNAME,BVBASE,BVNLIST,BVLIST,NBVAR,
-     &        GRDLOCDCV,NCMAX,FVCURRENT
-      PUBLIC::GWM1DCV3AR,GWM1DCV3FM,GWF2DCV3FM,GWF2DCV3BD
+     &        GRDLOCDCV,FVCURRENT,FVMNW,MNW2HERE
+      PUBLIC::GWM1DCV3AR,GWM1DCV3FM,GWF2DCV3FM,GWF2DCV3BD,
+     &        GWF2DCV3RP,GWM1DCV3FVCPNT
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
       INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
@@ -15,35 +28,83 @@ C
       INTEGER, PARAMETER :: DP = KIND(1.0D0)
       INTEGER, PARAMETER :: LGT = KIND(.TRUE.)
 C
-C-----VARIABLES FOR FLOW DECISION VARIABLES
-      INTEGER(I4B),SAVE::NFVAR,NCMAX
-      CHARACTER(LEN=10),SAVE,ALLOCATABLE::FVNAME(:)
-      REAL(SP),SAVE,ALLOCATABLE::FVRATIO(:,:)
-      REAL(DP),SAVE,ALLOCATABLE::FVMIN(:),FVMAX(:),FVBASE(:),FVINI(:),
-     &                           FVCURRENT(:)
-      INTEGER(I4B),SAVE,ALLOCATABLE::FVILOC(:,:),FVJLOC(:,:),FVKLOC(:,:)
+C-----STORAGE FOR FLOW DECISION VARIABLE DATA
+      INTEGER(I4B),SAVE            ::NFVAR
+      LOGICAL(LGT),SAVE            ::MNW2HERE
       INTEGER(I4B),SAVE,ALLOCATABLE::FVNCELL(:),FVON(:),FVDIR(:)
-      LOGICAL(LGT),SAVE,ALLOCATABLE ::FVSP(:,:)
+      REAL(DP),    SAVE,ALLOCATABLE::FVINI(:),FVCURRENT(:)
+      REAL(DP),    SAVE,ALLOCATABLE::FVMIN(:),FVMAX(:),FVBASE(:)
+      LOGICAL(LGT),SAVE,ALLOCATABLE::FVSP(:,:)
+      CHARACTER(LEN=10),SAVE,ALLOCATABLE::FVNAME(:)
+      
+      INTEGER(I4B),    SAVE, DIMENSION(:),POINTER::FVILOC,FVJLOC,FVKLOC
+      DOUBLE PRECISION,SAVE, DIMENSION(:),POINTER::FVRATIO
+      TYPE NCMAX
+        INTEGER(I4B),    POINTER,DIMENSION(:)::FVILOC,FVJLOC,FVKLOC
+        DOUBLE PRECISION,POINTER,DIMENSION(:)::FVRATIO
+      END TYPE
+      TYPE(NCMAX),ALLOCATABLE,SAVE  ::FVCELL(:) 
 C
 C      NFVAR    -number of flow-rate variables
-C      NCMAX    -maximum number of cells associated with any flow-rate variable
 C      FVNAME   -name of flow-rate variable (10 digits)
 C      FVMIN    -lower bound for flow-rate variable
 C      FVMAX    -upper bound for flow-rate variable
 C      FVBASE   -current value of flow-rate variable during solution process 
-C      FVCURRENT-flow-rate variable storage used by GWMPLL
+C      FVCURRENT-flow-rate variable storage used by GWM-VI
 C      FVINI    -initial value of flow-rate variables
+C      FVCELL   -derived type array that holds cell information for each decision variable
 C      FVRATIO  -fraction of total flow applied at each cell associated with
-C                  the flow-rate variable
-C      FVILOC(I,J), FVJLOC(I,J), FVKLOC(I,J)
+C                  the flow-rate variable in FVCELL(I)
+C      FVILOC(J), FVJLOC(J), FVKLOC(J)
 C               -i,j,k location in MODFLOW grid of the jth cell associated  
-C                  with the ith flow-rate variable
+C                  with the ith flow-rate variable in FVCELL(I)
 C      FVNCELL  -number of cells associated with the flow-rate variable
+C                  if FVNCELL>0, this is WEL-type; if <0, this is MNW-type
 C      FVON     -flag for availability of flow-rate variable (>0-yes, =<0-no) 
 C      FVDIR    -flag for direction of flow for flow-rate variable 
 C                 1 => inject, 2 => withdrawal
 C      FVSP     -logical array (NFVAR x # stress periods) which records if a
 C                  flow-rate variable is a candidate during a stress period
+C
+C-----ADDITIONAL STORAGE FOR MNW-TYPE FLOW DECISION VARIABLES 
+C       DATA STRUCTURE MIMICS GWFMNW2MODULE
+      TYPE MNWWELL
+        DOUBLE PRECISION, POINTER,DIMENSION(:,:)::FVMNWINT
+        DOUBLE PRECISION, POINTER,DIMENSION(:,:)::FVMNWNOD
+      END TYPE
+      TYPE FVWELL
+        TYPE(MNWWELL),    POINTER,DIMENSION(:)  ::FVCELLS
+        DOUBLE PRECISION, POINTER,DIMENSION(:,:)::FVMNW2
+        CHARACTER(LEN=20),POINTER,DIMENSION(:)  ::FVWELLID
+        INTEGER          ,POINTER,DIMENSION(:)  ::FVWTOMNW
+      END TYPE
+      TYPE(FVWELL),ALLOCATABLE,SAVE  ::FVMNW(:) 
+C     Flow Variables may be WEL or MNW-type (this is indicated by the sign of 
+C       FVNCELL).   For either type the flow variable data structure above is used.  
+C       If MNW-type, then there may be multiple MNW wells in a single Flow Variable.  
+C       For each MNW well in a Flow Variable, multiple nodes can be defined.  
+C       The additional structure to store information for MNW-type flow variables 
+C       is held in the allocatable, derived-type array FVMNW, which holds MNW 
+C       information for each of the NFVAR flow variables.  If the Ith flow variable
+C       is not MNW-type then the MNW information arrays are not allocated.
+C
+C	For the Ith flow variable that is MNW-type, two storage arrays are defined;
+C		FVMNW(I)%FVWTOMNW(NWELLS)
+C		FVMNW(I)%FVWELLID(NWELLS)
+C		FVMNW(I)%FVMNW2(31,NWELLS)
+C			Where NWELLS is the number of MNW wells associated with the ith flow 
+C           decision variable, FCWTOMNW maps from the flow variable and well to the
+C           index number of the MNW well, FVWELLID holds the name of each well and FVMNW2 
+C           holds data about the well. The value of NWELLS is stored in FVNCELL(I).
+C	And a derived-type variable, FVCELLS, is defined for each well.
+C		FVMNW(I)%FVCELLS(NWELLS)
+C
+C		For the Kth well in the Ith flow variable, two storage arrays are defined:
+C           FVMNW(I)%FVCELLS(K)%FVMNWINT(NNODES)
+C	      FVMNW(I)%FVCELLS(K)%FVMNWNOD(NNODES)
+C				Where NNODES is the number of nodes associate with the well and 
+C               FVMNWINT and FVMNWNOD hold data about the node. The value of NNODES 
+C               for well K is stored in FVMNW2(2,K)
 C
 C-----VARIABLES FOR EXTERNAL DECISION VARIABLES
       INTEGER(I4B),SAVE::NEVAR
@@ -94,34 +155,15 @@ C*************************************************************************
 C     VERSION: 17MAY2011
 C     PURPOSE: READ INPUT FROM THE DECISION-VARIABLE FILE 
 C---------------------------------------------------------------------------
-      USE GWM1BAS3, ONLY: ONE,ZERO,GWM1BAS3PS,CUTCOM,GWMWFILE
+      USE GWM1BAS3, ONLY: ONE,ZERO,GWM1BAS3PS,CUTCOM,GWMWFILE,IGETUNIT
       USE GLOBAL,   ONLY: NCOL,NROW,NLAY
       INTEGER(I4B),INTENT(IN)::IOUT,NPER,NGRIDS
       INTEGER(I4B),INTENT(OUT)::NFVAR,NEVAR,NBVAR,NDV
       CHARACTER(LEN=200),INTENT(IN),DIMENSION(NGRIDS)::FNAMEN
-      INTERFACE 
-        SUBROUTINE URDCOM(IN,IOUT,LINE)
-        CHARACTER*(*) LINE
-        END
-C
-        SUBROUTINE URWORD(LINE,ICOL,ISTART,ISTOP,NCODE,N,R,IOUT,IN)
-        CHARACTER*(*) LINE
-        CHARACTER*20 STRING
-        CHARACTER*30 RW
-        CHARACTER*1 TAB
-        END
-
-C 
-        INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-        INTEGER I,IFIRST,IOST,MAXUNIT
-        LOGICAL LOP
-        END        
-C        
-      END INTERFACE
 C-----LOCAL VARIABLES
       CHARACTER(LEN=10)::TFVNAME
       REAL(SP)::TRAT
-      INTEGER(I4B)::I,II,J,JJ,IR,IC,IL,NPVMAX,BYTES
+      INTEGER(I4B)::I,II,J,JJ,IR,IC,IL,NPVMAX,BYTES,NCABS,ncmax
       INTEGER(I4B)::LLOC,INMS,INMF,INMVS,INMVF,N,TNPV
       INTEGER(I4B)::LOCAT,ISTART,ISTOP,IPRN,IPRNG
       INTEGER(I4B),DIMENSION(NGRIDS)::NUNOPN
@@ -141,11 +183,18 @@ C-----ALLOCATE TEMPORARY STORAGE UNTIL SIZE CAN BE DETERMINED
      &             GRDLOCBV(:)
       DATA ETYPED /'  Import  ','  Export  ','  Head    ',
      &    '  Strmflow','  Storage ','  General ','  Drain   '/
-
+C-----LOCAL VARIABLES RELATED TO MNW
+      INTEGER(I4B)::Qlimit,PUMPLOC,PPFLAG,PUMPCAP,LOSSTYPEINDEX
+      INTEGER(I4B)::NNA,GMNWMAX,NNODES,K,NCNT,MNWID,INODE,IINT,JFV
+      REAL(DP)::RATIO,Rw,Rskin,Kskin,B,C,P,CWC,RwNode,RskinNode
+      REAL(DP)::KskinNode,BNode,CNode,PNode,CWCNode,Ztop,Zbotm,PP
+      CHARACTER(LEN=20)::LOSSTYPE,WELLNM
+      CHARACTER(LEN=20)::WELLNAME,FVDIRNAME
 C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----LOOP OVER ALL GRIDS TO OPEN FILES AND COUNT DECISION VARIABLES
 C
+      MNW2HERE = .FALSE.
       NFVARG = 0
       NEVARG = 0
       NBVARG = 0
@@ -209,30 +258,9 @@ C-----ADD VARIABLES FROM ALL GRIDS
         WRITE(IOUT,3020,ERR=990)
       ENDIF
 C
-C-----DETERMINE NCMAX FOR ALLOCATION OF STORAGE SPACE
+C-------READ FLOW-RATE VARIABLE INFORMATION 
+C 
       IF(NFVAR.GT.0)THEN
-        NCMAX=0
-        DO 150 G=1,NGRIDS
-          IF(FNAMEN(G).NE.' ')THEN
-            LOCAT=NUNOPN(G)
-            DO 140 J=1,NFVARG(G)
-              READ(LOCAT,'(A)',ERR=991,END=991)LINE
-              LLOC=1
-              CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
-              CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NC,RDUM,IOUT,LOCAT)
-              IF(NC.GT.NCMAX)NCMAX=NC
-              IF(NC.GT.1)THEN
-                DO 130 JJ=1,NC                   ! LOOP OVER THE MULTIPLE CELLS
-                  READ(LOCAT,*,ERR=991)
-  130           ENDDO
-              ENDIF
-  140       ENDDO
-            REWIND(LOCAT)
-            CALL URDCOM(LOCAT,0,LINE)            ! RE-READ COMMENTS AND IPRN
-            READ(LOCAT,'(A)',ERR=991)LINE
-          ENDIF  
-  150   ENDDO
-C
         NDV = NFVAR+NEVAR+NBVAR+1                ! NUMBER OF DECISION VARIABLES
         ALLOCATE (GRDLOCDCV(NDV-1),STAT=ISTAT)   ! GRID LOCATION STORAGE
         BYTES = BYTES + 4*(NDV-1)
@@ -243,16 +271,11 @@ C-------ALLOCATE SPACE FOR FLOW-RATE VARIABLE INFORMATION
      &            FVINI(NFVAR),FVNCELL(NFVAR),FVON(NFVAR),FVDIR(NFVAR),
      &            FVSP(NFVAR,NPER),FVCURRENT(NFVAR),STAT=ISTAT) 
         IF(ISTAT.NE.0)GOTO 992 
-        BYTES = BYTES + 10*NFVAR + 8*5*NFVAR + 4*3*NFVAR +(NFVAR*NPER)/8
-        ALLOCATE (FVILOC(NFVAR,NCMAX),FVJLOC(NFVAR,NCMAX),
-     &            FVKLOC(NFVAR,NCMAX),FVRATIO(NFVAR,NCMAX),STAT=ISTAT)
+        ALLOCATE (FVMNW(NFVAR),FVCELL(NFVAR),STAT=ISTAT)
         IF(ISTAT.NE.0)GOTO 992 
-        BYTES = BYTES + 4*3*(NFVAR*NCMAX) + 4*NFVAR*NCMAX
+        BYTES = BYTES + 10*NFVAR + 8*5*NFVAR + 4*3*NFVAR +(NFVAR*NPER)/8
         ALLOCATE (WSP(NFVAR),GRDLOCFV(NFVAR),STAT=ISTAT) ! TEMPORARY ARRAYS
         IF(ISTAT.NE.0)GOTO 992 
-C
-C-------READ FLOW-RATE VARIABLE INFORMATION 
-C 
         JFVROW=0
         DO 240 G=1,NGRIDS
           IF(FNAMEN(G).NE.' ')THEN
@@ -286,24 +309,36 @@ C-------------PROCESS NC, THE NUMBER OF CELLS FOR THIS VARIABLE
                 CALL GSTOP(' ')
               ENDIF
               FVNCELL(J)=NC                      ! STORE THE NUMBER OF CELLS
+              NCABS=ABS(NC)                      ! ALLOCATE SPACE
+              ALLOCATE (FVCELL(J)%FVILOC(NCABS),FVCELL(J)%FVJLOC(NCABS),
+     &                  FVCELL(J)%FVKLOC(NCABS),FVCELL(J)%FVRATIO(NCABS)
+     &                  ,STAT=ISTAT)
+              IF(ISTAT.NE.0)GOTO 992 
+              BYTES = BYTES + 4*3*NCABS + 8*NCABS
+              CALL GWM1DCV3FVCPNT(J)             ! POINT TO ARRAYS
 C
 C-------------PROCESS ROW, COLUMN, LAYER LOCATIONS FOR THIS VARIABLE
-              IF(NC.EQ.1)THEN
+              IF(NC.LE.-1)THEN                   ! THIS IS AN MNW-TYPE FV
+                MNW2HERE = .TRUE.
+                JFV = J
+                CALL GWM1DCV3ARM(IOUT)           ! READ ADDITIONAL INFO
+              ELSEIF(NC.EQ.1)THEN
                 CALL LOADDV(1)                   ! TEST INPUT AND STORE LOCATION
-                FVRATIO(J,1)=1.0                 ! ONLY ONE CELL
-              ELSE                               ! MULTIPLE CELLS
+                FVRATIO(1)=1.0                   ! ONLY ONE CELL
+              ELSE                               ! MULTIPLE WELL-TYPE CELLS
                 TRAT=0.0
                 DO 210 JJ=1,NC                   ! LOOP OVER THE MULTIPLE CELLS
-                  READ(LOCAT,*,ERR=991,END=991)FVRATIO(J,JJ),IL,IR,IC
+                  READ(LOCAT,*,ERR=991,END=991)FVRATIO(JJ),IL,IR,IC
                   CALL LOADDV(JJ)                ! TEST INPUT AND STORE LOCATION
-                  TRAT=FVRATIO(J,JJ)+TRAT
+                  TRAT=FVRATIO(JJ)+TRAT
   210           ENDDO
                 IF(REAL(TRAT,DP).NE.ONE)THEN     ! FRACTIONS DO NOT ADD TO ONE
                   DO 220 JJ=1,NC
-                    FVRATIO(J,JJ)=FVRATIO(J,JJ)/TRAT ! NORMALIZE FRACTIONS
+                    FVRATIO(JJ)=FVRATIO(JJ)/TRAT ! NORMALIZE FRACTIONS
   220             ENDDO
                 ENDIF
               ENDIF
+              CALL GWM1DCV3FVCSV(J)              ! SAVE CELL INFO IN ARRAYS
 C
 C-------------PROCESS FTYPE, THE FLOW-RATE VARIABLE DIRECTION 
               FTYPE=LINE(IPTS:IPTF)
@@ -508,8 +543,10 @@ C
 C-----WRITE INFORMATION TO OUTPUT FILE
       IF(IPRN.EQ.1)THEN
         IF(NFVAR.GT.0)THEN                       ! WRITE PUMPING-VARIABLE INFO
-          WRITE(IOUT,7000,ERR=990)
-          DO 610 J=1,NFVAR
+        IF(MAXVAL(FVNCELL).GE.1)WRITE(IOUT,7000,ERR=990)
+        DO 610 J=1,NFVAR
+          IF(FVNCELL(J).GT.0)THEN                ! WRITE WEL-TYPE
+            CALL GWM1DCV3FVCPNT(J)               ! POINT TO ARRAYS
             IF(NGRIDS.GT.1)THEN                  ! WRITE DECVAR FILE NAME
               IF(J.EQ.1)THEN                     ! WRITE FILE NAME FOR THIS GRID
                 WRITE(IOUT,7005,ERR=990)FNAMEN(GRDLOCDCV(J))
@@ -521,18 +558,18 @@ C-----WRITE INFORMATION TO OUTPUT FILE
               IF(FVDIR(J).EQ.1)THEN
                 IF(JJ.EQ.1)THEN
                   WRITE(IOUT,7010,ERR=990)J,FVNAME(J),'INJECTION',
-     1                 FVKLOC(J,1),FVILOC(J,1),FVJLOC(J,1),FVRATIO(J,JJ)
+     1                 FVKLOC(1),FVILOC(1),FVJLOC(1),FVRATIO(JJ)
                 ELSE
-                  WRITE(IOUT,7020,ERR=990)FVKLOC(J,JJ),FVILOC(J,JJ),
-     1                            FVJLOC(J,JJ),FVRATIO(J,JJ)
+                  WRITE(IOUT,7020,ERR=990)FVKLOC(JJ),FVILOC(JJ),
+     1                            FVJLOC(JJ),FVRATIO(JJ)
                 ENDIF
               ELSEIF(FVDIR(J).EQ.2)THEN
                 IF(JJ.EQ.1)THEN
                   WRITE(IOUT,7010,ERR=990)J,FVNAME(J),'WITHDRAWAL',
-     1                 FVKLOC(J,1),FVILOC(J,1),FVJLOC(J,1),FVRATIO(J,JJ)
+     1                 FVKLOC(1),FVILOC(1),FVJLOC(1),FVRATIO(JJ)
                 ELSE
-                  WRITE(IOUT,7020,ERR=990)FVKLOC(J,JJ),FVILOC(J,JJ),
-     1                          FVJLOC(J,JJ),FVRATIO(J,JJ)
+                  WRITE(IOUT,7020,ERR=990)FVKLOC(JJ),FVILOC(JJ),
+     1                          FVJLOC(JJ),FVRATIO(JJ)
                 ENDIF
               ENDIF
   600       ENDDO
@@ -541,7 +578,44 @@ C-----WRITE INFORMATION TO OUTPUT FILE
             ELSE
               WRITE(IOUT,7040,ERR=990)
             ENDIF
-  610     ENDDO
+          ENDIF
+  610   ENDDO
+ ! Begin output of MNW type wells
+        IF(MINVAL(FVNCELL).LE.-1)WRITE(IOUT,7001,ERR=990)
+        DO 630 J=1,NFVAR
+          IF(FVNCELL(J).LT.0)THEN
+            CALL GWM1DCV3FVCPNT(J)             ! POINT TO ARRAYS
+            IF(NGRIDS.GT.1)THEN                ! WRITE DECVAR FILE NAME
+              IF(J.EQ.1)THEN                   ! WRITE FILE NAME FOR THIS GRID
+                WRITE(IOUT,7005,ERR=990)FNAMEN(GRDLOCDCV(J))
+              ELSEIF(GRDLOCDCV(J).NE.GRDLOCDCV(J-1))THEN
+                WRITE(IOUT,7005,ERR=990)FNAMEN(GRDLOCDCV(J))
+              ENDIF
+            ENDIF
+            DO 620 JJ=1,-FVNCELL(J)
+              WELLNAME = FVMNW(J)%FVWELLID(JJ) 
+              NNODES =   FVMNW(J)%FVMNW2(2,JJ)
+              IF(FVDIR(J).EQ.1)THEN
+                FVDIRNAME ='INJECTION'
+              ELSEIF(FVDIR(J).EQ.2)THEN
+                FVDIRNAME ='WITHDRAWAL'
+              ENDIF
+              IF(JJ.EQ.1)THEN
+                WRITE(IOUT,7012,ERR=990)J,FVNAME(J),FVDIRNAME,1,
+     1                 WELLNAME,FVRATIO(JJ)
+                CALL WRMNW_ECHO(J,JJ)
+              ELSE
+                WRITE(IOUT,7014,ERR=990)JJ,WELLNAME,FVRATIO(JJ)
+                CALL WRMNW_ECHO(J,JJ)
+              ENDIF
+  620       ENDDO
+            IF(FVON(J).GT.0)THEN
+              WRITE(IOUT,7030,ERR=990)WSP(J)
+            ELSE
+              WRITE(IOUT,7040,ERR=990)
+            ENDIF
+          ENDIF
+  630   ENDDO
         ENDIF
 C
         IF(NEVAR.GE.1)THEN                       ! WRITE EXTERNAL-VARIABLE INFO
@@ -633,13 +707,20 @@ C
      1  ' ASSOCIATED WITH BINARY VARIABLE ',A,' IS NOT VALID.')
  6020 FORMAT(1X,/1X,'PROGRAM STOPPED.',A,' WAS NOT DEFINED AS A', 
      1  ' VARIABLE NAME (FVNAME)')
- 7000 FORMAT(/,T2,'FLOW-RATE VARIABLES:',/,T52,'FRACTION',/,
+ 7000 FORMAT(/,T2,'FLOW-RATE VARIABLES: WEL-TYPE',/,T52,'FRACTION',/,
      1  T3,'NUMBER',T14,'NAME',T25,'TYPE',T35,'LAY',T41,'ROW',
      2  T47,'COL',T53,'OF FLOW',/,1X,'----------------------',
      3  '------------------------------------')
+ 7001 FORMAT(/,T2,'FLOW-RATE VARIABLES: MNW2-TYPE',
+     1  /,T38,'MNW WELL',T59,'FRACTION',/,
+     1  T3,'NUMBER',T14,'NAME',T25,'TYPE',T35,'NUMBER',T44,
+     2  'WELLID',T60,'OF FLOW',/,1X,'----------------------',
+     3  '-------------------------------------------')
 C
  7005 FORMAT('  FLOW-RATE VARIABLES READ FROM FILE: ',A120,/)
  7010 FORMAT(I5,6X,A10,1X,A10,1X,3I5,4X,F6.4)
+ 7012 FORMAT(/,I5,6X,A10,1X,A10,1X,I5,1X,A20,1X,F6.4)
+ 7014 FORMAT(  33X,                I5,1X,A20,1X,F6.4)
  7020 FORMAT(T34,3I5,4X,F6.4)
  7030 FORMAT('   AVAILABLE IN STRESS PERIODS: ',A120,/)
  7040 FORMAT('   UNAVAILABLE IN ALL STRESS PERIODS',/)
@@ -731,9 +812,9 @@ C-----CHECK THAT CELL IS ON GRID
       ENDIF
 C
 C-----LOAD VARIABLES 
-      FVILOC(J,JJ)=IR                   
-      FVJLOC(J,JJ)=IC
-      FVKLOC(J,JJ)=IL
+      FVILOC(JJ)=IR                   
+      FVJLOC(JJ)=IC
+      FVKLOC(JJ)=IL
 C
  1000 FORMAT(1X,/1X,'PROGRAM STOPPED. ROW NUMBER FOR WELL IS OUT OF',
      1  ' BOUNDS: ',I5)
@@ -852,6 +933,991 @@ C--- EVALUATE CURRENT NUMERAL
 C
       RETURN
       END SUBROUTINE CHREAD
+C
+C***********************************************************************
+      SUBROUTINE GWM1DCV3ARM(IOUT)
+C***********************************************************************
+C     VERSION: 12JAN2012
+C     PURPOSE: READ MANAGED MNW INFO AND LOAD INTO SPECIAL STORAGE
+C     THIS SUBROUTINE COPIES MANY PARTS OF GWF2MNW27RP
+C---------------------------------------------------------------------------
+      USE GWM1BAS3, ONLY : ZERO,ONE
+      IMPLICIT NONE
+      INTEGER(I4B),INTENT(IN)::IOUT
+C++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+      GMNWMAX = ABS(FVNCELL(JFV))
+      ALLOCATE (FVMNW(JFV)%FVMNW2(22,GMNWMAX),STAT=ISTAT)  
+      ALLOCATE (FVMNW(JFV)%FVWTOMNW(GMNWMAX),STAT=ISTAT)
+      ALLOCATE (FVMNW(JFV)%FVWELLID(GMNWMAX),STAT=ISTAT)
+      ALLOCATE (FVMNW(JFV)%FVCELLS(GMNWMAX),STAT=ISTAT)
+      IF(ISTAT.NE.0)GOTO 992 
+      BYTES = BYTES + 4*GMNWMAX + 8*22*GMNWMAX + 20*GMNWMAX
+      FVMNW(JFV)%FVWTOMNW = 0
+      FVMNW(JFV)%FVWELLID =' '
+      FVMNW(JFV)%FVMNW2   =ZERO
+C-----LOOP OVER MNW WELLS ASSOCIATED WITH FLOW VARIABLE JFV
+      DO 100 MNWID=1,GMNWMAX
+C-------ITEM 3B (SIMILAR TO ITEM 2A IN MNW2)
+        IF(GMNWMAX.EQ.1)THEN
+          READ(LOCAT,*,ERR=991)WELLNM,NNODES
+          RATIO = ONE
+        ELSE
+          READ(LOCAT,*,ERR=991)RATIO,WELLNM,NNODES
+        ENDIF
+        CALL ASSIGN3B
+C-------ITEM 3C (SIMILAR TO ITEM 2B IN MNW2)
+        READ(LOCAT,*,ERR=991)LOSSTYPE,PPFLAG
+        CALL ASSIGN3C
+C-------NOW THAT NUMBER OF NODES IS KNOWN FOR THIS WELL, ALLOCATE SPACE
+        NNA = ABS(NNODES)
+        ALLOCATE(FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT(11,NNA),STAT=ISTAT)
+        ALLOCATE(FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD(19,NNA),STAT=ISTAT)
+        IF(ISTAT.NE.0)GOTO 992 
+        BYTES = BYTES + 8*11*NNA + 8*19*NNA
+        FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT = ZERO
+        FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD = ZERO
+C-------ITEM 3D (SIMILAR TO ITEM 2C IN MNW2)
+        CALL READSET2C ! These are well-wide parameters; they are stored node-wise
+C-------LOOP OVER NODES IN THIS MNW WELLS
+        DO NCNT=1,NNA
+C---------ITEM 3E (SIMILAR TO ITEM 2D IN MNW2)
+          CALL READSET2D
+          CALL ASSIGN3E
+        ENDDO
+c GWM DOES NOT SUPPORT MNW FUNCTIONS READ ON LINE 2E THROUGHT 2H        
+c
+  100 ENDDO
+C GWM DOES NOT READ ANY MNW DATA FOR EACH STRESS PERIOD
+      RETURN
+!      
+  991 CONTINUE ! FILE-READING ERROR
+      INQUIRE(LOCAT,NAME=FLNM)
+      WRITE(IOUT,9910)TRIM(FLNM),LOCAT
+ 9910 FORMAT(/,1X,'*** ERROR READING FILE "',A,'" ON UNIT ',I5,/,
+     & 2X,'-- STOP EXECUTION (GWM1DCV3ARM)')
+      CALL GSTOP(' ')
+  992 CONTINUE ! ARRAY-ALLOCATING ERROR
+      WRITE(*,9920)
+ 9920 FORMAT(/,'*** ERROR ALLOCATING ARRAY(S)',
+     &2X,'-- STOP EXECUTION (GWM1DCV3ARM)')
+      CALL GSTOP(' ')
+
+      END SUBROUTINE GWM1DCV3ARM
+c
+C***********************************************************************
+      SUBROUTINE ASSIGN3B
+      ! Store the ratio for MNW well of flow variable JFV
+        FVRATIO(MNWID)=RATIO
+        CALL UPCASE(WELLNM)  !     convert to uppercase
+        FVMNW(JFV)%FVWELLID(MNWID)=WELLNM
+        FVMNW(JFV)%FVMNW2(2,MNWID)=NNODES
+      END SUBROUTINE ASSIGN3B
+C***********************************************************************
+      SUBROUTINE ASSIGN3C
+        CALL UPCASE(LOSSTYPE)
+C       STORE INTEGER CODE FOR LOSSTYPE
+        if(LOSSTYPE.EQ.'NONE') then
+c     for none, NNODES must be 1
+          if(NNODES.NE.1) then
+          write(iout,*) '***ERROR***  OPTION: NONE   REQUIRES NNODES=1'
+            CALL GSTOP('MNW2 ERROR - OPTION: NONE  REQUIRES NNODES=1')
+	    end if
+          FVMNW(JFV)%FVMNW2(3,MNWID)=0
+        elseif(LOSSTYPE.EQ.'THIEM') then
+          FVMNW(JFV)%FVMNW2(3,MNWID)=1 
+        elseif(LOSSTYPE.EQ.'SKIN') then
+          FVMNW(JFV)%FVMNW2(3,MNWID)=2
+        elseif(LOSSTYPE.EQ.'GENERAL') then
+          FVMNW(JFV)%FVMNW2(3,MNWID)=3
+        elseif(LOSSTYPE.EQ.'SPECIFYCWC') then
+          FVMNW(JFV)%FVMNW2(3,MNWID)=4	
+	  end if
+C    GWM DOES NOT SUPPORT PUMPLOC,QLIMIT OR PUMPCAP
+        PUMPLOC=0
+        PUMPCAP=0
+        Qlimit=0
+        FVMNW(JFV)%FVMNW2(11,MNWID)=PUMPLOC
+        FVMNW(JFV)%FVMNW2( 6,MNWID)=Qlimit
+        FVMNW(JFV)%FVMNW2(22,MNWID)=PUMPCAP
+        FVMNW(JFV)%FVMNW2(19,MNWID)=PPFLAG
+      END SUBROUTINE ASSIGN3C
+C***********************************************************************
+      SUBROUTINE ASSIGN3E
+        IF(NNODES.GT.0)THEN
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 1,NCNT)=IL             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 2,NCNT)=IR            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 3,NCNT)=IC           
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 4,NCNT)=0.0           
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 5,NCNT)=RwNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 6,NCNT)=RskinNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 7,NCNT)=KskinNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 8,NCNT)=BNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD( 9,NCNT)=CNode            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD(10,NCNT)=PNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD(11,NCNT)=CWCNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD(19,NCNT)=PP  
+        ELSE
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 1,NCNT)=Ztop            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 2,NCNT)=Zbotm            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 3,NCNT)=IR            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 4,NCNT)=IC            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 5,NCNT)=RwNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 6,NCNT)=RskinNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 7,NCNT)=KskinNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 8,NCNT)=BNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT( 9,NCNT)=CNode            
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT(10,NCNT)=PNode             
+          FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT(11,NCNT)=CWCNode             
+        ENDIF   
+             
+      END SUBROUTINE ASSIGN3E
+C***********************************************************************
+      SUBROUTINE READSET2C
+c     read Data Set 2c, depending on LOSSTYPE (FVMNW2(3,MNWID)
+        SELECT CASE (INT(FVMNW(JFV)%FVMNW2(3,MNWID)))
+          CASE (1)
+            READ(LOCAT,*,ERR=991) Rw
+c     don't allow Rw = 0
+            if(Rw.eq.0.0) then
+              write(iout,*) '***ERROR*** Rw=0.0; Rw read=',Rw
+              CALL GSTOP('MNW2 ERROR - Rw')
+            endif
+          CASE (2)
+            READ(LOCAT,*,ERR=991) Rw,Rskin,Kskin
+            if(Rw.eq.0.0) then
+              write(iout,*) '***ERROR*** Rw=0.0; Rw read=',Rw
+              CALL GSTOP('MNW2 ERROR - Rw')
+            endif
+            if(Rskin.eq.0.0) then
+              write(iout,*) '***ERROR*** Rskin=0.0; Rskin read=',Rskin
+              CALL GSTOP('MNW2 ERROR')
+            endif
+            if(Kskin.eq.0.0) then
+              write(iout,*) '***ERROR*** Kskin=0.0; Kskin read=',Kskin
+              CALL GSTOP('MNW2 ERROR - Kskin')
+            endif
+          CASE (3)
+            READ(LOCAT,*,ERR=991) Rw,B,C,P
+            if(Rw.eq.0.0) then
+              write(iout,*) '***ERROR*** Rw=0.0; Rw read=',Rw
+              CALL GSTOP('MNW2 ERROR - Rw')
+            endif
+            if(P.gt.0.0.and.(P.lt.1.0.or.P.gt.3.5)) then
+              write(iout,*) '***ERROR*** P=',P,' exceeds 1 <= P <=3.5'
+              CALL GSTOP('MNW2 ERROR - P')
+            endif
+          CASE (4)
+            READ(LOCAT,*,ERR=991) CWC            
+        END SELECT
+c     end read Data Set 2c
+        RETURN
+!      
+  991 CONTINUE ! FILE-READING ERROR
+      INQUIRE(LOCAT,NAME=FLNM)
+      WRITE(IOUT,9910)TRIM(FLNM),LOCAT
+ 9910 FORMAT(/,1X,'*** ERROR READING FILE "',A,'" ON UNIT ',I5,/,
+     & 2X,'-- STOP EXECUTION (GWM1DCV3ARM)')
+      CALL GSTOP(' ')
+      END SUBROUTINE READSET2C
+C***********************************************************************
+      SUBROUTINE READSET2D
+        IF(NNODES.GT.0) THEN  
+          CALL READSET2D1
+        ELSE   ! if nnodes<0, read in Ztop and Zbot which define intervals
+          CALL READSET2D2
+        END IF
+      RETURN  
+      END SUBROUTINE READSET2D
+C***********************************************************************
+      SUBROUTINE READSET2D1
+c     read Data Set 2D-1 FOR NODE 
+c     If PPFLAG=0, don't read PP variable
+           PPFLAG=INT(FVMNW(JFV)%FVMNW2(19,mnwid))
+           IF(PPFLAG.eq.0) then           
+c     access the LOSSTYPE
+            SELECT CASE (INT(FVMNW(JFV)%FVMNW2(3,MNWID)))
+c     LOSSTYPE=NONE, read IL,IR,IC only
+              CASE (0)
+                READ(LOCAT,*,ERR=991) IL,IR,IC
+c
+c     LOSSTYPE=THIEM, read IL,IR,IC,{Rw}
+              CASE (1)
+                IF(Rw.GT.0.0) THEN            
+                  READ(LOCAT,*,ERR=991) IL,IR,IC
+c     Rw at each node is the same if Rw>0.0  
+                  RwNode=Rw         
+                ELSE
+c     If Rw<0, read in separate Rw for each node
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode
+                END IF
+c
+c     LOSSTYPE=SKIN, read IL,IR,IC,{Rw Rskin Kskin}
+              CASE (2)
+                IF(Rw.GT.0.0) THEN            
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,KskinNode
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RskinNode
+                      RwNode=Rw             
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RskinNode,KskinNode
+                      RwNode=Rw             
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,KskinNode
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,RskinNode
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991)
+     &                  IL,IR,IC,RwNode,RskinNode,KskinNode
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=GENERAL, read IL,IR,IC,{Rw B C P}
+              CASE (3)
+                IF(Rw.GT.0.0) THEN            
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,PNode
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,CNode
+                        RwNode=Rw             
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,CNode,PNode
+                        RwNode=Rw             
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode
+                        RwNode=Rw             
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,PNode
+                        RwNode=Rw             
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,CNode
+                        RwNode=Rw             
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,CNode,PNode
+                        RwNode=Rw             
+                      END IF
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,PNode
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,CNode
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,CNode,PNode
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,BNode
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,BNode,PNode
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,BNode,CNode
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)
+     &                    IL,IR,IC,Rwnode,BNode,CNode,PNode
+                      END IF
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=SPECIFYcwc, read IL,IR,IC,{CWC}
+              CASE (4)
+                IF(CWC.GT.0.0) THEN            
+                  READ(LOCAT,*,ERR=991) IL,IR,IC
+                  CWCNode=CWC         
+                ELSE
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,CWCNode
+                END IF
+            END SELECT
+c    ELSE if PPFLAG NE 0, read PP flag
+           ELSE
+c     access the LOSSTYPE
+            SELECT CASE (INT(FVMNW(JFV)%FVMNW2(3,MNWID)))
+c     LOSSTYPE=NONE, read IL,IR,IC only
+              CASE (0)
+                READ(LOCAT,*,ERR=991) IL,IR,IC,PP
+c
+c     LOSSTYPE=THIEM, read IL,IR,IC,{Rw}
+              CASE (1)
+                IF(Rw.GT.0.0) THEN           
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,PP
+c     Rw at each node is the same if Rw>0.0  
+                  RwNode=Rw         
+                ELSE
+c     If Rw<0, read in separate Rw for each node
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,PP
+                END IF
+c
+c     LOSSTYPE=SKIN, read IL,IR,IC,{Rw Rskin Kskin}
+              CASE (2)
+                IF(Rw.GT.0.0) THEN            
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,PP
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,KskinNode,PP
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RskinNode,PP
+                      RwNode=Rw             
+                      KskinNode=Kskin
+                    ELSE             
+                    READ(LOCAT,*,ERR=991)IL,IR,IC,RskinNode,KskinNode,PP
+                      RwNode=Rw             
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,PP
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,KskinNode,PP
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,RskinNode,PP
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991)
+     &                 IL,IR,IC,RwNode,RskinNode,KskinNode,PP
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=GENERAL, read IL,IR,IC,{Rw B C P}
+              CASE (3)
+                IF(Rw.GT.0.0) THEN            
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,PP
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,PNode,PP
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,CNode,PP
+                        RwNode=Rw             
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,CNode,PNode,PP
+                        RwNode=Rw             
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,PP
+                        RwNode=Rw             
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,PNode,PP
+                        RwNode=Rw             
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,BNode,CNode,PP
+                        RwNode=Rw             
+                        PNode=P
+                      ELSE
+                      READ(LOCAT,*,ERR=991)IL,IR,IC,BNode,CNode,PNode,PP
+                        RwNode=Rw             
+                      END IF
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,RwNode,PP
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,PNode,PP
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,CNode,PP
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                     READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,CNode,PNode,PP
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) IL,IR,IC,Rwnode,BNode,PP
+                        CNode=C
+                        PNode=P
+                      ELSE
+                     READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,BNode,PNode,PP
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                     READ(LOCAT,*,ERR=991)IL,IR,IC,Rwnode,BNode,CNode,PP
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)
+     &                    IL,IR,IC,Rwnode,BNode,CNode,PNode,PP
+                      END IF
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=SPECIFYcwc, read IL,IR,IC,{CWC}
+              CASE (4)
+                IF(CWC.GT.0.0) THEN            
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,PP
+                  CWCNode=CWC         
+                ELSE
+                  READ(LOCAT,*,ERR=991) IL,IR,IC,CWCNode,PP
+                END IF
+            END SELECT            
+           END IF
+         RETURN
+!      
+  991   CONTINUE ! FILE-READING ERROR
+        INQUIRE(LOCAT,NAME=FLNM)
+        WRITE(IOUT,9910)TRIM(FLNM),LOCAT
+ 9910   FORMAT(/,1X,'*** ERROR READING FILE "',A,'" ON UNIT ',I5,/,
+     &   2X,'-- STOP EXECUTION (GWM1DCV3ARM)')
+        CALL GSTOP(' ')
+        END SUBROUTINE READSET2D1
+C***********************************************************************
+        SUBROUTINE READSET2D2
+c     read Data Set 2D-2 FOR INTERVAL
+c     access the LOSSTYPE
+            SELECT CASE (INT(FVMNW(JFV)%FVMNW2(3,MNWID)))
+c     LOSSTYPE=NONE, read Ztop,Zbotm,IR,IC only
+              CASE (0)
+                READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC
+c
+c     LOSSTYPE=THIEM, read Ztop,Zbotm,IR,IC,{Rw}
+              CASE (1)
+                IF(Rw.GT.0.0) THEN            
+                  READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC
+c     Rw at each node is the same if Rw>0.0  
+                  RwNode=Rw         
+                ELSE
+c     If Rw<0, read in separate Rw for each node
+                  READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,RwNode
+                END IF
+c
+c     LOSSTYPE=SKIN, read Ztop,Zbotm,IR,IC,{Rw Rskin Kskin}
+              CASE (2)
+                IF(Rw.GT.0.0) THEN            
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,KskinNode
+                      RwNode=Rw             
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,RskinNode
+                      RwNode=Rw             
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991)
+     &                  Ztop,Zbotm,IR,IC,RskinNode,KskinNode
+                      RwNode=Rw             
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(Rskin.GT.0.0) THEN
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,RwNode
+                      RskinNode=Rskin            
+                      KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991)
+     &                  Ztop,Zbotm,IR,IC,RwNode,KskinNode
+                      RskinNode=Rskin            
+                    ENDIF
+c                 else Rskin<0
+                  ELSE
+                    IF(Kskin.GT.0.0) THEN
+                      READ(LOCAT,*,ERR=991)
+     &                  Ztop,Zbotm,IR,IC,RwNode,RskinNode
+                        KskinNode=Kskin
+                    ELSE             
+                      READ(LOCAT,*,ERR=991)
+     &                  Ztop,Zbotm,IR,IC,RwNode,RskinNode,KskinNode
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=GENERAL, read Ztop,Zbotm,IR,IC,{Rw B C P}
+              CASE (3)
+                IF(Rw.GT.0.0) THEN            
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,PNode
+                        RwNode=Rw             
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,CNode
+                        RwNode=Rw             
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                       READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,CNode,PNode
+                        RwNode=Rw             
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,BNode
+                        RwNode=Rw             
+                        CNode=C
+                        PNode=P
+                      ELSE
+                       READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,BNode,PNode
+                        RwNode=Rw             
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                       READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,BNode,CNode
+                        RwNode=Rw             
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)
+     &                    Ztop,Zbotm,IR,IC,BNode,CNode,PNode
+                        RwNode=Rw             
+                      END IF
+                    ENDIF
+                  ENDIF
+c               else Rw<0
+                ELSE
+                  IF(B.GE.0.0) THEN
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,RwNode
+                        BNode=B            
+                        CNode=C
+                        PNode=P
+                      ELSE
+                      READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,Rwnode,PNode
+                        BNode=B            
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                      READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,Rwnode,CNode
+                        BNode=B            
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991) 
+     &                   Ztop,Zbotm,IR,IC,Rwnode,CNode,PNode
+                        BNode=B            
+                      END IF
+                    ENDIF
+c                 else B<0
+                  ELSE
+                    IF(C.GE.0.0) THEN
+                      IF(P.GE.0.0) THEN
+                      READ(LOCAT,*,ERR=991)Ztop,Zbotm,IR,IC,Rwnode,BNode
+                        CNode=C
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)
+     &                    Ztop,Zbotm,IR,IC,Rwnode,BNode,PNode
+                        CNode=C
+                      END IF
+c                   else C<0
+                    ELSE             
+                      IF(P.GE.0.0) THEN
+                        READ(LOCAT,*,ERR=991)
+     &                    Ztop,Zbotm,IR,IC,Rwnode,BNode,CNode
+                        PNode=P
+                      ELSE
+                        READ(LOCAT,*,ERR=991)
+     &                    Ztop,Zbotm,IR,IC,Rwnode,BNode,CNode,PNode
+                      END IF
+                    ENDIF
+                  ENDIF
+                END IF
+c
+c     LOSSTYPE=SPECIFYcwc, read Ztop,Zbotm,IR,IC,{CWC}
+              CASE (4)
+                IF(CWC.GT.0.0) THEN            
+                  READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC
+                  CWCNode=CWC         
+                ELSE
+                  READ(LOCAT,*,ERR=991) Ztop,Zbotm,IR,IC,CWCNode
+                END IF
+            END SELECT
+c     Set vars for interval
+         RETURN
+!      
+  991   CONTINUE ! FILE-READING ERROR
+        INQUIRE(LOCAT,NAME=FLNM)
+        WRITE(IOUT,9910)TRIM(FLNM),LOCAT
+ 9910   FORMAT(/,1X,'*** ERROR READING FILE "',A,'" ON UNIT ',I5,/,
+     &   2X,'-- STOP EXECUTION (GWM1DCV3ARM)')
+        CALL GSTOP(' ')
+        END SUBROUTINE READSET2D2
+C***********************************************************************
+      SUBROUTINE FIND_LOSSTYPE2(INDEX,LTYPE)
+      INTEGER(I4B),INTENT(IN)::INDEX
+      CHARACTER(LEN=20),INTENT(OUT)::LTYPE
+        IF    (INDEX.EQ.0)THEN
+          LTYPE='NONE'
+        ELSEIF(INDEX.EQ.1)THEN
+          LTYPE='THIEM'
+        ELSEIF(INDEX.EQ.2)THEN
+          LTYPE='SKIN'
+        ELSEIF(INDEX.EQ.3)THEN
+          LTYPE='GENERAL'
+        ELSEIF(INDEX.EQ.4)THEN
+          LTYPE='SPECIFYCWC'
+	  ENDIF
+      END SUBROUTINE FIND_LOSSTYPE2
+ !*****************************************************************************
+      SUBROUTINE WRMNW_ECHO(J,K)
+       INTEGER(I4B),INTENT(IN)::J,K
+       LOSSTYPEINDEX=INT(FVMNW(J)%FVMNW2(3,K))
+        CALL FIND_LOSSTYPE2(LOSSTYPEINDEX,LOSSTYPE)
+        PPFLAG =FVMNW(J)%FVMNW2(19,K)
+        WRITE(IOUT,9010,ERR=990) ABS(NNODES),LOSSTYPE,PPFLAG
+        IF(NNODES.GT.0)THEN       ! ITEM 2D-1 
+          CALL WRMNW_HEAD1
+          DO INODE =1,NNODES            
+          IL       =FVMNW(J)%FVCELLS(K)%FVMNWNOD(1,INODE)           
+          IR       =FVMNW(J)%FVCELLS(K)%FVMNWNOD(2,INODE)           
+          IC       =FVMNW(J)%FVCELLS(K)%FVMNWNOD(3,INODE)           
+          RwNode   =FVMNW(J)%FVCELLS(K)%FVMNWNOD(5,INODE)             
+          RskinNode=FVMNW(J)%FVCELLS(K)%FVMNWNOD(6,INODE)             
+          KskinNode=FVMNW(J)%FVCELLS(K)%FVMNWNOD(7,INODE)             
+          BNode    =FVMNW(J)%FVCELLS(K)%FVMNWNOD(8,INODE)            
+          CNode    =FVMNW(J)%FVCELLS(K)%FVMNWNOD(9,INODE)          
+          PNode    =FVMNW(J)%FVCELLS(K)%FVMNWNOD(10,INODE)           
+          CWCNode  =FVMNW(J)%FVCELLS(K)%FVMNWNOD(11,INODE)             
+          PP       =FVMNW(J)%FVCELLS(K)%FVMNWNOD(19,INODE) 
+          CALL WRMNW_DATA1
+          ENDDO
+        ELSE                     ! ITEM 2D-2
+          CALL WRMNW_HEAD2
+          DO IINT =1,ABS(NNODES)       
+          Ztop     =FVMNW(J)%FVCELLS(K)%FVMNWINT(1,IINT)           
+          Zbotm    =FVMNW(J)%FVCELLS(K)%FVMNWINT(2,IINT)          
+          IR       =FVMNW(J)%FVCELLS(K)%FVMNWINT(3,IINT)           
+          IC       =FVMNW(J)%FVCELLS(K)%FVMNWINT(4,IINT)           
+          RwNode   =FVMNW(J)%FVCELLS(K)%FVMNWINT(5,IINT)           
+          RskinNode=FVMNW(J)%FVCELLS(K)%FVMNWINT(6,IINT)             
+          KskinNode=FVMNW(J)%FVCELLS(K)%FVMNWINT(7,IINT)            
+          BNode    =FVMNW(J)%FVCELLS(K)%FVMNWINT(8,IINT)            
+          CNode    =FVMNW(J)%FVCELLS(K)%FVMNWINT(9,IINT)            
+          PNode    =FVMNW(J)%FVCELLS(K)%FVMNWINT(10,IINT)            
+          CWCNode  =FVMNW(J)%FVCELLS(K)%FVMNWINT(11,IINT)            
+          CALL WRMNW_DATA2
+          ENDDO
+        ENDIF 
+      RETURN
+  990 CONTINUE
+C-----FILE-WRITING ERROR
+      INQUIRE(IOUT,NAME=FLNM)
+      WRITE(*,9900)TRIM(FLNM),IOUT
+ 9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
+     &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
+      CALL GSTOP(' ')
+
+ 9010 FORMAT(T12,'NNODES:',I5,
+     &         T25,'LOSSTYPE: ',A20,T56,'PPFLAG:',I4)
+            
+      END SUBROUTINE WRMNW_ECHO
+
+!*****************************************************************************
+      SUBROUTINE WRMNW_HEAD1
+c
+      if(PPFLAG.EQ.0) then
+c     write header depending on LOSSTYPE
+        SELECT CASE (LOSSTYPEINDEX)
+          CASE (0)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col'
+          CASE (1)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw     '
+          CASE (2)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw     ',
+     &'Rskin     Kskin'
+          CASE (3)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw     B
+     &         C          P  '
+          CASE (4)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col    spec.CWC'
+        END SELECT
+c     If PPFLAG>0 print PP input
+      ELSE
+c     write header depending on LOSSTYPE
+        SELECT CASE (LOSSTYPEINDEX)
+          CASE (0)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col        PP'
+          CASE (1)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw        PP'
+          CASE (2)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw     ',
+     &'Rskin     Kskin        PP'
+          CASE (3)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col      Rw     B
+     &         C          P        PP'
+          CASE (4)
+      write(iout,9000,ERR=990) ' Node  Lay  Row  Col    spec.CWC  ',
+     &'      PP'
+        END SELECT
+      ENDIF
+c
+      RETURN
+  990 CONTINUE
+C-----FILE-WRITING ERROR
+      INQUIRE(IOUT,NAME=FLNM)
+      WRITE(*,9900)TRIM(FLNM),IOUT
+ 9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
+     &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
+      CALL GSTOP(' ')
+
+ 9000 FORMAT(T10,100A)
+      END SUBROUTINE WRMNW_HEAD1
+!*****************************************************************************
+      SUBROUTINE WRMNW_HEAD2
+c     write header depending on LOSSTYPE
+            SELECT CASE (LOSSTYPEINDEX)
+              CASE (0)
+            write(iout,9000,ERR=990) ' Interval      Ztop        ',
+     &'Zbotm     Row  Col'
+              CASE (1)
+            write(iout,9000,ERR=990) ' Interval      Ztop        ',
+     &'Zbotm     Row  Col      Rw     '
+              CASE (2)
+            write(iout,9000,ERR=990) ' Interval      Ztop       ',
+     &'Zbotm      Row  Col      Rw     Rskin    ',
+     &' Kskin '
+              CASE (3)
+            write(iout,9000,ERR=990) ' Interval      Ztop       ',
+     &'Zbotm      Row  Col      Rw     B         C         P  '
+              CASE (4)
+            write(iout,9000,ERR=990) ' Interval      Ztop       ',
+     &'Zbotm      Row  Col      spec.CWC'
+            END SELECT
+      RETURN
+  990 CONTINUE
+C-----FILE-WRITING ERROR
+      INQUIRE(IOUT,NAME=FLNM)
+      WRITE(*,9900)TRIM(FLNM),IOUT
+ 9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
+     &2X,'-- STOP EXECUTION (GWM1DCV3AR)')
+      CALL GSTOP(' ')
+
+ 9000 FORMAT(T10,100A)
+      END SUBROUTINE WRMNW_HEAD2
+!*****************************************************************************
+      SUBROUTINE WRMNW_DATA1
+c
+      if(PPFLAG.EQ.0) then
+c     write data depending on LOSSTYPE
+            SELECT CASE (LOSSTYPEINDEX)
+              CASE (0)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4)')
+     &          INODE,IL,IR,IC      
+              CASE (1)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P1G10.4)')
+     &          INODE,IL,IR,IC,RwNode       
+              CASE (2)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P3G10.4)')
+     &          INODE,IL,IR,IC,RwNode,RskinNode,KskinNode       
+              CASE (3)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P4G10.4)')
+     &          INODE,IL,IR,IC,RwNode,BNode,CNode,PNode     
+              CASE (4)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P1G10.4)')
+     &          INODE,IL,IR,IC,CWCNode     
+            END SELECT
+c     If PPFLAG>0 print PP input
+      else
+            SELECT CASE (LOSSTYPEINDEX)
+              CASE (0)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,G10.3)')
+     &          INODE,IL,IR,IC,PP       
+              CASE (1)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P2G10.3)')
+     &          INODE,IL,IR,IC,RwNode,PP       
+              CASE (2)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P4G10.4)')
+     &          INODE,IL,IR,IC,RwNode,RskinNode,KskinNode,PP     
+              CASE (3)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P5G10.4)')
+     &          INODE,IL,IR,IC,RwNode,BNode,CNode,PNode,PP      
+              CASE (4)
+          write(iout,'(T11,I4,1x,I4,1x,I4,1x,I4,2x,1P2G10.4)')
+     &          INODE,IL,IR,IC,CWCNode,PP     
+            END SELECT
+      end if      
+      RETURN
+      END SUBROUTINE WRMNW_DATA1
+!*****************************************************************************
+      SUBROUTINE WRMNW_DATA2
+c     write data depending on LOSSTYPE
+        SELECT CASE (LOSSTYPEINDEX)
+          CASE (0)
+            write(iout,'(T11,I4,6x,1P2G12.5,1x,I4,1x,I4)')
+     &            IINT,Ztop,Zbotm,IR,IC 
+          CASE (1)
+            write(iout,'(T11,I4,6x,1P2G12.5,1x,I4,1x,I4,2x,1P1G10.4)')
+     &            IINT,Ztop,Zbotm,IR,IC,RwNode
+          CASE (2)
+            write(iout,'(T11,I4,6x,1P2G12.5,1x,I4,1x,I4,2x,1P3G10.4)')
+     &            IINT,Ztop,Zbotm,IR,IC,RwNode,RskinNode,KskinNode
+          CASE (3)
+            write(iout,'(T11,I4,6x,1P2G12.5,1x,I4,1x,I4,2x,1P4G10.4)')
+     &            IINT,Ztop,Zbotm,IR,IC,RwNode,BNode,CNode,PNode
+          CASE (4)
+            write(iout,'(T11,I4,6x,1P2G12.5,1x,I4,1x,I4,4x,1P1G10.4)')
+     &            IINT,Ztop,Zbotm,IR,IC,CWCNode
+        END SELECT
+      RETURN
+      END SUBROUTINE WRMNW_DATA2
 
       END SUBROUTINE GWM1DCV3AR
 
@@ -885,6 +1951,24 @@ C
       RETURN
       END SUBROUTINE GWM1DCV3FM
 C
+C***********************************************************************
+      SUBROUTINE GWM1DCV3FVCSV(J)
+      INTEGER(I4B),INTENT(IN)::J
+        FVCELL(J)%FVILOC   => FVILOC
+        FVCELL(J)%FVJLOC   => FVJLOC
+        FVCELL(J)%FVKLOC   => FVKLOC
+        FVCELL(J)%FVRATIO  => FVRATIO
+      RETURN
+      END SUBROUTINE GWM1DCV3FVCSV
+C***********************************************************************
+      SUBROUTINE GWM1DCV3FVCPNT(J)
+      INTEGER(I4B),INTENT(IN)::J
+         FVILOC => FVCELL(J)%FVILOC  
+         FVJLOC => FVCELL(J)%FVJLOC  
+         FVKLOC => FVCELL(J)%FVKLOC  
+         FVRATIO=> FVCELL(J)%FVRATIO   
+      RETURN
+      END SUBROUTINE GWM1DCV3FVCPNT
 C
 C***********************************************************************
       SUBROUTINE GWF2DCV3FM(KPER,IGRID)
@@ -902,15 +1986,18 @@ C
       DO 100 I=1,NFVAR                      ! LOOP OVER GWM FLOW VARIABLES
         IF(IGRID.EQ.GRDLOCDCV(I))THEN       ! FLOW VARIABLE ON CURRENT GRID
         IF(FVSP(I,KPER)) THEN               ! FLOW VARIABLE ACTIVE IN STRESS PERIOD
+        IF(FVNCELL(I).GT.0)THEN             ! THIS IS A WEL-TYPE FLOW VARIABLE
+          CALL GWM1DCV3FVCPNT(I)            ! POINT TO CORRECT CELL INFO
           DO 110 K=1,FVNCELL(I)             ! LOOP OVER CELLS FOR THIS VARIABLE
-            IL = FVKLOC(I,K)                ! ASSIGN CELL LAYER
-            IR = FVILOC(I,K)                ! ASSIGN CELL ROW
-            IC = FVJLOC(I,K)                ! ASSIGN CELL COLUMN
-            Q  = FVBASE(I)*FVRATIO(I,K)     ! ASSIGN FLOW RATE 
+            IL = FVKLOC(K)                  ! ASSIGN CELL LAYER
+            IR = FVILOC(K)                  ! ASSIGN CELL ROW
+            IC = FVJLOC(K)                  ! ASSIGN CELL COLUMN
+            Q  = FVBASE(I)*FVRATIO(K)       ! ASSIGN FLOW RATE 
             IF(IBOUND(IC,IR,IL).GT.0)THEN   ! CELL IS ACTIVE 
               RHS(IC,IR,IL)=RHS(IC,IR,IL)-Q ! SUBTRACT FROM THE RHS ACCUMULATOR
             ENDIF  
   110     ENDDO
+        ENDIF
         ENDIF
         ENDIF
   100 ENDDO
@@ -933,7 +2020,7 @@ C-----LOCAL VARIABLES
       INTEGER(I4B)::I,K,IL,IR,IC
       REAL(SP)::Q 
       REAL(DP)::RATIN,RATOUT,QQ,RIN,ROUT 
-      CHARACTER(LEN=16)::TEXT='    MANAGED FLOW' 
+      CHARACTER(LEN=16)::TEXT='   MANAGED WELLS' 
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 CGWM TO AVOID EXCESSIVE OUTPUT CELL-BY-CELL WRITING NOT IMPLEMENTED
@@ -960,19 +2047,21 @@ C5------LOOP THROUGH EACH WELL CALCULATING FLOW.
       DO 100 I=1,NFVAR                      ! LOOP OVER GWM FLOW VARIABLES
         IF(IGRID.EQ.GRDLOCDCV(I))THEN       ! FLOW VARIABLE IS ON CURRENT GRID
           IF(FVSP(I,KPER)) THEN             ! FLOW VARIABLE ACTIVE IN STRESS PERIOD
+          IF(FVNCELL(I).GT.0)THEN           ! THIS IS A WEL-TYPE FLOW VARIABLE
+            CALL GWM1DCV3FVCPNT(I)          ! POINT TO CORRECT CELL INFO
             DO 110 K=1,FVNCELL(I)           ! LOOP OVER CELLS FOR THIS VARIABLE
 C
 C5A-----GET LAYER, ROW & COLUMN OF CELL CONTAINING WELL.
-              IL = FVKLOC(I,K)              ! ASSIGN CELL LAYER
-              IR = FVILOC(I,K)              ! ASSIGN CELL ROW
-              IC = FVJLOC(I,K)              ! ASSIGN CELL COLUMN
+              IL = FVKLOC(K)                ! ASSIGN CELL LAYER
+              IR = FVILOC(K)                ! ASSIGN CELL ROW
+              IC = FVJLOC(K)                ! ASSIGN CELL COLUMN
               Q=ZERO
 C
 C5B-----IF THE CELL IS NO-FLOW OR CONSTANT_HEAD, IGNORE IT.
               IF(IBOUND(IC,IR,IL).LE.0)GOTO 99
 C
 C5C-----GET FLOW RATE FROM WELL LIST.
-              Q  = FVBASE(I)*FVRATIO(I,K)   ! ASSIGN FLOW RATE 
+              Q  = FVBASE(I)*FVRATIO(K)     ! ASSIGN FLOW RATE 
               QQ=Q
 C
 C5D-----PRINT FLOW RATE IF REQUESTED.
@@ -1004,6 +2093,7 @@ C5I-----OR IF RETURNING THE FLOW IN THE WELL ARRAY, COPY FLOW TO WELL.
 CGWM   IF(IBD.EQ.2) CALL UBDSVA(IWELCB,NCOL,NROW,IC,IR,IL,Q,IBOUND,NLAY)
   110       ENDDO
           ENDIF
+          ENDIF
         ENDIF
   100 ENDDO
 C
@@ -1027,5 +2117,51 @@ C
 C9------RETURN
       RETURN
       END SUBROUTINE GWF2DCV3BD 
-C                              
+
+      subroutine gwf2dcv3rp(kper,igrid)
+      ! Write managed-flow rates for current stress period.
+      ! Logic is as in GWF2DCV3FM, except RHS is not modified.
+      use global,  only: iout
+      implicit none
+      integer(i4b),intent(in)::kper,igrid
+c-----local variables
+      integer(i4b)::i,k,il,ir,ic,n
+      real(sp)::q 
+      double precision :: qtot
+   10 format(/,'Flows at Managed Wells for Stress Period ',i4)
+   20 format(/,1x,'Well no.  Layer   Row   Col   Stress Rate')
+   25 format(1x,'----------------------------------------------------')
+   30 format(1x,i8,1x,i6,1x,i5,1x,i5,1x,g24.16)
+   40 format(22x,'Total:',1x,g24.16)
+c+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+c
+      write(iout,10)kper
+      write(iout,20)
+      write(iout,25)
+      n = 0
+      qtot = 0.0d0
+      do 100 i=1,nfvar                      ! loop over gwm flow variables
+        if(igrid.eq.grdlocdcv(i))then       ! flow variable on current grid
+        if(fvsp(i,kper)) then               ! flow variable active in stress period
+        if(fvncell(i).gt.0)then             ! this is a wel-type flow variable
+          CALL GWM1DCV3FVCPNT(I)            ! POINT TO CORRECT CELL INFO
+          do 110 k=1,fvncell(i)             ! loop over cells for this variable
+            il = fvkloc(k)                ! assign cell layer
+            ir = fviloc(K)                ! assign cell row
+            ic = fvjloc(k)                ! assign cell column
+            q  = fvbase(i)*fvratio(k)     ! assign flow rate 
+            qtot = qtot + q
+            n = n + 1
+            write(iout,30)n,il,ir,ic,q
+  110     enddo
+        endif
+        endif
+        endif
+  100 enddo
+      write(iout,25)
+      write(iout,40)qtot
+c
+      return
+      end subroutine gwf2dcv3rp
+
       END MODULE GWM1DCV3

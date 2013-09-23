@@ -1,7 +1,7 @@
 
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.4.2 032513,FROM MF-LGR V1.2  
+                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
 
 
 
@@ -28,7 +28,7 @@
  NO. OF EXTERNAL DECISION VARIABLES (NEVAR):       1
  BINARY VARIABLES ARE ACTIVE. NBVAR:               4
 
- FLOW-RATE VARIABLES:
+ FLOW-RATE VARIABLES: WEL-TYPE
                                                    FRACTION
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
@@ -44,12 +44,12 @@
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGRSTA\sealgrsta_chd.decvar                                                                            
 
-    3      W1         WITHDRAWAL     1   10   16    0.5000
-                                     2   10   16    0.5000
+    3      W1         WITHDRAWAL     1    8   14    0.5000
+                                     2    8   14    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
-    4      W2         WITHDRAWAL     1   19    7    0.5000
-                                     2   19    7    0.5000
+    4      W2         WITHDRAWAL     1   17    5    0.5000
+                                     2   17    5    0.5000
    AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
 
 
@@ -78,7 +78,7 @@
     3        BV1            1                W1        
     4        BV2            1                W2        
 
-      562 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
+      594 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
 
  CLOSING DECISION-VARIABLE FILE
 
@@ -97,6 +97,7 @@
  NO. OF DRAIN STATE VARIABLES (NDVAR):             0
 
  HEAD TYPE STATE VARIABLES:
+                             MNW WELLID or
   NUMBER     NAME            LAY  ROW  COL
  ----------------------------------------------------------
       1      hd-01-1         1    1   27
@@ -135,28 +136,28 @@
      12      hd-10-2         2   19   27
    AVAILABLE IN STRESS PERIOD:     1
 
-     13      hd-04-1         1    4   37
+     13      hd-04-1         1    2   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     14      hd-04-2         2    4   37
+     14      hd-04-2         2    2   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     15      hd-05-1         1   10   37
+     15      hd-05-1         1    8   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     16      hd-05-2         2   10   37
+     16      hd-05-2         2    8   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     17      hd-06-1         1   16   37
+     17      hd-06-1         1   14   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     18      hd-06-2         2   16   37
+     18      hd-06-2         2   14   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     19      hd-07-1         1   22   37
+     19      hd-07-1         1   20   35
    AVAILABLE IN STRESS PERIOD:     1
 
-     20      hd-07-2         2   22   37
+     20      hd-07-2         2   20   35
    AVAILABLE IN STRESS PERIOD:     1
 
 
@@ -310,10 +311,10 @@
      3   gd-7          1   17   26    1   17   28   4.0000E+02   7.0000E-03     1
      4   gd-8          2   17   26    2   17   28   4.0000E+02   7.0000E-03     1
   GRADIENT CONSTRAINTS READ FROM FILE: ..\data\SEAWATER-LGRSTA\sealgrsta_chd.hedcon                                                                            
-     5   gd-3          1   10   34    1   10   40   4.0000E+02   7.0000E-03     1
-     6   gd-4          2   10   34    2   10   40   4.0000E+02   7.0000E-03     1
-     7   gd-5          1   16   34    1   16   40   4.0000E+02   7.0000E-03     1
-     8   gd-6          2   16   34    2   16   40   4.0000E+02   7.0000E-03     1
+     5   gd-3          1    8   32    1    8   38   4.0000E+02   7.0000E-03     1
+     6   gd-4          2    8   32    2    8   38   4.0000E+02   7.0000E-03     1
+     7   gd-5          1   14   32    1   14   38   4.0000E+02   7.0000E-03     1
+     8   gd-6          2   14   32    2   14   38   4.0000E+02   7.0000E-03     1
 
       560 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR HEAD CONSTRAINTS
 
@@ -371,50 +372,50 @@
       Status of State Variable Values 
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Head                   hd-01-1     7.7752590E+00
-      Head                   hd-01-2     7.7264504E+00
-      Head                   hd-02-1     7.7754102E+00
-      Head                   hd-02-2     7.7266021E+00
-      Head                   hd-03-1     7.7752058E+00
-      Head                   hd-03-2     7.7272925E+00
-      Head                   hd-08-1     7.7751479E+00
-      Head                   hd-08-2     7.7272347E+00
-      Head                   hd-09-1     7.7753160E+00
-      Head                   hd-09-2     7.7265081E+00
-      Head                   hd-10-1     7.7751115E+00
-      Head                   hd-10-2     7.7263032E+00
-      Head                   hd-04-1     7.7848664E+00
-      Head                   hd-04-2     7.7361358E+00
-      Head                   hd-05-1     7.7854040E+00
-      Head                   hd-05-2     7.7366658E+00
-      Head                   hd-06-1     7.7853941E+00
-      Head                   hd-06-2     7.7366559E+00
-      Head                   hd-07-1     7.7848352E+00
-      Head                   hd-07-2     7.7361046E+00
+      Head                   hd-01-1     7.7741586E+00
+      Head                   hd-01-2     7.7253529E+00
+      Head                   hd-02-1     7.7741531E+00
+      Head                   hd-02-2     7.7253475E+00
+      Head                   hd-03-1     7.7740834E+00
+      Head                   hd-03-2     7.7253407E+00
+      Head                   hd-08-1     7.7740870E+00
+      Head                   hd-08-2     7.7253443E+00
+      Head                   hd-09-1     7.7741589E+00
+      Head                   hd-09-2     7.7253533E+00
+      Head                   hd-10-1     7.7741672E+00
+      Head                   hd-10-2     7.7253615E+00
+      Head                   hd-04-1     7.7692892E+00
+      Head                   hd-04-2     7.7198923E+00
+      Head                   hd-05-1     7.7685939E+00
+      Head                   hd-05-2     7.7197826E+00
+      Head                   hd-06-1     7.7685945E+00
+      Head                   hd-06-2     7.7197832E+00
+      Head                   hd-07-1     7.7692911E+00
+      Head                   hd-07-2     7.7198942E+00
  
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Head Gradient          gd-1       Satisfied     1.9690E+00
-      Head Gradient          gd-2       Satisfied     1.9730E+00
-      Head Gradient          gd-7       Satisfied     1.9690E+00
-      Head Gradient          gd-8       Satisfied     1.9729E+00
-      Head Gradient          gd-3       Satisfied     2.0023E+00
-      Head Gradient          gd-4       Satisfied     1.9821E+00
-      Head Gradient          gd-5       Satisfied     2.0023E+00
-      Head Gradient          gd-6       Satisfied     1.9821E+00
+      Head Gradient          gd-1       Satisfied     1.9683E+00
+      Head Gradient          gd-2       Satisfied     1.9722E+00
+      Head Gradient          gd-7       Satisfied     1.9683E+00
+      Head Gradient          gd-8       Satisfied     1.9722E+00
+      Head Gradient          gd-3       Satisfied     1.9663E+00
+      Head Gradient          gd-4       Satisfied     1.9724E+00
+      Head Gradient          gd-5       Satisfied     1.9663E+00
+      Head Gradient          gd-6       Satisfied     1.9724E+00
       Summation              demand     Not Met       5.0000E+04
       Summation              wellson    Satisfied     3.1000E+00
-      Summation              hd01       Satisfied     8.8086E-03
-      Summation              hd02       Satisfied     8.8081E-03
-      Summation              hd03       Satisfied     7.9133E-03
-      Summation              hd08       Satisfied     7.9132E-03
-      Summation              hd09       Satisfied     8.8079E-03
-      Summation              hd10       Satisfied     8.8082E-03
-      Summation              hd04       Satisfied     8.7307E-03
-      Summation              hd05       Satisfied     8.7382E-03
-      Summation              hd06       Satisfied     8.7382E-03
-      Summation              hd07       Satisfied     8.7306E-03
+      Summation              hd01       Satisfied     8.8056E-03
+      Summation              hd02       Satisfied     8.8055E-03
+      Summation              hd03       Satisfied     8.7427E-03
+      Summation              hd08       Satisfied     8.7427E-03
+      Summation              hd09       Satisfied     8.8055E-03
+      Summation              hd10       Satisfied     8.8056E-03
+      Summation              hd04       Satisfied     9.3969E-03
+      Summation              hd05       Satisfied     8.8113E-03
+      Summation              hd06       Satisfied     8.8113E-03
+      Summation              hd07       Satisfied     9.3969E-03
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -439,27 +440,27 @@
  SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          0.0000E+00    W4          2.2912E+02    W1          6.2566E+03
-    W2          8.7818E+03
+    W3          0.0000E+00    W4          3.7570E+03    W1          2.0700E+03
+    W2          1.0000E+04
 External Variables
-    E           3.4732E+04
+    E           3.4173E+04
 Binary Variables
-    BV3         0.0000E+00    BV4         1.1456E-02    BV1         3.1283E-01
-    BV2         4.3909E-01
-    Objective Function =  3.473240E+04
+    BV3         0.0000E+00    BV4         1.8785E-01    BV1         1.0350E-01
+    BV2         5.0000E-01
+    Objective Function =  3.417308E+04
  
     Feasible Solution Found
  SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.1652E+03    W4          8.0575E+02    W1          1.0000E+04
-    W2          1.3280E+03
+    W3          4.1595E+03    W4          4.5238E+03    W1          2.9844E+03
+    W2          4.7359E+03
 External Variables
-    E           3.4701E+04
+    E           3.3596E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         4.0287E-02    BV1         5.0000E-01
-    BV2         6.6399E-02
-    Objective Function =  3.470104E+04
+    BV3         1.0000E+00    BV4         2.2619E-01    BV1         1.4922E-01
+    BV2         2.3680E-01
+    Objective Function =  3.359632E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           2
                  AND VARIABLE           2
@@ -467,27 +468,27 @@ Binary Variables
  SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          0.0000E+00    W4          0.0000E+00    W1          6.4991E+03
-    W2          8.7353E+03
+    W3          5.2009E+03    W4          0.0000E+00    W1          8.2964E+03
+    W2          2.1112E+03
 External Variables
-    E           3.4766E+04
+    E           3.4392E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         0.0000E+00    BV1         3.2496E-01
-    BV2         4.3676E-01
-    Objective Function =  3.476560E+04
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         4.1482E-01
+    BV2         1.0556E-01
+    Objective Function =  3.439154E+04
  
     Feasible Solution Found
  SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.1652E+03    W4          8.0575E+02    W1          1.0000E+04
-    W2          1.3280E+03
+    W3          4.1595E+03    W4          4.5238E+03    W1          2.9844E+03
+    W2          4.7359E+03
 External Variables
-    E           3.4701E+04
+    E           3.3596E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         1.0000E+00    BV1         5.0000E-01
-    BV2         6.6399E-02
-    Objective Function =  3.470104E+04
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.4922E-01
+    BV2         2.3680E-01
+    Objective Function =  3.359632E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           4
                  AND VARIABLE           3
@@ -495,27 +496,27 @@ Binary Variables
  SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          1.4223E+03    W4          3.7298E+03    W1          0.0000E+00
+    W3          2.1039E+03    W4          4.2256E+03    W1          0.0000E+00
     W2          1.0000E+04
 External Variables
-    E           3.4848E+04
+    E           3.3671E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
     BV2         5.0000E-01
-    Objective Function =  3.484787E+04
+    Objective Function =  3.367053E+04
  
     Feasible Solution Found
  SUBPROBLEM           6 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.1652E+03    W4          8.0575E+02    W1          1.0000E+04
-    W2          1.3280E+03
+    W3          5.2054E+03    W4          4.7728E+03    W1          4.4104E+03
+    W2          2.0000E+03
 External Variables
-    E           3.4701E+04
+    E           3.3611E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
-    BV2         6.6399E-02
-    Objective Function =  3.470104E+04
+    BV2         1.0000E-01
+    Objective Function =  3.361145E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           6
                  AND VARIABLE           4
@@ -526,14 +527,14 @@ Binary Variables
  SUBPROBLEM           7 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.9583E+03    W4          1.3332E+03    W1          1.0000E+04
+    W3          5.9680E+03    W4          4.9097E+03    W1          5.4939E+03
     W2          0.0000E+00
 External Variables
-    E           3.4708E+04
+    E           3.3628E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
     BV2         0.0000E+00
-    Objective Function =  3.470849E+04
+    Objective Function =  3.362846E+04
  
  SUBPROBLEM           8 IS FATHOMED - IT IS INFEASIBLE
  SUBPROBLEM           6 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
@@ -543,7 +544,7 @@ Binary Variables
            8 RELAXED PROBLEMS WERE SOLVED.
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value  3.470849E+04
+    Objective Value  3.362846E+04
   SLP Algorithm: End Iteration    1
   No SLP convergence at this iteration
  
@@ -552,50 +553,50 @@ Binary Variables
       Status of State Variable Values 
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Head                   hd-01-1     5.2948716E+00
-      Head                   hd-01-2     5.2525046E+00
-      Head                   hd-02-1     5.2571608E+00
-      Head                   hd-02-2     5.2148937E+00
-      Head                   hd-03-1     5.1800058E+00
-      Head                   hd-03-2     5.1386523E+00
-      Head                   hd-08-1     5.1763725E+00
-      Head                   hd-08-2     5.1350217E+00
-      Head                   hd-09-1     5.2199134E+00
-      Head                   hd-09-2     5.1777694E+00
-      Head                   hd-10-1     5.2484562E+00
-      Head                   hd-10-2     5.2062390E+00
-      Head                   hd-04-1     5.1055856E+00
-      Head                   hd-04-2     5.0637955E+00
-      Head                   hd-05-1     5.0606673E+00
-      Head                   hd-05-2     5.0190205E+00
-      Head                   hd-06-1     5.0760383E+00
-      Head                   hd-06-2     5.0343230E+00
-      Head                   hd-07-1     5.1296123E+00
-      Head                   hd-07-2     5.0877158E+00
+      Head                   hd-01-1     4.9773517E+00
+      Head                   hd-01-2     4.9357229E+00
+      Head                   hd-02-1     4.9768285E+00
+      Head                   hd-02-2     4.9352006E+00
+      Head                   hd-03-1     4.9753057E+00
+      Head                   hd-03-2     4.9337029E+00
+      Head                   hd-08-1     4.9926811E+00
+      Head                   hd-08-2     4.9510367E+00
+      Head                   hd-09-1     4.9808715E+00
+      Head                   hd-09-2     4.9392524E+00
+      Head                   hd-10-1     4.9782011E+00
+      Head                   hd-10-2     4.9365774E+00
+      Head                   hd-04-1     4.9672539E+00
+      Head                   hd-04-2     4.9254341E+00
+      Head                   hd-05-1     4.9713380E+00
+      Head                   hd-05-2     4.9297193E+00
+      Head                   hd-06-1     4.9844805E+00
+      Head                   hd-06-2     4.9428144E+00
+      Head                   hd-07-1     4.9932487E+00
+      Head                   hd-07-2     4.9513397E+00
  
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Head Gradient          gd-1       Satisfied     3.7168E-01
-      Head Gradient          gd-2       Satisfied     3.7380E-01
-      Head Gradient          gd-7       Satisfied     3.3510E-01
-      Head Gradient          gd-8       Satisfied     3.3729E-01
-      Head Gradient          gd-3       Satisfied     2.1637E-01
-      Head Gradient          gd-4       Satisfied     1.9683E-01
-      Head Gradient          gd-5       Satisfied     2.3850E-01
-      Head Gradient          gd-6       Satisfied     2.1886E-01
-      Summation              demand     Satisfied     0.0000E+00
+      Head Gradient          gd-1       Satisfied     1.7040E-01
+      Head Gradient          gd-2       Satisfied     1.7250E-01
+      Head Gradient          gd-7       Satisfied     1.6793E-01
+      Head Gradient          gd-8       Satisfied     1.7006E-01
+      Head Gradient          gd-3       Satisfied     1.6645E-01
+      Head Gradient          gd-4       Satisfied     1.6943E-01
+      Head Gradient          gd-5       Satisfied     1.8213E-01
+      Head Gradient          gd-6       Satisfied     1.8507E-01
+      Summation              demand     Not Met       1.4552E-11
       Summation              wellson    Satisfied     1.0000E-01
-      Summation              hd01       Satisfied     2.3669E-03
-      Summation              hd02       Satisfied     2.2671E-03
-      Summation              hd03       Satisfied     1.3535E-03
-      Summation              hd08       Satisfied     1.3508E-03
-      Summation              hd09       Satisfied     2.1440E-03
-      Summation              hd10       Satisfied     2.2171E-03
-      Summation              hd04       Satisfied     1.7900E-03
-      Summation              hd05       Satisfied     1.6468E-03
-      Summation              hd06       Satisfied     1.7152E-03
-      Summation              hd07       Satisfied     1.8965E-03
+      Summation              hd01       Satisfied     1.6288E-03
+      Summation              hd02       Satisfied     1.6279E-03
+      Summation              hd03       Satisfied     1.6028E-03
+      Summation              hd08       Satisfied     1.6444E-03
+      Summation              hd09       Satisfied     1.6190E-03
+      Summation              hd10       Satisfied     1.6237E-03
+      Summation              hd04       Satisfied     1.8198E-03
+      Summation              hd05       Satisfied     1.6187E-03
+      Summation              hd06       Satisfied     1.6661E-03
+      Summation              hd07       Satisfied     1.9090E-03
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -620,27 +621,27 @@ Binary Variables
  SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          0.0000E+00    W4          4.0263E+03    W1          3.2391E+03
+    W3          0.0000E+00    W4          4.2101E+03    W1          2.9693E+03
     W2          1.0000E+04
 External Variables
-    E           3.2735E+04
+    E           3.2821E+04
 Binary Variables
-    BV3         0.0000E+00    BV4         2.0131E-01    BV1         1.6196E-01
+    BV3         0.0000E+00    BV4         2.1050E-01    BV1         1.4847E-01
     BV2         5.0000E-01
-    Objective Function =  3.273461E+04
+    Objective Function =  3.282059E+04
  
     Feasible Solution Found
  SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.8519E+03    W4          4.6512E+03    W1          2.7652E+03
-    W2          6.6997E+03
+    W3          4.1002E+03    W4          4.8816E+03    W1          2.5836E+03
+    W2          6.3478E+03
 External Variables
-    E           3.2032E+04
+    E           3.2087E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         2.3256E-01    BV1         1.3826E-01
-    BV2         3.3499E-01
-    Objective Function =  3.203193E+04
+    BV3         1.0000E+00    BV4         2.4408E-01    BV1         1.2918E-01
+    BV2         3.1739E-01
+    Objective Function =  3.208677E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           2
                  AND VARIABLE           2
@@ -648,27 +649,27 @@ Binary Variables
  SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          2.8154E+03    W4          0.0000E+00    W1          4.3435E+03
+    W3          2.9431E+03    W4          0.0000E+00    W1          4.1187E+03
     W2          1.0000E+04
 External Variables
-    E           3.2841E+04
+    E           3.2938E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.1718E-01
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0593E-01
     BV2         5.0000E-01
-    Objective Function =  3.284104E+04
+    Objective Function =  3.293825E+04
  
     Feasible Solution Found
  SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.8519E+03    W4          4.6512E+03    W1          2.7652E+03
-    W2          6.6997E+03
+    W3          4.1002E+03    W4          4.8816E+03    W1          2.5836E+03
+    W2          6.3478E+03
 External Variables
-    E           3.2032E+04
+    E           3.2087E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.3826E-01
-    BV2         3.3499E-01
-    Objective Function =  3.203193E+04
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.2918E-01
+    BV2         3.1739E-01
+    Objective Function =  3.208677E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           4
                  AND VARIABLE           3
@@ -676,27 +677,27 @@ Binary Variables
  SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          2.9231E+03    W4          4.9497E+03    W1          0.0000E+00
+    W3          2.9175E+03    W4          4.9430E+03    W1          0.0000E+00
     W2          1.0000E+04
 External Variables
-    E           3.2127E+04
+    E           3.2140E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
     BV2         5.0000E-01
-    Objective Function =  3.212715E+04
+    Objective Function =  3.213953E+04
  
     Feasible Solution Found
  SUBPROBLEM           6 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          5.6487E+03    W4          5.0563E+03    W1          5.2354E+03
+    W3          5.7660E+03    W4          5.2596E+03    W1          4.8625E+03
     W2          2.0000E+03
 External Variables
-    E           3.2060E+04
+    E           3.2112E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
     BV2         1.0000E-01
-    Objective Function =  3.205954E+04
+    Objective Function =  3.211193E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           6
                  AND VARIABLE           4
@@ -707,14 +708,14 @@ Binary Variables
  SUBPROBLEM           7 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          6.4134E+03    W4          5.2287E+03    W1          6.2866E+03
+    W3          6.5322E+03    W4          5.4335E+03    W1          5.9108E+03
     W2          0.0000E+00
 External Variables
-    E           3.2071E+04
+    E           3.2124E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
     BV2         0.0000E+00
-    Objective Function =  3.207128E+04
+    Objective Function =  3.212351E+04
  
  SUBPROBLEM           8 IS FATHOMED - IT IS INFEASIBLE
  SUBPROBLEM           6 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
@@ -724,14 +725,14 @@ Binary Variables
            8 RELAXED PROBLEMS WERE SOLVED.
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value  3.207128E+04
+    Objective Value  3.212351E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-03
-      Value at this iteration        =  8.222693E-02
+      Value at this iteration        =  4.684731E-02
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
-      For Flow Variable Max Change   =  6.073048E-01
-      For Ext Variables Max Change   =  8.222693E-02
+      For Flow Variable Max Change   =  8.636935E-02
+      For Ext Variables Max Change   =  4.684731E-02
       For Binary Variable Max Change =  0.000000E+00
   SLP Algorithm: End Iteration    2
   No SLP convergence at this iteration
@@ -741,50 +742,50 @@ Binary Variables
       Status of State Variable Values 
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Head                   hd-01-1     4.7132046E+00
-      Head                   hd-01-2     4.6720760E+00
-      Head                   hd-02-1     4.7112284E+00
-      Head                   hd-02-2     4.6701050E+00
-      Head                   hd-03-1     4.7066414E+00
-      Head                   hd-03-2     4.6662043E+00
-      Head                   hd-08-1     4.7300908E+00
-      Head                   hd-08-2     4.6896037E+00
-      Head                   hd-09-1     4.7202393E+00
-      Head                   hd-09-2     4.6791167E+00
-      Head                   hd-10-1     4.7189904E+00
-      Head                   hd-10-2     4.6778589E+00
-      Head                   hd-04-1     4.7115629E+00
-      Head                   hd-04-2     4.6704813E+00
-      Head                   hd-05-1     4.7162394E+00
-      Head                   hd-05-2     4.6751634E+00
-      Head                   hd-06-1     4.7320619E+00
-      Head                   hd-06-2     4.6909327E+00
-      Head                   hd-07-1     4.7438988E+00
-      Head                   hd-07-2     4.7027190E+00
+      Head                   hd-01-1     4.7141226E+00
+      Head                   hd-01-2     4.6729971E+00
+      Head                   hd-02-1     4.7143651E+00
+      Head                   hd-02-2     4.6732387E+00
+      Head                   hd-03-1     4.7143812E+00
+      Head                   hd-03-2     4.6732732E+00
+      Head                   hd-08-1     4.7360773E+00
+      Head                   hd-08-2     4.6949212E+00
+      Head                   hd-09-1     4.7224951E+00
+      Head                   hd-09-2     4.6813700E+00
+      Head                   hd-10-1     4.7191814E+00
+      Head                   hd-10-2     4.6780523E+00
+      Head                   hd-04-1     4.7079808E+00
+      Head                   hd-04-2     4.6666792E+00
+      Head                   hd-05-1     4.7139176E+00
+      Head                   hd-05-2     4.6727889E+00
+      Head                   hd-06-1     4.7287344E+00
+      Head                   hd-06-2     4.6875562E+00
+      Head                   hd-07-1     4.7378937E+00
+      Head                   hd-07-2     4.6964975E+00
  
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Head Gradient          gd-1       Not Met       1.1943E-03
-      Head Gradient          gd-2       Satisfied     7.5309E-04
-      Head Gradient          gd-7       Not Met       9.8701E-04
-      Head Gradient          gd-8       Satisfied     1.0067E-03
-      Head Gradient          gd-3       Satisfied     1.9332E-02
-      Head Gradient          gd-4       Not Met       3.8460E-04
-      Head Gradient          gd-5       Satisfied     3.7938E-02
-      Head Gradient          gd-6       Satisfied     1.8164E-02
+      Head Gradient          gd-1       Not Met       2.7150E-04
+      Head Gradient          gd-2       Satisfied     1.6829E-03
+      Head Gradient          gd-7       Not Met       2.6324E-04
+      Head Gradient          gd-8       Satisfied     1.7348E-03
+      Head Gradient          gd-3       Not Met       2.6297E-04
+      Head Gradient          gd-4       Satisfied     2.4843E-03
+      Head Gradient          gd-5       Satisfied     1.7106E-02
+      Head Gradient          gd-6       Satisfied     1.9815E-02
       Summation              demand     Satisfied     0.0000E+00
       Summation              wellson    Satisfied     1.0000E-01
-      Summation              hd01       Satisfied     1.1286E-03
-      Summation              hd02       Satisfied     1.1234E-03
-      Summation              hd03       Satisfied     4.3714E-04
-      Summation              hd08       Satisfied     4.8711E-04
-      Summation              hd09       Satisfied     1.1226E-03
-      Summation              hd10       Satisfied     1.1315E-03
-      Summation              hd04       Satisfied     1.0816E-03
-      Summation              hd05       Satisfied     1.0760E-03
-      Summation              hd06       Satisfied     1.1292E-03
-      Summation              hd07       Satisfied     1.1799E-03
+      Summation              hd01       Satisfied     1.1254E-03
+      Summation              hd02       Satisfied     1.1264E-03
+      Summation              hd03       Satisfied     1.1080E-03
+      Summation              hd08       Satisfied     1.1561E-03
+      Summation              hd09       Satisfied     1.1251E-03
+      Summation              hd10       Satisfied     1.1291E-03
+      Summation              hd04       Satisfied     1.3015E-03
+      Summation              hd05       Satisfied     1.1287E-03
+      Summation              hd06       Satisfied     1.1782E-03
+      Summation              hd07       Satisfied     1.3962E-03
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -809,27 +810,27 @@ Binary Variables
  SUBPROBLEM           1 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          0.0000E+00    W4          4.0109E+03    W1          3.2498E+03
+    W3          0.0000E+00    W4          4.2091E+03    W1          2.9682E+03
     W2          1.0000E+04
 External Variables
-    E           3.2739E+04
+    E           3.2823E+04
 Binary Variables
-    BV3         0.0000E+00    BV4         2.0055E-01    BV1         1.6249E-01
+    BV3         0.0000E+00    BV4         2.1046E-01    BV1         1.4841E-01
     BV2         5.0000E-01
-    Objective Function =  3.273932E+04
+    Objective Function =  3.282264E+04
  
     Feasible Solution Found
  SUBPROBLEM           2 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.8501E+03    W4          4.6366E+03    W1          2.7934E+03
-    W2          6.6805E+03
+    W3          4.1051E+03    W4          4.8822E+03    W1          2.5906E+03
+    W2          6.3329E+03
 External Variables
-    E           3.2039E+04
+    E           3.2089E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         2.3183E-01    BV1         1.3967E-01
-    BV2         3.3403E-01
-    Objective Function =  3.203939E+04
+    BV3         1.0000E+00    BV4         2.4411E-01    BV1         1.2953E-01
+    BV2         3.1664E-01
+    Objective Function =  3.208923E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           2
                  AND VARIABLE           2
@@ -837,27 +838,27 @@ Binary Variables
  SUBPROBLEM           3 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          2.8061E+03    W4          0.0000E+00    W1          4.3482E+03
+    W3          2.9423E+03    W4          0.0000E+00    W1          4.1171E+03
     W2          1.0000E+04
 External Variables
-    E           3.2846E+04
+    E           3.2941E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.1741E-01
+    BV3         1.0000E+00    BV4         0.0000E+00    BV1         2.0585E-01
     BV2         5.0000E-01
-    Objective Function =  3.284574E+04
+    Objective Function =  3.294061E+04
  
     Feasible Solution Found
  SUBPROBLEM           4 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          3.8501E+03    W4          4.6366E+03    W1          2.7934E+03
-    W2          6.6805E+03
+    W3          4.1051E+03    W4          4.8822E+03    W1          2.5906E+03
+    W2          6.3329E+03
 External Variables
-    E           3.2039E+04
+    E           3.2089E+04
 Binary Variables
-    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.3967E-01
-    BV2         3.3403E-01
-    Objective Function =  3.203939E+04
+    BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.2953E-01
+    BV2         3.1664E-01
+    Objective Function =  3.208923E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           4
                  AND VARIABLE           3
@@ -865,27 +866,27 @@ Binary Variables
  SUBPROBLEM           5 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          2.9198E+03    W4          4.9438E+03    W1          0.0000E+00
+    W3          2.9163E+03    W4          4.9419E+03    W1          0.0000E+00
     W2          1.0000E+04
 External Variables
-    E           3.2136E+04
+    E           3.2142E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         0.0000E+00
     BV2         5.0000E-01
-    Objective Function =  3.213641E+04
+    Objective Function =  3.214179E+04
  
     Feasible Solution Found
  SUBPROBLEM           6 IS UNFATHOMED - IT IS RELAXED
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          5.6396E+03    W4          5.0399E+03    W1          5.2536E+03
+    W3          5.7651E+03    W4          5.2588E+03    W1          4.8618E+03
     W2          2.0000E+03
 External Variables
-    E           3.2067E+04
+    E           3.2114E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
     BV2         1.0000E-01
-    Objective Function =  3.206686E+04
+    Objective Function =  3.211430E+04
  
  NEXT: BRANCH FROM SUBPROBLEM           6
                  AND VARIABLE           4
@@ -896,14 +897,14 @@ Binary Variables
  SUBPROBLEM           7 IS FATHOMED - IT IS INTEGER AND THE NEW BEST SOLUTION
     Name          Value       Name          Value       Name          Value
 Flow Variables
-    W3          6.4043E+03    W4          5.2123E+03    W1          6.3048E+03
+    W3          6.5314E+03    W4          5.4326E+03    W1          5.9102E+03
     W2          0.0000E+00
 External Variables
-    E           3.2079E+04
+    E           3.2126E+04
 Binary Variables
     BV3         1.0000E+00    BV4         1.0000E+00    BV1         1.0000E+00
     BV2         0.0000E+00
-    Objective Function =  3.207860E+04
+    Objective Function =  3.212588E+04
  
  SUBPROBLEM           8 IS FATHOMED - IT IS INFEASIBLE
  SUBPROBLEM           6 IS FATHOMED - ALREADY BRANCHED FROM IT ONCE
@@ -913,14 +914,14 @@ Binary Variables
            8 RELAXED PROBLEMS WERE SOLVED.
     Feasible Solution Found
     Optimal Solution Found
-    Objective Value  3.207860E+04
+    Objective Value  3.212588E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-03
-      Value at this iteration        =  2.280992E-04
+      Value at this iteration        =  7.373410E-05
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
-      For Flow Variable Max Change   =  2.841593E-03
-      For Ext Variables Max Change   =  2.280992E-04
+      For Flow Variable Max Change   =  1.325694E-04
+      For Ext Variables Max Change   =  7.373410E-05
       For Binary Variable Max Change =  0.000000E+00
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
@@ -936,21 +937,21 @@ Binary Variables
 Variable           Withdrawal          Injection           Contribution
 Name               Rate                Rate                To Objective
 ----------         --------------      ------------        ------------
- W3                6.404286E+03                            0.000000E+00
- W4                5.212298E+03                            0.000000E+00
- W1                6.304816E+03                            0.000000E+00
+ W3                6.531364E+03                            0.000000E+00
+ W4                5.432597E+03                            0.000000E+00
+ W1                5.910161E+03                            0.000000E+00
  W2                0.000000E+00                            0.000000E+00
                    ------------        ------------        ------------
-TOTALS             1.792140E+04        0.000000E+00        0.000000E+00
+TOTALS             1.787412E+04        0.000000E+00        0.000000E+00
 
        OPTIMAL VALUES FOR EACH EXTERNAL VARIABLE 
        ---------------------------------------
 Variable           Variable            Optimal             Contribution
 Name               Type                Value               To Objective
 ----------         --------------      ------------        ------------
- E                  Import             3.207860E+04        3.207860E+04
+ E                  Import             3.212588E+04        3.212588E+04
                                                            ------------
-TOTAL                                                      3.207860E+04
+TOTAL                                                      3.212588E+04
 
        OPTIMAL VALUES FOR EACH BINARY VARIABLE 
        ---------------------------------------
@@ -969,38 +970,38 @@ TOTALS                 3                                   0.000000E+00
 Variable                                                   Contribution
 Name               Value                                   To Objective
 ----------         ------------                            ------------
- hd-01-1            4.715073E+00                            0.000000E+00
- hd-01-2            4.673941E+00                            0.000000E+00
- hd-02-1            4.712933E+00                            0.000000E+00
- hd-02-2            4.671807E+00                            0.000000E+00
- hd-03-1            4.708014E+00                            0.000000E+00
- hd-03-2            4.667574E+00                            0.000000E+00
- hd-08-1            4.731301E+00                            0.000000E+00
- hd-08-2            4.690812E+00                            0.000000E+00
- hd-09-1            4.721680E+00                            0.000000E+00
- hd-09-2            4.680554E+00                            0.000000E+00
- hd-10-1            4.720561E+00                            0.000000E+00
- hd-10-2            4.679426E+00                            0.000000E+00
- hd-04-1            4.712570E+00                            0.000000E+00
- hd-04-2            4.671486E+00                            0.000000E+00
- hd-05-1            4.717015E+00                            0.000000E+00
- hd-05-2            4.675938E+00                            0.000000E+00
- hd-06-1            4.732830E+00                            0.000000E+00
- hd-06-2            4.691700E+00                            0.000000E+00
- hd-07-1            4.744847E+00                            0.000000E+00
- hd-07-2            4.703666E+00                            0.000000E+00
+ hd-01-1            4.714541E+00                            0.000000E+00
+ hd-01-2            4.673415E+00                            0.000000E+00
+ hd-02-1            4.714782E+00                            0.000000E+00
+ hd-02-2            4.673655E+00                            0.000000E+00
+ hd-03-1            4.714795E+00                            0.000000E+00
+ hd-03-2            4.673686E+00                            0.000000E+00
+ hd-08-1            4.736479E+00                            0.000000E+00
+ hd-08-2            4.695322E+00                            0.000000E+00
+ hd-09-1            4.722899E+00                            0.000000E+00
+ hd-09-2            4.681774E+00                            0.000000E+00
+ hd-10-1            4.719586E+00                            0.000000E+00
+ hd-10-2            4.678457E+00                            0.000000E+00
+ hd-04-1            4.708391E+00                            0.000000E+00
+ hd-04-2            4.667088E+00                            0.000000E+00
+ hd-05-1            4.714323E+00                            0.000000E+00
+ hd-05-2            4.673194E+00                            0.000000E+00
+ hd-06-1            4.729137E+00                            0.000000E+00
+ hd-06-2            4.687958E+00                            0.000000E+00
+ hd-07-1            4.738294E+00                            0.000000E+00
+ hd-07-2            4.696897E+00                            0.000000E+00
                    ------------                            ------------
-TOTALS              9.402373E+01                            0.000000E+00
+TOTALS              9.401467E+01                            0.000000E+00
 
 
-       OBJECTIVE FUNCTION VALUE                            3.207860E+04
+       OBJECTIVE FUNCTION VALUE                            3.212588E+04
 
        BINDING CONSTRAINTS 
 Constraint Type        Name     Status      Shadow Price
 ---------------        ----     ------      ------------
-Head Gradient          gd-1     Binding      2.3136E+03
-Head Gradient          gd-7     Binding      3.3391E+03
-Head Gradient          gd-4     Binding      3.2721E+03
+Head Gradient          gd-1     Binding      2.3291E+03
+Head Gradient          gd-7     Binding      3.3500E+03
+Head Gradient          gd-3     Binding      3.2499E+03
 Summation              demand   Binding      1.0000E+00
 Minimum Flow Rate      W2       Binding    Not Available
 
@@ -1021,62 +1022,62 @@ Minimum Flow Rate      W2       Binding    Not Available
 Constraint                Original      Lower/Upper
 Name        Slack         RHS           Bound            Entering    Leaving
 ----------  ----------    ----------    ----------       ----------  ----------
-gd-1        0.0000E+00    2.8000E+00    2.7981E+00       gd-1        gd-2      
-                                        2.9540E+00       W2          gd-6      
+gd-1        0.0000E+00    2.8000E+00    2.7980E+00       gd-1        gd-2      
+                                        2.9439E+00       W2          gd-5      
 
-gd-2        1.9478E-03    2.8000E+00     -Infinity       ----- No Change -----
-                                        2.8019E+00       gd-1        gd-2      
+gd-2        1.9546E-03    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8020E+00       gd-1        gd-2      
 
 gd-7        0.0000E+00    2.8000E+00    2.7980E+00       gd-7        gd-8      
-                                        3.1617E+00       gd-4        W1        
+                                        3.2006E+00       gd-3        W1        
 
-gd-8        1.9942E-03    2.8000E+00     -Infinity       ----- No Change -----
+gd-8        1.9983E-03    2.8000E+00     -Infinity       ----- No Change -----
                                         2.8020E+00       gd-7        gd-8      
 
-gd-3        1.9716E-02    2.8000E+00     -Infinity       ----- No Change -----
-                                        2.8197E+00       gd-4        gd-3      
+gd-3        0.0000E+00    2.8000E+00    2.7973E+00       gd-3        gd-4      
+                                        3.0007E+00       W2          W1        
 
-gd-4        0.0000E+00    2.8000E+00    2.7803E+00       gd-4        gd-3      
-                                        3.0141E+00       W2          W1        
+gd-4        2.7476E-03    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8027E+00       gd-3        gd-4      
 
-gd-5        3.8336E-02    2.8000E+00     -Infinity       ----- No Change -----
-                                        2.8383E+00       W2          gd-5      
+gd-5        1.7366E-02    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8174E+00       W2          gd-5      
 
-gd-6        1.8562E-02    2.8000E+00     -Infinity       ----- No Change -----
-                                        2.8186E+00       W2          gd-6      
+gd-6        2.0075E-02    2.8000E+00     -Infinity       ----- No Change -----
+                                        2.8201E+00       W2          gd-6      
 
-demand      0.0000E+00    5.0000E+04    1.7921E+04       demand      E         
+demand      0.0000E+00    5.0000E+04    1.7874E+04       demand      E         
                                         1.0179E+06       -- Degenerate Basis -
 
-hd01        1.1324E-03    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1132E-02       gd-1        hd01      
+hd01        1.1262E-03    4.0000E-02     -Infinity       ----- No Change -----
+                                        4.1126E-02       gd-1        hd01      
 
-hd02        1.1269E-03    4.0000E-02     -Infinity       ----- No Change -----
+hd02        1.1272E-03    4.0000E-02     -Infinity       ----- No Change -----
                                         4.1127E-02       gd-1        hd02      
 
-hd03        4.3967E-04    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.0440E-02       gd-1        hd03      
+hd03        1.1087E-03    4.0000E-02     -Infinity       ----- No Change -----
+                                        4.1109E-02       gd-1        hd03      
 
-hd08        4.8935E-04    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.0489E-02       W2          hd08      
+hd08        1.1569E-03    4.0000E-02     -Infinity       ----- No Change -----
+                                        4.1157E-02       W2          hd08      
 
-hd09        1.1254E-03    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1125E-02       gd-7        hd09      
+hd09        1.1258E-03    4.0000E-02     -Infinity       ----- No Change -----
+                                        4.1126E-02       gd-7        hd09      
 
-hd10        1.1346E-03    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1135E-02       gd-7        hd10      
+hd10        1.1299E-03    4.0000E-02     -Infinity       ----- No Change -----
+                                        4.1130E-02       gd-7        hd10      
 
 hd04        0.0000E+00    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1083E-02       gd-4        hd04      
+                                        4.1302E-02       gd-3        hd04      
 
 hd05        0.0000E+00    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1077E-02       gd-4        hd05      
+                                        4.1129E-02       gd-3        hd05      
 
 hd06        0.0000E+00    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1130E-02       W2          hd06      
+                                        4.1179E-02       W2          hd06      
 
 hd07        0.0000E+00    4.0000E-02     -Infinity       ----- No Change -----
-                                        4.1181E-02       W2          hd07      
+                                        4.1397E-02       W2          hd07      
 
 
 
@@ -1092,17 +1093,17 @@ hd07        0.0000E+00    4.0000E-02     -Infinity       ----- No Change -----
 Variable    Reduced       Original      Lower/Upper
 Name        Cost          Coefficient   Bound            Entering    Leaving
 ----------  ----------    ----------    ----------       ----------  ----------
-W3          0.0000E+00    0.0000E+00   -1.5352E-02       W2          W2        
-                                        2.7874E-01       gd-7        W1        
+W3          0.0000E+00    0.0000E+00   -1.5104E-02       W2          W2        
+                                        2.7948E-01       gd-7        W1        
 
-W4          0.0000E+00    0.0000E+00   -6.8110E-02       W2          W2        
-                                        1.2999E-01       gd-1        gd-6      
+W4          0.0000E+00    0.0000E+00   -6.6581E-02       W2          W2        
+                                        1.3088E-01       gd-1        gd-5      
 
-W1          0.0000E+00    0.0000E+00   -1.1167E-02       W2          W2        
-                                        1.1110E-01       gd-4        W1        
+W1          0.0000E+00    0.0000E+00   -1.1040E-02       W2          W2        
+                                        1.1039E-01       gd-3        W1        
 
-W2         -5.8697E-03    0.0000E+00      Infinity       ----- No Change -----
-                                        5.8697E-03       W2          W2        
+W2         -5.7868E-03    0.0000E+00      Infinity       ----- No Change -----
+                                        5.7868E-03       W2          W2        
 
 E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E         
                                           Infinity       ----- No Change -----
@@ -1117,26 +1118,26 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
         Using Optimal Flow Rate Variable Values
       State Variable Type    Name        Computed Value
       -------------------    ----        --------------
-      Head                   hd-01-1     4.7150733E+00
-      Head                   hd-01-2     4.6739409E+00
-      Head                   hd-02-1     4.7129334E+00
-      Head                   hd-02-2     4.6718065E+00
-      Head                   hd-03-1     4.7080136E+00
-      Head                   hd-03-2     4.6675739E+00
-      Head                   hd-08-1     4.7313010E+00
-      Head                   hd-08-2     4.6908116E+00
-      Head                   hd-09-1     4.7216797E+00
-      Head                   hd-09-2     4.6805544E+00
-      Head                   hd-10-1     4.7205608E+00
-      Head                   hd-10-2     4.6794262E+00
-      Head                   hd-04-1     4.7125697E+00
-      Head                   hd-04-2     4.6714864E+00
-      Head                   hd-05-1     4.7170153E+00
-      Head                   hd-05-2     4.6759382E+00
-      Head                   hd-06-1     4.7328298E+00
-      Head                   hd-06-2     4.6916995E+00
-      Head                   hd-07-1     4.7448472E+00
-      Head                   hd-07-2     4.7036657E+00
+      Head                   hd-01-1     4.7145410E+00
+      Head                   hd-01-2     4.6734148E+00
+      Head                   hd-02-1     4.7147819E+00
+      Head                   hd-02-2     4.6736548E+00
+      Head                   hd-03-1     4.7147947E+00
+      Head                   hd-03-2     4.6736860E+00
+      Head                   hd-08-1     4.7364793E+00
+      Head                   hd-08-2     4.6953224E+00
+      Head                   hd-09-1     4.7228994E+00
+      Head                   hd-09-2     4.6817736E+00
+      Head                   hd-10-1     4.7195865E+00
+      Head                   hd-10-2     4.6784566E+00
+      Head                   hd-04-1     4.7083906E+00
+      Head                   hd-04-2     4.6670883E+00
+      Head                   hd-05-1     4.7143234E+00
+      Head                   hd-05-2     4.6731940E+00
+      Head                   hd-06-1     4.7291366E+00
+      Head                   hd-06-2     4.6879577E+00
+      Head                   hd-07-1     4.7382944E+00
+      Head                   hd-07-2     4.6968974E+00
   Precision limitations and nonlinear response may cause 
     the state variables computed directly by the flow process 
     to differ from those computed using the linear program.  
@@ -1148,26 +1149,26 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00   2.5217E-08
-      Head Gradient          gd-2          2.8019E+00 > 2.8000E+00   1.9478E-03
-      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00   1.8597E-08
-      Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   1.9942E-03
-      Head Gradient          gd-3          2.8197E+00 > 2.8000E+00   1.9716E-02
-      Head Gradient          gd-4          2.8000E+00 > 2.8000E+00  -1.0244E-09
-      Head Gradient          gd-5          2.8383E+00 > 2.8000E+00   3.8336E-02
-      Head Gradient          gd-6          2.8186E+00 > 2.8000E+00   1.8562E-02
+      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00   5.3582E-09
+      Head Gradient          gd-2          2.8020E+00 > 2.8000E+00   1.9546E-03
+      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00   5.0249E-09
+      Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   1.9983E-03
+      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00   4.7460E-09
+      Head Gradient          gd-4          2.8027E+00 > 2.8000E+00   2.7476E-03
+      Head Gradient          gd-5          2.8174E+00 > 2.8000E+00   1.7366E-02
+      Head Gradient          gd-6          2.8201E+00 > 2.8000E+00   2.0075E-02
       Summation              demand        5.0000E+04 > 5.0000E+04   0.0000E+00
       Summation              wellson       3.0000E+00 < 3.1000E+00  -1.0000E-01
-      Summation              hd01          4.1132E-02 > 4.0000E-02   1.1324E-03
-      Summation              hd02          4.1127E-02 > 4.0000E-02   1.1269E-03
-      Summation              hd03          4.0440E-02 > 4.0000E-02   4.3967E-04
-      Summation              hd08          4.0489E-02 > 4.0000E-02   4.8935E-04
-      Summation              hd09          4.1125E-02 > 4.0000E-02   1.1254E-03
-      Summation              hd10          4.1135E-02 > 4.0000E-02   1.1346E-03
-      Summation              hd04          4.1083E-02 > 4.0000E-02   1.0833E-03
-      Summation              hd05          4.1077E-02 > 4.0000E-02   1.0771E-03
-      Summation              hd06          4.1130E-02 > 4.0000E-02   1.1303E-03
-      Summation              hd07          4.1181E-02 > 4.0000E-02   1.1815E-03
+      Summation              hd01          4.1126E-02 > 4.0000E-02   1.1262E-03
+      Summation              hd02          4.1127E-02 > 4.0000E-02   1.1272E-03
+      Summation              hd03          4.1109E-02 > 4.0000E-02   1.1087E-03
+      Summation              hd08          4.1157E-02 > 4.0000E-02   1.1569E-03
+      Summation              hd09          4.1126E-02 > 4.0000E-02   1.1258E-03
+      Summation              hd10          4.1130E-02 > 4.0000E-02   1.1299E-03
+      Summation              hd04          4.1302E-02 > 4.0000E-02   1.3023E-03
+      Summation              hd05          4.1129E-02 > 4.0000E-02   1.1294E-03
+      Summation              hd06          4.1179E-02 > 4.0000E-02   1.1790E-03
+      Summation              hd07          4.1397E-02 > 4.0000E-02   1.3970E-03
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

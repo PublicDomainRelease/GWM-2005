@@ -28,7 +28,7 @@ C***********************************************************************
 C     VERSION: 09JAN2010
 C     PURPOSE: READ AND PREPARE ALL INFORMATION FOR GWM
 C-----------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : GWMOUT,SMALLEPS
+      USE GWM1BAS3, ONLY : GWMOUT,SMALLEPS,IGETUNIT
       USE GWM1DCV3, ONLY : NFVAR,NEVAR,NBVAR,GWM1DCV3AR,GRDLOCDCV
       USE GWM1OBJ3, ONLY : GWM1OBJ3AR
       USE GWM1RMS3, ONLY : NRMC,NCON,NV,NDV,HCLOSEG
@@ -57,11 +57,6 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C
-        INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-        INTEGER I,IFIRST,IOST,MAXUNIT
-        LOGICAL LOP
-        END        
 C        
       END INTERFACE
 C-----LOCAL VARIABLES
@@ -940,38 +935,3 @@ C
       END SUBROUTINE SGWM1BAS3AP
 C      
       END MODULE GWM1BAS3SUBS
-C
-C=======================================================================
-C GWM REQUIRES IGETUNIT - THIS VERSION FROM MF2000 UTL6.F
-C=======================================================================
-      INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-C     VERSION 19981030 ERB
-C     ******************************************************************
-C     FIND FIRST UNUSED FILE UNIT NUMBER BETWEEN IFIRST AND MAXUNIT
-C     ******************************************************************
-C        SPECIFICATIONS:
-C     -----------------------------------------------------------------
-      INTEGER I, IFIRST, IOST, MAXUNIT
-      LOGICAL LOP
-C     -----------------------------------------------------------------
-C
-      LOP = .TRUE.
-C
-C     LOOP THROUGH RANGE PROVIDED TO FIND FIRST UNUSED UNIT NUMBER
-      DO 10 I=IFIRST,MAXUNIT
-        INQUIRE(UNIT=I,IOSTAT=IOST,OPENED=LOP,ERR=5)
-        IF (IOST.EQ.0) THEN
-          IF (.NOT.LOP) THEN
-            IGETUNIT = I
-            RETURN
-          ENDIF
-        ENDIF
- 5      CONTINUE
-10    CONTINUE
-C
-C     IF THERE ARE NO UNUSED UNIT NUMBERS IN RANGE PROVIDED, RETURN
-C     A VALUE INDICATING AN ERROR
-      IGETUNIT = -1
-C
-      RETURN
-      END

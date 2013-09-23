@@ -1,6 +1,6 @@
-                                  MODFLOW-LGR      
+                                  MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUND-WATER FLOW MODEL
-                 VERSION GWM-2005 1.4.2 032513,FROM MF-LGR V1.2
+                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
 
  LIST FILE: dewater.fr.lst
                          UNIT   10
@@ -26,6 +26,9 @@
  FORMAT:FORMATTED              ACCESS:SEQUENTIAL          
 
  BAS -- BASIC PACKAGE, VERSION 7, 5/2/2005 INPUT READ FROM UNIT   12
+ 
+ MODFLOW was compiled using uniform precision
+ Precision of REAL and DOUBLE PRECISION variables:          15
 
  DISCRETIZATION INPUT DATA READ FROM UNIT   11
  #DEWATER Sample Problem
@@ -253,6 +256,20 @@
                                MULTIPLIER FOR DELT =     1.000
 
                             INITIAL TIME STEP SIZE =   1000.000    
+
+Flows at Managed Wells for Stress Period    1
+
+ Well no.  Layer   Row   Col   Stress Rate
+ ----------------------------------------------------
+        1      1     7    14   -1000.000000000000    
+        2      1     7    16   -70.00000000000000    
+        3      1     8    15    0.000000000000000    
+        4      1     9    14   -800.0000000000000    
+        5      1     9    16    0.000000000000000    
+        6      1    11    17    0.000000000000000    
+        7      1    13    16   -900.0000000000000    
+ ----------------------------------------------------
+                      Total:   -2770.000000000000    
  
  SOLVING FOR HEAD 
 
@@ -378,7 +395,7 @@
         61.65       60.24       58.97       57.89       57.00       56.33       55.88       55.63       55.57       55.65    
         55.85       56.14       56.51       56.93       57.39       57.88       58.40       58.92       59.46       60.00    
 1
-  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP  1 IN STRESS PERIOD   1
+  VOLUMETRIC BUDGET FOR ENTIRE MODEL AT END OF TIME STEP    1, STRESS PERIOD   1
   ------------------------------------------------------------------------------
 
      CUMULATIVE VOLUMES      L**3       RATES FOR THIS TIME STEP      L**3/T
@@ -388,7 +405,7 @@
            ---                                      ---
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =     2770000.0031         CONSTANT HEAD =        2770.0000
-        MANAGED FLOW =           0.0000          MANAGED FLOW =           0.0000
+       MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
             TOTAL IN =     2770000.0031              TOTAL IN =        2770.0000
 
@@ -396,7 +413,7 @@
           ----                                     ----
              STORAGE =           0.0000               STORAGE =           0.0000
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
-        MANAGED FLOW =     2770000.0000          MANAGED FLOW =        2770.0000
+       MANAGED WELLS =     2770000.0000         MANAGED WELLS =        2770.0000
 
            TOTAL OUT =     2770000.0000             TOTAL OUT =        2770.0000
 
@@ -409,7 +426,7 @@
 
 
 
-          TIME SUMMARY AT END OF TIME STEP   1 IN STRESS PERIOD    1
+         TIME SUMMARY AT END OF TIME STEP    1 IN STRESS PERIOD    1
                     SECONDS     MINUTES      HOURS       DAYS        YEARS
                     -----------------------------------------------------------
    TIME STEP LENGTH 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    

@@ -2085,7 +2085,7 @@ C***********************************************************************
 C   VERSION: 30MAY2011
 C   PURPOSE: READ INPUT FROM THE SOLUTION AND OUTPUT-CONTROL FILE
 C-----------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : ZERO,RMFILE,RMFILEF,MPSFILE,CUTCOM
+      USE GWM1BAS3, ONLY : ZERO,RMFILE,RMFILEF,MPSFILE,CUTCOM,IGETUNIT
       USE GWM1DCV3, ONLY : FVINI,FVDIR,FVNAME,FVBASE,EVNAME,EVBASE,
      &                     BVNAME,BVBASE
       USE GWM1OBJ3, ONLY : SOLNTYP    
@@ -2112,12 +2112,6 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C
-        INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-        INTEGER I,IFIRST,IOST,MAXUNIT
-        LOGICAL LOP
-        END
-
       END INTERFACE
 C-----LOCAL VARIABLES
       REAL(SP)::TPBASE
@@ -3111,32 +3105,53 @@ C     VERSION: 21JAN2010
 C     PURPOSE: CHECK THAT NO MANAGED WELL CELL HAS BEEN DEWATERED
 C-----------------------------------------------------------------------
       USE GWM1RMS3, ONLY : DEWATERQ
-      USE GWM1BAS3, ONLY : GWMOUT
+      USE GWM1BAS3, ONLY : ZERO,GWMOUT
       USE GWM1DCV3, ONLY : NFVAR,FVNCELL,FVKLOC,FVILOC,FVJLOC,FVSP,
-     &                     GRDLOCDCV
+     &                     GRDLOCDCV,FVBASE,FVRATIO
+      USE GWM1DCV3, ONLY : GWM1DCV3FVCPNT,FVMNW
+      USE GWFMNW2MODULE, ONLY:MNW2,MNWMAX,WELLID
       USE GLOBAL,      ONLY: NCOL,NROW,NLAY,HNEW
       INTEGER(I4B),INTENT(IN)::IGRID,KPER,IPERT
       REAL(DP),INTENT(IN)::HDRY
 C-----LOCAL VARIABLES
-      REAL(DP)::STATE
+      REAL(DP)::STATE, QDES, QNET
       REAL(DP) :: EPS = 1.0D-5
       INTEGER(I4B)::I,K,IL,IR,IC,MNWID
+      LOGICAL :: FAIL1, FAIL2
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----EXAMINE MANAGED WELLS
       DO 200 I=1,NFVAR                      ! LOOP OVER GWM FLOW VARIABLES
         IF(IGRID.EQ.GRDLOCDCV(I))THEN       ! CONSTRAINT ON GRID
         IF(FVSP(I,KPER)) THEN               ! FLOW VAR ACTIVE IN STRESS PERIOD
+          IF(FVNCELL(I).GT.0)THEN           ! THIS IS WEL-TYPE FLOW VARIABLE
+          CALL GWM1DCV3FVCPNT(I)            ! POINT TO CORRECT CELL INFO
           DO 210 K=1,FVNCELL(I)             ! LOOP OVER CELLS FOR THIS VARIABLE
-            IL = FVKLOC(I,K)                ! ASSIGN CELL LAYER
-            IR = FVILOC(I,K)                ! ASSIGN CELL ROW
-            IC = FVJLOC(I,K)                ! ASSIGN CELL COLUMN
+            IL = FVKLOC(K)                  ! ASSIGN CELL LAYER
+            IR = FVILOC(K)                  ! ASSIGN CELL ROW
+            IC = FVJLOC(K)                  ! ASSIGN CELL COLUMN
             STATE = HNEW(IC,IR,IL)
-            IF(REAL(STATE,SP).EQ.HDRY)THEN  ! CELL HAS DEWATERED
+            IF(STATE.EQ.HDRY)THEN           ! CELL HAS DEWATERED
               DEWATERQ(IPERT)=.TRUE. 
               WRITE(GWMOUT,1000)I,K,KPER,IR,IC,IL
             ENDIF               
   210     ENDDO
+          ELSEIF(FVNCELL(I).LT.0)THEN       ! THIS IS MNW-TYPE FLOW VARIABLE
+          CALL GWM1DCV3FVCPNT(I)            ! POINT TO CORRECT CELL INFO
+          DO 220 K=1,ABS(FVNCELL(I))        ! LOOP OVER CELLS FOR THIS VARIABLE
+            MNWID=FVMNW(I)%FVWTOMNW(K)      ! RETRIEVE LOCATION IN MNW ARRAYS
+            QDES = FVBASE(I)*FVRATIO(K)     ! VALUE OF DESIRED FLOW RATE
+            QNET = MNW2(18,MNWID)           ! VALUE OF ACTUAL FLOW AT MNW WELL
+            ! Failed if Qdes/= stored value of Qnet
+            FAIL1=(ABS(QNET-QDES).GT.EPS) 
+            ! Failed if Qdes/=0 but well is deactivated at some time step
+            FAIL2=(QDES.NE.ZERO) .AND. (MNW2(1,MNWID).NE.1)
+            IF(FAIL1 .OR. FAIL2)THEN        ! CELL HAS DEWATERED
+              DEWATERQ(IPERT)=.TRUE. 
+              WRITE(GWMOUT,1010)I,K,KPER,WELLID(MNWID)
+            ENDIF               
+  220     ENDDO
+          ENDIF
         ENDIF
         ENDIF
   200 ENDDO
@@ -3144,6 +3159,9 @@ C
  1000 FORMAT('GWM FINDS DRY CELL AT DECISION VARIABLE=',I5,
      & ' CELL=',I5,' STRESS PERIOD=',I5,
      & /,'     LOCATED AT ROW=',I8,' COL=',I8,' LAY=',I8)
+ 1010 FORMAT('GWM FINDS Qnet /= Qdes AT DECISION VARIABLE=',I5,
+     & ' CELL=',I5,
+     & /,'      STRESS PERIOD=',I5,' LOCATED AT MNW WELL ',A)
       RETURN
       END SUBROUTINE GWM1RMS3OS
 C
@@ -3997,7 +4015,7 @@ C
 C***********************************************************************
       SUBROUTINE GWM1RMS3OT(IFLG,NGRIDS)
 C***********************************************************************
-C  VERSION: 30MAY2011
+C  VERSION: 09FEB2012
 C  PURPOSE - WRITE OUTPUT FOR GWM SOLUTION  
 C-----------------------------------------------------------------------
       USE GLOBAL,   ONLY : NPER
@@ -4009,6 +4027,7 @@ C-----------------------------------------------------------------------
      4                     CSTROR,CSTRLB,CSTRUB,CONTYP,SLPITPRT,SLPITCNT
       USE GWM1DCV3, ONLY : NFVAR,NBVAR,FVBASE,FVSP,FVNCELL,FVKLOC,
      1                     FVILOC,FVJLOC,FVRATIO,FVNAME,GRDLOCDCV
+      USE GWM1DCV3, ONLY : GWM1DCV3FVCPNT
       USE GWM1OBJ3, ONLY : OBJTYP,GWM1OBJ3OT
       USE GWM1OBJ3, ONLY : SOLNTYP    
       USE GWM1BAS3, ONLY : GWM1BAS3PF
@@ -4024,21 +4043,30 @@ C-----LOCAL VARIABLES
       REAL(SP)::Q
       INTEGER(I4B)::I,II,I2,K,KPER,RSTRT,INDEX,NCON2,OFLG,GRDNUM,G
       INTEGER(I4B)::LRHSREU,LRHSRLU,LRHSREL,LRHSRLL,ISTART,IEND,ILAST
+      LOGICAL :: SLPON, GWMVION, GWMLAST
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
 C-----ADJUST VALUE OF IFLG AS NECESSARY
-      IF((IFLG.EQ.-1.AND.                   ! THIS IS CALL AFTER A SUCCESSFUL LP
-     &    SLPITPRT.EQ.2)                    ! AND SOLUTION AT EACH SLP REQUESTED
-     &    .OR.(IFLG.EQ.0))THEN              ! OR THIS IS CALL AFTER GWMCNVRG=TRUE
- 	  IF(SUM(GWMWFILE).GT.0)THEN          ! AT LEAST ONE 'WELL' FILE IS REQUESTED
-          DO G=1,NGRIDS
-	      IF(GWMWFILE(G).GT.0)REWIND(GWMWFILE(G))! IF ALREADY WRITTEN TO, REWIND
-          ENDDO
-          OFLG=6                            ! WRITE TO GLOBAL AND 'WELL' FILE
-        ELSE
-          OFLG=2                            ! WRITE SOLUTION TO GLOBAL ONLY
-        ENDIF
-      ELSEIF(IFLG.GT.0.AND.IFLG.LE.6)THEN
+      IF(ABS(IFLG).GE.7)THEN
+        GWMVION=.TRUE.                      ! THIS IS A CALL FROM GWM-VI
+      ELSE
+        GWMVION=.FALSE.                    
+      ENDIF
+      IF(IFLG.LT.0.AND.SLPITPRT.EQ.2)THEN
+        SLPON=.TRUE.                        ! THIS IS A CALL FROM SLP 
+      ELSE                                  ! AND SOLUTION AT EACH SLP REQUESTED
+        SLPON=.FALSE.                    
+      ENDIF
+      IF(IFLG.EQ.0 .OR. IFLG.EQ.8)THEN
+        GWMLAST =.TRUE.                     ! THIS IS CALL AFTER GWMCNVRG=TRUE
+      ELSE                                  ! FROM GWM2005 OR GWMVI
+        GWMLAST =.FALSE.                    
+      ENDIF
+      IF(SLPON.OR.GWMLAST)THEN  
+        OFLG=2                              ! WRITE SOLUTION TO GLOBAL ONLY
+ 	  IF(SUM(GWMWFILE).GT.0               ! AT LEAST ONE 'WELL' FILE IS REQUESTED
+     &     .AND..NOT.GWMVION)OFLG=6         ! WRITE TO GLOBAL AND 'WELL' FILE
+      ELSEIF(IFLG.GT.0.AND.IFLG.LE.7)THEN
         OFLG=IFLG                           ! JUST SET TO ASSIGNED VALUE
 	ELSE
         RETURN
@@ -4081,7 +4109,7 @@ C
 C
 C-----WRITE LINEAR PROGRAM OUTPUT
       ELSEIF(OFLG.EQ.2.OR.OFLG.EQ.6)THEN    
-        IF(IFLG.EQ.-1)THEN                  ! THIS IS AN SLP ITERATION
+        IF(SLPON)THEN                       ! THIS IS AN SLP ITERATION
 	    WRITE(GWMOUT,1000,ERR=990)'Solution at This Iteration of SLP'
 	  ELSE
 	    WRITE(GWMOUT,1000,ERR=990)'Groundwater Management Solution'
@@ -4105,6 +4133,171 @@ C-------WRITE CONSTRAINTS INFORMATION
 C
 C-------WRITE RANGE ANALYSIS INFORMATION
         IF(RANGEFLG.EQ.1)THEN
+          CALL WRITE_RANGE
+        ELSE
+          WRITE(GWMOUT,5030,ERR=990)
+          CALL GWM1BAS3PF(' ',0,ZERO)
+          CALL GWM1BAS3PF('       Range Analysis Not Reported ',0,ZERO)
+        ENDIF
+C
+C-----WRITE FINAL STATE VARIABLE AND CONSTRAINT STATUS
+      ELSEIF(OFLG.EQ.3 .OR. OFLG.EQ.4)THEN          
+        IF(STANUM.GT.0)THEN
+          CALL GWM1BAS3PF('      Status of State Variable Values '
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &       '        Using Optimal Flow Rate Variable Values'
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      State Variable Type    Name        Computed Value'
+     &       ,0,ZERO)
+          CALL GWM1BAS3PF(
+     &'      -------------------    ----        --------------'
+     &       ,0,ZERO)
+          CALL GWM1STA3OT                        ! WRITE STATE VARIABLE STATUS
+	    WRITE(GWMOUT,7002,ERR=990)
+          CALL GWM1BAS3PF(' ',0,ZERO)              ! BLANK LINE
+        ENDIF
+C
+        CALL GWM1BAS3PF('      Status of Simulation-Based Constraints '
+     &       ,0,ZERO)
+        CALL GWM1BAS3PF(
+     &       '        Using Optimal Flow Rate Variable Values'
+     &       ,0,ZERO)
+	  WRITE(GWMOUT,7007,ERR=990)
+        RSTRT = 0                                 ! RSTRT IS A DUMMY ARGUMENT HERE
+        CALL GWM1HDC3OT(RSTRT,4)                  ! WRITE HEAD CONSTRAINT STATUS
+        CALL GWM1STC3OT(RSTRT,4)                  ! WRITE STREAM CONSTRAINT STATUS
+        CALL GWM1SMC3OT(RSTRT,4)                  ! WRITE SUMMATION CONSTRAINT STATUS
+	  WRITE(GWMOUT,7006,ERR=990)
+	  WRITE(GWMOUT,7000,ERR=990)
+        IF(OFLG.EQ.4)WRITE(GWMOUT,7010,ERR=990)   ! DEWATERING IN HEADS OR WELLS
+C
+C-----WRITE WARNING MESSAGE: FINAL FLOW PROCESS FAILED TO CONVERGE
+      ELSEIF(OFLG.EQ.5)THEN          
+        WRITE(GWMOUT,7020,ERR=990)
+      ENDIF
+C
+C-----WRITE OPTIMAL SOLUTION WITH A FORMAT SIMILAR TO THE MODFLOW WELL FILE
+      IF(OFLG.EQ.6.OR.OFLG.EQ.7)THEN 
+        DO G=1,NGRIDS
+	    IF(GWMWFILE(G).GT.0)REWIND(GWMWFILE(G))! IF ALREADY WRITTEN TO, REWIND
+        ENDDO
+        GRDNUM = 0 
+        DO 630 KPER=1,NPER
+          ISTART = 0
+          I = 1                             
+          DO 600 WHILE (I.LE.NFVAR)
+C-----------LOOK FOR START AND END ON EACH GRID
+            I2=I
+            IEND=0
+            DO 605 WHILE (IEND.EQ.0)                 
+              IF(ISTART.EQ.0.AND.FVSP(I2,KPER))THEN ! FLOW VARIABLE ACTIVE
+                GRDNUM = GRDLOCDCV(I2)          ! SET GRID NUMBER
+                ISTART = I2                     ! MARK START OF GRID 
+              ENDIF
+              IF(I2.EQ.NFVAR)THEN               ! THIS IS END OF GRID LIST
+                IEND = NFVAR                    ! SET IEND
+              ELSEIF(GRDLOCDCV(I2+1).NE.GRDNUM.AND.FVSP(I2+1,KPER))THEN
+                IEND = I2                       ! NEXT ACTIVE FV IS ON 
+              ENDIF                             ! ANOTHER GRID; SET IEND
+              I2 = I2 + 1
+  605       ENDDO  
+C-----------IF GRID IS FOUND, WRITE THE WELL INFORMATION     
+            IF(ISTART.NE.0)THEN   
+              I = IEND                          ! SET COUNTER TO IEND
+              II = 0
+              DO 610 I2=ISTART,IEND
+                IF(FVSP(I2,KPER).AND.
+     &              FVNCELL(I2).GT.0)II=II+FVNCELL(I2) ! COUNT NUMBER OF CELLS
+  610         ENDDO
+              IF(GWMWFILE(GRDNUM).NE.0)THEN
+                WRITE(GWMWFILE(GRDNUM),6000)II,0,KPER ! WRITE THE NUMBER OF WELLS 
+                DO 620 I2 = ISTART,IEND        ! LOOP OVER FV ON THIS GRID
+                  IF(FVSP(I2,KPER).AND.        ! FLOW VARIABLE ACTIVE
+     &               FVNCELL(I2).GT.0)THEN     ! WEL-TYPE DECISION VARIABLE
+                    CALL GWM1DCV3FVCPNT(I2)    ! POINT TO CORRECT CELL INFO
+                    DO 615 K=1,FVNCELL(I2)     ! LOOP OVER CELLS FOR THIS VARIABLE
+                      Q=CST(I2)*FVRATIO(K)     ! ASSIGN FLOW RATE 
+                      WRITE(GWMWFILE(GRDNUM),6010)FVKLOC(K),
+     &                        FVILOC(K),FVJLOC(K),Q,
+     &                        FVNAME(I2),FVRATIO(K)
+  615               ENDDO
+                  ENDIF
+  620           ENDDO
+              ENDIF
+              ISTART = 0                       ! RESET GRID START FLAG
+            ENDIF 
+            I = I + 1                          ! INCREMENT FV COUNTER
+  600     ENDDO     
+  630   ENDDO
+      ENDIF
+      
+C
+ 1000 FORMAT(/,70('-'),/,T16,A,/,70('-'))
+ 1010 FORMAT(1P,/,T8,'OPTIMAL SOLUTION FOUND ',/)
+ 5030 FORMAT(/,
+     &  '  Binding constraint values are ',
+     &  'determined from the linear program',/,'    and based on the',
+     &  ' response matrix approximation of the flow process.')
+ 6000 FORMAT(2I10,T50,'Stress Period:',I5)
+ 6010 FORMAT(3I10,E15.7,T50,'Flow Variable:',A10,' RATIO=',F8.4)
+ 7000 FORMAT(
+     &  '  Precision limitations and nonlinear ',
+     &  'response may cause the ',/,'    values of the binding ',
+     &  'constraints computed directly by the flow process ',/,
+     &  '    to differ from those computed using ',
+     &  'the linear program.  ')
+ 7002 FORMAT(
+     &  '  Precision limitations and ',
+     &  'nonlinear response may cause ',/,'    the state ',
+     &  'variables computed directly by the flow process ',/,
+     &  '    to differ from those computed using ',
+     &  'the linear program.  ')
+ 7005 FORMAT(/,
+     &'  Distance to RHS is the absolute value of the difference ',
+     &'between the',/,'    the right hand side of the constraint and ',
+     &'the left side of the',/,'    constraint evaluated using the ',
+     &'current set of decision variable values.')    
+ 7006 FORMAT(/,
+     &'  Difference is computed by subtracting right hand side ',
+     &'of the constraint ',/,
+     &'    from the left side of the constraint.')    
+ 7007 FORMAT(/,
+     &'                                           Simulated    ',
+     &'Specified',/,
+     &'                                            By Flow        in',/,
+     &'      Constraint Type        Name           Process    ',
+     &'Constraints   Difference',/,
+     &'      ---------------        ----          ----------   ',
+     &'----------   ----------')
+ 7010 FORMAT(/,
+     &  '    WARNING: At least one constrained head or active',
+     &  ' well dewatered',/,
+     &  '             in the final flow process simulation')
+ 7020 FORMAT(/,
+     &  '  WARNING: Final flow process simulation failed',
+     &  ' to converge ',/,'    when using the optimal',
+     &  ' rates for flow variables. ')
+C
+      RETURN
+C
+C-----ERROR HANDLING
+  990 CONTINUE
+C-----FILE-WRITING ERROR
+      INQUIRE(GWMOUT,NAME=FLNM,FORM=FMTARG,ACCESS=ACCARG,ACTION=FILACT)
+      WRITE(*,9900)TRIM(FLNM),GWMOUT,FMTARG,ACCARG,FILACT
+ 9900 FORMAT(/,1X,'*** ERROR WRITING FILE "',A,'" ON UNIT ',I5,/,
+     &7X,'SPECIFIED FILE FORMAT: ',A,/
+     &7X,'SPECIFIED FILE ACCESS: ',A,/
+     &7X,'SPECIFIED FILE ACTION: ',A,/
+     &2X,'-- STOP EXECUTION (GWM1RMS3OT)')
+      CALL GSTOP(' ')
+C
+      CONTAINS
+C***********************************************************************
+      SUBROUTINE WRITE_RANGE
+!
           WRITE(GWMOUT,2000,ERR=990)
           CALL GWM1BAS3PF(' ',0,ZERO)
           CALL GWM1BAS3PF('       RANGE ANALYSIS ',0,ZERO)
@@ -4249,105 +4442,7 @@ C-------------WRITE THE UPPER BOUND RANGE INFORMATION
               ENDIF
             ENDIF
  200      ENDDO
-C
-        ELSE
-          WRITE(GWMOUT,5030,ERR=990)
-          CALL GWM1BAS3PF(' ',0,ZERO)
-          CALL GWM1BAS3PF('       Range Analysis Not Reported ',0,ZERO)
-        ENDIF
-C
-C-----WRITE FINAL STATE VARIABLE AND CONSTRAINT STATUS
-      ELSEIF(OFLG.EQ.3 .OR. OFLG.EQ.4)THEN          
-        IF(STANUM.GT.0)THEN
-          CALL GWM1BAS3PF('      Status of State Variable Values '
-     &       ,0,ZERO)
-          CALL GWM1BAS3PF(
-     &       '        Using Optimal Flow Rate Variable Values'
-     &       ,0,ZERO)
-          CALL GWM1BAS3PF(
-     &'      State Variable Type    Name        Computed Value'
-     &       ,0,ZERO)
-          CALL GWM1BAS3PF(
-     &'      -------------------    ----        --------------'
-     &       ,0,ZERO)
-          CALL GWM1STA3OT                        ! WRITE STATE VARIABLE STATUS
-	    WRITE(GWMOUT,7002,ERR=990)
-          CALL GWM1BAS3PF(' ',0,ZERO)              ! BLANK LINE
-        ENDIF
-C
-        CALL GWM1BAS3PF('      Status of Simulation-Based Constraints '
-     &       ,0,ZERO)
-        CALL GWM1BAS3PF(
-     &       '        Using Optimal Flow Rate Variable Values'
-     &       ,0,ZERO)
-	  WRITE(GWMOUT,7007,ERR=990)
-        RSTRT = 0                                 ! RSTRT IS A DUMMY ARGUMENT HERE
-        CALL GWM1HDC3OT(RSTRT,4)                  ! WRITE HEAD CONSTRAINT STATUS
-        CALL GWM1STC3OT(RSTRT,4)                  ! WRITE STREAM CONSTRAINT STATUS
-        CALL GWM1SMC3OT(RSTRT,4)                  ! WRITE SUMMATION CONSTRAINT STATUS
-	  WRITE(GWMOUT,7006,ERR=990)
-	  WRITE(GWMOUT,7000,ERR=990)
-        IF(OFLG.EQ.4)WRITE(GWMOUT,7010,ERR=990)   ! DEWATERING IN HEADS OR WELLS
-C
-C-----WRITE WARNING MESSAGE: FINAL FLOW PROCESS FAILED TO CONVERGE
-      ELSEIF(OFLG.EQ.5)THEN          
-        WRITE(GWMOUT,7020,ERR=990)
-      ENDIF
-C
-C-----WRITE OPTIMAL SOLUTION WITH A FORMAT SIMILAR TO THE MODFLOW WELL FILE
-      IF(OFLG.EQ.6)THEN 
-        GRDNUM = 0 
-        DO 630 KPER=1,NPER
-          ISTART = 0
-          I = 1                             
-          DO 600 WHILE (I.LE.NFVAR)
-C-----------LOOK FOR START AND END ON EACH GRID
-            I2=I
-            IEND=0
-            DO 605 WHILE (IEND.EQ.0)                 
-              IF(ISTART.EQ.0.AND.FVSP(I2,KPER))THEN ! FLOW VARIABLE ACTIVE
-                GRDNUM = GRDLOCDCV(I2)          ! SET GRID NUMBER
-                ISTART = I2                     ! MARK START OF GRID 
-              ENDIF
-              IF(I2.EQ.NFVAR)THEN               ! THIS IS END OF GRID LIST
-                IEND = NFVAR                    ! SET IEND
-              ELSEIF(GRDLOCDCV(I2+1).NE.GRDNUM.AND.FVSP(I2+1,KPER))THEN
-                IEND = I2                       ! NEXT ACTIVE FV IS ON 
-              ENDIF                             ! ANOTHER GRID; SET IEND
-              I2 = I2 + 1
-  605       ENDDO  
-C-----------IF GRID IS FOUND, WRITE THE WELL INFORMATION     
-            IF(ISTART.NE.0)THEN   
-              I = IEND                          ! SET COUNTER TO IEND
-              II = 0
-              DO 610 I2=ISTART,IEND
-                IF(FVSP(I2,KPER))II=II+FVNCELL(I2) ! COUNT NUMBER OF CELLS
-  610         ENDDO
-              IF(GWMWFILE(GRDNUM).NE.0)THEN
-                WRITE(GWMWFILE(GRDNUM),6000)II,0,KPER ! WRITE THE NUMBER OF WELLS 
-                DO 620 I2 = ISTART,IEND        ! LOOP OVER FV ON THIS GRID
-                  IF(FVSP(I2,KPER))THEN        ! FLOW VARIABLE ACTIVE
-                    DO 615 K=1,FVNCELL(I2)     ! LOOP OVER CELLS FOR THIS VARIABLE
-                      Q=REAL(CST(I2),KIND=4)*FVRATIO(I2,K)! ASSIGN FLOW RATE 
-                      WRITE(GWMWFILE(GRDNUM),6010)FVKLOC(I2,K),
-     &                        FVILOC(I2,K),FVJLOC(I2,K),Q,
-     &                        FVNAME(I2),FVRATIO(I2,K)
-  615               ENDDO
-                  ENDIF
-  620           ENDDO
-              ENDIF
-              ISTART = 0                       ! RESET GRID START FLAG
-            ENDIF 
-            I = I + 1                          ! INCREMENT FV COUNTER
-  600     ENDDO     
-  630   ENDDO
-      ENDIF
-      
- 6000 FORMAT(2I10,T50,'Stress Period:',I5)
- 6010 FORMAT(3I10,E15.7,T50,'Flow Variable:',A10,' RATIO=',F8.4)
-C
- 1000 FORMAT(/,70('-'),/,T16,A,/,70('-'))
- 1010 FORMAT(1P,/,T8,'OPTIMAL SOLUTION FOUND ',/)
+        RETURN
  2000 FORMAT(/,
      &'  Binding constraint and range analysis values are ',
      &'determined from the linear',/,'    program and based on the',
@@ -4395,43 +4490,6 @@ C
      &  '  Binding constraint values are ',
      &  'determined from the linear program',/,'    and based on the',
      &  ' response matrix approximation of the flow process.')
- 7000 FORMAT(
-     &  '  Precision limitations and nonlinear ',
-     &  'response may cause the ',/,'    values of the binding ',
-     &  'constraints computed directly by the flow process ',/,
-     &  '    to differ from those computed using ',
-     &  'the linear program.  ')
- 7002 FORMAT(
-     &  '  Precision limitations and ',
-     &  'nonlinear response may cause ',/,'    the state ',
-     &  'variables computed directly by the flow process ',/,
-     &  '    to differ from those computed using ',
-     &  'the linear program.  ')
- 7005 FORMAT(/,
-     &'  Distance to RHS is the absolute value of the difference ',
-     &'between the',/,'    the right hand side of the constraint and ',
-     &'the left side of the',/,'    constraint evaluated using the ',
-     &'current set of decision variable values.')    
- 7006 FORMAT(/,
-     &'  Difference is computed by subtracting right hand side ',
-     &'of the constraint ',/,
-     &'    from the left side of the constraint.')    
- 7007 FORMAT(/,
-     &'                                           Simulated    ',
-     &'Specified',/,
-     &'                                            By Flow        in',/,
-     &'      Constraint Type        Name           Process    ',
-     &'Constraints   Difference',/,
-     &'      ---------------        ----          ----------   ',
-     &'----------   ----------')
- 7010 FORMAT(/,
-     &  '    WARNING: At least one constrained head or active',
-     &  ' well dewatered',/,
-     &  '             in the final flow process simulation')
- 7020 FORMAT(/,
-     &  '  WARNING: Final flow process simulation failed',
-     &  ' to converge ',/,'    when using the optimal',
-     &  ' rates for flow variables. ')
 C
       RETURN
 C
@@ -4446,8 +4504,8 @@ C-----FILE-WRITING ERROR
      &7X,'SPECIFIED FILE ACTION: ',A,/
      &2X,'-- STOP EXECUTION (GWM1RMS3OT)')
       CALL GSTOP(' ')
-C
-      CONTAINS
+
+      END SUBROUTINE WRITE_RANGE
 C***********************************************************************
       CHARACTER(LEN=10) FUNCTION GETNAME(INDEX)
 C***********************************************************************
@@ -4462,7 +4520,7 @@ C-------INDEX NUMBER IS AN ACTUAL NON-BINARY VARIABLE
       ELSEIF(INDEX.LE.(NDV-1)-NBVAR+NCONF)THEN
 C-------INDEX NUMBER IS A SLACK VARIABLE - ADJUST FOR BINARY LOCATIONS
         GETNAME = RANGENAMEF(INDEX+NBVAR)
-	ELSE
+	  ELSE
 C-------INDEX NUMBER IS A BINARY-CONSTRAINED LOWER BOUND - NAME
         GETNAME = 'NA'
       ENDIF

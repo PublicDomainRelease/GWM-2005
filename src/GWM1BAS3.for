@@ -5,15 +5,11 @@
       SUBROUTINE GSTOP(STOPMESS,IOUT)
     ! A fatal error has occurred during execution. Terminate the run.
     ! Version called from GWM-2005
-    !  USE GWM_SUBS, ONLY: CLEAN_UP
       IMPLICIT NONE
     ! Arguments
       CHARACTER(LEN=*), OPTIONAL, INTENT(IN) :: STOPMESS
       INTEGER, OPTIONAL, INTENT(IN) :: IOUT
    10 FORMAT(/,1X,A)
-    !
-    ! Check to see if it necessary to restore original MNW2 input file
-    !  CALL CLEAN_UP()
     !
       IF (PRESENT(STOPMESS)) THEN
         IF (STOPMESS .NE. ' ') THEN
@@ -36,7 +32,7 @@ C     VERSION: 21MAR2012
       PRIVATE
       PUBLIC::GWMOUT,MPSFILE,RMFILE,RMFILEF,ZERO,ONE,GWMWFILE,
      &        SMALLEPS,BIGINF
-      PUBLIC:: GWM1BAS3PS, GWM1BAS3PF, GWM1BAS3CS,CUTCOM
+      PUBLIC:: GWM1BAS3PS,GWM1BAS3PF,GWM1BAS3CS,CUTCOM,IGETUNIT
 C
       INTEGER, PARAMETER :: I2B = SELECTED_INT_KIND(4)
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
@@ -231,5 +227,37 @@ C     REMOVE ANY TRAILING COMMENTS FROM A LINE
         ENDIF
       ENDDO
       END SUBROUTINE
+!
+      INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
+C     VERSION 19981030 ERB
+C     ******************************************************************
+C     FIND FIRST UNUSED FILE UNIT NUMBER BETWEEN IFIRST AND MAXUNIT
+C     ******************************************************************
+C        SPECIFICATIONS:
+C     -----------------------------------------------------------------
+      INTEGER I, IFIRST, IOST, MAXUNIT
+      LOGICAL LOP
+C     -----------------------------------------------------------------
+C
+      LOP = .TRUE.
+C
+C     LOOP THROUGH RANGE PROVIDED TO FIND FIRST UNUSED UNIT NUMBER
+      DO 10 I=IFIRST,MAXUNIT
+        INQUIRE(UNIT=I,IOSTAT=IOST,OPENED=LOP,ERR=5)
+        IF (IOST.EQ.0) THEN
+          IF (.NOT.LOP) THEN
+            IGETUNIT = I
+            RETURN
+          ENDIF
+        ENDIF
+ 5      CONTINUE
+10    CONTINUE
+C
+C     IF THERE ARE NO UNUSED UNIT NUMBERS IN RANGE PROVIDED, RETURN
+C     A VALUE INDICATING AN ERROR
+      IGETUNIT = -1
+C
+      RETURN
+      END FUNCTION IGETUNIT
 C
       END MODULE GWM1BAS3

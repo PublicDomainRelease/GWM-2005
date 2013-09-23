@@ -1,0 +1,21 @@
+#  Sample Problem, NAM file
+#January 2012
+# Main output file
+LIST   7 mnwsupply.lst
+# Input files
+DIS    8 ..\data\MNWSUPPLY\mnwsupply.dis
+BAS6   9 ..\data\MNWSUPPLY\mnwsupply.bas
+BCF6  10 ..\data\MNWSUPPLY\mnwsupply.bcf
+GWM   20 ..\data\MNWSUPPLY\mnwsupply.gwm
+MNW2  75 ..\data\MNWSUPPLY\mnwsupply.mnw2
+DRN   77 ..\data\MNWSUPPLY\mnwsupply.drn
+RCH   72 ..\data\MNWSUPPLY\mnwsupply.rch
+PCG   74 ..\data\MNWSUPPLY\mnwsupply.pcg
+CHD   76 ..\data\MNWSUPPLY\mnwsupply.chd
+OC    71 ..\data\MNWSUPPLY\mnwsupply.oc
+WEL   80 ..\data\MNWSUPPLY\mnwsupply.wel
+DATA  30 mnwsupply.gwmwfile
+# Binary output files
+DATA(BINARY)  89 mnwsupply.ufh       REPLACE
+DATA(BINARY)  90 mnwsupply.cbc       REPLACE
+

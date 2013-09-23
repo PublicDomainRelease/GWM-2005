@@ -1,0 +1,66 @@
+# MNW2 input file written by GWM
+#   Combines unmanaged MNW2 wells read from original MNW file
+#     with managed MNW2 wells read from DECVAR file
+#     MNWMAX is forced to negative so that NODTOT is read
+#     This file can be discarded
+        -6        49       -90         2                             # MNWMAX,NODTOT,IWL2CB,MNWPRNT,OPTION
+QU1                          2                                       # WELLID,NNDODE - UnManaged
+SKIN                         0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - UnManaged
+ -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - UnManaged
+    1    3    3  0.500000000000D+00  0.100000000000D+01  0.245630341000D+02
+    2    3    3  0.500000000000D+00  0.100000000000D+01  0.122815170000D+03
+QU2                          1                                       # WELLID,NNDODE - UnManaged
+NONE                         0        -1         0         0         # LOSSTYPE,PUMPLOC,ETC. - UnManaged
+    2   13    7
+MNWQM1                       2                                       # WELLID,NNDODE - Managed
+SKIN                         0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - Managed
+ -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - Managed
+    1    3   12  0.500000000000D+00  0.100000000000D+01  0.245630000000D+02
+    2    3   12  0.500000000000D+00  0.100000000000D+01  0.122815000000D+03
+MNWQM2A                     -1                                       # WELLID,NNDODE - Managed
+THIEM                        0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - Managed
+ -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - Managed
+  0.450000000000D+03  0.500000000000D+02    6    6  0.500000000000D+00
+MNWQM2B                     -1                                       # WELLID,NNDODE - Managed
+THIEM                        0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - Managed
+ -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - Managed
+  0.250000000000D+03  0.100000000000D+03    9    3  0.500000000000D+00
+MNWQM3                      -2                                       # WELLID,NNDODE - Managed
+SPECIFYCWC                   0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - Managed
+ -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - Managed
+  0.500000000000D+02  0.300000000000D+02   15    9  0.500000000000D+04
+  0.250000000000D+02  0.100000000000D+02   15    9  0.500000000000D+04
+    2                                                                # ITMP
+QU1                   0.000000000000D+00                             # WELLNAME,Qdes,
+QU2                   0.000000000000D+00                             # WELLNAME,Qdes,
+  0.115000000000D+03      0                                          # Hlim,QCUT
+    6                                                                # ITMP
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+  0.115000000000D+03      0                                          # Hlim,QCUT
+MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes,
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+    6                                                                # ITMP
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+  0.115000000000D+03      0                                          # Hlim,QCUT
+MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes,
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+    5                                                                # ITMP
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+  0.115000000000D+03      0                                          # Hlim,QCUT
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+    5                                                                # ITMP
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+  0.115000000000D+03      0                                          # Hlim,QCUT
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,

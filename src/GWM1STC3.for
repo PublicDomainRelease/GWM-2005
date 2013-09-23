@@ -55,7 +55,7 @@ C***********************************************************************
 C***********************************************************************
 C   PURPOSE: READ INPUT FROM THE STREAM CONSTRAINTS FILE
 C-----------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : CUTCOM
+      USE GWM1BAS3, ONLY : CUTCOM,IGETUNIT
       USE GWM1RMS3, ONLY : IREF
       USE GLOBAL  , ONLY : IUNIT
       CHARACTER(LEN=200),INTENT(IN),DIMENSION(NGRIDS)::FNAMEN
@@ -73,11 +73,6 @@ C
         CHARACTER*1 TAB
         END
 
-C 
-        INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-        INTEGER I,IFIRST,IOST,MAXUNIT
-        LOGICAL LOP
-        END        
 C
       END INTERFACE
 C-----LOCAL VARIABLES

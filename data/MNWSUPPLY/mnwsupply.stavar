@@ -1,0 +1,6 @@
+#MNW-SUPPLY Sample Problem, STAVAR file
+#January 2012
+ 1                             #1-IPRN
+ 2  0  0  0                    #2-NHVAR NRVAR NSVAR NDVAR
+ H1_SP3  0 MNWQm1  3           # SVNAME MFLG WELLID (since MFLG=0) SVSP
+ h1_SP3  2  2  12  3           # SVNAME LAY ROW COL SVSP

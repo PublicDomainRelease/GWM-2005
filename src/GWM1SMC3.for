@@ -43,7 +43,7 @@ C***********************************************************************
 C   VERSION: 11SEPT2009
 C   PURPOSE: READ INPUT FROM THE GENERALIZED-SUMMATION CONSTRAINTS
 C-----------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : ZERO
+      USE GWM1BAS3, ONLY : ZERO,IGETUNIT
       USE GWM1DCV3, ONLY : FVNAME,EVNAME,BVNAME
       USE GWM1STA3, ONLY : STANUM,SVNAME
       CHARACTER(LEN=200),INTENT(IN)::FNAME
@@ -60,11 +60,6 @@ C
         CHARACTER*30 RW
         CHARACTER*1 TAB
         END
-C 
-        INTEGER FUNCTION IGETUNIT(IFIRST,MAXUNIT)
-        INTEGER I,IFIRST,IOST,MAXUNIT
-        LOGICAL LOP
-        END        
       END INTERFACE
 C-----LOCAL VARIABLES
       CHARACTER(LEN=10)::TFVNAME,TBALNM,TGVNM

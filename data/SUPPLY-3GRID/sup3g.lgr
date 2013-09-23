@@ -1,35 +1,35 @@
-LGR                  ;LGR keyword
+LGR
 4                    ;NGRIDS
 ..\data\SUPPLY-3GRID\sup3g_par.nam       ;NAMEFILE for parent
-PARENTONLY           ;GRIDSTATUS
- 0  0                ;IUPBFSV, IUPBHSV
+PARENTONLY           ;ISCHILD
+ 0  0                ;IUBFSV, IUBHSV
 ..\data\SUPPLY-3GRID\sup3g_c1.nam        ;NAMEFILE for child 1
-CHILDONLY            ;GRIDSTATUS
-1 -59  0  0          ;ISHFLG, IBFLG, IUCBHSV, IUCBFSV
+CHILDONLY            ;ISCHILD
+1  59  0  0          ;ISHFLG, IBFLG, IUBHSV, IUBFSV
 50 0                 ;MXLGRITER, IOUTLGR
-0.50 0.50            ;RELAXH, RELAXF    relaxation for heads and fluxes
+0.50 0.50            ;RFH, RFF   relaxation for heads and flows
 1.0E-4 1.0E-4        ;HCLOSELGR, FCLOSELGR
-1  6  6              ;NPLBEG,NPRBEG,NPCBEG
-1 15 15              ;NPLEND,NPREND,NPCEND
+1  7  7              ;NPLBEG,NPRBEG,NPCBEG
+1 14 14              ;NPLEND,NPREND,NPCEND
 5                    ;NCPP
 1                    ;NCPPL
 ..\data\SUPPLY-3GRID\sup3g_c2.nam        ;NAMEFILE for child 2
-CHILDONLY            ;GRIDSTATUS
-1 -58  0  0          ;ISHFLG, IBFLG, IUCBHSV, IUCBFSV
+CHILDONLY            ;ISCHILD
+1  58  0  0          ;ISHFLG, IBFLG, IUBHSV, IUBFSV
 50 0                 ;MXLGRITER, IOUTLGR
-0.50 0.50            ;RELAXH, RELAXF    relaxation for heads and fluxes
+0.50 0.50            ;RFH, RFF   relaxation for heads and flows
 1.0E-4 1.0E-4        ;HCLOSELGR, FCLOSELGR
-1  6 36              ;NPLBEG,NPRBEG,NPCBEG
-1 10 40              ;NPLEND,NPREND,NPCEND
+1  7 37              ;NPLBEG,NPRBEG,NPCBEG
+1  9 39              ;NPLEND,NPREND,NPCEND
 5                    ;NCPP
 1                    ;NCPPL
 ..\data\SUPPLY-3GRID\sup3g_c3.nam        ;NAMEFILE for child 3
-CHILDONLY            ;GRIDSTATUS
-1 -57  0  0          ;ISHFLG, IBFLG, IUCBHSV, IUCBFSV
+CHILDONLY            ;ISCHILD
+1 57  0  0          ;ISHFLG, IBFLG, IUBHSV, IUBFSV
 50 0                 ;MXLGRITER, IOUTLGR
-0.50 0.50            ;RELAXH, RELAXF    relaxation for heads and fluxes
+0.50 0.50            ;RFH, RFF   relaxation for heads and flows
 1.0E-4 1.0E-4        ;HCLOSELGR, FCLOSELGR
-1 21 36              ;NPLBEG,NPRBEG,NPCBEG
-1 25 40              ;NPLEND,NPREND,NPCEND
+1 22 37              ;NPLBEG,NPRBEG,NPCBEG
+1 24 39              ;NPLEND,NPREND,NPCEND
 5                    ;NCPP
 1                    ;NCPPL
