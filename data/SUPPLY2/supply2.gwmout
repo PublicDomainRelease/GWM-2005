@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -441,18 +441,18 @@
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Stream Depletion       S01.9      Satisfied     2.6332E-06
+      Stream Depletion       S01.9      Satisfied     2.6331E-06
       Stream Depletion       S01.10     Satisfied     5.3009E+03
       Stream Depletion       S01.11     Satisfied     5.8092E+03
       Stream Depletion       S01.12     Satisfied     5.8643E+03
-      Stream Depletion       S02.11     Satisfied     4.5036E-06
+      Stream Depletion       S02.11     Satisfied     4.5039E-06
       Stream Depletion       S02.12     Satisfied     7.1683E-06
       Stream Depletion       S03.9      Satisfied     1.4046E+04
-      Stream Depletion       S03.10     Satisfied     3.1134E-06
+      Stream Depletion       S03.10     Satisfied     3.1135E-06
       Stream Depletion       S03.11     Satisfied     1.4217E+04
       Stream Depletion       S03.12     Satisfied     1.2093E+04
       Stream Depletion       S04.11     Satisfied     6.4391E+03
-      Stream Depletion       S04.12     Satisfied     1.0311E-05
+      Stream Depletion       S04.12     Satisfied     1.0312E-05
       Summation              p01u       Satisfied     2.6516E+04
       Summation              p01l       Satisfied     2.3484E+04
       Summation              p02u       Satisfied     0.0000E+00
@@ -498,11 +498,11 @@
     Objective Value  5.302832E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.683095E-10
+      Value at this iteration        =  1.683135E-10
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  3.135385E-10
-      For Ext Variables Max Change   =  9.069000E-10
+      For Flow Variable Max Change   =  3.135387E-10
+      For Ext Variables Max Change   =  9.069179E-10
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
 
@@ -573,18 +573,18 @@ Maximum Flow Rate      Q2a      Binding    Not Available
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05  -6.9849E-10
+      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05  -4.6566E-10
       Stream Depletion       S01.10        5.4663E+05 > 5.4133E+05   5.3009E+03
       Stream Depletion       S01.11        5.3517E+05 > 5.2936E+05   5.8092E+03
       Stream Depletion       S01.12        5.4082E+05 > 5.3496E+05   5.8643E+03
-      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -6.9849E-10
-      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05   6.9849E-10
+      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -8.1491E-10
+      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05  -1.1642E-10
       Stream Depletion       S03.9         2.7511E+05 > 2.6107E+05   1.4046E+04
-      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05  -1.7462E-10
+      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05   1.1642E-10
       Stream Depletion       S03.11        2.7404E+05 > 2.5982E+05   1.4217E+04
       Stream Depletion       S03.12        2.7441E+05 > 2.6232E+05   1.2093E+04
       Stream Depletion       S04.11        1.1327E+06 > 1.1263E+06   6.4391E+03
-      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06   4.6566E-10
+      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06  -6.9849E-10
       Summation              p01u          5.3484E+04 < 8.0000E+04  -2.6516E+04
       Summation              p01l          5.3484E+04 > 3.0000E+04   2.3484E+04
       Summation              p02u          8.0000E+04 < 8.0000E+04   0.0000E+00
@@ -600,7 +600,7 @@ Maximum Flow Rate      Q2a      Binding    Not Available
       Summation              p11u          4.5000E+04 < 8.0000E+04  -3.5000E+04
       Summation              p11l          4.5000E+04 > 4.5000E+04   0.0000E+00
       Summation              p12u          4.5000E+04 < 8.0000E+04  -3.5000E+04
-      Summation              p12l          4.5000E+04 > 4.5000E+04   7.2760E-12
+      Summation              p12l          4.5000E+04 > 4.5000E+04   0.0000E+00
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

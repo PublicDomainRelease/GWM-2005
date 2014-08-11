@@ -5,6 +5,19 @@ release.txt
      This file describes changes introduced into GWM-2005 with each
 official release.
 
+Version 1.5.1;  12 August 2014
+	Add MODULE GWM_SUBS in file GWM_subs.f90 which contains utility routines 
+		used by GWM-2005 including IGETUNIT, URWORD2, FUZZY_EQUALS
+
+	Add MODULE MF2005_UTLS in file mf2005_utls.f90 which contains INTERFACE 
+		statements for MODFLOW utilities that are used by GWM.
+
+	Add MODULE GWM_STOP in file gwm2005_stop.f90 which contains subroutine 
+		GSTOP for stopping an aborted run.
+
+	Modify gwm1dcv3mnw.for to add the writing of AUX variables for MNW-type 
+		flow variables for use by GWM-VI.  These have no impact on GWM-2005.
+
 Version 1.5.0;  24 September 2013
         Add derived-type data structure for storage of MNW-type decision-variable
                 information to GWM1DCV3. Modify GWM1DCV3AR to read and echo MNW-

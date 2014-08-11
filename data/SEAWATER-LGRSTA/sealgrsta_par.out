@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -585,7 +585,7 @@ Binary Variables
       Head Gradient          gd-4       Satisfied     1.6943E-01
       Head Gradient          gd-5       Satisfied     1.8213E-01
       Head Gradient          gd-6       Satisfied     1.8507E-01
-      Summation              demand     Not Met       1.4552E-11
+      Summation              demand     Satisfied     0.0000E+00
       Summation              wellson    Satisfied     1.0000E-01
       Summation              hd01       Satisfied     1.6288E-03
       Summation              hd02       Satisfied     1.6279E-03

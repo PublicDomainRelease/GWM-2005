@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -352,7 +352,7 @@
       Summation              SPR-MAX    Satisfied     3.5000E+04
       Summation              SPR-MIN    Satisfied     0.0000E+00
       Summation              SUM-MAX    Satisfied     2.0000E+04
-      Summation              SUM-MIN    Satisfied     0.0000E+00
+      Summation              SUM-MIN    Satisfied     7.2760E-12
       Summation              FAL-MAX    Satisfied     5.0000E+04
       Summation              FAL-MIN    Satisfied     0.0000E+00
       Summation              DR1-MIN    Satisfied     3.7476E+05
@@ -390,7 +390,7 @@
       Value at this iteration        =  3.657252E-07
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  3.856914E-07
+      For Flow Variable Max Change   =  3.856922E-07
   SLP Algorithm: End Iteration    2
   SLP Iterations have converged
 
@@ -476,7 +476,7 @@ Summation              DR3-MIN  Binding     -2.9605E-01
       Summation              FAL-MIN       3.0000E+04 > 3.0000E+04   0.0000E+00
       Summation              DR1-MIN       6.7476E+05 > 3.0000E+05   3.7476E+05
       Summation              DR2-MIN       2.3859E+05 > 2.3000E+05   8.5942E+03
-      Summation              DR3-MIN       2.3550E+05 > 2.3550E+05   6.9849E-10
+      Summation              DR3-MIN       2.3550E+05 > 2.3550E+05   8.7311E-10
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

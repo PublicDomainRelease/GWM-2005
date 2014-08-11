@@ -2,7 +2,9 @@
 C
       MODULE GWM1RMS3LP
 C     VERSION: 21MAR2008 - package references converted to version 3
+      USE GWM_SUBS, ONLY: IGETUNIT
       USE GWM_STOP, ONLY:   GSTOP
+      USE MF2005_UTLS, ONLY: URDCOM, URWORD
       IMPLICIT NONE
       PRIVATE
       PUBLIC::GWM1SIMPLEX1,FNDFES,FACTOR,SLVLP,PRICE,REDCST,
@@ -59,7 +61,7 @@ C***********************************************************************
       SUBROUTINE GWM1SIMPLEX1(M,NV,NDV,AMAT,COST,BNDS,RHS,OBJ,
      &                        IFLG,LPITMAX,IPRT)
 C***********************************************************************
-C    VERSION: 25JUL2006
+C    VERSION: 27AUG2013
 C    PURPOSE: SOLVE LINEAR PROGRAMS OF THE FORM
 C
 C                  MINIMIZE CX
@@ -113,12 +115,29 @@ C-----------------------------------------------------------------------
       INTEGER(I4B),INTENT(IN)::M,NV,NDV,LPITMAX,IPRT
       INTEGER(I4B),INTENT(OUT)::IFLG
       REAL(DP),INTENT(IN)::AMAT(M,NDV)
-      REAL(DP),INTENT(OUT)::OBJ,RHS(M),COST(NV)
-      REAL(DP),INTENT(INOUT)::BNDS(NV)
-
+      REAL(DP),INTENT(OUT)::OBJ
+      REAL(DP),INTENT(INOUT)::BNDS(NV),RHS(M),COST(NV)
 C-----LOCAL VARIABLES
       INTEGER(I4B)::NVA,NAC,I,N
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
+
+!      for debugging, write contents of AMAT,COST,BNDS,RHS
+!      integer :: j,k
+!      write(gwmout,10)
+!   10 format('at top of GWM1SIMPLEX1, amat contains:')
+!   15 format(10(g23.16,1x))
+!      do j=1,m
+!        write(gwmout,15)(amat(j,k),k=1,ndv)
+!      enddo
+!      write(gwmout,20)
+!   20 format('at top of GWM1SIMPLEX1, cost contains:')
+!      write(gwmout,15)(cost(j),j=1,nv)
+!      write(gwmout,25)
+!   25 format('at top of GWM1SIMPLEX1, bnds contains:')
+!      write(gwmout,15)(bnds(j),j=1,nv)
+!      write(gwmout,30)
+!   30 format('at top of GWM1SIMPLEX1, rhs contains:')
+!      write(gwmout,15)(rhs(j),j=1,m)
 C
 C-----CHECK THAT NO BOUNDS EXCEED BIGINF, THE VALUE OF MACHINE INFINITY 
       DO 100 I=1,NV
@@ -2058,6 +2077,7 @@ C
 C
 C
       MODULE GWM1RMS3SUBS
+      USE GWM_SUBS, ONLY: IGETUNIT, URWORD2
       USE GWM_STOP, ONLY:   GSTOP
 C     VERSION: 21MAR2008 - package references converted to version 3
       IMPLICIT NONE
@@ -2085,7 +2105,7 @@ C***********************************************************************
 C   VERSION: 30MAY2011
 C   PURPOSE: READ INPUT FROM THE SOLUTION AND OUTPUT-CONTROL FILE
 C-----------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : ZERO,RMFILE,RMFILEF,MPSFILE,CUTCOM,IGETUNIT
+      USE GWM1BAS3, ONLY : ZERO,RMFILE,RMFILEF,MPSFILE,CUTCOM
       USE GWM1DCV3, ONLY : FVINI,FVDIR,FVNAME,FVBASE,EVNAME,EVBASE,
      &                     BVNAME,BVBASE
       USE GWM1OBJ3, ONLY : SOLNTYP    
@@ -2101,18 +2121,6 @@ C-----------------------------------------------------------------------
      8                     CONTYP,IPGNA,NPGNA,DEWATER,DEWATERQ,VARBASE
       INTEGER(I4B),INTENT(IN)::NFVAR,NEVAR,NBVAR,NDV,NV,NCON,IOUT
       CHARACTER(LEN=200),INTENT(IN)::FNAME
-      INTERFACE 
-        SUBROUTINE URDCOM(IN,IOUT,LINE)
-        CHARACTER*(*) LINE
-        END
-C
-        SUBROUTINE URWORD(LINE,ICOL,ISTART,ISTOP,NCODE,N,R,IOUT,IN)
-        CHARACTER*(*) LINE
-        CHARACTER*20 STRING
-        CHARACTER*30 RW
-        CHARACTER*1 TAB
-        END
-      END INTERFACE
 C-----LOCAL VARIABLES
       REAL(SP)::TPBASE
       CHARACTER(LEN=10)::TFVNAME
@@ -2156,27 +2164,27 @@ C      OF THE FILE TO WHICH THE RESPONSE MATRIX WILL BE WRITTEN
         LLOC=1
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSIGDIG,RDUM,IOUT,LOCAT)
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NPGNMX, RDUM,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
         READ(LOCAT,'(A)',ERR=991)LINE
         CALL CUTCOM(LINE,200)                    ! REMOVE COMMENTS FROM LINE
         LLOC=1                                   ! READ FILENAME AND IRM
         CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
         RMNAME=LINE(INMS:INMF)
-        RMFILE=IGETUNIT(7,95)
+        RMFILE=IGETUNIT(980,1000)
         IRM=0                                    ! SET DEFAULT VALUE
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,IRM,RDUM,IOUT,LOCAT)
         IF(IRM.EQ.1 .OR. IRM.EQ.0)THEN           ! SET TO UNFORMATTED OUTPUT
           IRM=1                                  ! IF ZERO, RESET TO ONE
           WRITE(IOUT,3010,ERR=990)RMFILE,RMNAME
           FMTARG='UNFORMATTED' 
-          RMFILE=IGETUNIT(7,95)
+          RMFILE=IGETUNIT(980,1000)
           FUNIT=RMFILE 
         ELSE                                     ! SET TO FORMATTED OUTPUT
           IRM=3                                  ! RESET TO INTERNAL FLAG
           WRITE(IOUT,3011,ERR=990)RMFILE,RMNAME
           FMTARG='FORMATTED' 
-          RMFILEF=IGETUNIT(7,95)
+          RMFILEF=IGETUNIT(980,1000)
           FUNIT=RMFILE 
         ENDIF
         OPEN(FUNIT,FILE=RMNAME,FORM=FMTARG,ERR=999)
@@ -2200,13 +2208,13 @@ C      THE MANAGEMENT PROBLEM WILL BE WRITTEN IN MPS FORMAT
         LLOC=1
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSIGDIG,RDUM,IOUT,LOCAT)
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NPGNMX, RDUM,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
         READ(LOCAT,'(A)',ERR=991)LINE
         LLOC=1
         CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
         MPSNAME=LINE(INMS:INMF)
-        MPSFILE=IGETUNIT(7,95)
+        MPSFILE=IGETUNIT(980,1000)
         WRITE(IOUT,3010,ERR=990)MPSFILE,MPSNAME
         FUNIT=MPSFILE 
         OPEN(FUNIT,FILE=MPSNAME,ERR=999)
@@ -2229,8 +2237,8 @@ C-----IF SOLNTYP IS LP (LINEAR), READ IRM, LPITMAX, AND PERTI:
         LLOC=1
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSIGDIG,RDUM,IOUT,LOCAT)
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NPGNMX, RDUM,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
         READ(LOCAT,*,ERR=991)BBITPRT,RANGEFLG
 C
 C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
@@ -2240,7 +2248,7 @@ C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
 		  LLOC=1        
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAME=LINE(INMS:INMF)
-          RMFILE=IGETUNIT(7,95)
+          RMFILE=IGETUNIT(980,1000)
           OPEN(RMFILE,FILE=RMNAME,STATUS='OLD',FORM=FORM,ERR=997)
           WRITE(IOUT,3012,ERR=990) RMFILE,RMNAME
         ELSEIF(IRM.EQ.1)THEN           ! COMPUTE RM AND SAVE TO FILE  
@@ -2249,7 +2257,7 @@ C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
 		  LLOC=1        
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAME=LINE(INMS:INMF)
-          RMFILE=IGETUNIT(7,95)
+          RMFILE=IGETUNIT(980,1000)
           OPEN(RMFILE,FILE=RMNAME,STATUS='REPLACE',FORM=FORM,ERR=997)
           WRITE(IOUT,3010,ERR=990) RMFILE,RMNAME
         ELSEIF(IRM.EQ.2) THEN          ! COMPUTE RM FILE - DON'T RECORD IT    
@@ -2260,7 +2268,7 @@ C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
 		  LLOC=1        
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAMEF=LINE(INMS:INMF)
-          RMFILEF=IGETUNIT(7,95)
+          RMFILEF=IGETUNIT(980,1000)
           OPEN(RMFILEF,FILE=RMNAMEF,STATUS='REPLACE',
      &         FORM='FORMATTED',ERR=997)
           WRITE(IOUT,3014,ERR=990) RMFILEF,RMNAMEF
@@ -2270,12 +2278,12 @@ C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
 		  LLOC=1        
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAME=LINE(INMS:INMF)
-          RMFILE=IGETUNIT(7,95)
+          RMFILE=IGETUNIT(980,1000)
           OPEN(RMFILE,FILE=RMNAME,STATUS='REPLACE',FORM=FORM,ERR=997)
           WRITE(IOUT,3010,ERR=990) RMFILE,RMNAME
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAMEF=LINE(INMS:INMF)
-          RMFILEF=IGETUNIT(7,95)
+          RMFILEF=IGETUNIT(980,1000)
           OPEN(RMFILEF,FILE=RMNAMEF,STATUS='REPLACE',
      &         FORM='FORMATTED',ERR=997)
           WRITE(IOUT,3014,ERR=990) RMFILEF,RMNAMEF
@@ -2285,12 +2293,12 @@ C-------PROCESS IRM, THE RESPONSE MATRIX CALCULATION FLAG
 		  LLOC=1        
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAME=LINE(INMS:INMF)
-          RMFILE=IGETUNIT(7,95)
+          RMFILE=IGETUNIT(980,1000)
           OPEN(RMFILE,FILE=RMNAME,STATUS='OLD',FORM=FORM,ERR=997)
           WRITE(IOUT,3012,ERR=990) RMFILE,RMNAME
           CALL URWORD(LINE,LLOC,INMS,INMF,0,NDUM,RDUM,IOUT,LOCAT)
           RMNAMEF=LINE(INMS:INMF)
-          RMFILEF=IGETUNIT(7,95)
+          RMFILEF=IGETUNIT(980,1000)
           OPEN(RMFILEF,FILE=RMNAMEF,STATUS='REPLACE',
      &         FORM='FORMATTED',ERR=997)
           WRITE(IOUT,3014,ERR=990) RMFILEF,RMNAMEF
@@ -2335,10 +2343,10 @@ C----IF SOLNTYP IS SLP
         LLOC=1
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NSIGDIG,RDUM,IOUT,LOCAT)
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NPGNMX, RDUM,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,AFACT  ,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,PGFACT ,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,AFACT  ,IOUT,LOCAT)
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NINFMX, RDUM,IOUT,LOCAT)
-        CALL URWORD(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
+        CALL URWORD2(LINE,LLOC,ISTART,ISTOP,3,NDUM,CRITMFC,IOUT,LOCAT)
         READ(LOCAT,*,ERR=991)SLPITPRT,BBITPRT,RANGEFLG
 C
 C-------PROCESS LPITMAX AND BBITMAX, MAXIMUM LP AND BRANCH AND BOUND ITERATIONS
@@ -2675,10 +2683,13 @@ C-----------------------------------------------------------------------
       INTEGER(I4B),INTENT(OUT)::IPERT,NPERT
       LOGICAL(LGT),INTENT(IN)::FIRSTSIM,LASTSIM
       INTEGER(I4B)::I,TNFVAR,TNEVAR,TNBVAR,TIBASE,RSTRT
+! for debugging
+!      integer :: isize      
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       IF(FIRSTSIM .AND. .NOT. LASTSIM)THEN
 C-------THIS IS THE FIRST TIME THROUGH THIS SUBROUTINE
+        MFCNVRG(0) = .TRUE.                      ! INITIALIZE MF CONVERGENCE FOR VI
         IF(SOLNTYP.EQ.'SLP')THEN                 ! PERFORM SLP INITIALIZATIONS
            SLPITCNT=0                            ! SLP ITERATION COUNTER
            SLPINFCNT=0                           ! SLP FAILURE COUNTER
@@ -2719,6 +2730,11 @@ C-------THIS IS LAST TIME THROUGH. ONLY ONE SIMULATION IS NEEDED
         NPERT = 0                                ! SET TERMINAL VALUE TO ZERO
       ENDIF
 C
+! for debugging
+!      write(gwmout,*)'at the bottom of GWM1RMS3PL, fvbase contains:'
+!      isize = size(fvbase)
+!      write(gwmout,987)(i,fvbase(i),i=1,isize)
+!  987 format(i3,1x,g15.8)
       RETURN
 C
       CONTAINS
@@ -2866,10 +2882,11 @@ C-----------------------------------------------------------------------
       USE GWM1BAS3, ONLY : GWM1BAS3PF,GWM1BAS3PS
       INTEGER(I4B),INTENT(IN)::IOUT,IPERT,NPERT
       LOGICAL(LGT),INTENT(IN):: FIRSTSIM,LASTSIM
-      CHARACTER(LEN=200),INTENT(INOUT)::GWMSTRG
-
+      CHARACTER(LEN=200),INTENT(OUT)::GWMSTRG
       CHARACTER(LEN=18)::SPT
       INTEGER(I4B)::I
+      ! for debugging
+!      integer :: ii, np
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
       GWMSTRG = ' '                              ! EMPTY STRING ARRAY
@@ -2894,7 +2911,7 @@ C-------THIS IS A BASE OR REFERENCE SIMULATION
             IF(SLPITCNT.GT.0                     ! MUST BE AN SLP BASE SIMULATION
      &        .AND.NPGNMX.GT.0)THEN              ! AND RESETTING IS ALLOWED
 	        CALL SGWM1RMS3PP(3)
-              CALL GWM1RMS3PP_RESETBASE
+              CALL GWM1RMS3PP_RESETBASE(IOUT)   
             ELSE                                 ! EITHER FIRST SIMULATION OR NO RESET
               IF(.NOT.MFCNVRG(IPERT))THEN
                 CALL GWM1BAS3PF
@@ -2949,6 +2966,19 @@ C-------THIS IS A PERTURBATION SIMULATION
         FVBASE(IPERT) = VARBASE(IPERT) + DELINC(IPERT)  ! PERTURB PUMPING RATE
         CALL SGWM1RMS3PP(6)
       ENDIF
+  !      add for debugging
+!        if (ipert>0)then
+!          write(gwmout,150)ipert,fvbase(ipert),dewater(ipert),
+!     &    dewaterq(ipert)
+!        else
+!          np=size(fvbase)
+!          do ii=1,np
+!            write(gwmout,150)ii,fvbase(ii),dewater(ii),
+!     &      dewaterq(ii)
+!          enddo
+!        endif
+!  150 format('in GWM1RMS3PP, ipert fvbase dewater dewaterq = ',
+!     &   i2,2x,g23.16,2x,l1,2x,l1)
 C
       RETURN
 C
@@ -3082,18 +3112,26 @@ C
       END SUBROUTINE GWM1RMS3PP_RESETDEL
 C
 C***********************************************************************
-      SUBROUTINE GWM1RMS3PP_RESETBASE
+      SUBROUTINE GWM1RMS3PP_RESETBASE(IOUT)
 C***********************************************************************
-C  VERSION: 16JULY2009
+C  VERSION: 27AUG2013
 C  PURPOSE: MOVE BASE FLOW RATES CLOSER TO MOST RECENT SUCCESSFUL SIMULATION 
 C-----------------------------------------------------------------------
 C
+      INTEGER, INTENT(IN) :: IOUT  
+
+      WRITE(IOUT,10)AFACT
       DO 100 I=1,NFVAR
         FVBASE(I) = (1.0 - AFACT)*FVBASE(I) + AFACT*FVOLD(I)
         FVCURRENT(I) = FVBASE(I)
+        WRITE(IOUT,20)I,FVOLD(I),FVBASE(I) 
 100   ENDDO
 C
       RETURN
+   10 FORMAT(/,'New base rates for flow variables (AFACT = ',
+     & F5.2,'):',/,
+     & 'Var. #',2x,'Rate last iter.',4x,'New rate')
+   20 FORMAT(I6,2X,G14.7,5X,G14.7)
       END SUBROUTINE GWM1RMS3PP_RESETBASE
 C
       END SUBROUTINE GWM1RMS3PP
@@ -3111,6 +3149,7 @@ C-----------------------------------------------------------------------
       USE GWM1DCV3, ONLY : GWM1DCV3FVCPNT,FVMNW
       USE GWFMNW2MODULE, ONLY:MNW2,MNWMAX,WELLID
       USE GLOBAL,      ONLY: NCOL,NROW,NLAY,HNEW
+      USE GWM_SUBS, ONLY: FUZZY_EQUALS, EPSQNET
       INTEGER(I4B),INTENT(IN)::IGRID,KPER,IPERT
       REAL(DP),INTENT(IN)::HDRY
 C-----LOCAL VARIABLES
@@ -3131,7 +3170,7 @@ C-----EXAMINE MANAGED WELLS
             IR = FVILOC(K)                  ! ASSIGN CELL ROW
             IC = FVJLOC(K)                  ! ASSIGN CELL COLUMN
             STATE = HNEW(IC,IR,IL)
-            IF(STATE.EQ.HDRY)THEN           ! CELL HAS DEWATERED
+            IF(FUZZY_EQUALS(STATE,HDRY,EPS))THEN  ! CELL HAS DEWATERED
               DEWATERQ(IPERT)=.TRUE. 
               WRITE(GWMOUT,1000)I,K,KPER,IR,IC,IL
             ENDIF               
@@ -3143,7 +3182,7 @@ C-----EXAMINE MANAGED WELLS
             QDES = FVBASE(I)*FVRATIO(K)     ! VALUE OF DESIRED FLOW RATE
             QNET = MNW2(18,MNWID)           ! VALUE OF ACTUAL FLOW AT MNW WELL
             ! Failed if Qdes/= stored value of Qnet
-            FAIL1=(ABS(QNET-QDES).GT.EPS) 
+            FAIL1=.NOT.FUZZY_EQUALS(QNET,QDES,EPSQNET) 
             ! Failed if Qdes/=0 but well is deactivated at some time step
             FAIL2=(QDES.NE.ZERO) .AND. (MNW2(1,MNWID).NE.1)
             IF(FAIL1 .OR. FAIL2)THEN        ! CELL HAS DEWATERED
@@ -3183,7 +3222,8 @@ C-----------------------------------------------------------------------
       USE GWM1STC3, ONLY : GWM1STC3FP 
       USE GWM1BAS3, ONLY : GWM1BAS3PF
       LOGICAL(LGT),INTENT(IN)::FIRSTSIM,LASTSIM
-      INTEGER(I4B),INTENT(INOUT)::IPERT, NPERT 
+      INTEGER(I4B),INTENT(INOUT)::IPERT
+      INTEGER(I4B),INTENT(IN)::NPERT 
 C     LOCAL VARIABLES
       INTEGER(I4B)::RSTRT, I
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
@@ -3311,11 +3351,17 @@ C-----------------------------------------------------------------------
       USE GWM1STC3, ONLY : STCNUM,STCSTATE,STCSTATE0
       USE GWM1HDC3, ONLY : HDCRHS,NHB,NDD,NDF,NGD,HDCDIR
       USE GWM1BAS3, ONLY : GWM1BAS3PS
+      ! use gwm1bas3, only : gwmout  ! add for debugging
 C-----LOCAL VARIABLES
       REAL(DP)::XNUM
       INTEGER(I4B)::IROW,LNUM,LNUMMAX,COLZ
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C  
+!     debugging
+!      write(gwmout,10)ipert,mfcnvrg(ipert),dewater(ipert),
+!     &  dewaterq(ipert)
+!   10 format('at top of SGWM1RMS3FP, ipert mfcnvrg dewater dewaterq = '
+!     & i3,2x,3l3)
 C-----CHECK IF MODFLOW FAILED TO CONVERGE
       IF(.NOT.MFCNVRG(IPERT))THEN
         CALL GWM1BAS3PS('        Perturbation Failed: ',0)
@@ -3562,6 +3608,7 @@ C-----------------------------------------------------------------------
      &                     FVMIN,FVMAX,EVMIN,EVMAX,FVCURRENT,FVON
       USE GWM1OBJ3, ONLY : SOLNTYP,OBJTYP,OBJCNST
       USE GWM1RMS3, ONLY : LASTLP
+      ! use gwm1bas3, only : gwmout    ! add for debugging
       LOGICAL(LGT),INTENT(OUT)::GWMCNVRG
 C-----LOCAL VARIABLES
       INTEGER(I4B)::I,IFLG
@@ -3601,6 +3648,11 @@ C-----TRANSFER OPTIMAL FLOW VARIABLES TO FVBASE FOR FINAL SIMULATION
   300   ENDDO
       ENDIF
 C
+!      add for debugging
+!      write(gwmout,900)
+!      write(gwmout,901)(i,cst(i),i=1,nfvar)
+!  900 format('in GWM1RMS3AP, cst contains:')
+!  901 format(i3,2x,g25.16)
       RETURN
 C
       CONTAINS

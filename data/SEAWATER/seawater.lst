@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -180,19 +180,19 @@ Flows at Managed Wells for Stress Period    1
  Well no.  Layer   Row   Col   Stress Rate
  ----------------------------------------------------
         1      1     7    12   -10000.00000000000    
-        2      1    10    13   -3300.918169050678    
+        2      1    10    13   -3300.918169050767    
         3      1    10    16    0.000000000000000    
         4      1    12    15    0.000000000000000    
-        5      1    15    11   -838.7306825772696    
-        6      2    15    11   -838.7306825772696    
-        7      1     7    27    31.46982240779035    
-        8      2     7    27    31.46982240779035    
-        9      1    11    27    266.0578317662840    
-       10      2    11    27    266.0578317662840    
-       11      1    15    27    147.7541637564008    
-       12      2    15    27    147.7541637564008    
+        5      1    15    11   -838.7306825772248    
+        6      2    15    11   -838.7306825772248    
+        7      1     7    27    31.46982240779160    
+        8      2     7    27    31.46982240779160    
+        9      1    11    27    266.0578317662818    
+       10      2    11    27    266.0578317662818    
+       11      1    15    27    147.7541637563976    
+       12      2    15    27    147.7541637563976    
  ----------------------------------------------------
-                      Total:   -14087.81589834427    
+                      Total:   -14087.81589834428    
  
  SOLVING FOR HEAD 
 
@@ -889,6 +889,6 @@ Flows at Managed Wells for Stress Period    1
          TOTAL TIME  86400.      1440.0      24.000      1.0000     2.73785E-03
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  8:17:02
- Elapsed run time:  1.085 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 12:58:51
+ Elapsed run time:  1.319 Seconds
 

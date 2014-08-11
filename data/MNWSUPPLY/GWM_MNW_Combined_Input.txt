@@ -1,9 +1,8 @@
 # MNW2 input file written by GWM
 #   Combines unmanaged MNW2 wells read from original MNW file
 #     with managed MNW2 wells read from DECVAR file
-#     MNWMAX is forced to negative so that NODTOT is read
 #     This file can be discarded
-        -6        49       -90         2                             # MNWMAX,NODTOT,IWL2CB,MNWPRNT,OPTION
+        -6        49       -90         2                             # MNWMAX,NODTOT,IWL2CB,MNWPRNT
 QU1                          2                                       # WELLID,NNDODE - UnManaged
 SKIN                         0         0         0         0         # LOSSTYPE,PUMPLOC,ETC. - UnManaged
  -0.10D+01 -0.10D+01 -0.10D+01 -0.10D+01                             # LOSSTYPE ITEMS - UnManaged
@@ -31,36 +30,36 @@ SPECIFYCWC                   0         0         0         0         # LOSSTYPE,
   0.500000000000D+02  0.300000000000D+02   15    9  0.500000000000D+04
   0.250000000000D+02  0.100000000000D+02   15    9  0.500000000000D+04
     2                                                                # ITMP
-QU1                   0.000000000000D+00                             # WELLNAME,Qdes,
-QU2                   0.000000000000D+00                             # WELLNAME,Qdes,
+QU1                   0.000000000000D+00                             # WELLNAME,Qdes
+QU2                   0.000000000000D+00                             # WELLNAME,Qdes
   0.115000000000D+03      0                                          # Hlim,QCUT
     6                                                                # ITMP
-QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
-QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes
   0.115000000000D+03      0                                          # Hlim,QCUT
-MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes,
-MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes
     6                                                                # ITMP
-QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
-QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes
   0.115000000000D+03      0                                          # Hlim,QCUT
-MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes,
-MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+MNWQM1               -0.200000000000D+05                             # WELLNAME,Qdes
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes
     5                                                                # ITMP
-QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
-QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes
   0.115000000000D+03      0                                          # Hlim,QCUT
-MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes
     5                                                                # ITMP
-QU1                  -0.200000000000D+05                             # WELLNAME,Qdes,
-QU2                  -0.668500000000D+05                             # WELLNAME,Qdes,
+QU1                  -0.200000000000D+05                             # WELLNAME,Qdes
+QU2                  -0.668500000000D+05                             # WELLNAME,Qdes
   0.115000000000D+03      0                                          # Hlim,QCUT
-MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes,
-MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes,
+MNWQM2A              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM2B              -0.284086873487D+04                             # WELLNAME,Qdes
+MNWQM3               -0.297134689573D+04                             # WELLNAME,Qdes

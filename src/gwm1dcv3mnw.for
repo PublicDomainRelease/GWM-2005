@@ -15,14 +15,17 @@
 !    END MODULE GWM1DCV3MNW
 !
       MODULE GWM1DCV3MNW
-C     VERSION: 15AUG2013
-      USE GWM1BAS3, ONLY: GWMOUT,IGETUNIT
+C     VERSION: 27AUG2013
+      USE GWM1BAS3, ONLY: GWMOUT
       USE GWM1DCV3, ONLY: MNW2HERE
+      USE GWM_SUBS, ONLY: IGETUNIT
       USE GWM_STOP, ONLY: GSTOP
 
       IMPLICIT NONE
       PRIVATE 
       PUBLIC  GWM1DCV3MNW2
+      ! GWM-VI needs to be able to set NAUX=1  
+      PUBLIC  NAUX_EXTERNAL
 C
       INTEGER, PARAMETER :: I4B = SELECTED_INT_KIND(9)
 C
@@ -55,6 +58,8 @@ c       This will store ITEMS 1 and 2 from MNW2 input file
       DOUBLE PRECISION, SAVE, DIMENSION(:,:), POINTER     ::GMNWINT
       DOUBLE PRECISION, SAVE, DIMENSION(:,:,:),POINTER    ::GCapTable
       CHARACTER(LEN=20),SAVE, DIMENSION(:),   POINTER     ::GWELLID
+      CHARACTER(LEN=10) :: AUXVARNAME = 'MNWSEQNUM '
+      INTEGER(I4B) :: NAUX_EXTERNAL = 0
       ! CHARACTER(LEN=16),SAVE, DIMENSION(:),   POINTER     ::GMNWAUX
       INTEGER,SAVE,POINTER  ::GMNWMAX,GNODTOT,GIWL2CB,GMNWPRNT
       TYPE GWMMNWTYPE
@@ -91,15 +96,16 @@ C
 C      
 C*************************************************************************
       SUBROUTINE GWM1DCV3MNW2(MNW2UNIT,FIRSTSIM,Iusip,
-     1                       Iude4,Iupcg,Iugmg,VIFLG)
+     1                       Iude4,Iupcg,Iugmg,VIFLG,MNWJTF)
 C*************************************************************************
-C     VERSION: 15AUG2013
+C     VERSION: 27AUG2013
 C     PURPOSE: READ EXISTING MNW FILE, WRITE A NEW MNW FILE
 C---------------------------------------------------------------------------
 C
       INTEGER(I4B),INTENT(IN)::MNW2UNIT,Iusip,Iude4,Iupcg
       INTEGER(I4B),INTENT(IN)::Iugmg,VIFLG
       LOGICAL,INTENT(IN)::FIRSTSIM
+      CHARACTER(LEN=2000),INTENT(IN),OPTIONAL::MNWJTF
 C-----LOCAL VARIABLES
       CHARACTER(LEN=200)::FNAME
       INTEGER(I4B)      ::ISCRCH,LOCAT
@@ -115,10 +121,9 @@ C-------READ THE MNW2 INPUT FILE INTO GWM MEMORY
         FNAME = 'SCRATCH'
         OPEN(UNIT=ISCRCH,STATUS='SCRATCH',ACTION='WRITE',ERR=999)
         IF(VIFLG.EQ.0)THEN   ! THIS IS A CALL FROM GWM-VI
-       !   
-       !  
-       !  
-       !  
+          IGRID = 1          ! GWM-VI DOES NOT SUPPORT MULTI-GRID (LGR)
+          VIFLGP = 0
+          FNAME=MNWJTF       ! Write a Jupiter Template File for GWM-VI
         ELSE
           IGRID  = VIFLG
           VIFLGP = 1
@@ -172,7 +177,7 @@ C-----LOCAL VARIABLES
       INTEGER(I4B)::I,J,K,MNWID,MNWMAN
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       CALL GWM1DCV3MNW2PNT12(IGRID)
-      MNWID = GMNWMAX
+      MNWID = ABS(GMNWMAX)
       MNWMAN = 0
       DO 50 I=1,NFVAR                            ! LOOP OVER GWM FLOW VARIABLES
         IF(IGRID.EQ.GRDLOCDCV(I).AND.            ! FLOW VARIABLE ON CURRENT GRID
@@ -221,7 +226,7 @@ C-----LOCAL VARIABLES
       CHARACTER*200 LINE
       INTEGER(I4B)::LLOC,ISTART,ISTOP,KKPER,N,NAUX,ISTAT
       INTEGER(I4B)::MNWID,NODNUM1,NODNUM2,INTFIRST,INTLAST
-      INTEGER(I4B)::TMP_NNODES,NEW_NNODES,ICNT,IOUT_ORIG
+      INTEGER(I4B)::TMP_NNODES,NEW_NNODES,ICNT,IOUT_ORIG,MNWMAX_S
       REAL  R
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
 C
@@ -239,6 +244,7 @@ C3------CELL-BY-CELL FLOW TERMS, AND PRINT FLAG
       CALL URDCOM(IN,ISCRCH,LINE)
       LLOC=1
       CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,MNWMAX,R,IOUT,IN)
+      MNWMAX_S = MNWMAX    ! Store original MNWMAX here
       IF (MNWMAX.LT.0) THEN
         CALL URWORD(LINE,LLOC,ISTART,ISTOP,2,NODTOT,R,IOUT,IN)
         MNWMAX=-MNWMAX
@@ -295,7 +301,9 @@ C-----READ THE REST OF THE MNW2 FILE AND FILL UP THE ARRAYS
         ENDIF
       ENDDO
 C-----STORE WELL DATA FOR UNMANAGED WELLS
+      MNWMAX = MNWMAX_S    ! Put value with original sign back for storage
       CALL GWM1DCV3MNW2PSV12(IGRID)
+      MNWMAX = ABS(MNWMAX) ! Return to the postive value
 C-----ALLOCATE SPACE FOR MNW DATA OVER STRESS PERIODS
       ALLOCATE(GWMMNWDAT(IGRID)%GT_TARGET(NPER),STAT=ISTAT)
       IF(ISTAT.NE.0)GOTO 992 
@@ -307,6 +315,7 @@ C-----LOOP OVER REMAINING STRESS PERIODS
       ENDDO
       CLOSE(UNIT=ISCRCH)               ! Erase unneeded output
       IOUT = IOUT_ORIG                 ! Restore correct value of IOUT
+      MNWMAX = MNWMAX_S    ! Put value with original sign back for storage
 C
       RETURN
   992 CONTINUE ! ARRAY-ALLOCATING ERROR
@@ -393,7 +402,9 @@ C-----------------------------------------------------------------------
 C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
       CALL GWM1DCV3MNW2PNT12(IGRID)
 C-----ITEM 1: MNWMAX,[NODTOT],IWL2CB,MNWPRNT,OPTION
-      NAUX = 0                                   ! GWM does not write AUX vars 
+      ! For GWM-2005, NAUX_EXTERNAL has been pre-set to zero
+      ! For GWM-VI, NAUX_EXTERNAL will be set to one externally
+      NAUX = NAUX_EXTERNAL                       
       NFVMNW=0                                   ! COUNT NUMBER OF MNW-TYPE FV
       DO I=1,NFVAR                               ! LOOP OVER GWM FLOW VARIABLES
         IF(IGRID.EQ.GRDLOCDCV(I).AND.            ! FLOW VARIABLE ON CURRENT GRID
@@ -403,7 +414,7 @@ C-----ITEM 1: MNWMAX,[NODTOT],IWL2CB,MNWPRNT,OPTION
       ENDDO
       CALL WRITE_ITEM1
 C-----LOOP OVER MULTINODE WELLS
-      DO  MNWID=1,GMNWMAX
+      DO  MNWID=1,ABS(GMNWMAX)
 C-----ITEM 2: FOR UNMANAGED MNW WELLS
         CALL WRITE_ITEM2_UNM
       ENDDO
@@ -437,19 +448,34 @@ C-------ITEM 3 AND 4: ITMP AND WELLID and QDES
 c
 C***********************************************************************
       SUBROUTINE WRITE_ITEM1
+      CHARACTER(LEN=15) :: AUXTEXT
+      AUXTEXT = ' AUX ' // AUXVARNAME
 C-----WRITE TEXT LINE
       WRITE(IO,9000)
 C-----WRITE ITEM 1  
-       ! Add NODTOT to the line with negative MNWMAX as implemented in MF-2005 V1.10
-C     GWM does not write the AUX variables in original MNW file
-        WRITE(IO,9100)-GMNWMAX-NFVMNW,GNODTOT,GIWL2CB,GMNWPRNT
+      ! Add NODTOT to the line with negative MNWMAX as implemented in MF-2005 V1.10
+      ! GWM does not write the AUX variables in original MNW file when 
+      ! called from GWM-2005, but it does write one AUX variable when
+      ! called from GWM-VI.
+      IF (NAUX_EXTERNAL == 0) THEN   ! Call from GWM-2005
+        GMNWMAX = ABS(GMNWMAX) ! Regardless of original sign of MNWMAX write NODTOT
+        WRITE(IO,9100)-GMNWMAX-NFVMNW,GNODTOT,GIWL2CB,GMNWPRNT  
+      ELSE                           ! Call from GWM-VI
+C        IF(GMNWMAX.GT.0)THEN       ! Don't use NODTOT      
+        IF(GMNWMAX.GE.0)THEN       ! Don't use NODTOT - Bug fix 5/5/2014 ERB
+          WRITE(IO,9110) GMNWMAX+NFVMNW,        GIWL2CB,GMNWPRNT,AUXTEXT
+        ELSEIF(GMNWMAX.LT.0)THEN   ! Use NODTOT and force MNWMAX to negative    
+          WRITE(IO,9115) GMNWMAX-NFVMNW,GNODTOT,GIWL2CB,GMNWPRNT,AUXTEXT
+        ENDIF  
+      ENDIF  
       RETURN
  9000 FORMAT('# MNW2 input file written by GWM',/,
      & '#   Combines unmanaged MNW2 wells read from original MNW file'
      & ,/,'#     with managed MNW2 wells read from DECVAR file'
-     & ,/,'#     MNWMAX is forced to negative so that NODTOT is read'
      & ,/,'#     This file can be discarded')
- 9100 FORMAT(4I10,    T70,'# MNWMAX,NODTOT,IWL2CB,MNWPRNT,OPTION')
+ 9100 FORMAT(4I10,    T70,'# MNWMAX,NODTOT,IWL2CB,MNWPRNT')
+ 9110 FORMAT(3I10,A15,T70,'# MNWMAX,IWL2CB,MNWPRNT,OPTION')
+ 9115 FORMAT(4I10,A15,T70,'# MNWMAX,NODTOT,IWL2CB,MNWPRNT,OPTION')
       END SUBROUTINE WRITE_ITEM1
 C***********************************************************************
       SUBROUTINE WRITE_ITEM2_UNM
@@ -654,28 +680,30 @@ C***********************************************************************
       END SUBROUTINE WRITE_2D2
 C***********************************************************************
       SUBROUTINE WRITE_ITEM4
+      INTEGER :: AUXVALUE
 C-----ITEM 3: ITMP
       WRITE(IO,9300)ITMP+ITMPG
 C-----WRITE ITEM 4 FOR UNMANAGED MNW WELLS
+      ! For GWM-VI calls (VIFLG=0), add an AUX variable value of zero
       DO 100 MNWID=1,ITMP
         CALL GWM1DCV3MNW2PNT34(IGRID,T,MNWID)    ! RETRIEVE MNW DATA
         PUMPCAP=GMNW2(22,MNWID)
         WELLNAME = GWELLID(WELLINDX)   
         IF(PUMPCAP.EQ.0)THEN ! Don't write CapMult
           IF(Cprime.LE.ZERO)THEN
-            WRITE(IO,9400) WELLNAME,Qdes,
-     &       (GMNW2(30+IAUX,MNWID),IAUX=1,NAUX)  ! NAUX always forced to zero
+            IF(VIFLG.EQ.1)WRITE(IO,9400) WELLNAME,Qdes
+            IF(VIFLG.EQ.0)WRITE(IO,9402) WELLNAME,Qdes,0
           ELSE
-            WRITE(IO,9410) WELLNAME,Qdes,Cprime,
-     &                 (GMNW2(30+IAUX,MNWID),IAUX=1,NAUX)
+            IF(VIFLG.EQ.1)WRITE(IO,9410) WELLNAME,Qdes,Cprime
+            IF(VIFLG.EQ.0)WRITE(IO,9412) WELLNAME,Qdes,Cprime,0
           ENDIF  
         ELSE                 ! Write CapMult
           IF(Cprime.LE.ZERO)THEN
-            WRITE(IO,9420) WELLNAME,Qdes,CapMult,
-     &                 (GMNW2(30+IAUX,MNWID),IAUX=1,NAUX)
+            IF(VIFLG.EQ.1)WRITE(IO,9420) WELLNAME,Qdes,CapMult
+            IF(VIFLG.EQ.0)WRITE(IO,9422) WELLNAME,Qdes,CapMult,0
           ELSE
-            WRITE(IO,9430) WELLNAME,Qdes,CapMult,Cprime,
-     &                 (GMNW2(30+IAUX,MNWID),IAUX=1,NAUX)
+            IF(VIFLG.EQ.1)WRITE(IO,9430) WELLNAME,Qdes,CapMult,Cprime
+            IF(VIFLG.EQ.0)WRITE(IO,9432) WELLNAME,Qdes,CapMult,Cprime,0
           ENDIF  
         ENDIF
         IF(Qlimit.LT.0.0) THEN
@@ -693,12 +721,14 @@ C-----WRITE ITEM 4 FOR MNW-TYPE FLOW VARIABLES
         IF(FVNCELL(I).LT.0)THEN                  ! THIS IS A MNW-TYPE FV
           CALL GWM1DCV3FVCPNT(I)                 ! POINT TO CORRECT CELL INFO
           DO 110 K=1,ABS(FVNCELL(I))             ! LOOP OVER CELLS FOR FV
+            AUXVALUE = FVMNW(I)%FVCELLS(K)%AUXVALUE
             WELLNAME = FVMNW(I)%FVWELLID(K)      ! RETRIEVE NAME
             IF(VIFLG.EQ.1)THEN                   ! THIS IS A GWM-2005 CALL
               GQDES = FVBASE(I)*FVRATIO(K)! ASSIGN FLOW RATE 
               WRITE(IO,9400) WELLNAME,GQdes
             ELSEIF(VIFLG.EQ.0)THEN               ! THIS IS A GWM-VI CALL
-              WRITE(IO,9402) WELLNAME,('%'//ADJUSTL(WELLNAME)//'%')
+              WRITE(IO,9404) WELLNAME,('%'//ADJUSTL(WELLNAME)//'%'),
+     1                       AUXVALUE
             ENDIF
  110      ENDDO
         ENDIF
@@ -708,11 +738,18 @@ C-----WRITE ITEM 4 FOR MNW-TYPE FLOW VARIABLES
      
       RETURN
  9300 FORMAT(I5,T70,'# ITMP')
- 9400 FORMAT(A20,D20.12,          T70,'# WELLNAME,Qdes,')
- 9402 FORMAT(A20,A     ,          T70,'# WELLNAME,Qdes,')
- 9410 FORMAT(A20,2D20.12,    T70,'# WELLNAME,Qdes,Cprime')
- 9420 FORMAT(A20,2D20.12,    T70,'# WELLNAME,Qdes,CapMult')
- 9430 FORMAT(A20,3D20.12,    T80,'# WELLNAME,Qdes,CapMult,Cprime')
+ 9400 FORMAT(A20,D20.12,          T70,'# WELLNAME,Qdes')
+ 9402 FORMAT(A20,D20.12,I10,      T70,'# WELLNAME,Qdes,Auxvalue')
+ 9404 FORMAT(A20,A     ,I10,      T70,'# WELLNAME,Qdes,Auxvalue')
+ 9410 FORMAT(A20,2D20.12,    T72,'# WELLNAME,Qdes,Cprime')
+ 9412 FORMAT(A20,2D20.12,F10.0,    T72,
+     1   '# WELLNAME,Qdes,Cprime,Auxvalue')
+ 9420 FORMAT(A20,2D20.12,    T72,'# WELLNAME,Qdes,CapMult')
+ 9422 FORMAT(A20,2D20.12,F10.0,    T72,
+     1   '# WELLNAME,Qdes,CapMult,Auxvalue')
+ 9430 FORMAT(A20,3D20.12,    T82,'# WELLNAME,Qdes,CapMult,Cprime')
+ 9432 FORMAT(A20,3D20.12,F10.0,    T82,
+     1   '# WELLNAME,Qdes,CapMult,Cprime,Auxvalue')
  9450 FORMAT(D20.12,2X,I5,2D20.12,T70,'# Hlim,QCUT,Qfrcmn,Qfrcmx')
  9460 FORMAT(D20.12,2X,I5,        T70,'# Hlim,QCUT')
       END SUBROUTINE WRITE_ITEM4

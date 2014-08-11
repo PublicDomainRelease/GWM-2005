@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -835,7 +835,7 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
       Head Gradient          gd-4          2.8027E+00 > 2.8000E+00   2.7476E-03
       Head Gradient          gd-5          2.8174E+00 > 2.8000E+00   1.7366E-02
       Head Gradient          gd-6          2.8201E+00 > 2.8000E+00   2.0075E-02
-      Summation              demand        5.0000E+04 > 5.0000E+04   0.0000E+00
+      Summation              demand        5.0000E+04 > 5.0000E+04  -7.2760E-12
       Summation              wellson       3.0000E+00 < 3.0000E+00   0.0000E+00
 
   Difference is computed by subtracting right hand side of the constraint 

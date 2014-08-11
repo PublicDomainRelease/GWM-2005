@@ -47,7 +47,11 @@ algorithm, which is also incorporated into the RMS Package.
 
 HISTORY
 
-Version 1.5.0; 2012/09 - Added capability to use MNW-type wells as decision 
+Version 1.5.1; 2014/08 - Added files GWM_subs.f90, mf2005_utls.f90 and 
+gwm2005_stop.f90 which contain modules and subroutines that complete the 
+coordination of GWM-2005 and GWM-VI.
+
+Version 1.5.0; 2013/09 - Added capability to use MNW-type wells as decision 
 variables (Ahlfeld and Barlow, 2013). Head constraints and state variables also
 can be specified for MNW-type wells. Added version 2.0 of MODFLOW-LGR. Minor output 
 and code improvements.

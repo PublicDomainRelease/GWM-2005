@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -132,12 +132,12 @@ Flows at Managed Wells for Stress Period    1
 
  Well no.  Layer   Row   Col   Stress Rate
  ----------------------------------------------------
-        1      1     8    14   -2955.080484353769    
-        2      2     8    14   -2955.080484353769    
+        1      1     8    14   -2955.080484354203    
+        2      2     8    14   -2955.080484354203    
         3      1    17     5    0.000000000000000    
         4      2    17     5    0.000000000000000    
  ----------------------------------------------------
-                      Total:   -5910.160968707538    
+                      Total:   -5910.160968708406    
  
  SOLVING FOR HEAD 
 1
@@ -353,7 +353,7 @@ Flows at Managed Wells for Stress Period    1
 
            TOTAL OUT =       15918.8362             TOTAL OUT =       15918.8362
 
-            IN - OUT =       2.0107E-08              IN - OUT =       2.0107E-08
+            IN - OUT =       2.0209E-08              IN - OUT =       2.0209E-08
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 
@@ -373,9 +373,9 @@ Flows at Managed Wells for Stress Period    1
   FLUX ACROSS PARENT-CHILD INTERFACE AT TIME STEP  1 IN STRESS PERIOD    1
   ------------------------------------------------------------------------
  G-N FLUX        PARENT        CHILD         DIFFERENCE      % DIFFERENCE
-  RATE IN:      8.6388E+03    8.6388E+03    -7.9093E-07        0.0000
- RATE OUT:      1.0009E+04    1.0009E+04    -7.9806E-07        0.0000
+  RATE IN:      8.6388E+03    8.6388E+03    -7.9082E-07        0.0000
+ RATE OUT:      1.0009E+04    1.0009E+04    -7.9785E-07        0.0000
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2013/09/18  8:22:20
- Elapsed run time: 15.659 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 13:01:27
+ Elapsed run time: 16.532 Seconds
 

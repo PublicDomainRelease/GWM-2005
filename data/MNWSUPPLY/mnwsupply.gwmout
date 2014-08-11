@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -12,7 +12,7 @@
  #MNW-SUPPLY Sample Problem, GWM file                                                                                                                                                                    
  #January 2012                                                                                                                                                                                           
 
- OPENING DECISION-VARIABLE FILE ON UNIT   12:
+ OPENING DECISION-VARIABLE FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.decvar                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, DECVAR file
  #January 2012
@@ -74,7 +74,7 @@
  CLOSING DECISION-VARIABLE FILE
 
 
- OPENING STATE VARIABLE FILE ON UNIT   12:
+ OPENING STATE VARIABLE FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.stavar                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, STAVAR file
  #January 2012
@@ -100,7 +100,7 @@
  CLOSING STATE VARIABLE FILE
 
 
- OPENING OBJECTIVE-FUNCTION FILE ON UNIT   12:
+ OPENING OBJECTIVE-FUNCTION FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.objfnc                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, OBJFNC file
  #January 2012
@@ -122,7 +122,7 @@
  CLOSING OBJECTIVE-FUNCTION FILE
 
 
- OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   12:
+ OPENING DECISION-VARIABLE CONSTRAINTS FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.varcon                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, VARCON file
  #January 2012
@@ -141,7 +141,7 @@
  CLOSING DECISION-VARIABLE CONSTRAINTS FILE
 
 
- OPENING SUMMATION CONSTRAINTS FILE ON UNIT   12:
+ OPENING SUMMATION CONSTRAINTS FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.sumcon                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, SUMCON file
  #January 2012
@@ -160,7 +160,7 @@
  CLOSING SUMMATION CONSTRAINTS FILE
 
 
- OPENING HEAD CONSTRAINTS FILE ON UNIT   12:
+ OPENING HEAD CONSTRAINTS FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.hedcon                                                                                                                                                                      
  #MNW-SUPPLY Sample Problem, HEDCON file
  #January 2012					
@@ -214,7 +214,7 @@
  CLOSING HEAD CONSTRAINTS FILE
 
 
- OPENING SOLUTION FILE ON UNIT   12:
+ OPENING SOLUTION FILE ON UNIT   11:
  ..\data\MNWSUPPLY\mnwsupply.soln                                                                                                                                                                        
  #MNW-SUPPLY Sample Problem, SOLN file
  #January 2012
@@ -502,10 +502,10 @@
     Objective Value  2.722618E+08
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  3.073732E-08
+      Value at this iteration        =  3.073708E-08
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  8.031368E-07
+      For Flow Variable Max Change   =  8.031367E-07
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
 

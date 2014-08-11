@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -451,7 +451,7 @@
       Value at this iteration        =  1.552010E-08
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
-      For Flow Variable Max Change   =  4.864510E-08
+      For Flow Variable Max Change   =  4.864511E-08
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
 

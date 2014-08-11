@@ -1,10 +1,12 @@
       MODULE GWM1STA3
-C     VERSION: 4APR2012
+C     VERSION: 27AUG2013
+      USE GWM_SUBS, ONLY: FUZZY_EQUALS, IGETUNIT
       USE GWM_STOP, ONLY:   GSTOP
+      USE MF2005_UTLS, ONLY: U2DINT, URDCOM, URWORD
       IMPLICIT NONE
       PRIVATE
       PUBLIC::STANUM,SVNAME,SVBASE,SVILOC,SVJLOC,
-     &        SVKLOC,SVSP,STASTATE,STASTATE0,STATERES,STARHS,
+     &        SVKLOC,SVSP,FLOWTYPE,STASTATE,STASTATE0,STATERES,STARHS,
      &        NHVAR,NRVAR,NSVAR,NDVAR,GWMSTADAT
       PUBLIC::GWM1STA3AR,GWM1STA3OS,GWM1STA3FP,GWM1STA3FPR,GWM1STA3OT
 C
@@ -31,7 +33,7 @@ C
       TYPE MDCEL_IJK
         INTEGER(I4B),POINTER,DIMENSION(:,:)::MDCELLOC_TARGET
       END TYPE
-      TYPE GWMSTATYPE
+      TYPE, PUBLIC :: GWMSTATYPE
         INTEGER(I4B),POINTER,DIMENSION(:,:,:,:)::SVZONE_TARGET
         TYPE(MDCEL_IJK),POINTER,DIMENSION(:)::MDCELVAR
       END TYPE
@@ -85,24 +87,11 @@ C*************************************************************************
 C     VERSION: 29DEC2011
 C     PURPOSE: READ INPUT FROM THE STATE VARIABLE FILE (STAVAR)
 C---------------------------------------------------------------------------
-      USE GWM1BAS3, ONLY : GWM1BAS3PS,ZERO,CUTCOM,IGETUNIT
+      USE GWM1BAS3, ONLY : GWM1BAS3PS,ZERO,CUTCOM
       USE GLOBAL,   ONLY : NCOL,NROW,NLAY
       USE GWM1DCV3, ONLY : NFVAR,FVNCELL,FVMNW,GRDLOCDCV
       INTEGER(I4B),INTENT(IN)::IOUT,NPER,NGRIDS
       CHARACTER(LEN=200),INTENT(IN),DIMENSION(NGRIDS)::FNAMEN
-      INTERFACE 
-        SUBROUTINE URDCOM(IN,IOUT,LINE)
-        CHARACTER*(*) LINE
-        END
-C
-        SUBROUTINE URWORD(LINE,ICOL,ISTART,ISTOP,NCODE,N,R,IOUT,IN)
-        CHARACTER*(*) LINE
-        CHARACTER*20 STRING
-        CHARACTER*30 RW
-        CHARACTER*1 TAB
-        END
-
-      END INTERFACE
 C-----LOCAL VARIABLES  
       CHARACTER(LEN=10),SAVE,ALLOCATABLE::SVNM(:)
       INTEGER(I4B),SAVE,ALLOCATABLE::NG(:),NLMX(:)
@@ -889,6 +878,7 @@ C-----------------------------------------------------------------------
       USE GWFMNW2MODULE,ONLY: MNW2
       USE GWFBASMODULE, ONLY: DELT
       USE GLOBAL,       ONLY: NPER,NSTP ! Only accessed for calls from GWM-VI
+      ! use gwm1bas3, only: gwmout  ! add for debugging
       INTEGER(I4B),INTENT(IN)::IGRID,KPER,IPERT,KSTP,ITIME
       INTEGER(I4B),INTENT(IN)::STRON,SFRON,BCFON,LPFON,HUFON
       REAL(DP),INTENT(IN)::HDRY
@@ -923,7 +913,7 @@ C-----STORAGE CHANGE EVALUATED AT END OF EACH TIME STEP
 C
 C-----DRAIN STATE VARIABLES MAY BE EVALUATED AS FLOWS OR VOLUMES
       IF(NDVAR.GT.0)CALL GWM1STA3OSD             ! STORE DRAIN VALUES
-
+!
       ELSEIF(NDEP.GT.0 .AND. PRESENT(DEPVALS))THEN ! CALL IS FROM GWM-VI
         J = IC1                                  ! POINTER TO NEXT VALUE IN DEPVAL
         DO I=1,NHVAR+NRVAR+NSVAR                 ! LOAD HEAD, STREAM AND STORAGE
@@ -942,7 +932,13 @@ C-----DRAIN STATE VARIABLES MAY BE EVALUATED AS FLOWS OR VOLUMES
           STASTATE(I) = STATOT                   ! MOVE INTO GWM ARRAY
         ENDDO
       ENDIF
-
+!     add for debugging
+!      if(present(depvals) .or. (kper==nper .and. kstp==nstp(kper)))then
+!        write(gwmout,7770)
+!        write(gwmout,7771)(i,stastate(i),i=1,stanum)
+! 7770   format('in GWM1STA3OS, stastate contains:')
+! 7771   format(i3,2x,g25.16)
+!      endif
       RETURN
 C
 	CONTAINS
@@ -960,7 +956,7 @@ C+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++
               ELSE
                 STATE1 = HNEW(SVJLOC(I),SVILOC(I),SVKLOC(I))
               ENDIF
-              IF(STATE1.EQ.HDRY)DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
+              IF(FUZZY_EQUALS(STATE1,HDRY,EPS))DEWATER(IPERT)=.TRUE. ! CELL IS DEWATERED
               STASTATE(I) = STATE1
             ENDIF
           ENDIF

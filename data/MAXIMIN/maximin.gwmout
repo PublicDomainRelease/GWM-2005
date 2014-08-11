@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.0 081513,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
 
 
 
@@ -182,7 +182,7 @@
  IRM EQUALS 3: RESPONSE MATRIX WILL BE CALCULATED BY GWM
  AND PRINTED TO FILE 
 
- OPENING RESPONSE-MATRIX FILE FOR PRINTING ON UNIT    8:
+ OPENING RESPONSE-MATRIX FILE FOR PRINTING ON UNIT  981:
  maximin.resp                                                                                                                                                                                            
 
  MAXIMUM NUMBER OF LP ITERATIONS:               1000

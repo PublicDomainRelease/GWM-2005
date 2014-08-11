@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.0 081513,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -316,7 +316,7 @@ Flows at Managed Wells for Stress Period    1
 
            TOTAL OUT =    25475842.4018             TOTAL OUT =       25475.8424
 
-            IN - OUT =      -1.2630E-03              IN - OUT =      -1.2630E-06
+            IN - OUT =      -1.2627E-03              IN - OUT =      -1.2627E-06
 
  PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
 

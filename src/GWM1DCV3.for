@@ -11,14 +11,17 @@
 !    END MODULE GWM1DCV3
 
       MODULE GWM1DCV3
-C     VERSION: 4APR2012
+C     VERSION: 27AUG2013
+      USE GWM_SUBS, ONLY: IGETUNIT
       USE GWM_STOP, ONLY:   GSTOP
+      USE MF2005_UTLS, ONLY: URDCOM, URWORD
+
       IMPLICIT NONE
       PRIVATE  
       PUBLIC::NFVAR,FVNAME,FVMIN,FVMAX,FVBASE,FVINI,FVRATIO,FVILOC,EVSP,
      &        FVJLOC,FVKLOC,FVNCELL,FVON,FVDIR,FVSP,EVNAME,EVMIN,EVMAX,
      &        EVBASE,EVDIR,NEVAR,BVNAME,BVBASE,BVNLIST,BVLIST,NBVAR,
-     &        GRDLOCDCV,FVCURRENT,FVMNW,MNW2HERE
+     &        GRDLOCDCV,FVCURRENT,FVWELL,FVMNW,MNW2HERE
       PUBLIC::GWM1DCV3AR,GWM1DCV3FM,GWF2DCV3FM,GWF2DCV3BD,
      &        GWF2DCV3RP,GWM1DCV3FVCPNT
 C
@@ -71,6 +74,7 @@ C       DATA STRUCTURE MIMICS GWFMNW2MODULE
       TYPE MNWWELL
         DOUBLE PRECISION, POINTER,DIMENSION(:,:)::FVMNWINT
         DOUBLE PRECISION, POINTER,DIMENSION(:,:)::FVMNWNOD
+        INTEGER                                 ::AUXVALUE
       END TYPE
       TYPE FVWELL
         TYPE(MNWWELL),    POINTER,DIMENSION(:)  ::FVCELLS
@@ -78,7 +82,8 @@ C       DATA STRUCTURE MIMICS GWFMNW2MODULE
         CHARACTER(LEN=20),POINTER,DIMENSION(:)  ::FVWELLID
         INTEGER          ,POINTER,DIMENSION(:)  ::FVWTOMNW
       END TYPE
-      TYPE(FVWELL),ALLOCATABLE,SAVE  ::FVMNW(:) 
+      TYPE(FVWELL),ALLOCATABLE,SAVE  ::FVMNW(:)
+C
 C     Flow Variables may be WEL or MNW-type (this is indicated by the sign of 
 C       FVNCELL).   For either type the flow variable data structure above is used.  
 C       If MNW-type, then there may be multiple MNW wells in a single Flow Variable.  
@@ -93,18 +98,25 @@ C		FVMNW(I)%FVWTOMNW(NWELLS)
 C		FVMNW(I)%FVWELLID(NWELLS)
 C		FVMNW(I)%FVMNW2(31,NWELLS)
 C			Where NWELLS is the number of MNW wells associated with the ith flow 
-C           decision variable, FCWTOMNW maps from the flow variable and well to the
+C           decision variable, FVWTOMNW maps from the flow variable and well to the
 C           index number of the MNW well, FVWELLID holds the name of each well and FVMNW2 
 C           holds data about the well. The value of NWELLS is stored in FVNCELL(I).
+
 C	And a derived-type variable, FVCELLS, is defined for each well.
 C		FVMNW(I)%FVCELLS(NWELLS)
 C
-C		For the Kth well in the Ith flow variable, two storage arrays are defined:
-C           FVMNW(I)%FVCELLS(K)%FVMNWINT(NNODES)
+C		For the Kth well in the Ith flow variable, two arrays and a scalar are defined:
+C         FVMNW(I)%FVCELLS(K)%FVMNWINT(NNODES)
 C	      FVMNW(I)%FVCELLS(K)%FVMNWNOD(NNODES)
+C         FVMNW(I)%FVCELLS(K)%AUXVALUE 
 C				Where NNODES is the number of nodes associate with the well and 
 C               FVMNWINT and FVMNWNOD hold data about the node. The value of NNODES 
-C               for well K is stored in FVMNW2(2,K)
+C               for well K is stored in FVMNW2(2,K). Integer variable AUXVALUE holds a 
+C               unique integer associated with the MNW2 well and is used by GWM-VI to 
+C               uniquely identify MNW wells in binary data written by MNW2 
+C               to enable MMProc to compare Qnet to Qdes.
+      ! KMNWAUXVAL is a counter for AUXVALUE unique identifiers
+      INTEGER :: KMNWAUXVAL = 0 
 C
 C-----VARIABLES FOR EXTERNAL DECISION VARIABLES
       INTEGER(I4B),SAVE::NEVAR
@@ -155,7 +167,7 @@ C*************************************************************************
 C     VERSION: 17MAY2011
 C     PURPOSE: READ INPUT FROM THE DECISION-VARIABLE FILE 
 C---------------------------------------------------------------------------
-      USE GWM1BAS3, ONLY: ONE,ZERO,GWM1BAS3PS,CUTCOM,GWMWFILE,IGETUNIT
+      USE GWM1BAS3, ONLY: ONE,ZERO,GWM1BAS3PS,CUTCOM,GWMWFILE
       USE GLOBAL,   ONLY: NCOL,NROW,NLAY
       INTEGER(I4B),INTENT(IN)::IOUT,NPER,NGRIDS
       INTEGER(I4B),INTENT(OUT)::NFVAR,NEVAR,NBVAR,NDV
@@ -210,9 +222,9 @@ C---------OPEN FILE
           LOCAT=NUNOPN(G)
           WRITE(IOUT,1000,ERR=990)LOCAT,FNAMEN(G)
           FLNM=FNAMEN(G)
-          FILACT='READ'
-          ACCARG='SEQUENTIAL'
-          FMTARG='FORMATTED'
+          FILACT='READ                '
+          ACCARG='SEQUENTIAL          '
+          FMTARG='FORMATTED           '
           OPEN(UNIT=LOCAT,FILE=FLNM,ACTION=FILACT,ACCESS=ACCARG,
      &         FORM=FMTARG,ERR=999)
 C
@@ -976,6 +988,7 @@ C-------NOW THAT NUMBER OF NODES IS KNOWN FOR THIS WELL, ALLOCATE SPACE
         BYTES = BYTES + 8*11*NNA + 8*19*NNA
         FVMNW(JFV)%FVCELLS(MNWID)%FVMNWINT = ZERO
         FVMNW(JFV)%FVCELLS(MNWID)%FVMNWNOD = ZERO
+        FVMNW(JFV)%FVCELLS(MNWID)%AUXVALUE = GET_NEXT_MNW2_AUXVALUE() ! GWM-VI
 C-------ITEM 3D (SIMILAR TO ITEM 2C IN MNW2)
         CALL READSET2C ! These are well-wide parameters; they are stored node-wise
 C-------LOOP OVER NODES IN THIS MNW WELLS
@@ -2163,5 +2176,12 @@ c
 c
       return
       end subroutine gwf2dcv3rp
-
+C***********************************************************************      
+      INTEGER FUNCTION GET_NEXT_MNW2_AUXVALUE()
+        IMPLICIT NONE
+        KMNWAUXVAL = KMNWAUXVAL + 1
+        GET_NEXT_MNW2_AUXVALUE = KMNWAUXVAL
+        RETURN
+      END FUNCTION GET_NEXT_MNW2_AUXVALUE
+C***********************************************************************
       END MODULE GWM1DCV3
