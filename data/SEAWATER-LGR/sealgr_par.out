@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -33,21 +33,21 @@
 
     1      W3         WITHDRAWAL     1   17   20    0.5000
                                      2   17   20    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
     2      W4         WITHDRAWAL     1    3   19    0.5000
                                      2    3   19    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_chd.decvar                                                                                  
 
     3      W1         WITHDRAWAL     1    8   14    0.5000
                                      2    8   14    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
     4      W2         WITHDRAWAL     1   17    5    0.5000
                                      2   17    5    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
 
  EXTERNAL VARIABLES:
@@ -58,7 +58,7 @@
   EXTERNAL VARIABLES READ FROM FILE: ..\data\SEAWATER-LGR\sealgr_par.decvar                                                                                  
 
     1        E           Import  
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
 
  BINARY VARIABLES:
@@ -640,11 +640,11 @@ Binary Variables
     Objective Value  3.212588E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-03
-      Value at this iteration        =  2.831179E-05
+      Value at this iteration        =  2.831180E-05
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E+00
       For Flow Variable Max Change   =  1.420055E-03
-      For Ext Variables Max Change   =  2.831179E-05
+      For Ext Variables Max Change   =  2.831180E-05
       For Binary Variable Max Change =  0.000000E+00
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
@@ -827,15 +827,15 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
       Head Difference        hd-05         4.1129E-02 > 4.0000E-02   1.1294E-03
       Head Difference        hd-06         4.1179E-02 > 4.0000E-02   1.1790E-03
       Head Difference        hd-07         4.1397E-02 > 4.0000E-02   1.3970E-03
-      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00  -4.1109E-09
+      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00  -4.1108E-09
       Head Gradient          gd-2          2.8020E+00 > 2.8000E+00   1.9546E-03
-      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00  -3.4889E-09
+      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00  -3.4888E-09
       Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   1.9983E-03
-      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00   8.7182E-09
+      Head Gradient          gd-3          2.8000E+00 > 2.8000E+00   8.7183E-09
       Head Gradient          gd-4          2.8027E+00 > 2.8000E+00   2.7476E-03
       Head Gradient          gd-5          2.8174E+00 > 2.8000E+00   1.7366E-02
       Head Gradient          gd-6          2.8201E+00 > 2.8000E+00   2.0075E-02
-      Summation              demand        5.0000E+04 > 5.0000E+04  -7.2760E-12
+      Summation              demand        5.0000E+04 > 5.0000E+04   0.0000E+00
       Summation              wellson       3.0000E+00 < 3.0000E+00   0.0000E+00
 
   Difference is computed by subtracting right hand side of the constraint 

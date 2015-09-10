@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -36,21 +36,21 @@
 
     1      W3         WITHDRAWAL     1   17   20    0.5000
                                      2   17   20    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
     2      W4         WITHDRAWAL     1    3   19    0.5000
                                      2    3   19    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
   FLOW-RATE VARIABLES READ FROM FILE: ..\data\SEAWATER-LGRSTA\sealgrsta_chd.decvar                                                                            
 
     3      W1         WITHDRAWAL     1    8   14    0.5000
                                      2    8   14    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
     4      W2         WITHDRAWAL     1   17    5    0.5000
                                      2   17    5    0.5000
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
 
  EXTERNAL VARIABLES:
@@ -61,7 +61,7 @@
   EXTERNAL VARIABLES READ FROM FILE: ..\data\SEAWATER-LGRSTA\sealgrsta_par.decvar                                                                            
 
     1        E           Import  
-   AVAILABLE IN STRESS PERIODS: 1                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 1
 
 
  BINARY VARIABLES:
@@ -1149,9 +1149,9 @@ E           0.0000E+00    1.0000E+00    0.0000E+00       demand      E
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00   5.3582E-09
+      Head Gradient          gd-1          2.8000E+00 > 2.8000E+00   5.3583E-09
       Head Gradient          gd-2          2.8020E+00 > 2.8000E+00   1.9546E-03
-      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00   5.0249E-09
+      Head Gradient          gd-7          2.8000E+00 > 2.8000E+00   5.0250E-09
       Head Gradient          gd-8          2.8020E+00 > 2.8000E+00   1.9983E-03
       Head Gradient          gd-3          2.8000E+00 > 2.8000E+00   4.7460E-09
       Head Gradient          gd-4          2.8027E+00 > 2.8000E+00   2.7476E-03

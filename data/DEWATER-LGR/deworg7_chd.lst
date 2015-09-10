@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -568,14 +568,14 @@ Flows at Managed Wells for Stress Period    1
  Well no.  Layer   Row   Col   Stress Rate
  ----------------------------------------------------
         1      1    18    25   -1053.197805184343    
-        2      1    18    39   -99.76418141182957    
+        2      1    18    39   -99.76418141182778    
         3      1    25    32    0.000000000000000    
-        4      1    32    25   -769.7596930673728    
+        4      1    32    25   -769.7596930673757    
         5      1    32    39    0.000000000000000    
         6      1    46    46    0.000000000000000    
-        7      1    60    39   -929.6992770707014    
+        7      1    60    39   -929.6992770706987    
  ----------------------------------------------------
-                      Total:   -2852.420956734247    
+                      Total:   -2852.420956734245    
  
  SOLVING FOR HEAD 
 
@@ -1182,7 +1182,7 @@ Flows at Managed Wells for Stress Period    1
 
             IN - OUT =      -5.0458E-03              IN - OUT =      -5.0458E-06
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1203,6 +1203,6 @@ Flows at Managed Wells for Stress Period    1
   RATE IN:      2.8524E+03    2.8524E+03     5.9886E-07        0.0000
  RATE OUT:      0.0000E+00    0.0000E+00     0.0000E+00        0.0000
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 12:49:31
- Elapsed run time:  3.337 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:01:43
+ Elapsed run time:  2.717 Seconds
 

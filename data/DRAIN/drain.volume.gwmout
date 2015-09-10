@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -28,25 +28,25 @@
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
     1      Q1         WITHDRAWAL     1   12   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 1-12                                                                                                                    
+   AVAILABLE IN STRESS PERIODS: 1-12
 
     2      Q2win      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 1:5:9                                                                                                                   
+   AVAILABLE IN STRESS PERIODS: 1:5:9
 
     3      Q2spr      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     4      Q2sum      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 3:7:11
 
     5      Q2fal      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 4:8:12
 
     6      Q3spr      WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     7      Q3sum      WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 3:7:11
 
 
       616 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
@@ -352,7 +352,7 @@
       Summation              SPR-MAX    Satisfied     3.5000E+04
       Summation              SPR-MIN    Satisfied     0.0000E+00
       Summation              SUM-MAX    Satisfied     2.0000E+04
-      Summation              SUM-MIN    Satisfied     7.2760E-12
+      Summation              SUM-MIN    Satisfied     0.0000E+00
       Summation              FAL-MAX    Satisfied     5.0000E+04
       Summation              FAL-MIN    Satisfied     0.0000E+00
       Summation              DR1-MIN    Satisfied     3.4103E+07
@@ -390,7 +390,7 @@
       Value at this iteration        =  3.657255E-07
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  3.856921E-07
+      For Flow Variable Max Change   =  3.856913E-07
   SLP Algorithm: End Iteration    2
   SLP Iterations have converged
 
@@ -471,12 +471,12 @@ Summation              DR3-MIN  Binding     -2.9605E-01
       Summation              SPR-MAX       4.5000E+04 < 8.0000E+04  -3.5000E+04
       Summation              SPR-MIN       4.5000E+04 > 4.5000E+04   0.0000E+00
       Summation              SUM-MAX       6.0000E+04 < 8.0000E+04  -2.0000E+04
-      Summation              SUM-MIN       6.0000E+04 > 6.0000E+04   0.0000E+00
+      Summation              SUM-MIN       6.0000E+04 > 6.0000E+04  -7.2760E-12
       Summation              FAL-MAX       3.0000E+04 < 8.0000E+04  -5.0000E+04
       Summation              FAL-MIN       3.0000E+04 > 3.0000E+04   0.0000E+00
       Summation              DR1-MIN       6.1403E+07 > 2.7300E+07   3.4103E+07
       Summation              DR2-MIN       2.1712E+07 > 2.0930E+07   7.8207E+05
-      Summation              DR3-MIN       2.1431E+07 > 2.1430E+07   7.8231E-08
+      Summation              DR3-MIN       2.1431E+07 > 2.1430E+07   6.3330E-08
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

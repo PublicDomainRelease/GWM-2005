@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -233,10 +233,10 @@ Flows at Managed Wells for Stress Period    1
         1      1     7    14   -1242.483211782617    
         2      1     7    16    0.000000000000000    
         3      1     8    15    0.000000000000000    
-        4      1     9    14   -694.1515041071852    
+        4      1     9    14   -694.1515041071860    
         5      1     9    16    0.000000000000000    
         6      1    11    17    0.000000000000000    
-        7      1    13    16   -943.2707327926457    
+        7      1    13    16   -943.2707327926454    
  ----------------------------------------------------
                       Total:   -2879.905448682448    
  
@@ -403,6 +403,6 @@ Flows at Managed Wells for Stress Period    1
          TOTAL TIME 8.64000E+07 1.44000E+06  24000.      1000.0      2.7379    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 12:50:30
- Elapsed run time:  0.288 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:02:45
+ Elapsed run time:  0.203 Seconds
 

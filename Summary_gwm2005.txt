@@ -46,6 +46,9 @@ algorithm, which is also incorporated into the RMS Package.
 
 
 HISTORY
+Please refer to file release_gwm-2005.txt for complete description of changes.
+
+Version 1.5.2; 2015/09 - Minor changes to maintain coordination with GWM-VI. 
 
 Version 1.5.1; 2014/08 - Added files GWM_subs.f90, mf2005_utls.f90 and 
 gwm2005_stop.f90 which contain modules and subroutines that complete the 

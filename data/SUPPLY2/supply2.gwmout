@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -28,25 +28,25 @@
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
     1      Q1         WITHDRAWAL     1   12   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 1-12                                                                                                                    
+   AVAILABLE IN STRESS PERIODS: 1-12
 
     2      Q2a        WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 1:5:9                                                                                                                   
+   AVAILABLE IN STRESS PERIODS: 1:5:9
 
     3      Q2b        WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     4      Q2c        WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 3:7:11
 
     5      Q2d        WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 4:8:12
 
     6      Q4a        WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     7      Q4b        WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 4:8:12
 
 
  EXTERNAL VARIABLES:
@@ -55,16 +55,16 @@
  ------------------------------
 
     1        Im9         Import  
-   AVAILABLE IN STRESS PERIODS: 9                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 9
 
     2        Im10        Import  
-   AVAILABLE IN STRESS PERIODS: 10                                                                                                                      
+   AVAILABLE IN STRESS PERIODS: 10
 
     3        Im11        Import  
-   AVAILABLE IN STRESS PERIODS: 11                                                                                                                      
+   AVAILABLE IN STRESS PERIODS: 11
 
     4        Im12        Import  
-   AVAILABLE IN STRESS PERIODS: 12                                                                                                                      
+   AVAILABLE IN STRESS PERIODS: 12
 
 
       790 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
@@ -238,18 +238,18 @@
                                           RIGHT-HAND   STRESS
  NUMBER  NAME      SEGMENT  REACH  TYPE      SIDE      PERIOD
  ---------------------------------------------------------------
-     1    S01.9       1        14   <     1.5000E+04       9
-     2    S01.10      1        14   <     1.5000E+04      10
-     3    S01.11      1        14   <     1.5000E+04      11
-     4    S01.12      1        14   <     1.5000E+04      12
-     5    S02.11      1        21   <     2.0000E+04      11
-     6    S02.12      1        21   <     2.0000E+04      12
-     7    S03.9       2         8   <     1.5000E+04       9
-     8    S03.10      2         8   <     1.5000E+04      10
-     9    S03.11      2         8   <     1.5000E+04      11
-    10    S03.12      2         8   <     1.5000E+04      12
-    11    S04.11      3         5   <     3.0000E+04      11
-    12    S04.12      3         5   <     3.0000E+04      12
+     1    S01.9          1     14   <     1.5000E+04       9
+     2    S01.10         1     14   <     1.5000E+04      10
+     3    S01.11         1     14   <     1.5000E+04      11
+     4    S01.12         1     14   <     1.5000E+04      12
+     5    S02.11         1     21   <     2.0000E+04      11
+     6    S02.12         1     21   <     2.0000E+04      12
+     7    S03.9          2      8   <     1.5000E+04       9
+     8    S03.10         2      8   <     1.5000E+04      10
+     9    S03.11         2      8   <     1.5000E+04      11
+    10    S03.12         2      8   <     1.5000E+04      12
+    11    S04.11         3      5   <     3.0000E+04      11
+    12    S04.12         3      5   <     3.0000E+04      12
 
       648 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR STREAMFLOW CONSTRAINTS
 
@@ -441,14 +441,14 @@
       Status of Simulation-Based Constraints 
       Constraint Type        Name       Status   Distance To RHS
       ---------------        ----       ------   ---------------
-      Stream Depletion       S01.9      Satisfied     2.6331E-06
+      Stream Depletion       S01.9      Satisfied     2.6330E-06
       Stream Depletion       S01.10     Satisfied     5.3009E+03
       Stream Depletion       S01.11     Satisfied     5.8092E+03
       Stream Depletion       S01.12     Satisfied     5.8643E+03
-      Stream Depletion       S02.11     Satisfied     4.5039E-06
-      Stream Depletion       S02.12     Satisfied     7.1683E-06
+      Stream Depletion       S02.11     Satisfied     4.5029E-06
+      Stream Depletion       S02.12     Satisfied     7.1686E-06
       Stream Depletion       S03.9      Satisfied     1.4046E+04
-      Stream Depletion       S03.10     Satisfied     3.1135E-06
+      Stream Depletion       S03.10     Satisfied     3.1137E-06
       Stream Depletion       S03.11     Satisfied     1.4217E+04
       Stream Depletion       S03.12     Satisfied     1.2093E+04
       Stream Depletion       S04.11     Satisfied     6.4391E+03
@@ -498,11 +498,11 @@
     Objective Value  5.302832E+04
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.683135E-10
+      Value at this iteration        =  1.683088E-10
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  3.135387E-10
-      For Ext Variables Max Change   =  9.069179E-10
+      For Flow Variable Max Change   =  3.135507E-10
+      For Ext Variables Max Change   =  9.069840E-10
   SLP Algorithm: End Iteration    3
   SLP Iterations have converged
 
@@ -573,18 +573,18 @@ Maximum Flow Rate      Q2a      Binding    Not Available
                                             By Flow        in
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
-      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05  -4.6566E-10
+      Stream Depletion       S01.9         5.3213E+05 > 5.3213E+05  -9.3132E-10
       Stream Depletion       S01.10        5.4663E+05 > 5.4133E+05   5.3009E+03
       Stream Depletion       S01.11        5.3517E+05 > 5.2936E+05   5.8092E+03
       Stream Depletion       S01.12        5.4082E+05 > 5.3496E+05   5.8643E+03
-      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -8.1491E-10
-      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05  -1.1642E-10
+      Stream Depletion       S02.11        7.5301E+05 > 7.5301E+05  -1.1642E-10
+      Stream Depletion       S02.12        7.6127E+05 > 7.6127E+05   1.1642E-10
       Stream Depletion       S03.9         2.7511E+05 > 2.6107E+05   1.4046E+04
-      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05   1.1642E-10
+      Stream Depletion       S03.10        2.6505E+05 > 2.6505E+05  -2.9104E-10
       Stream Depletion       S03.11        2.7404E+05 > 2.5982E+05   1.4217E+04
       Stream Depletion       S03.12        2.7441E+05 > 2.6232E+05   1.2093E+04
       Stream Depletion       S04.11        1.1327E+06 > 1.1263E+06   6.4391E+03
-      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06  -6.9849E-10
+      Stream Depletion       S04.12        1.1385E+06 > 1.1385E+06   0.0000E+00
       Summation              p01u          5.3484E+04 < 8.0000E+04  -2.6516E+04
       Summation              p01l          5.3484E+04 > 3.0000E+04   2.3484E+04
       Summation              p02u          8.0000E+04 < 8.0000E+04   0.0000E+00

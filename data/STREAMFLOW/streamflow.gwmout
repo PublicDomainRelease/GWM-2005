@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -28,25 +28,25 @@
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
     1      Q1         WITHDRAWAL     1   12   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 1-12                                                                                                                    
+   AVAILABLE IN STRESS PERIODS: 1-12
 
     2      Q2win      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 1:5:9                                                                                                                   
+   AVAILABLE IN STRESS PERIODS: 1:5:9
 
     3      Q2spr      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     4      Q2sum      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 3:7:11
 
     5      Q2fal      WITHDRAWAL     1   16   17    1.0000
-   AVAILABLE IN STRESS PERIODS: 4:8:12                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 4:8:12
 
     6      Q3spr      WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 2:6:10                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 2:6:10
 
     7      Q3sum      WITHDRAWAL     1   14   25    1.0000
-   AVAILABLE IN STRESS PERIODS: 3:7:11                                                                                                                  
+   AVAILABLE IN STRESS PERIODS: 3:7:11
 
 
       616 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES

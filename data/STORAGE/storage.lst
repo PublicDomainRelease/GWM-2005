@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -540,13 +540,13 @@ Flows at Managed Wells for Stress Period    2
         2      3     5    11   -64000.00000000000    
         3      2     6    12   -64000.00000000000    
         4      1    11     8    0.000000000000000    
-        5      2    11     8   -21195.09713761646    
+        5      2    11     8   -21195.09713771665    
         6      3    11     8   -64000.00000000000    
         7      1    11    12    0.000000000000000    
-        8      2    11    12   -3518.622964233366    
+        8      2    11    12   -3518.622964126253    
         9      3    11    12   -64000.00000000000    
  ----------------------------------------------------
-                      Total:   -344713.7201018499    
+                      Total:   -344713.7201018429    
  
  SOLVING FOR HEAD 
 
@@ -1001,14 +1001,14 @@ Flows at Managed Wells for Stress Period    2
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =   424226525.7564               STORAGE =      105053.5509
+             STORAGE =   424226525.7563               STORAGE =      105053.5509
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =  4968280800.0000              RECHARGE =     1360800.0000
        MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
-            TOTAL IN =  5392507325.7564              TOTAL IN =     1465853.5509
+            TOTAL IN =  5392507325.7563              TOTAL IN =     1465853.5509
 
           OUT:                                     OUT:
           ----                                     ----
@@ -1017,13 +1017,13 @@ Flows at Managed Wells for Stress Period    2
                WELLS =  1577448000.0000                 WELLS =      432000.0000
               DRAINS =   576522783.3103                DRAINS =      155125.1931
             RECHARGE =           0.0000              RECHARGE =           0.0000
-       MANAGED WELLS =  1258205078.3718         MANAGED WELLS =      344713.7201
+       MANAGED WELLS =  1258205078.3717         MANAGED WELLS =      344713.7201
 
            TOTAL OUT =  5392544507.1064             TOTAL OUT =     1465859.1190
 
             IN - OUT =      -37181.3501              IN - OUT =          -5.5682
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1065,13 +1065,13 @@ Flows at Managed Wells for Stress Period    3
         2      3     5    11   -64000.00000000000    
         3      2     6    12   -64000.00000000000    
         4      1    11     8    0.000000000000000    
-        5      2    11     8   -32878.71532094528    
+        5      2    11     8   -32878.71532094727    
         6      3    11     8   -64000.00000000000    
         7      1    11    12    0.000000000000000    
         8      2    11    12    0.000000000000000    
-        9      3    11    12   -55835.00478090454    
+        9      3    11    12   -55835.00478089563    
  ----------------------------------------------------
-                      Total:   -344713.7201018498    
+                      Total:   -344713.7201018429    
  
  SOLVING FOR HEAD 
 
@@ -1526,14 +1526,14 @@ Flows at Managed Wells for Stress Period    3
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =   761411586.5438               STORAGE =       82848.6435
+             STORAGE =   761411586.5435               STORAGE =       82848.6435
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE =  9935200800.0000              RECHARGE =     1360800.0000
        MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
-            TOTAL IN = 10696612386.5438              TOTAL IN =     1443648.6435
+            TOTAL IN = 10696612386.5435              TOTAL IN =     1443648.6435
 
           OUT:                                     OUT:
           ----                                     ----
@@ -1544,11 +1544,11 @@ Flows at Managed Wells for Stress Period    3
             RECHARGE =           0.0000              RECHARGE =           0.0000
        MANAGED WELLS =  2516410156.7435         MANAGED WELLS =      344713.7201
 
-           TOTAL OUT = 10696711967.5545             TOTAL OUT =     1443660.2463
+           TOTAL OUT = 10696711967.5544             TOTAL OUT =     1443660.2463
 
             IN - OUT =      -99581.0108              IN - OUT =         -11.6028
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1590,13 +1590,13 @@ Flows at Managed Wells for Stress Period    4
         2      3     5    11   -64000.00000000000    
         3      2     6    12   -64000.00000000000    
         4      1    11     8    0.000000000000000    
-        5      2    11     8   -31718.59696150196    
+        5      2    11     8   -31718.59696158145    
         6      3    11     8   -64000.00000000000    
         7      1    11    12    0.000000000000000    
         8      2    11    12    0.000000000000000    
-        9      3    11    12   -56995.12314034787    
+        9      3    11    12   -56995.12314026146    
  ----------------------------------------------------
-                      Total:   -344713.7201018499    
+                      Total:   -344713.7201018429    
  
  SOLVING FOR HEAD 
 
@@ -2051,29 +2051,29 @@ Flows at Managed Wells for Stress Period    4
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1030613958.9870               STORAGE =       67254.7696
+             STORAGE =  1030613958.9867               STORAGE =       67254.7696
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 14902120800.0000              RECHARGE =     1360800.0000
        MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
-            TOTAL IN = 15932734758.9870              TOTAL IN =     1428054.7696
+            TOTAL IN = 15932734758.9867              TOTAL IN =     1428054.7696
 
           OUT:                                     OUT:
           ----                                     ----
              STORAGE =      762390.3082               STORAGE =           0.0000
-       CONSTANT HEAD =  5755982946.5259         CONSTANT HEAD =      505162.2469
+       CONSTANT HEAD =  5755982946.5258         CONSTANT HEAD =      505162.2469
                WELLS =  4731048000.0000                 WELLS =      432000.0000
               DRAINS =  1670518118.7328                DRAINS =      146184.8940
             RECHARGE =           0.0000              RECHARGE =           0.0000
-       MANAGED WELLS =  3774615235.1153         MANAGED WELLS =      344713.7201
+       MANAGED WELLS =  3774615235.1152         MANAGED WELLS =      344713.7201
 
-           TOTAL OUT = 15932926690.6821             TOTAL OUT =     1428060.8610
+           TOTAL OUT = 15932926690.6819             TOTAL OUT =     1428060.8610
 
-            IN - OUT =     -191931.6951              IN - OUT =          -6.0914
+            IN - OUT =     -191931.6952              IN - OUT =          -6.0914
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -2114,14 +2114,14 @@ Flows at Managed Wells for Stress Period    5
         1      2     4     6   -64000.00000000000    
         2      3     5    11   -64000.00000000000    
         3      2     6    12   -64000.00000000000    
-        4      1    11     8   -24713.72010184982    
+        4      1    11     8   -24713.72010184291    
         5      2    11     8   -64000.00000000000    
         6      3    11     8   -64000.00000000000    
         7      1    11    12    0.000000000000000    
         8      2    11    12    0.000000000000000    
         9      3    11    12    0.000000000000000    
  ----------------------------------------------------
-                      Total:   -344713.7201018498    
+                      Total:   -344713.7201018429    
  
  SOLVING FOR HEAD 
 
@@ -2574,29 +2574,29 @@ Flows at Managed Wells for Stress Period    5
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1257541136.0111               STORAGE =       45899.7915
+             STORAGE =  1257541136.0106               STORAGE =       45899.7915
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 19869040800.0000              RECHARGE =     1360800.0000
        MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
-            TOTAL IN = 21126581936.0111              TOTAL IN =     1406699.7915
+            TOTAL IN = 21126581936.0106              TOTAL IN =     1406699.7915
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =    25892381.3793               STORAGE =           0.0000
-       CONSTANT HEAD =  7567387401.6319         CONSTANT HEAD =      489193.7660
+             STORAGE =    25892381.3792               STORAGE =           0.0000
+       CONSTANT HEAD =  7567387401.6318         CONSTANT HEAD =      489193.7660
                WELLS =  6307848000.0000                 WELLS =      432000.0000
               DRAINS =  2192894416.0022                DRAINS =      140823.2034
             RECHARGE =           0.0000              RECHARGE =           0.0000
-       MANAGED WELLS =  5032820313.4870         MANAGED WELLS =      344713.7201
+       MANAGED WELLS =  5032820313.4869         MANAGED WELLS =      344713.7201
 
-           TOTAL OUT = 21126842512.5004             TOTAL OUT =     1406730.6895
+           TOTAL OUT = 21126842512.5001             TOTAL OUT =     1406730.6895
 
-            IN - OUT =     -260576.4893              IN - OUT =         -30.8979
+            IN - OUT =     -260576.4895              IN - OUT =         -30.8979
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -2638,13 +2638,13 @@ Flows at Managed Wells for Stress Period    6
         2      3     5    11   -64000.00000000000    
         3      2     6    12   -64000.00000000000    
         4      1    11     8   -64000.00000000000    
-        5      2    11     8   -24713.72010184982    
+        5      2    11     8   -24713.72010184291    
         6      3    11     8   -64000.00000000000    
         7      1    11    12    0.000000000000000    
         8      2    11    12    0.000000000000000    
         9      3    11    12    0.000000000000000    
  ----------------------------------------------------
-                      Total:   -344713.7201018498    
+                      Total:   -344713.7201018429    
  
  SOLVING FOR HEAD 
 
@@ -3097,29 +3097,29 @@ Flows at Managed Wells for Stress Period    6
 
            IN:                                      IN:
            ---                                      ---
-             STORAGE =  1398884578.2575               STORAGE =       34175.8401
+             STORAGE =  1398884578.2571               STORAGE =       34175.8401
        CONSTANT HEAD =           0.0000         CONSTANT HEAD =           0.0000
                WELLS =           0.0000                 WELLS =           0.0000
               DRAINS =           0.0000                DRAINS =           0.0000
             RECHARGE = 24835960800.0000              RECHARGE =     1360800.0000
        MANAGED WELLS =           0.0000         MANAGED WELLS =           0.0000
 
-            TOTAL IN = 26234845378.2575              TOTAL IN =     1394975.8401
+            TOTAL IN = 26234845378.2570              TOTAL IN =     1394975.8401
 
           OUT:                                     OUT:
           ----                                     ----
-             STORAGE =    25956711.7595               STORAGE =           0.0000
-       CONSTANT HEAD =  9332679555.7753         CONSTANT HEAD =      480131.8437
+             STORAGE =    25956711.7594               STORAGE =           0.0000
+       CONSTANT HEAD =  9332679555.7752         CONSTANT HEAD =      480131.8437
                WELLS =  7884648000.0000                 WELLS =      432000.0000
               DRAINS =  2700904252.8078                DRAINS =      138142.5100
             RECHARGE =           0.0000              RECHARGE =           0.0000
-       MANAGED WELLS =  6291025391.8588         MANAGED WELLS =      344713.7201
+       MANAGED WELLS =  6291025391.8586         MANAGED WELLS =      344713.7201
 
-           TOTAL OUT = 26235213912.2013             TOTAL OUT =     1394988.0738
+           TOTAL OUT = 26235213912.2010             TOTAL OUT =     1394988.0738
 
-            IN - OUT =     -368533.9438              IN - OUT =         -12.2337
+            IN - OUT =     -368533.9440              IN - OUT =         -12.2337
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -3134,6 +3134,6 @@ Flows at Managed Wells for Stress Period    6
          TOTAL TIME 1.57689E+09 2.62814E+07 4.38024E+05  18251.      49.969    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 13:02:35
- Elapsed run time: 12.445 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:18:36
+ Elapsed run time: 10.418 Seconds
 

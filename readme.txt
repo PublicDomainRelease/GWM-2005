@@ -1,7 +1,7 @@
 README.TXT       
 
 
-                 GWM-2005 - Version: 1.5.1 08/12/2014
+                 GWM-2005 - Version: 1.5.2 09/11/2015
                  Built from MODFLOW-LGR Version 2.0
        Three-dimensional finite-difference groundwater flow model
           With Local Grid Refinement (LGR) Capability and the
@@ -13,10 +13,9 @@ purposes only and does not imply endorsement by the U.S. Government.
 
 This version of the GWM-2005 Process is packaged for personal computers 
 using one of the Microsoft Windows operating systems.  An executable file
-for personal computers is provided as well as the source code. The
-executable file was created using the Intel Visual Fortran 9.1 and Microsoft
-Visual Studio 2005 compilers.  The source code can be compiled to run on
-other computers.
+for Windows-based computers is provided as well as the source code. The
+executable file was created using the procedure described in the compiling
+section below.  
 
 IMPORTANT: Users should review the file Summary_gwm2005.txt for a 
 description of, and references for, this software. Users should also review 
@@ -38,7 +37,7 @@ A. DISTRIBUTION FILE
 
 The following distribution file is for use on personal computers:
 
-          gwm_2005.1_5_1.zip
+          gwm_2005.1_5_2.zip
 
 The distribution file contains:
 
@@ -50,7 +49,7 @@ The distribution file is a compressed zip file. The following directory
 structure is incorporated in the zip file:
 
    |
-   |--GWM2005.1_5_1
+   |--GWM2005.1_5_2
    |    |--bin       ; compiled executable
    |    |--data      ; standard data sets used in verification tests
    |    |--doc       ; documentation files
@@ -58,59 +57,35 @@ structure is incorporated in the zip file:
    |    |--test-win  ; batch files to run verification tests
 
 
-It is recommended that no user files are kept in the GWM2005.1_5_1 
+It is recommended that no user files are kept in the GWM2005.1_5_2 
 directory structure.  If you do plan to put files in this directory, 
 do so only by creating subdirectories.
 
-Included in directory GWM2005.1_5_1\doc are Portable Document Format 
+Included in directory GWM2005.1_5_2\doc are Portable Document Format 
 (PDF) files. A PDF file is readable and printable on various computer 
 platforms using Acrobat Reader from Adobe. The Acrobat Reader is freely 
 available from the following Websites:
       http://www.adobe.com/
       http://www.shareware.com/
 
+B. INSTALLING
 
-B. INSTALLING 
-
-To make the executable version of the program accessible from any
-directory, the directory containing the executable (GWM2005.1_5_1\bin)
-should be included in the PATH environment variable. 
-
-As an alternative, the executable file, gwm2005.exe, in the
-GWM2005.1_5_1\bin directory can be copied into a directory already
-included in the PATH environment variable.
-
-On Windows NT systems, from the Start menu, select Settings and then
-Control Panel. Double-click System and select the Environment tab.
-To add a new user variable, enter "PATH" in the Variable field and 
-enter
-
-   %PATH%;C:\GWMpathname\GWM2005.1_5_1\bin
-
-in the Value field, Where GWMpathname is the directory path you selected 
-for installing GWM-2005.   Click Set and then click OK.  If a PATH user 
-variable already is defined, click on it in the User Variables pane, 
-add ";C:\GWMpathname\GWM2005.1_5_1\bin" to its definition in the Value 
-field, and click OK. Initiate and use a new MS-DOS Command Prompt 
-window after making this change.
-
-On Windows 2000 or XP systems, from the Start menu, select Settings and 
-then Control Panel. Double-click System and select the Advanced tab.  
-Click on Environment Variables. If a PATH user variable already is 
-defined, click on it in the User Variables pane, then click Edit. In 
-the Edit User Variable window, add ";C:\GWMpathname\GWM2005.1_5_1\bin" 
-to the end of the Variable Value (ensure that the current contents of 
-the User Value are not deleted) and click OK. If a PATH user variable 
-is not already defined, in the User variables pane of the Environment 
-Variables window, click New. In the New User Variable window, define a 
-new variable PATH as shown above. Click OK. Click OK in the Environment 
-Variables window and again in the System Properties window. Initiate 
-and use a new MS-DOS Command Prompt window.
-
+To make the executable version of GWM-2005 accessible from any directory, 
+the directory containing the executable (GWM2005.1_5_2\bin) should be 
+included in the PATH environment variable. Also, if a prior release of 
+GWM-2005 is installed on your system, the directory containing the 
+executables for the prior release should be removed from the PATH 
+environment variable.
+  
+As an alternative, the executable file in the GWM2005.1_5_2\bin 
+directory can be copied into a directory already included in the 
+PATH environment variable. The sample problems provided with the 
+release (described below) have sample batch files that provide an 
+alternative approach for accessing the executable files.
 
 C. RUNNING THE SOFTWARE
 
-After the executable file in the GWM2005.1_5_1\bin directory is installed 
+After the executable file in the GWM2005.1_5_2\bin directory is installed 
 in a directory that is included in your PATH, the program is initiated
 in a DOS Command-Prompt window using the command:
 
@@ -141,9 +116,9 @@ significantly.
 D. TESTING
 
 Data files for fourteen test problems are provided to confirm that 
-GWM-2005 is correctly installed and running on the system.  
-The tests also may be looked at as examples of how to use the program.  
-The directory GWM2005.1_5_1\data contains the input data and expected 
+GWM-2005 is correctly installed and running on the system. The tests
+also may be considered to be examples of how to use the program.  
+The directory GWM2005.1_5_2\data contains the input data and expected 
 results for the tests. The file 'README_data.txt' located in the 
 \data subdirectory describes the test problems.
 
@@ -151,7 +126,7 @@ results for the tests. The file 'README_data.txt' located in the
 E. COMPILING
 
 Although an executable version of the program is provided, the source 
-code is available in the GWM2005.1_5_1\src directory so that the 
+code is available in the GWM2005.1_5_2\src directory so that the 
 programs can be recompiled if necessary.  However, no support can be 
 provided for users generating their own versions of the software. 
 
@@ -165,16 +140,16 @@ with the GMG Package, the source-code files written in the C language
 the resulting object files must be linked together.  Alternatively, 
 the GMG solver can be removed so that only a Fortran compiler
 is required.  Follow instruction in the Nogmg.txt file in the  
-GWM2005.1_5_1\src directory for removing GMG from MODFLOW.  If the calls to GMG 
+GWM2005.1_5_2\src directory for removing GMG from MODFLOW.  If the calls to GMG 
 subroutines are removed, the GMG Package will not be available when 
 GWM-2005 is run.  For tips on compiling the mixed-language code of 
 GWM-2005 with various compilers, follow the instructions for  
 Suggestions on Compiling at the web page 
-http://water.usgs.gov/nrp/gwsoftware/modflow2000/MFDOC/
-GWM-2005 in this distribution has been compiled using the Intel Fortran
-Compiler Integration for Microsoft Visual Studio 2005, Version 
-11.1.3471.2005.  The C source code was compiled with Microsoft Visual C++ 
-2005.
+http://water.usgs.gov/ogw/modflow/MODFLOW-2005-Guide/
+GWM-2005 in this distribution has been compiled using the Intel Parallel
+Studio XE 2015 Fortran compiler in the Microsoft Visual Studio Community 
+2013 developement environment. The C source code was compiled with 
+Microsoft Visual C++ 2013.
 
 It is important when compiling GWM-2005 to enforce default double precision 
 for all REAL variables.  The default for most compilers is single precision.

@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -345,7 +345,7 @@ Flows at Managed Wells for Stress Period    1
 
             IN - OUT =         -28.3975              IN - OUT =          -0.3087
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -477,7 +477,7 @@ Flows at Managed Wells for Stress Period    2
 
             IN - OUT =         -42.9692              IN - OUT =          -0.1601
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -609,7 +609,7 @@ Flows at Managed Wells for Stress Period    3
 
             IN - OUT =         -78.0553              IN - OUT =          -0.3856
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -740,7 +740,7 @@ Flows at Managed Wells for Stress Period    4
 
             IN - OUT =         -44.7805              IN - OUT =           0.3657
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =           0.00
 
 
 
@@ -871,7 +871,7 @@ Flows at Managed Wells for Stress Period    5
 
             IN - OUT =         -62.0437              IN - OUT =          -0.1876
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1003,7 +1003,7 @@ Flows at Managed Wells for Stress Period    6
 
             IN - OUT =         -36.9793              IN - OUT =           0.2754
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =           0.00
 
 
 
@@ -1135,7 +1135,7 @@ Flows at Managed Wells for Stress Period    7
 
             IN - OUT =         -65.6457              IN - OUT =          -0.3150
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1266,7 +1266,7 @@ Flows at Managed Wells for Stress Period    8
 
             IN - OUT =         -31.7750              IN - OUT =           0.3722
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =           0.00
 
 
 
@@ -1397,7 +1397,7 @@ Flows at Managed Wells for Stress Period    9
 
             IN - OUT =         -48.9841              IN - OUT =          -0.1871
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1529,7 +1529,7 @@ Flows at Managed Wells for Stress Period   10
 
             IN - OUT =         -23.9188              IN - OUT =           0.2754
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =           0.00
 
 
 
@@ -1661,7 +1661,7 @@ Flows at Managed Wells for Stress Period   11
 
             IN - OUT =         -52.5849              IN - OUT =          -0.3150
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -1792,7 +1792,7 @@ Flows at Managed Wells for Stress Period   12
 
             IN - OUT =         -18.7142              IN - OUT =           0.3722
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =           0.00
 
 
 
@@ -1807,6 +1807,6 @@ Flows at Managed Wells for Stress Period   12
          TOTAL TIME 9.46080E+07 1.57680E+06  26280.      1095.0      2.9979    
 1
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 13:03:47
- Elapsed run time:  0.655 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:20:46
+ Elapsed run time:  0.688 Seconds
 

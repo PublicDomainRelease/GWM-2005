@@ -1,7 +1,7 @@
 
                                   MODFLOW-LGR2     
     U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 Version GWM-2005 1.5.1 081214,FROM MF-LGR V2.0  
+                 Version GWM-2005 1.5.2 091115,FROM MF-LGR V2.0  
 
 
 
@@ -26,139 +26,139 @@
   NUMBER     NAME       TYPE      LAY   ROW   COL   OF FLOW
  ----------------------------------------------------------
     1      Q1-2-a     WITHDRAWAL     2    4    6    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
     2      Q1-2-b     WITHDRAWAL     2    4    6    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
     3      Q1-2-c     WITHDRAWAL     2    4    6    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
     4      Q1-2-d     WITHDRAWAL     2    4    6    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
     5      Q1-2-e     WITHDRAWAL     2    4    6    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
     6      Q2-3-a     WITHDRAWAL     3    5   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
     7      Q2-3-b     WITHDRAWAL     3    5   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
     8      Q2-3-c     WITHDRAWAL     3    5   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
     9      Q2-3-d     WITHDRAWAL     3    5   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    10      Q2-3-e     WITHDRAWAL     3    5   11    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    11      Q3-2-a     WITHDRAWAL     2    6   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    12      Q3-2-b     WITHDRAWAL     2    6   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    13      Q3-2-c     WITHDRAWAL     2    6   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    14      Q3-2-d     WITHDRAWAL     2    6   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    15      Q3-2-e     WITHDRAWAL     2    6   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    16      Q4-1-a     WITHDRAWAL     1   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    17      Q4-1-b     WITHDRAWAL     1   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    18      Q4-1-c     WITHDRAWAL     1   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    19      Q4-1-d     WITHDRAWAL     1   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    20      Q4-1-e     WITHDRAWAL     1   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    21      Q4-2-a     WITHDRAWAL     2   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    22      Q4-2-b     WITHDRAWAL     2   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    23      Q4-2-c     WITHDRAWAL     2   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    24      Q4-2-d     WITHDRAWAL     2   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    25      Q4-2-e     WITHDRAWAL     2   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    26      Q4-3-a     WITHDRAWAL     3   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    27      Q4-3-b     WITHDRAWAL     3   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    28      Q4-3-c     WITHDRAWAL     3   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    29      Q4-3-d     WITHDRAWAL     3   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    30      Q4-3-e     WITHDRAWAL     3   11    8    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    31      Q5-1-a     WITHDRAWAL     1   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    32      Q5-1-b     WITHDRAWAL     1   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    33      Q5-1-c     WITHDRAWAL     1   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    34      Q5-1-d     WITHDRAWAL     1   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    35      Q5-1-e     WITHDRAWAL     1   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    36      Q5-2-a     WITHDRAWAL     2   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    37      Q5-2-b     WITHDRAWAL     2   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    38      Q5-2-c     WITHDRAWAL     2   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    39      Q5-2-d     WITHDRAWAL     2   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    40      Q5-2-e     WITHDRAWAL     2   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
    41      Q5-3-a     WITHDRAWAL     3   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 2                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 2
 
    42      Q5-3-b     WITHDRAWAL     3   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 3                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 3
 
    43      Q5-3-c     WITHDRAWAL     3   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 4                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 4
 
    44      Q5-3-d     WITHDRAWAL     3   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 5                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 5
 
    45      Q5-3-e     WITHDRAWAL     3   11   12    1.0000
-   AVAILABLE IN STRESS PERIODS: 6                                                                                                                       
+   AVAILABLE IN STRESS PERIODS: 6
 
 
      3907 BYTES OF MEMORY ALLOCATED TO STORE DATA FOR DECISION VARIABLES
@@ -731,10 +731,10 @@ Maximum Flow Rate      Q4-3-e   Binding    Not Available
       Summation              ST1-4      Not Met       2.7658E+06
       Summation              ST1-5      Not Met       3.1350E+06
       Summation              ST2-1      Satisfied     1.2038E+04
-      Summation              EQ-b       Not Met       3.6380E-11
-      Summation              EQ-c       Not Met       3.6380E-11
-      Summation              EQ-d       Not Met       4.3656E-11
-      Summation              EQ-e       Not Met       4.3656E-11
+      Summation              EQ-b       Not Met       1.4552E-11
+      Summation              EQ-c       Not Met       7.2760E-12
+      Summation              EQ-d       Satisfied     0.0000E+00
+      Summation              EQ-e       Satisfied     0.0000E+00
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -982,8 +982,8 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Summation              ST1-4      Not Met       8.7104E+02
       Summation              ST1-5      Satisfied     7.4309E+02
       Summation              ST2-1      Not Met       2.3032E+00
-      Summation              EQ-b       Not Met       3.6380E-11
-      Summation              EQ-c       Not Met       1.4552E-11
+      Summation              EQ-b       Not Met       2.9104E-11
+      Summation              EQ-c       Not Met       2.1828E-11
       Summation              EQ-d       Not Met       2.9104E-11
       Summation              EQ-e       Not Met       2.1828E-11
 
@@ -1091,7 +1091,7 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  8.243613E-08
+      Value at this iteration        =  8.243615E-08
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
       For Flow Variable Max Change   =  7.485841E-04
@@ -1233,10 +1233,10 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Summation              ST1-4      Satisfied     1.6624E+01
       Summation              ST1-5      Satisfied     4.9465E+00
       Summation              ST2-1      Not Met       1.1801E-02
-      Summation              EQ-b       Not Met       7.2760E-12
-      Summation              EQ-c       Not Met       7.2760E-12
-      Summation              EQ-d       Satisfied     0.0000E+00
-      Summation              EQ-e       Not Met       7.2760E-12
+      Summation              EQ-b       Not Met       2.1828E-11
+      Summation              EQ-c       Not Met       2.1828E-11
+      Summation              EQ-d       Not Met       2.9104E-11
+      Summation              EQ-e       Not Met       2.9104E-11
 
   Distance to RHS is the absolute value of the difference between the
     the right hand side of the constraint and the left side of the
@@ -1342,10 +1342,10 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
     Objective Value  1.258205E+09
     Relative Change in Objective Value
       Needs to be less than SLPZCRIT =  1.000000E-04
-      Value at this iteration        =  1.325548E-09
+      Value at this iteration        =  1.325550E-09
     Maximum Relative Change in Variables
       Needs to be less than SLPVCRIT =  1.000000E-05
-      For Flow Variable Max Change   =  3.223467E-06
+      For Flow Variable Max Change   =  3.223468E-06
   SLP Algorithm: End Iteration    4
   SLP Iterations have converged
 
@@ -1494,14 +1494,14 @@ Maximum Flow Rate      Q5-3-a   Binding    Not Available
       Constraint Type        Name           Process    Constraints   Difference
       ---------------        ----          ----------   ----------   ----------
       Summation              ST1-2        -2.3399E+07 < 0.0000E+00  -2.3399E+07
-      Summation              ST1-3        -2.6350E-02 < 0.0000E+00  -2.6350E-02
-      Summation              ST1-4         2.4133E-02 < 0.0000E+00   2.4133E-02
-      Summation              ST1-5         9.5978E-04 < 0.0000E+00   9.5978E-04
-      Summation              ST2-1         1.2694E-06 < 0.0000E+00   1.2694E-06
-      Summation              EQ-b          5.0932E-11 = 0.0000E+00   5.0932E-11
-      Summation              EQ-c          5.0932E-11 = 0.0000E+00   5.0932E-11
-      Summation              EQ-d          5.8208E-11 = 0.0000E+00   5.8208E-11
-      Summation              EQ-e          5.0932E-11 = 0.0000E+00   5.0932E-11
+      Summation              ST1-3        -2.6353E-02 < 0.0000E+00  -2.6353E-02
+      Summation              ST1-4         2.4112E-02 < 0.0000E+00   2.4112E-02
+      Summation              ST1-5         9.8854E-04 < 0.0000E+00   9.8854E-04
+      Summation              ST2-1         1.2228E-06 < 0.0000E+00   1.2228E-06
+      Summation              EQ-b         -1.4552E-11 = 0.0000E+00  -1.4552E-11
+      Summation              EQ-c         -2.1828E-11 = 0.0000E+00  -2.1828E-11
+      Summation              EQ-d         -1.4552E-11 = 0.0000E+00  -1.4552E-11
+      Summation              EQ-e         -1.4552E-11 = 0.0000E+00  -1.4552E-11
 
   Difference is computed by subtracting right hand side of the constraint 
     from the left side of the constraint.

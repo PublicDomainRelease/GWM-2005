@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -309,12 +309,12 @@ Flows at Managed Wells for Stress Period    1
  Well no.  Layer   Row   Col   Stress Rate
  ----------------------------------------------------
         1      1     8    11   -1055.608416316461    
-        2      1     8    17   -97.60975479647401    
+        2      1     8    17   -97.60975479647429    
         3      1    11    14    0.000000000000000    
-        4      1    14    11   -769.6632162452637    
+        4      1    14    11   -769.6632162452642    
         5      1    14    17    0.000000000000000    
         6      1    20    20    0.000000000000000    
-        7      1    26    17   -930.8717139916289    
+        7      1    26    17   -930.8717139916287    
  ----------------------------------------------------
                       Total:   -2853.753101349828    
  
@@ -555,9 +555,9 @@ Flows at Managed Wells for Stress Period    1
 
            TOTAL OUT =     2853753.1013             TOTAL OUT =        2853.7531
 
-            IN - OUT =      -4.2789E-04              IN - OUT =      -4.2789E-07
+            IN - OUT =      -4.2788E-04              IN - OUT =      -4.2788E-07
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -575,9 +575,9 @@ Flows at Managed Wells for Stress Period    1
   FLUX ACROSS PARENT-CHILD INTERFACE AT TIME STEP  1 IN STRESS PERIOD    1
   ------------------------------------------------------------------------
  G-N FLUX        PARENT        CHILD         DIFFERENCE      % DIFFERENCE
-  RATE IN:      2.8538E+03    2.8538E+03    -4.8129E-07        0.0000
+  RATE IN:      2.8538E+03    2.8538E+03    -4.8129E-07       -0.0000
  RATE OUT:      0.0000E+00    0.0000E+00     0.0000E+00        0.0000
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 12:48:35
- Elapsed run time:  0.755 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:00:41
+ Elapsed run time:  0.624 Seconds
 

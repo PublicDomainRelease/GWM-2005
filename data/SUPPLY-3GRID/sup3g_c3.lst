@@ -1,6 +1,6 @@
                                   MODFLOW-LGR2     
       U.S. GEOLOGICAL SURVEY MODULAR FINITE-DIFFERENCE GROUNDWATER FLOW MODEL
-                 VERSION GWM-2005 1.5.1 081214,FROM MF-LGR V2.0
+                 VERSION GWM-2005 1.5.2 091115,FROM MF-LGR V2.0
 
 
      FINAL FLOW PROCESS SIMULATION FOR GWM                                                                                                                                                                   
@@ -316,9 +316,9 @@ Flows at Managed Wells for Stress Period    1
 
            TOTAL OUT =    24519089.8564             TOTAL OUT =       24519.0899
 
-            IN - OUT =      -9.0540E-04              IN - OUT =      -9.0540E-07
+            IN - OUT =      -9.0544E-04              IN - OUT =      -9.0544E-07
 
- PERCENT DISCREPANCY =           0.00     PERCENT DISCREPANCY =           0.00
+ PERCENT DISCREPANCY =          -0.00     PERCENT DISCREPANCY =          -0.00
 
 
 
@@ -336,9 +336,9 @@ Flows at Managed Wells for Stress Period    1
   FLUX ACROSS PARENT-CHILD INTERFACE AT TIME STEP  1 IN STRESS PERIOD    1
   ------------------------------------------------------------------------
  G-N FLUX        PARENT        CHILD         DIFFERENCE      % DIFFERENCE
-  RATE IN:      1.5519E+04    1.5519E+04    -2.2018E-04        0.0000
- RATE OUT:      2.4519E+04    2.4519E+04    -2.2070E-04        0.0000
+  RATE IN:      1.5519E+04    1.5519E+04    -2.2018E-04       -0.0000
+ RATE OUT:      2.4519E+04    2.4519E+04    -2.2070E-04       -0.0000
 
- Run end date and time (yyyy/mm/dd hh:mm:ss): 2014/08/12 13:05:37
- Elapsed run time:  1.367 Seconds
+ Run end date and time (yyyy/mm/dd hh:mm:ss): 2015/09/23 13:23:10
+ Elapsed run time:  1.127 Seconds
 
