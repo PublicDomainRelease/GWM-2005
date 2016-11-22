@@ -3979,13 +3979,13 @@ C-------TEST FOR CONVERGENCE
           CALL GWM1BAS3PF('    Objective Value',1,OBJ)
           IF(SLPITCNT.GT.1)THEN
             CALL GWM1BAS3PF(
-     &      '    Relative Change in Objective Value',0,0.0)
+     &      '    Relative Change in Objective Value',0,0D0)
             CALL GWM1BAS3PF(
      &      '      Needs to be less than SLPZCRIT =',1,SLPZCRIT)
             CALL GWM1BAS3PF(
      &      '      Value at this iteration        =',1,OBJCNG)
             CALL GWM1BAS3PF(
-     &      '    Maximum Relative Change in Variables',0,0.0)
+     &      '    Maximum Relative Change in Variables',0,0D0)
             CALL GWM1BAS3PF(
      &      '      Needs to be less than SLPVCRIT =',1,SLPVCRIT)
             IF(NFVAR.GT.0)

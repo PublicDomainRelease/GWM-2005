@@ -446,7 +446,7 @@ C-----LOCAL VARIABLES
       REAL(DP)::HNF
       INTEGER(I4B)::I,J,K,KK
       INTEGER :: N,LLOC,ISTART,ISTOP 
-      REAL :: R                      
+      REAL(DP) :: R
       CHARACTER(LEN=200) LINE
       CHARACTER(LEN=24)::ANAME(2)=(/'          BOUNDARY ARRAY',
      &                             '            INITIAL HEAD'/)
@@ -775,7 +775,8 @@ C-----CASE WHEN ALL FLOW PROCESS RESULTS ARE CONSIDERED ACCEPTABLE
       IF(CRITMFC.LT.0)THEN
         MFCNVRG(IPERT) = .TRUE.                  ! ACCEPT SOLUTION REGARDLESS
         IF(LOC.EQ.2 .AND. IGRID.EQ.1)CALL GWM1BAS3PF(
-     &  '       Flow Process Accepted Despite Convergence Failure',0,0.)
+     &  '       Flow Process Accepted Despite Convergence Failure',
+     &  0,0D0)
         RETURN
       ENDIF
 C
